@@ -1,4 +1,5 @@
 import styles from '../styles/Home.module.css'
+import { signIn } from "next-auth/react"
 
 export default function Home() {
   return (
@@ -41,7 +42,12 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
+          <a className={styles.card} onClick={(e) => {
+            e.preventDefault()
+            signIn("identityServer")
+          }}>Sign In</a>
         </div>
+
       </main>
 
       <footer className={styles.footer}>
