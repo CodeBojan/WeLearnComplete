@@ -8,6 +8,7 @@ namespace WeLearn.Auth.Authorization.Scopes.Api
 {
     public static class ApiScopes
     {
+        // TODO move scopes to a class with constants
         // TODO define more scopes
         public static readonly ImmutableList<ApiScope> Scopes = ImmutableList.Create(
             new ApiScope("year.read"),
