@@ -42,7 +42,7 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-          <a className={styles.card} onClick={(e) => {
+          <a className={styles.card + " text-3xl font-bold"} onClick={(e) => {
             e.preventDefault()
             signIn("identityServer")
           }}>Sign In</a>
