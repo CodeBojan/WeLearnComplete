@@ -17,11 +17,11 @@ Add-Migration Add_InitialCreate -StartupProject WeLearn.IdentityServer\WeLearn.I
 ### Update Database
 
 ```ps
-Update-Database -StartupProject Yukino.Api -Project Yukino.Data -Context Yukino.Data.ApplicationDbContext
+Update-Database -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data\WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
 ```
 
 ### Remove Migration
 
 ```ps
-Remove-Migration -StartupProject Yukino.Api -Project Yukino.Data -Context Yukino.Data.ApplicationDbContext
+Remove-Migration -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data\WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
 ```
