@@ -1,12 +1,12 @@
 # WeLearn
 
-## EF Scripts
-
-### Set ASPNETCORE_ENVIRONMENT
+## Set ASPNETCORE_ENVIRONMENT
 
 ```ps
 $env:ASPNETCORE_ENVIRONMENT="Local"
 ```
+
+## Identity-Server EF Scripts
 
 ### Add Migration
 
