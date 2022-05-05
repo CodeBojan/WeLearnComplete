@@ -1,3 +1,5 @@
+@import "variables";
+
 .container {
   min-height: 100vh;
   padding: 0 0.5rem;
@@ -23,38 +25,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.footer img {
-  margin-left: 0.5rem;
-}
+  img {
+    margin-left: 0.5rem;
+  }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .title {
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
-}
 
-.title,
-.description {
-  text-align: center;
+  a {
+    color: $primary-color;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: underline;
+  }
+
+  .description {
+    text-align: center;
+  }
 }
 
 .description {
@@ -91,24 +92,24 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-}
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-}
+  h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+  }
 
-.card h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
+  p {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
 
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $primary-color;
+    border-color: $primary-color;
+  }
 }
 
 .logo {

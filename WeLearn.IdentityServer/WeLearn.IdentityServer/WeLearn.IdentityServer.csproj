@@ -21,6 +21,5 @@
   <ItemGroup>
     <ProjectReference Include="..\WeLearn.Auth\WeLearn.Auth.csproj" />
   </ItemGroup>
-
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1local_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 </Project>
