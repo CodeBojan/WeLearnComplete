@@ -1,1 +1,27 @@
-WeLearn
+# WeLearn
+
+## EF Scripts
+
+### Set ASPNETCORE_ENVIRONMENT
+
+```ps
+$env:ASPNETCORE_ENVIRONMENT="Local"
+```
+
+### Add Migration
+
+```ps
+Add-Migration Add_InitialCreate -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data\WeLearn.Data -OutputDir Migrations -Context WeLearn.Data.Persistence.ApplicationDbContext
+```
+
+### Update Database
+
+```ps
+Update-Database -StartupProject Yukino.Api -Project Yukino.Data -Context Yukino.Data.ApplicationDbContext
+```
+
+### Remove Migration
+
+```ps
+Remove-Migration -StartupProject Yukino.Api -Project Yukino.Data -Context Yukino.Data.ApplicationDbContext
+```

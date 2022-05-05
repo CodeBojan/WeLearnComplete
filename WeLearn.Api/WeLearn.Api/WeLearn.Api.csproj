@@ -12,6 +12,11 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\WeLearn.Auth\WeLearn.Auth\WeLearn.Auth.csproj" />
+	  <ProjectReference Include="..\..\WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj" />
+	</ItemGroup>
+
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties appsettings_1development_1json__JsonSchema="https://json.schemastore.org/appsettings.json" />

@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
 using IdentityModel;
-using WeLearn.IdentityServer.Data;
-using WeLearn.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WeLearn.Data.Models;
+using WeLearn.Data.Persistence;
 
 namespace WeLearn.IdentityServer;
 

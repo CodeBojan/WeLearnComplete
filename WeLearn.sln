@@ -1,31 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.Api", "WeLearn.Api", "{ED8817A6-A351-4D94-B352-99E3097FFEDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.Api", "WeLearn.Api\WeLearn.Api\WeLearn.Api.csproj", "{2CB46290-6F9D-4768-9366-F64B786D4AF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.Api", "WeLearn.Api\WeLearn.Api\WeLearn.Api.csproj", "{2CB46290-6F9D-4768-9366-F64B786D4AF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.Auth", "WeLearn.Auth", "{2D9F217E-0905-4855-BC1D-C29D054DD9F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.Auth", "WeLearn.Auth\WeLearn.Auth\WeLearn.Auth.csproj", "{EB54B0DF-99D4-4D37-84E5-3613CF9C9A32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.Auth", "WeLearn.Auth\WeLearn.Auth\WeLearn.Auth.csproj", "{EB54B0DF-99D4-4D37-84E5-3613CF9C9A32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.Data", "WeLearn.Data", "{F1F222A7-C898-47DE-80E5-B72D233515FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.Data", "WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj", "{78627706-7DAE-4B45-9C53-9A97327A3ECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.Data", "WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj", "{78627706-7DAE-4B45-9C53-9A97327A3ECF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.IdentityServer", "WeLearn.IdentityServer", "{4F8732CC-7342-4E7B-84EE-485B6FBACBFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.IdentityServer", "WeLearn.IdentityServer\WeLearn.IdentityServer\WeLearn.IdentityServer.csproj", "{E484DC8B-A910-4649-8C43-71B2E039AF16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.IdentityServer", "WeLearn.IdentityServer\WeLearn.IdentityServer\WeLearn.IdentityServer.csproj", "{E484DC8B-A910-4649-8C43-71B2E039AF16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2CB46290-6F9D-4768-9366-F64B786D4AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -45,10 +42,16 @@ Global
 		{E484DC8B-A910-4649-8C43-71B2E039AF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E484DC8B-A910-4649-8C43-71B2E039AF16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2CB46290-6F9D-4768-9366-F64B786D4AF5} = {ED8817A6-A351-4D94-B352-99E3097FFEDB}
 		{EB54B0DF-99D4-4D37-84E5-3613CF9C9A32} = {2D9F217E-0905-4855-BC1D-C29D054DD9F1}
 		{78627706-7DAE-4B45-9C53-9A97327A3ECF} = {F1F222A7-C898-47DE-80E5-B72D233515FD}
 		{E484DC8B-A910-4649-8C43-71B2E039AF16} = {4F8732CC-7342-4E7B-84EE-485B6FBACBFF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB7A68D6-E729-4F6D-96D5-07E7A9F98AAA}
 	EndGlobalSection
 EndGlobal

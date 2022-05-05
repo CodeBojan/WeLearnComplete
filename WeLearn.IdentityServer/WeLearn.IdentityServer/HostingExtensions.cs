@@ -1,9 +1,9 @@
 using Duende.IdentityServer;
-using WeLearn.IdentityServer.Data;
-using WeLearn.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WeLearn.Data.Models;
+using WeLearn.Data.Persistence;
 using WeLearn.IdentityServer.Configuration.Auth.Google;
 
 namespace WeLearn.IdentityServer;
@@ -17,7 +17,8 @@ internal static class HostingExtensions
         builder.Services.AddRazorPages();
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));        
 
         builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -51,7 +52,7 @@ internal static class HostingExtensions
 
                 // register your IdentityServer with Google at https://console.developers.google.com
                 // enable the Google+ API
-                // set the redirect URI to https://localhost:5001/signin-google
+                // set the redirect URI to https://localhost:5051/signin-google
                 options.ClientId = googleAuthSettings.ClientId;
                 options.ClientSecret = googleAuthSettings.ClientSecret;
             });
