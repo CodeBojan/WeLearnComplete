@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeLearn.IdentityServer.Pages.Login;
 
-public class InputModel
+public class LoginInputModel
 {
     [Required]
     public string Username { get; set; }

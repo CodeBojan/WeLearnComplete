@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .welcome-page {
   .logo {
     width: 64px;
@@ -47,4 +51,62 @@
       font-weight: bold;
     }
   }
+}
+
+img {
+  display: inline;
+}
+
+a {
+  color: #007bff;
+}
+
+[type="button"],
+[type="reset"],
+[type="submit"],
+button {
+  -webkit-appearance: button;
+  background-color: initial;
+  background-image: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  border-top-color: rgb(0, 123, 255);
+  border-right-color: rgb(0, 123, 255);
+  border-bottom-color: rgb(0, 123, 255);
+  border-left-color: rgb(0, 123, 255);
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+  border-top-color: rgb(108, 117, 125);
+  border-right-color: rgb(108, 117, 125);
+  border-bottom-color: rgb(108, 117, 125);
+  border-left-color: rgb(108, 117, 125);
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #5a6268;
+  border-color: #545b62;
+  border-top-color: rgb(84, 91, 98);
+  border-right-color: rgb(84, 91, 98);
+  border-bottom-color: rgb(84, 91, 98);
+  border-left-color: rgb(84, 91, 98);
+}
+
+.btn-danger:hover {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
 }

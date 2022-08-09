@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/WeLearn.IdentityServer/bin/Debug/net6.0
+/WeLearn.IdentityServer/obj
+/WeLearn.IdentityServer/keys
+/WeLearn.IdentityServer/AspIdUsers.db-wal
+/WeLearn.IdentityServer/AspIdUsers.db-shm
+/WeLearn.IdentityServer/AspIdUsers.db
+/WeLearn.IdentityServer/appsettings.Local.json
+/WeLearn.IdentityServer/.config
+WeLearn.IdentityServer/wwwroot/css/output.css
+WeLearn.IdentityServer/wwwroot/css/site.min.css
+/WeLearn.IdentityServer/configuration.json

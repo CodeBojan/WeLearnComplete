@@ -1,0 +1,93 @@
+﻿@page
+@model WeLearn.IdentityServer.Pages.Admin.Configuration.IndexModel
+@{
+    ViewData["Title"] = "Configuration";
+    var view = Model.View;
+    var configuration = view?.Configuration.ToList().OrderBy(p => p.Key).ToArray();
+}
+
+<a class="font-medium text-4xl col-black" href="/Admin/Configuration">Configuration</a>
+
+<div class="my-4 text-2xl">
+    Configuration key-pairs
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-red-500">
+        <span>Please correct the following errors</span>
+    </div>
+}
+
+<div class="my-4">
+
+    <!-- Trigger -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPairModal">
+        Add
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addPairModal" tabindex="-1" aria-labelledby="addPairModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-medium" id="addPairModalLabel">Add Configuration Pair</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" asp-page-handler="Create">
+                    <div class="modal-body">
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="key-input">Key</span>
+                            </div>
+                            <input asp-for="Post.Key" type="text" class="form-control" aria-label="Small" aria-describedby="key-input" placeholder="Config:Key">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="value-input">Value</span>
+                            </div>
+                            <input asp-for="Post.Value" type="text" class="form-control" aria-label="Small" aria-describedby="value-input" placeholder="Value">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="flex flex-col">
+    @if (!configuration?.Any() ?? false)
+    {
+        <div class="text-xl font-italic">
+            There are no configuration pairs
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            <span class="font-medium text-xl">Key</span>
+            <span class="font-medium text-xl col-span-2">Value</span>
+
+            @for (var i = 0; i < (configuration?.Length ?? 0); i++)
+            {
+                var dto = configuration[i];
+
+                <span class="break-words">@dto.Key</span>
+                <span class="break-words">@dto.Value</span>
+                <form method="post" asp-page-handler="Delete">
+                    <input class="hidden" asp-for="DeleteKey" value="@(dto.Key)" />
+                    <button type="submit" class="btn btn-primary">
+                        Delete
+                    </button>
+                </form>
+            }
+        </div>
+    }
+</div>

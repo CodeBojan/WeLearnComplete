@@ -23,10 +23,10 @@ public class Index : PageModel
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
 
-    public ViewModel View { get; set; }
+    public LoginViewModel View { get; set; }
         
     [BindProperty]
-    public InputModel Input { get; set; }
+    public LoginInputModel Input { get; set; }
         
     public Index(
         IIdentityServerInteractionService interaction,
@@ -139,7 +139,7 @@ public class Index : PageModel
         
     private async Task BuildModelAsync(string returnUrl)
     {
-        Input = new InputModel
+        Input = new LoginInputModel
         {
             ReturnUrl = returnUrl
         };
@@ -150,7 +150,7 @@ public class Index : PageModel
             var local = context.IdP == Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider;
 
             // this is meant to short circuit the UI and only trigger the one external IdP
-            View = new ViewModel
+            View = new LoginViewModel
             {
                 EnableLocalLogin = local,
             };
@@ -159,7 +159,7 @@ public class Index : PageModel
 
             if (!local)
             {
-                View.ExternalProviders = new[] { new ViewModel.ExternalProvider { AuthenticationScheme = context.IdP } };
+                View.ExternalProviders = new[] { new LoginViewModel.ExternalProvider { AuthenticationScheme = context.IdP } };
             }
 
             return;
@@ -169,7 +169,7 @@ public class Index : PageModel
 
         var providers = schemes
             .Where(x => x.DisplayName != null)
-            .Select(x => new ViewModel.ExternalProvider
+            .Select(x => new LoginViewModel.ExternalProvider
             {
                 DisplayName = x.DisplayName ?? x.Name,
                 AuthenticationScheme = x.Name
@@ -177,7 +177,7 @@ public class Index : PageModel
 
         var dyanmicSchemes = (await _identityProviderStore.GetAllSchemeNamesAsync())
             .Where(x => x.Enabled)
-            .Select(x => new ViewModel.ExternalProvider
+            .Select(x => new LoginViewModel.ExternalProvider
             {
                 AuthenticationScheme = x.Scheme,
                 DisplayName = x.DisplayName
@@ -200,7 +200,7 @@ public class Index : PageModel
             }
         }
 
-        View = new ViewModel
+        View = new LoginViewModel
         {
             AllowRememberLogin = LoginOptions.AllowRememberLogin,
             EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,

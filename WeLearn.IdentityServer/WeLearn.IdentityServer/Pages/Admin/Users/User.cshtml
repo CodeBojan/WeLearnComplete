@@ -1,0 +1,128 @@
+﻿@page
+@using WeLearn.Auth.Authorization.Claims
+@model WeLearn.IdentityServer.Pages.Admin.Users.UserModel
+@{
+    var user = Model.ViewModel;
+    ViewData["Title"] = user?.Username;
+}
+
+@* TODO asp-validation-for *@
+<a class="font-medium text-4xl col-black" asp-route-userId="@user.Id">User</a>
+
+<div class="my-4 text-2xl font-medium">
+    User Details
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-red-500 my-4">
+        <span>Please correct the following errors</span>
+    </div>
+}
+
+<div class="flex flex-col gap-y-2">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="username-description">Id</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="username-description" value="@user.Id" readonly>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="username-description">Username</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username-description" value="@user.Username" readonly>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="email-description">Email</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Email" aria-describedby="email-description" value="@user.Email" readonly>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <input type="checkbox" aria-label="Approved" checked="@user.Approved" disabled="disabled">
+            </div>
+        </div>
+        <input type="text" class="form-control" aria-label="Approved" value="@(user.Approved ? "Approved" : "Unapproved")" readonly>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="created-date-description">Created Date</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="CreatedDate" aria-describedby="created-date-description" value="@user.CreatedDate" readonly>
+
+        @* TODO first and last name*@
+    </div>
+
+    <div class="flex flex-col my-4">
+        <div class="text-2xl font-medium mb-4">Roles</div>
+        <ul class="list-group">
+            @foreach (var role in user.Roles)
+            {
+                <li class="list-group-item">@role</li>
+            }
+            @foreach (var roleClaim in user.RoleClaims)
+            {
+                <form asp-page-handler="DeleteRoleClaim">
+                    <div class="hidden">
+                        <input asp-for="DeleteUserRoleViewModel.UserId" value="@user.Id">
+                        <input asp-for="DeleteUserRoleViewModel.ClaimType" value="@roleClaim.Type">
+                        <input asp-for="DeleteUserRoleViewModel.ClaimValue" value="@roleClaim.Value">
+                    </div>
+                <li class="list-group-item flex flex-row gap-x-4 items-center justify-between">
+                    <div class="flex-1 flex flex-row gap-x-4">
+                        <span>@roleClaim.Type</span>
+                        <span>:</span>
+                        <span>@roleClaim.Value</span>
+                    </div>
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </li>
+                </form>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="flex flex-col my-4">
+    <div class="text-2xl font-medium mb-4">Actions</div>
+
+    <div class="flex flex-col">
+
+        <div class="text-xl font-medium mb-4">Role Claim</div>
+
+        <form method="post" asp-page-handler="AddRoleClaim">
+            <input class="hidden" value="@user.Id" asp-for="AddUserRoleClaimModel.UserId" />
+
+            <div class="flex flex-col">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Claim Type</label>
+                    </div>
+                    <select class="custom-select" id="claim-type-role" asp-for="AddUserRoleClaimModel.ClaimType">
+                        <option selected>Choose...</option>
+                        <option value="@ClaimTypes.YearAdmin">Year Administrator</option>
+                        <option value="@ClaimTypes.CourseAdmin">Course Administrator</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="entity-id-description">Entity Id</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Entity Id" aria-label="EntityId" aria-describedby="entity-id-description" asp-for="AddUserRoleClaimModel.EntityId">
+                </div>
+            </div>
+
+            <div>
+                <input class="btn btn-primary" type="submit" value="Add" />
+            </div>
+        </form>
+
+    </div>
+</div>

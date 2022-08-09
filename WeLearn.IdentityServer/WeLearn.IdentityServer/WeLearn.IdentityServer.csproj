@@ -1,34 +1,87 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>830f2a8b-4bf1-4672-995f-1823a7e47d5c</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.0.4" />
+	<Target Name="ToolRestore" BeforeTargets="Build">
+		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+	</Target>
 
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.4" />
-	<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+	<Target Name="WebCompiler" AfterTargets="ToolRestore">
+		<Exec Command="dotnet webcompiler ./wwwroot/css/site.scss -o ./wwwroot/css/ -z disable -c webcompilerconfiguration.json" StandardOutputImportance="high" />
+	</Target>
 
-	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.4" />
-	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<Watch Include="./**/*.scss" />
+		<Watch Include="./**/*.cshtml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\WeLearn.Auth\WeLearn.Auth\WeLearn.Auth.csproj" />
-    <ProjectReference Include="..\..\WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj" />
-  </ItemGroup>
+	<Target Name="PostCSS" AfterTargets="WebCompiler">
+		<Exec Command="npm run css:build" />
+	</Target>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1local_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
+	<ItemGroup>
+		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.2" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.7" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.7" />
+
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
+
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.7" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\WeLearn.Auth\WeLearn.Auth\WeLearn.Auth.csproj" />
+		<ProjectReference Include="..\..\WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Controllers\" />
+		<Folder Include="Data\" />
+		<Folder Include="Dtos\Configuration\" />
+		<Folder Include="Extensions\Configuration\" />
+		<Folder Include="wwwroot\css\" />
+		<Folder Include="wwwroot\images\" />
+		<Folder Include="wwwroot\lib\bootstrap\" />
+		<Folder Include="wwwroot\lib\bootstrap\dist\js\" />
+		<Folder Include="wwwroot\lib\jquery\" />
+		<Folder Include="wwwroot\lib\jquery\dist\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+		<None Include="Pages\Admin\Configuration\Index.cshtml" />
+		<None Include="Pages\Admin\Index.cshtml" />
+		<None Include="Pages\Admin\Error.cshtml" />
+		<None Include="Pages\Admin\Roles\Index.cshtml" />
+		<None Include="Pages\Admin\Users\Approve.cshtml" />
+		<None Include="Pages\Admin\Users\Index.cshtml" />
+		<None Include="Pages\Admin\Users\User.cshtml" />
+		<None Include="Pages\Admin\_Layout.cshtml" />
+	</ItemGroup>
+
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties appsettings_1local_1json__JsonSchema="https://json.schemastore.org/appsettings.json" />
+		</VisualStudio>
+	</ProjectExtensions>
 </Project>

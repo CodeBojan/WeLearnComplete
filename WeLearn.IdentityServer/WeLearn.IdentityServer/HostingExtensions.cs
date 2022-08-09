@@ -5,6 +5,10 @@ using Serilog;
 using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 using WeLearn.IdentityServer.Configuration.Auth.Google;
+using WeLearn.IdentityServer.Configuration.Providers;
+using WeLearn.IdentityServer.Extensions;
+using WeLearn.IdentityServer.Extensions.Seeding;
+using WeLearn.IdentityServer.Extensions.Services;
 
 namespace WeLearn.IdentityServer;
 
@@ -13,18 +17,25 @@ internal static class HostingExtensions
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
+        var environment = builder.Environment;
+        var services = builder.Services;
 
-        builder.Services.AddRazorPages();
+        var mvcBuilder = services.AddRazorPages();
+        if (environment.IsLocal())
+            mvcBuilder.AddRazorRuntimeCompilation();
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+
+        services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-        //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));        
 
-        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-        builder.Services
+        services
             .AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -40,7 +51,7 @@ internal static class HostingExtensions
             .AddInMemoryClients(Config.Clients)
             .AddAspNetIdentity<ApplicationUser>();
 
-        var authentication = builder.Services.AddAuthentication();
+        var authentication = services.AddAuthentication();
         var googleAuthSettings = configuration.GetSection("Auth").GetSection(GoogleAuthSettings.SectionName)
                     .Get<GoogleAuthSettings>();
         if (googleAuthSettings is not null && googleAuthSettings.Enabled)
@@ -59,16 +70,22 @@ internal static class HostingExtensions
             Log.Logger.Information("Google auth detected.");
         }
 
+        services.AddWeLearnServices(configuration);
+
         return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        var environment = app.Environment;
+
         app.UseSerilogRequestLogging();
 
-        if (app.Environment.IsDevelopment())
+        if (environment.IsDevelopment() || environment.IsLocal())
         {
             app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
         app.UseStaticFiles();
@@ -78,6 +95,9 @@ internal static class HostingExtensions
 
         app.MapRazorPages()
             .RequireAuthorization();
+        app.MapControllers();
+
+        app.UseWeLearnSeeding();
 
         return app;
     }

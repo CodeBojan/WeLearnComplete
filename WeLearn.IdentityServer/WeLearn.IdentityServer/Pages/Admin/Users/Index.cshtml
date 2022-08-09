@@ -1,0 +1,70 @@
+﻿@page
+@model WeLearn.IdentityServer.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Users";
+    var users = Model?.UserListDto
+        .OrderByDescending(u => u.CreatedDate.Date)
+        .ThenBy(u => u.Email);
+}
+
+<a class="font-medium text-4xl col-black" href="/Admin/Users">Users</a>
+
+<div class="my-4 text-2xl">
+    Users
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-red-500">
+        <span>Please correct the following errors</span>
+    </div>
+}
+
+@* TODO
+Search
+*@
+
+<div class="flex flex-col my-4">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="username-search-input">Username</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username-search-input">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="email-search-input">Email</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-search-input">
+    </div>
+    <div>
+        <a class="btn btn-primary" href="/">Search</a>
+    </div>
+</div>
+
+<div class="flex flex-col gap-y-2">
+    <div class="grid grid-cols-5 gap-2">
+        <span class="font-medium text-xl">Email</span>
+        <span class="font-medium text-xl">Username</span>
+        <span class="font-medium text-xl">Approved</span>
+        <span class="col-span-2 font-medium text-xl">Created Date</span>
+
+        @for (int i = 0; i < users?.Count(); i++)
+        {
+            var user = users.ElementAt(i);
+
+            <span class="break-words">@user.Email</span>
+            <span>@user.Username</span>
+            <span>@(user.Approved ? "Approved" : "Unapproved")</span>
+            <span>@user.CreatedDate</span>
+            <div class="flex flex-row items-center justify-center">
+                <form method="post" asp-page="Approve" asp-page-handler="Approve" class="@(user.Approved? "hidden": "")">
+                    <input class="hidden" asp-for="UserId" value="@user.Id">
+                    <button class="btn btn-primary" type="submit">Approve</button>
+                </form>
+
+                <a class="btn btn-primary" asp-page="User" asp-route-userId="@user.Id">View</a>
+            </div>
+        }
+    </div>
+</div>
