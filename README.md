@@ -1,12 +1,12 @@
 # WeLearn
 
-## EF Scripts
-
-### Set ASPNETCORE_ENVIRONMENT
+## Set ASPNETCORE_ENVIRONMENT
 
 ```ps
 $env:ASPNETCORE_ENVIRONMENT="Local"
 ```
+
+## Identity-Server EF Scripts
 
 ### Add Migration
 
@@ -18,10 +18,11 @@ Add-Migration Add_InitialCreate -StartupProject WeLearn.IdentityServer\WeLearn.I
 
 ```ps
 Update-Database -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
+Update-Database -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data\WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
 ```
 
 ### Remove Migration
 
 ```ps
-Remove-Migration -StartupProject WeLearn.Api -Project WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
+Remove-Migration -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data\WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
 ```
