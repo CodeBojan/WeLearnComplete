@@ -18,7 +18,6 @@ Add-Migration Add_InitialCreate -StartupProject WeLearn.IdentityServer\WeLearn.I
 
 ```ps
 Update-Database -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
-Update-Database -StartupProject WeLearn.IdentityServer\WeLearn.IdentityServer -Project WeLearn.Data\WeLearn.Data -Context WeLearn.Data.Persistence.ApplicationDbContext
 ```
 
 ### Remove Migration
