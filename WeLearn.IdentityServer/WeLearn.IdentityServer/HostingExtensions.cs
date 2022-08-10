@@ -2,6 +2,7 @@ using Duende.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WeLearn.Data.Extensions;
 using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 using WeLearn.IdentityServer.Configuration.Auth.Google;
@@ -28,8 +29,7 @@ internal static class HostingExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        services.AddWeLearnDbContext(configuration.GetConnectionString("DefaultConnection"));
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

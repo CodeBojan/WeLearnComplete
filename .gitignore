@@ -365,3 +365,4 @@ FodyWeavers.xsd
 
 /WeLearn.IdentityServer/keys
 **/*Local.json
+/.idea/.idea.WeLearn/.idea

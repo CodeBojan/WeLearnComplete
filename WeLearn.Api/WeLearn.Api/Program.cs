@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WeLearn.Api.Extensions;
+using WeLearn.Data.Extensions;
+using WeLearn.Data.Persistence;
+using WeLearn.Importers.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// TODO extract to package
 builder.Host.UseSerilog((ctx, lc) =>
     lc.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
         .Enrich.FromLogContext()
@@ -20,6 +26,7 @@ app.Run();
 static void ConfigureServices(WebApplicationBuilder builder)
 {
     var services = builder.Services;
+    var configuration = builder.Configuration;
 
     services.AddControllers();
 
@@ -31,6 +38,10 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.None;
     });
+
+    services.AddWeLearnDbContext(configuration.GetConnectionString("DefaultConnection"));
+
+    services.AddWeLearnImporterServices(configuration);
 }
 
 static void Configure(WebApplication app)
@@ -38,7 +49,7 @@ static void Configure(WebApplication app)
     var configuration = app.Configuration;
 
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+    if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     {
         Log.Logger.Information($"Configuration:{Environment.NewLine}{(configuration as IConfigurationRoot).GetDebugView()}");
 

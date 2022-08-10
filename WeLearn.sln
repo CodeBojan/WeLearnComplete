@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.IdentityServer", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.IdentityServer", "WeLearn.IdentityServer\WeLearn.IdentityServer\WeLearn.IdentityServer.csproj", "{E484DC8B-A910-4649-8C43-71B2E039AF16}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.Importers", "WeLearn.Importers", "{9C48F37A-C7FE-496C-8D81-D32699D51103}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.Importers", "WeLearn.Importers\WeLearn.Importers.csproj", "{054981FB-32F0-4779-BB24-3866C11781EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,10 @@ Global
 		{E484DC8B-A910-4649-8C43-71B2E039AF16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E484DC8B-A910-4649-8C43-71B2E039AF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E484DC8B-A910-4649-8C43-71B2E039AF16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{054981FB-32F0-4779-BB24-3866C11781EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{054981FB-32F0-4779-BB24-3866C11781EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{054981FB-32F0-4779-BB24-3866C11781EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{054981FB-32F0-4779-BB24-3866C11781EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +58,7 @@ Global
 		{EB54B0DF-99D4-4D37-84E5-3613CF9C9A32} = {2D9F217E-0905-4855-BC1D-C29D054DD9F1}
 		{78627706-7DAE-4B45-9C53-9A97327A3ECF} = {F1F222A7-C898-47DE-80E5-B72D233515FD}
 		{E484DC8B-A910-4649-8C43-71B2E039AF16} = {4F8732CC-7342-4E7B-84EE-485B6FBACBFF}
+		{054981FB-32F0-4779-BB24-3866C11781EB} = {9C48F37A-C7FE-496C-8D81-D32699D51103}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB7A68D6-E729-4F6D-96D5-07E7A9F98AAA}
