@@ -1,4 +1,5 @@
 using Duende.IdentityServer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -6,7 +7,6 @@ using WeLearn.Data.Extensions;
 using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 using WeLearn.IdentityServer.Configuration.Auth.Google;
-using WeLearn.IdentityServer.Configuration.Providers;
 using WeLearn.IdentityServer.Extensions;
 using WeLearn.IdentityServer.Extensions.Seeding;
 using WeLearn.IdentityServer.Extensions.Services;
@@ -24,10 +24,17 @@ internal static class HostingExtensions
         var mvcBuilder = services.AddRazorPages();
         if (environment.IsLocal())
             mvcBuilder.AddRazorRuntimeCompilation();
-
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
 
         services.AddWeLearnDbContext(configuration.GetConnectionString("DefaultConnection"));
 
@@ -80,6 +87,8 @@ internal static class HostingExtensions
         var environment = app.Environment;
 
         app.UseSerilogRequestLogging();
+
+        app.UseForwardedHeaders();
 
         if (environment.IsDevelopment() || environment.IsLocal())
         {
