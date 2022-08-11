@@ -56,7 +56,6 @@
 
 	<ItemGroup>
 		<Folder Include="Controllers\" />
-		<Folder Include="Data\" />
 		<Folder Include="Dtos\Configuration\" />
 		<Folder Include="Extensions\Configuration\" />
 		<Folder Include="wwwroot\css\" />

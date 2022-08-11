@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using WeLearn.IdentityServer.Configuration.Providers;
 using WeLearn.IdentityServer.Configuration.Services.Register;
+using WeLearn.IdentityServer.Services.Account;
+using WeLearn.IdentityServer.Services.Identity;
 using WeLearn.IdentityServer.Services.Register;
 using WeLearn.IdentityServer.Services.Users;
 
@@ -37,6 +39,9 @@ public static class IServiceCollectionExtensions
         services.AddConfigurationServices(configuration);
         services.AddUserApprovalValidationServices(configuration);
         services.AddUserApprovalServices();
+
+        services.AddScoped<IAccountStore, AccountStore>();
+        services.AddScoped<WeLearnUserManager>();
 
         return services;
     }

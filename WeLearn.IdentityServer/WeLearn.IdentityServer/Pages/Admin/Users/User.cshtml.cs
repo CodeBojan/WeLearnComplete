@@ -67,7 +67,7 @@ public class UserModel : PageModel
 
         switch (claimType)
         {
-            case ClaimTypes.YearAdmin or ClaimTypes.CourseAdmin:
+            case ClaimTypes.StudyYearAdmin or ClaimTypes.CourseAdmin:
                 break;
             default:
                 ModelState.AddModelError(nameof(ClaimTypes), "Invalid Claim Type");
@@ -82,6 +82,11 @@ public class UserModel : PageModel
         }
 
         var addClaimResult = await _userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
+        if (addClaimResult.Errors.Any())
+            foreach (var error in addClaimResult.Errors)
+            {
+                ModelState.AddModelError(error.Code, error.Description);
+            }
 
         return await GetIndexPageAsync(user);
     }
@@ -124,7 +129,7 @@ public class UserModel : PageModel
         var claimTypes = new List<string>()
         {
         ClaimTypes.CourseAdmin,
-        ClaimTypes.YearAdmin
+        ClaimTypes.StudyYearAdmin
         };
 
         var roles = await _userManager.GetRolesAsync(user);

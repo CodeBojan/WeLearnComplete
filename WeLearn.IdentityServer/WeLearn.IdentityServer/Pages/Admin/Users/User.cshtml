@@ -69,6 +69,7 @@
             }
             @foreach (var roleClaim in user.RoleClaims)
             {
+                @* TODO fetch study year name and course names based on claim value *@
                 <form asp-page-handler="DeleteRoleClaim">
                     <div class="hidden">
                         <input asp-for="DeleteUserRoleViewModel.UserId" value="@user.Id">
@@ -106,7 +107,7 @@
                     </div>
                     <select class="custom-select" id="claim-type-role" asp-for="AddUserRoleClaimModel.ClaimType">
                         <option selected>Choose...</option>
-                        <option value="@ClaimTypes.YearAdmin">Year Administrator</option>
+                        <option value="@ClaimTypes.StudyYearAdmin">Year Administrator</option>
                         <option value="@ClaimTypes.CourseAdmin">Course Administrator</option>
                     </select>
                 </div>

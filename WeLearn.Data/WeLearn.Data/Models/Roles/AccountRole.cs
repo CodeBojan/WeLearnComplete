@@ -8,6 +8,13 @@ namespace WeLearn.Data.Models.Roles;
 
 public class AccountRole : BaseEntity
 {
+    public AccountRole(Guid accountId, Guid roleId, string type)
+    {
+        AccountId = accountId;
+        RoleId = roleId;
+        Type = type;
+    }
+
     public Guid AccountId { get; set; }
     public Guid RoleId { get; set; }
     public string? Type { get; set; }

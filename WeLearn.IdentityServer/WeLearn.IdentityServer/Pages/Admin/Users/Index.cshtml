@@ -57,7 +57,7 @@ Search
             <span>@user.Username</span>
             <span>@(user.Approved ? "Approved" : "Unapproved")</span>
             <span>@user.CreatedDate</span>
-            <div class="flex flex-row items-center justify-center">
+            <div class="flex flex-row gap-x-4 items-center justify-center">
                 <form method="post" asp-page="Approve" asp-page-handler="Approve" class="@(user.Approved? "hidden": "")">
                     <input class="hidden" asp-for="UserId" value="@user.Id">
                     <button class="btn btn-primary" type="submit">Approve</button>

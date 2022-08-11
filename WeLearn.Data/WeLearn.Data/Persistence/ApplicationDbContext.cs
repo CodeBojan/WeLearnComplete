@@ -12,10 +12,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Account> Accounts { get; set; }
     public DbSet<ExternalSystem> ExternalSystems { get; set; }
     public DbSet<Credentials> Credentials { get; set; }
-    public DbSet<StudyYear> Years { get; set; }
+    public DbSet<StudyYear> StudyYears { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Notice> Notices { get; set; }
-    public DbSet<Role> ApiRole { get; set; }
+    public DbSet<Role> ApiRoles { get; set; }
     public DbSet<AccountRole> AccountRoles { get; set; }
     public DbSet<StudyYearAdminRole> StudyYearAdminRoles { get; set; }
     public DbSet<CourseAdminRole> CourseAdminRoles { get; set; }
@@ -64,8 +64,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             ar.HasKey(ar => ar.Id);
 
             ar.HasDiscriminator(ar => ar.Type)
-            .HasValue<StudyYearAdminRole>(RoleTypes.StudyYearAdmin.ToString())
-            .HasValue<CourseAdminRole>(RoleTypes.CourseAdmin.ToString());
+            .HasValue<StudyYearAdminRole>(RoleType.StudyYearAdmin.ToString())
+            .HasValue<CourseAdminRole>(RoleType.CourseAdmin.ToString());
 
             ar.HasOne(r => r.Account)
             .WithMany(a => a.Roles)

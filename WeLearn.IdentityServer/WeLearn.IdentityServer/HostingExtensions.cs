@@ -10,6 +10,7 @@ using WeLearn.IdentityServer.Configuration.Auth.Google;
 using WeLearn.IdentityServer.Extensions;
 using WeLearn.IdentityServer.Extensions.Seeding;
 using WeLearn.IdentityServer.Extensions.Services;
+using WeLearn.IdentityServer.Services.Identity;
 
 namespace WeLearn.IdentityServer;
 
@@ -40,6 +41,7 @@ internal static class HostingExtensions
 
         services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddUserManager<WeLearnUserManager>()
             .AddDefaultTokenProviders();
 
         services

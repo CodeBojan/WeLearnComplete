@@ -1,5 +1,6 @@
 ﻿using WeLearn.IdentityServer;
 using Serilog;
+using WeLearn.IdentityServer.Data.Seeding;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

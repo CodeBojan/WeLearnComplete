@@ -6,7 +6,7 @@ using Serilog;
 using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 
-namespace WeLearn.IdentityServer;
+namespace WeLearn.IdentityServer.Data.Seeding;
 
 public class SeedData
 {

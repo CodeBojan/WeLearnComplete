@@ -10,6 +10,13 @@ namespace WeLearn.Data.Models;
 public class Account : BaseEntity
 {
     public string Username { get; set; }
+
+    public Account(Guid id, string username)
+    {
+        Id = id;
+        Username = username;
+    }
+
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? FacultyId { get; set; }

@@ -100,11 +100,6 @@ public class IndexModel : PageModel
 (user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
                 // TODO move to options
 
-                if (approved)
-                {
-                    var addToUserResult = await _userManager.AddToRoleAsync(user, Roles.User);
-                }
-
                 if (context != null)
                 {
                     if (context.IsNativeClient())
