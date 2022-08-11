@@ -12,24 +12,24 @@ public abstract class TypedContentImporter<TContent, TDto> : ITypedContentImport
     where TDto : class
 {
     public virtual bool IsFinished { get; set; }
-    public virtual async Task ImportNextAsync()
+    public virtual async Task ImportNextAsync(CancellationToken cancellationToken)
     {
-        CurrentDto = await GetNextDtoAsync();
+        CurrentDtos = await GetNextDtoAsync(cancellationToken);
 
-        CurrentContent = await MapDtoAsync();
+        CurrentContent = await MapDtoAsync(cancellationToken);
 
-        await SaveCurrentContentAsync();
+        await SaveCurrentContentAsync(cancellationToken);
     }
 
     public abstract void Reset();
     public abstract string Name { get; }
 
     protected abstract IEnumerable<TContent> CurrentContent { get; set; }
-    protected abstract IEnumerable<TDto> CurrentDto { get; set; }
+    protected abstract IEnumerable<TDto> CurrentDtos { get; set; }
 
-    protected abstract Task<IEnumerable<TDto>> GetNextDtoAsync();
-    protected abstract Task<IEnumerable<TContent>> MapDtoAsync();
+    protected abstract Task<IEnumerable<TDto>> GetNextDtoAsync(CancellationToken cancellationToken);
+    protected abstract Task<IEnumerable<TContent>> MapDtoAsync(CancellationToken cancellationToken);
 
     protected virtual int ContentCountPerImport { get; set; }
-    protected abstract Task SaveCurrentContentAsync();
+    protected abstract Task SaveCurrentContentAsync(CancellationToken cancellationToken);
 }

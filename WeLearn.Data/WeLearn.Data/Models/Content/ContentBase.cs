@@ -10,4 +10,5 @@ namespace WeLearn.Data.Models.Content;
 public class ContentBase
 {
     public Guid Id { get; set; }
+    public long ExternalId { get; set; }
 }

@@ -2,4 +2,6 @@
 
 public class NoticeBoardNoticeImporterSettings
 {
+    public string BaseUrl { get; set; }
+    public string[] BoardIds { get; set; }
 }

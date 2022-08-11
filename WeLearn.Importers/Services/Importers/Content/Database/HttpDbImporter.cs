@@ -16,7 +16,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
     protected HttpClient HttpClient { get; set; }
     protected ApplicationDbContext DbContext { get; set; }
 
-    protected override async Task SaveCurrentContentAsync()
+    protected override async Task SaveCurrentContentAsync(CancellationToken cancellationToken)
     {
         if (IsFinished)
             return;

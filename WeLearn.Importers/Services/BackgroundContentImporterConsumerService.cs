@@ -28,7 +28,7 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
         _logger.LogInformation("{@ServiceName} is starting", nameof(BackgroundContentImporterConsumerService));
         while (!stoppingToken.IsCancellationRequested)
         {
-            TimeSpan timeoutTimeSpan = TimeSpan.FromSeconds(2);
+            TimeSpan timeoutTimeSpan = TimeSpan.FromSeconds(20);
             _logger.LogInformation("{@ServiceName} is sleeping for {@Timeout}", nameof(BackgroundContentImporterConsumerService), timeoutTimeSpan);
             await Task.Delay(timeoutTimeSpan);
 
@@ -64,7 +64,7 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
                     {
                         _logger.LogInformation("{@ContentImporter} importing batch", contentImporter.Name);
 
-                        await contentImporter.ImportNextAsync();
+                        await contentImporter.ImportNextAsync(stoppingToken);
 
                         _logger.LogInformation("{@ContentImporter} imported batch", contentImporter.Name);
                     }

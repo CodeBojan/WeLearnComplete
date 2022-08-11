@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Models.Content;
@@ -34,28 +35,68 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
         currentContent = new List<Notice>();
         currentDtos = new List<GetNoticeBoardNoticeDto>();
+
+        ConfigureHttpClient();
+    }
+
+    private void ConfigureHttpClient()
+    {
+        HttpClient.BaseAddress = new Uri(_settings.BaseUrl);
     }
 
     public override string Name => nameof(NoticeBoardNoticeImporter);
 
     protected override IEnumerable<Notice> CurrentContent { get => currentContent; set => currentContent = value.ToList(); }
-    protected override IEnumerable<GetNoticeBoardNoticeDto> CurrentDto { get => currentDtos; set => currentDtos = value.ToList(); }
+    protected override IEnumerable<GetNoticeBoardNoticeDto> CurrentDtos { get => currentDtos; set => currentDtos = value.ToList(); }
 
     public override void Reset()
     {
         _logger.LogWarning("Not implemented");
     }
 
-    protected override async Task<IEnumerable<GetNoticeBoardNoticeDto>> GetNextDtoAsync()
+    protected override async Task<IEnumerable<GetNoticeBoardNoticeDto>> GetNextDtoAsync(CancellationToken cancellationToken)
     {
-        _logger.LogWarning("Not implemented");
+        var resultDtos = new List<GetNoticeBoardNoticeDto>();
+
+        foreach (var boardId in _settings.BoardIds)
+        {
+            _logger.LogInformation("Fetching Notice Board {@NoticeBoardId}", boardId);
+
+            var dtos = await HttpClient.GetFromJsonAsync<IEnumerable<GetNoticeBoardNoticeDto>>("/api/public/oglasne-ploce/3", cancellationToken);
+
+            if (dtos is null)
+            {
+                _logger.LogWarning("No notices found for board {@NoticeBoardId}", boardId);
+                continue;
+            }
+
+            _logger.LogInformation("Fetched {@NoticeBoardId}", boardId);
+            resultDtos.AddRange(dtos);
+        }
+
         IsFinished = true;
-        return new List<GetNoticeBoardNoticeDto>();
+
+        return resultDtos;
     }
 
-    protected override async Task<IEnumerable<Notice>> MapDtoAsync()
+    protected override async Task<IEnumerable<Notice>> MapDtoAsync(CancellationToken cancellationToken)
     {
-        _logger.LogWarning("Not implemented");
-        return new List<Notice>();
+        var notices = new List<Notice>();
+
+        var currentDtos = CurrentDtos;
+        var dtoIds = currentDtos.Select(d => d.Id);
+
+        _logger.LogInformation("Mapping DTOs {@DtoIds}", dtoIds);
+
+        foreach (var dto in currentDtos)
+        {
+            // TODO add other properties to Notice
+            // TODO fetch and save attachments
+            notices.Add(new Notice() { Id = Guid.NewGuid(), ExternalId = dto.Id });
+        }
+
+        _logger.LogInformation("Mapped DTOs {@DtoIds}", currentDtos.Select(d => d.Id));
+
+        return notices;
     }
 }
