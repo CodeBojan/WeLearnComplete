@@ -133,7 +133,7 @@ public class UserModel : PageModel
 
         ViewModel = new()
         {
-            Id = user.Id,
+            Id = user.Id.ToString(),
             Username = user.UserName,
             Email = user.Email,
             Roles = roles.ToArray(),

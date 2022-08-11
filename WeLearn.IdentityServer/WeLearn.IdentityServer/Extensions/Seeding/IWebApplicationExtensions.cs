@@ -25,14 +25,14 @@ public static class IWebApplicationExtensions
         var adminRole = dbContext.Roles.FirstOrDefault(r => r.NormalizedName == AdminRole.ToUpper());
         if (adminRole is null)
         {
-            adminRole = new IdentityRole(AdminRole) { NormalizedName = AdminRole.ToUpper() };
+            adminRole = new IdentityRole<Guid>(AdminRole) { NormalizedName = AdminRole.ToUpper() };
             dbContext.Roles.Add(adminRole);
         }
 
         var userRole = dbContext.Roles.FirstOrDefault(r => r.NormalizedName == UserRole.ToUpper());
         if (userRole is null)
         {
-            userRole = new IdentityRole(UserRole) { NormalizedName = UserRole.ToUpper() };
+            userRole = new IdentityRole<Guid>(UserRole) { NormalizedName = UserRole.ToUpper() };
             dbContext.Roles.Add(userRole);
         }
 

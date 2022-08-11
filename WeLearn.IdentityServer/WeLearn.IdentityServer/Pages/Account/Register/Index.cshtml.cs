@@ -94,8 +94,10 @@ public class IndexModel : PageModel
                 await _events.RaiseAsync(new UserRegisterSuccessEvent(Input.Email, clientId: context?.Client.ClientId));
                 // TODO check result
                 // TODO create User for API
+                // TODO add roles to API
                 var loginResult = await _signInManager.PasswordSignInAsync(user, Input.Password, false, lockoutOnFailure: false);
-                await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
+                await _events.RaiseAsync(new UserLoginSuccessEvent
+(user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
                 // TODO move to options
 
                 if (approved)

@@ -92,6 +92,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         {
             // TODO add other properties to Notice
             // TODO fetch and save attachments
+            // TODO Convert datetime to utc
             notices.Add(new Notice() { Id = Guid.NewGuid(), ExternalId = dto.Id });
         }
 

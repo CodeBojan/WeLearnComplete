@@ -22,7 +22,8 @@ public class UserApprovalService : IUserApprovalService
 
     public async Task ApproveUserAsync(string userId)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        var guid = new Guid(userId);
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == guid);
         if (user is null)
             throw new UserNotFoundException();
 

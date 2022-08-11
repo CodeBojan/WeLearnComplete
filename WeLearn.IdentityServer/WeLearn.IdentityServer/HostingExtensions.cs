@@ -38,7 +38,7 @@ internal static class HostingExtensions
 
         services.AddWeLearnDbContext(configuration.GetConnectionString("DefaultConnection"));
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

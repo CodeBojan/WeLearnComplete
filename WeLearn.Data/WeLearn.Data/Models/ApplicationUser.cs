@@ -2,7 +2,7 @@
 
 namespace WeLearn.Data.Models;
 
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : IdentityUser<Guid>
 {
     public ApplicationUser()
     {
@@ -24,4 +24,6 @@ public class ApplicationUser : IdentityUser
 
     public bool Approved { get; set; }
     public DateTime CreatedDate { get; set; }
+
+    public virtual Account Account { get; set; }
 }
