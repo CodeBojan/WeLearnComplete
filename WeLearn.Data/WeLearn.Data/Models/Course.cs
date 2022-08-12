@@ -25,7 +25,9 @@ public class Course : BaseEntity
     public virtual ICollection<CourseAdminRole> AdminRoles { get; set; }
     public virtual ICollection<FollowedCourse> FollowingUsers { get; set; }
     public virtual ICollection<Content.Content> Contents { get; set; }
-    
+    public virtual ICollection<CourseMaterialUploadRequest> CourseMaterialUploadRequests { get; set; }
+
+    // TODO define over Contents    
     public virtual ICollection<Notice> Notices { get; set; }
     public virtual ICollection<Post> Posts { get; set; }
     public virtual ICollection<Document> Documents { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Models.Content;
+using WeLearn.Data.Models.Notifications;
 
 namespace WeLearn.Data.Models;
 
@@ -15,4 +16,5 @@ public class Comment : BaseEntity
 
     public virtual Account Author { get; set; }
     public virtual Content.Content Content { get; set; }
+    public virtual ICollection<CommentNotification> CommentNotifications { get; set; }
 }

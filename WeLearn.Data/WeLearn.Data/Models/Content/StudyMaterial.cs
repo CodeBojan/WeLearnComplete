@@ -8,4 +8,6 @@ namespace WeLearn.Data.Models.Content;
 
 public class StudyMaterial : Content
 {
+    public int DocumentCount { get; set; }
+    public ICollection<Document> Documents { get; set; }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Content;
+using WeLearn.Data.Models.Notifications;
 using WeLearn.Data.Models.Roles;
 
 namespace WeLearn.Data.Persistence;
@@ -24,6 +25,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Post> Posts { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<StudyMaterial> StudyMaterials { get; set; }
+    public DbSet<CourseMaterialUploadRequest> CourseMaterialUploadRequests { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
@@ -188,8 +192,90 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasForeignKey(c => c.CourseId)
             .HasPrincipalKey(c => c.Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+            c.HasOne(c => c.Creator)
+            .WithMany(a => a.CreatedContent)
+            .HasForeignKey(c => c.CreatorId)
+            .HasPrincipalKey(a => a.Id)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            c.HasOne(c => c.ExternalSystem)
+            .WithMany(es => es.Contents)
+            .HasForeignKey(c => c.ExternalSystemId)
+            .HasPrincipalKey(es => es.Id)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
         });
 
+        builder.Entity<StudyMaterial>(sm =>
+        {
+            sm.HasMany(sm => sm.Documents)
+            .WithOne(d => d.StudyMaterial)
+            .HasForeignKey(d => d.StudyMaterialId)
+            .HasPrincipalKey(sm => sm.Id)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Document>(d =>
+        {
+            d.HasOne(d => d.CourseMaterialUploadRequest)
+            .WithMany(cmur => cmur.Documents)
+            .HasForeignKey(d => d.CourseMaterialUploadRequestId)
+            .HasPrincipalKey(cmur => cmur.Id)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<CourseMaterialUploadRequest>(cmur =>
+        {
+            cmur.HasKey(cmur => cmur.Id);
+
+            cmur.HasOne(cmur => cmur.Course)
+            .WithMany(c => c.CourseMaterialUploadRequests)
+            .HasForeignKey(cmur => cmur.CourseId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            cmur.HasOne(cmur => cmur.Creator)
+            .WithMany(a => a.CourseMaterialUploadRequests)
+            .HasForeignKey(cmur => cmur.CreatorId)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Notification>(n =>
+        {
+            n.HasKey(n => n.Id);
+
+            n.HasDiscriminator(n => n.Type)
+            .HasValue<CommentNotification>(NotificationType.Comment.Value())
+            .HasValue<ContentNotification>(NotificationType.Content.Value());
+
+            n.HasOne(n => n.Receiver)
+            .WithMany(r => r.Notifications)
+            .HasForeignKey(n => n.ReceiverId)
+            .HasPrincipalKey(r => r.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<CommentNotification>(cn =>
+        {
+            cn.HasOne(cn => cn.Comment)
+            .WithMany(c => c.CommentNotifications)
+            .HasForeignKey(cn => cn.CommentId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<ContentNotification>(cn =>
+        {
+            cn.HasOne(cn => cn.Content)
+            .WithMany(c => c.ContentNotifications)
+            .HasForeignKey(cn => cn.ContentId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

@@ -13,5 +13,7 @@ public class ExternalSystem : BaseEntity, IExternalSystem
     public string? LogoUrl { get; set; }
 
     Guid IExternalSystem.ExternalSystemId => Id;
+
     public virtual ICollection<Credentials> Credentials { get; set; }
+    public virtual ICollection<Content.Content> Contents { get; set; }
 }
