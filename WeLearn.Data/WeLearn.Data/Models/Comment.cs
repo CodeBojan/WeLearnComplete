@@ -14,5 +14,5 @@ public class Comment : BaseEntity
     public Guid ContentId { get; set; }
 
     public virtual Account Author { get; set; }
-    public virtual Content.ContentBase Content { get; set; }
+    public virtual Content.Content Content { get; set; }
 }

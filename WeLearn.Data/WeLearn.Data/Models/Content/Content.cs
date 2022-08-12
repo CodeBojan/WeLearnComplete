@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models.Content;
 
-public class ContentBase : BaseEntity
+public class Content : BaseEntity
 {
     public long? ExternalId { get; set; }
     public string? ExternalUrl { get; set; }
@@ -15,7 +15,7 @@ public class ContentBase : BaseEntity
     public string? Author { get; set; }
     public bool IsImported { get; set; }
     public Guid CourseId { get; set; }
-    public ContentType ContentType { get; set; }
+    public string Type { get; set; }
 
     public virtual Course Course { get; set; }
     public virtual ICollection<Comment> Comments { get; set; }

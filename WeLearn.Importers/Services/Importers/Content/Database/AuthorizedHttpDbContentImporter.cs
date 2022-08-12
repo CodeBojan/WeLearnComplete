@@ -9,7 +9,7 @@ using WeLearn.Data.Models.Content;
 namespace WeLearn.Importers.Services.Importers.Content.Database;
 
 public abstract class AuthorizedHttpDbContentImporter<TContent, TDto> : HttpDbImporter<TContent, TDto>
-    where TContent : Data.Models.Content.ContentBase
+    where TContent : Data.Models.Content.Content
     where TDto : class
 {
     // TODO add authorization settings?

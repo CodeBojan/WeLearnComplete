@@ -14,12 +14,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Credentials> Credentials { get; set; }
     public DbSet<StudyYear> StudyYears { get; set; }
     public DbSet<Course> Courses { get; set; }
-    public DbSet<Notice> Notices { get; set; }
     public DbSet<Role> ApiRoles { get; set; }
     public DbSet<AccountRole> AccountRoles { get; set; }
     public DbSet<StudyYearAdminRole> StudyYearAdminRoles { get; set; }
     public DbSet<CourseAdminRole> CourseAdminRoles { get; set; }
     public DbSet<FollowedCourse> FollowedCourses { get; set; }
+    public DbSet<Content> Contents { get; set; }
+    public DbSet<Notice> Notices { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Document> Documents { get; set; }
+    public DbSet<StudyMaterial> StudyMaterials { get; set; }
 
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
@@ -34,7 +38,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         base.OnModelCreating(builder);
 
         builder.Ignore<DatedEntity>();
-        builder.Ignore<ContentBase>();
 
         // TODO indices
 
@@ -155,11 +158,38 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .OnDelete(DeleteBehavior.Cascade);
         });
 
-        builder.Entity<Notice>(n =>
+        builder.Entity<StudyYear>(sy =>
         {
-            n.HasKey(n => n.Id);
-
+            sy.HasKey(sy => sy.Id);
         });
+
+        builder.Entity<Course>(c =>
+        {
+            c.HasKey(c => c.Id);
+
+            c.Ignore(c => c.Notices)
+            .Ignore(c => c.Posts)
+            .Ignore(c => c.Documents)
+            .Ignore(c => c.StudyMaterials);
+        });
+
+        builder.Entity<Content>(c =>
+        {
+            c.HasKey(c => c.Id);
+
+            c.HasDiscriminator(c => c.Type)
+            .HasValue<Post>(ContentType.Post.Value())
+            .HasValue<Notice>(ContentType.Notice.Value())
+            .HasValue<Document>(ContentType.Document.Value())
+            .HasValue<StudyMaterial>(ContentType.StudyMaterial.Value());
+
+            c.HasOne(c => c.Course)
+            .WithMany(c => c.Contents)
+            .HasForeignKey(c => c.CourseId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

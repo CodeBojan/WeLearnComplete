@@ -10,7 +10,7 @@ namespace WeLearn.Importers.Services.Importers.Content.Database;
 
 // TODO remove setters from interfaces
 public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TContent, TDto>
-    where TContent : Data.Models.Content.ContentBase
+    where TContent : Data.Models.Content.Content
     where TDto : class
 {
     protected HttpClient HttpClient { get; set; }

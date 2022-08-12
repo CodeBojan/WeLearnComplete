@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeLearn.Data.Models.Content;
 using WeLearn.Data.Models.Roles;
 
 namespace WeLearn.Data.Models;
@@ -23,4 +24,10 @@ public class Course : BaseEntity
     public virtual StudyYear StudyYear { get; set; }
     public virtual ICollection<CourseAdminRole> AdminRoles { get; set; }
     public virtual ICollection<FollowedCourse> FollowingUsers { get; set; }
+    public virtual ICollection<Content.Content> Contents { get; set; }
+    
+    public virtual ICollection<Notice> Notices { get; set; }
+    public virtual ICollection<Post> Posts { get; set; }
+    public virtual ICollection<Document> Documents { get; set; }
+    public virtual ICollection<StudyMaterial> StudyMaterials { get; set; }
 }

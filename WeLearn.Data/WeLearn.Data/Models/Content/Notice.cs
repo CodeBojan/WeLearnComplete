@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models.Content;
 
-public class Notice : ContentBase
+public class Notice : Content
 {
     public DateTime? RelevantUntil { get; set; }
 }

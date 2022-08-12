@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models.Content;
 
-public class Document : ContentBase
+public class Document : Content
 {
     public string FileName { get; set; }
     public string Uri { get; set; }

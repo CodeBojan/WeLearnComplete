@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models.Content;
 
-public class StudyMaterial : ContentBase
+public class StudyMaterial : Content
 {
 }
