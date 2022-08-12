@@ -8,4 +8,9 @@ namespace WeLearn.Data.Models.Content;
 
 public class Document : ContentBase
 {
+    public string FileName { get; set; }
+    public string Uri { get; set; }
+    public long Size { get; set; }
+    public string? Hash { get; set; }
+    public string? HashAlgorithm { get; set; }
 }

@@ -8,7 +8,7 @@ using WeLearn.Data.Models.Content;
 namespace WeLearn.Importers.Services.Importers.Content;
 
 public abstract class TypedContentImporter<TContent, TDto> : ITypedContentImporter<TContent, TDto>
-    where TContent : ContentBase
+    where TContent : Data.Models.Content.ContentBase
     where TDto : class
 {
     public virtual bool IsFinished { get; set; }

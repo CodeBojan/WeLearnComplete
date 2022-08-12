@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<AccountRole> AccountRoles { get; set; }
     public DbSet<StudyYearAdminRole> StudyYearAdminRoles { get; set; }
     public DbSet<CourseAdminRole> CourseAdminRoles { get; set; }
+    public DbSet<FollowedCourse> FollowedCourses { get; set; }
 
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
@@ -32,7 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     {
         base.OnModelCreating(builder);
 
-        builder.Ignore<BaseEntity>();
+        builder.Ignore<DatedEntity>();
         builder.Ignore<ContentBase>();
 
         // TODO indices
@@ -120,10 +121,43 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .OnDelete(DeleteBehavior.Cascade);
         });
 
+        builder.Entity<FollowedCourse>(fc =>
+        {
+            fc.HasKey(fc => new { fc.AccountId, fc.CourseId });
+
+            fc.HasOne(fc => fc.Account)
+            .WithMany(a => a.FollowedCourses)
+            .HasForeignKey(fc => fc.AccountId)
+            .HasPrincipalKey(a => a.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            fc.HasOne(fc => fc.Course)
+            .WithMany(c => c.FollowingUsers)
+            .HasForeignKey(fc => fc.CourseId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Comment>(c =>
+        {
+            c.HasKey(c => c.Id);
+
+            c.HasOne(c => c.Author)
+            .WithMany(a => a.Comments)
+            .HasForeignKey(c => c.AuthorId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            c.HasOne(c => c.Content)
+            .WithMany(c => c.Comments)
+            .HasForeignKey(c => c.ContentId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
         builder.Entity<Notice>(n =>
         {
             n.HasKey(n => n.Id);
-
 
         });
     }
@@ -132,17 +166,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     {
         var entries = ChangeTracker
               .Entries()
-              .Where(e => e.Entity is BaseEntity && (
+              .Where(e => e.Entity is DatedEntity && (
                   e.State == EntityState.Added
                   || e.State == EntityState.Modified));
 
         foreach (var entityEntry in entries)
         {
-            ((BaseEntity)entityEntry.Entity).UpdatedDate = DateTime.UtcNow;
+            ((DatedEntity)entityEntry.Entity).UpdatedDate = DateTime.UtcNow;
 
             if (entityEntry.State == EntityState.Added)
             {
-                ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.UtcNow;
+                ((DatedEntity)entityEntry.Entity).CreatedDate = DateTime.UtcNow;
             }
         }
 

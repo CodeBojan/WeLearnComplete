@@ -24,4 +24,6 @@ public class Account : BaseEntity
     public virtual ApplicationUser User { get; set; }
     public virtual ICollection<AccountRole> Roles { get; set; }
     public virtual ICollection<Credentials> Credentials { get; set; }
+    public virtual ICollection<FollowedCourse> FollowedCourses { get; set; }
+    public virtual ICollection<Comment> Comments { get; set; }
 }

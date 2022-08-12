@@ -82,13 +82,18 @@ public class UserModel : PageModel
         }
 
         var addClaimResult = await _userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
+        TryAddModelStateErrors(addClaimResult);
+
+        return await GetIndexPageAsync(user);
+    }
+
+    private void TryAddModelStateErrors(IdentityResult addClaimResult)
+    {
         if (addClaimResult.Errors.Any())
             foreach (var error in addClaimResult.Errors)
             {
                 ModelState.AddModelError(error.Code, error.Description);
             }
-
-        return await GetIndexPageAsync(user);
     }
 
     private async Task<Claim> GetUserClaimAsync(ApplicationUser user, string claimType, string claimValue)
@@ -115,7 +120,8 @@ public class UserModel : PageModel
         }
 
         var removeClaimResult = await _userManager.RemoveClaimAsync(user, claim);
-        // TODO info message
+        TryAddModelStateErrors(removeClaimResult);
+
         return await GetIndexPageAsync(user);
     }
 

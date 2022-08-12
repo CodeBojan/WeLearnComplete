@@ -21,16 +21,6 @@ public class AccountStore : IAccountStore
         _logger = logger;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="account"></param>
-    /// <param name="role"></param>
-    /// <param name="roleType"></param>
-    /// <returns></returns>
-    /// <exception cref="CourseNotFoundException"></exception>
-    /// <exception cref="StudyYearNotFoundException"></exception>
-    /// <exception cref="NotImplementedException"></exception>
     public async Task<AccountRole> AddRoleAsync(WeLearn.Data.Models.Account account, Role role, RoleType roleType)
     {
         _logger.LogInformation("Adding role {@RoleId} to account {@AccountId}", role.Id, account.Id);

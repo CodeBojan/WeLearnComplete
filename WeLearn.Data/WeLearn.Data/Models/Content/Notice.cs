@@ -8,4 +8,5 @@ namespace WeLearn.Data.Models.Content;
 
 public class Notice : ContentBase
 {
+    public DateTime? RelevantUntil { get; set; }
 }

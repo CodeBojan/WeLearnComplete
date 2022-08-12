@@ -22,4 +22,5 @@ public class Course : BaseEntity
     public virtual ICollection<Credentials> Credentials { get; set; }
     public virtual StudyYear StudyYear { get; set; }
     public virtual ICollection<CourseAdminRole> AdminRoles { get; set; }
+    public virtual ICollection<FollowedCourse> FollowingUsers { get; set; }
 }
