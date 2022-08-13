@@ -52,6 +52,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\WeLearn.Auth\WeLearn.Auth\WeLearn.Auth.csproj" />
 		<ProjectReference Include="..\..\WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj" />
+		<ProjectReference Include="..\..\WeLearn.Shared\WeLearn.Shared\WeLearn.Shared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

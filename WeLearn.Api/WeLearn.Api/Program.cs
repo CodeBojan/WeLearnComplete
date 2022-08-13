@@ -4,14 +4,12 @@ using WeLearn.Api.Extensions;
 using WeLearn.Data.Extensions;
 using WeLearn.Data.Persistence;
 using WeLearn.Importers.Extensions;
+using WeLearn.Shared.Extensions.Logging;
+using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// TODO extract to package
-builder.Host.UseSerilog((ctx, lc) =>
-    lc.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
-        .Enrich.FromLogContext()
-        .ReadFrom.Configuration(builder.Configuration));
+builder.AddLogging();
 
 // Add services to the container.
 

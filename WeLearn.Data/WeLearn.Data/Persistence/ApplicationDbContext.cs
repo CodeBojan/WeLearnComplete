@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Content;
+using WeLearn.Data.Models.Content.Notices;
 using WeLearn.Data.Models.Notifications;
 using WeLearn.Data.Models.Roles;
 
@@ -21,11 +22,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<CourseAdminRole> CourseAdminRoles { get; set; }
     public DbSet<FollowedCourse> FollowedCourses { get; set; }
     public DbSet<Content> Contents { get; set; }
-    public DbSet<Notice> Notices { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<StudyMaterial> StudyMaterials { get; set; }
     public DbSet<CourseMaterialUploadRequest> CourseMaterialUploadRequests { get; set; }
+    public DbSet<Notice> Notices { get; set; }
+    public DbSet<GeneralNotice> GeneralNotices { get; set; }
+    public DbSet<StudyYearNotice> StudyYearNotices { get; set; }
+    public DbSet<CourseNotice> CourseNotices { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Notification> Notifications { get; set; }
 
@@ -145,6 +149,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .OnDelete(DeleteBehavior.Cascade);
         });
 
+        builder.Entity<FollowedStudyYear>(fsy =>
+        {
+            fsy.HasKey(fsy => new { fsy.AccountId, fsy.StudyYearId });
+
+            fsy.HasOne(fsy => fsy.Account)
+            .WithMany(a => a.FollowedStudyYears)
+            .HasForeignKey(fsy => fsy.AccountId)
+            .HasPrincipalKey(a => a.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            fsy.HasOne(fsy => fsy.StudyYear)
+            .WithMany(sy => sy.FollowedStudyYears)
+            .HasForeignKey(fsy => fsy.StudyYearId)
+            .HasPrincipalKey(sy => sy.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
         builder.Entity<Comment>(c =>
         {
             c.HasKey(c => c.Id);
@@ -185,12 +206,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasValue<Post>(ContentType.Post.Value())
             .HasValue<Notice>(ContentType.Notice.Value())
             .HasValue<Document>(ContentType.Document.Value())
-            .HasValue<StudyMaterial>(ContentType.StudyMaterial.Value());
+            .HasValue<StudyMaterial>(ContentType.StudyMaterial.Value())
+            .HasValue<GeneralNotice>(ContentType.NoticeGeneral.Value())
+            .HasValue<StudyYearNotice>(ContentType.NoticeStudyYear.Value())
+            .HasValue<CourseNotice>(ContentType.NoticeCourse.Value());
 
             c.HasOne(c => c.Course)
             .WithMany(c => c.Contents)
             .HasForeignKey(c => c.CourseId)
             .HasPrincipalKey(c => c.Id)
+            .IsRequired(false) // currently only because of notices that don't relate to a course
             .OnDelete(DeleteBehavior.Cascade);
 
             c.HasOne(c => c.Creator)
@@ -205,6 +230,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasForeignKey(c => c.ExternalSystemId)
             .HasPrincipalKey(es => es.Id)
             .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<StudyYearNotice>(syn =>
+        {
+            syn.HasOne(syn => syn.StudyYear)
+            .WithMany(sy => sy.StudyYearNotices)
+            .HasForeignKey(syn => syn.StudyYearId)
+            .HasPrincipalKey(sy => sy.Id)
             .OnDelete(DeleteBehavior.Cascade);
         });
 

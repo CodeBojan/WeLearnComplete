@@ -29,4 +29,5 @@ public class Account : BaseEntity
     public virtual ICollection<CourseMaterialUploadRequest> CourseMaterialUploadRequests { get; set; }
     public virtual ICollection<Content.Content> CreatedContent { get; set; }
     public virtual ICollection<Notification> Notifications { get; set; }
+    public virtual ICollection<FollowedStudyYear> FollowedStudyYears { get; set; }
 }

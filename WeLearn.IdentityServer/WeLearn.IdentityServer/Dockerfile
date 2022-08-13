@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["WeLearn.IdentityServer/WeLearn.IdentityServer/WeLearn.IdentityServer.csproj", "WeLearn.IdentityServer/WeLearn.IdentityServer/"]
+COPY ["WeLearn.Shared/WeLearn.Shared/WeLearn.Shared.csproj", "WeLearn.Shared/WeLearn.Shared/"]
 COPY ["WeLearn.Auth/WeLearn.Auth/WeLearn.Auth.csproj", "WeLearn.Auth/WeLearn.Auth/"]
 COPY ["WeLearn.Data/WeLearn.Data/WeLearn.Data.csproj", "WeLearn.Data/WeLearn.Data/"]
 RUN dotnet restore "WeLearn.IdentityServer/WeLearn.IdentityServer/WeLearn.IdentityServer.csproj"

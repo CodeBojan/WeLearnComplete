@@ -10,9 +10,6 @@ public static class IWebApplicationExtensions
     private const string AdminRole = Roles.Admin;
     private const string UserRole = Roles.User;
 
-    // TODO extract to Auth package
-
-
     public static WebApplication UseWeLearnSeeding(this WebApplication app)
     {
         var services = app.Services;

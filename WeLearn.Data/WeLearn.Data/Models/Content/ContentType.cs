@@ -8,10 +8,14 @@ namespace WeLearn.Data.Models.Content;
 
 public enum ContentType
 {
+    Unknown = 0,
     Notice = 1,
     Post = 2,
     Document = 3,
-    StudyMaterial = 4
+    StudyMaterial = 4,
+    NoticeGeneral = 5,
+    NoticeStudyYear = 6,
+    NoticeCourse = 7
 }
 
 public static class ContentTypeExtensions
@@ -28,6 +32,12 @@ public static class ContentTypeExtensions
                 return "Document";
             case ContentType.StudyMaterial:
                 return "StudyMaterial";
+            case ContentType.NoticeGeneral:
+                return "NoticeGeneral";
+            case ContentType.NoticeStudyYear:
+                return "NoticeStudyYear";
+            case ContentType.NoticeCourse:
+                return "NoticeCourse";
             default:
                 throw new NotImplementedException();
         }

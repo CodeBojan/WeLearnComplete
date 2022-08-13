@@ -11,6 +11,7 @@ using WeLearn.IdentityServer.Extensions;
 using WeLearn.IdentityServer.Extensions.Seeding;
 using WeLearn.IdentityServer.Extensions.Services;
 using WeLearn.IdentityServer.Services.Identity;
+using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
 
 namespace WeLearn.IdentityServer;
 

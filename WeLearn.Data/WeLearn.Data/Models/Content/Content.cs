@@ -15,13 +15,15 @@ public class Content : BaseEntity
     public string Title { get; set; }
     public string? Author { get; set; }
     public bool IsImported { get; set; }
-    public Guid CourseId { get; set; }
+    // TODO make course nullable
+    // TODO add GeneralNotice type
+    public Guid? CourseId { get; set; }
     public string Type { get; set; }
     public Guid? CreatorId { get; set; }
     public Guid? ExternalSystemId { get; set; }
 
     public virtual Account? Creator { get; set; }
-    public virtual Course Course { get; set; }
+    public virtual Course? Course { get; set; }
     public virtual ICollection<Comment> Comments { get; set; }
     public virtual ExternalSystem ExternalSystem { get; set; }
     public virtual ICollection<ContentNotification> ContentNotifications { get; set; }
