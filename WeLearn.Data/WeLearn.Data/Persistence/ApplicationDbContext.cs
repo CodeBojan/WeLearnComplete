@@ -312,13 +312,26 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         });
     }
 
+    public override int SaveChanges()
+    {
+        AdjustEntities();
+        return base.SaveChanges();
+    }
+
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
+        AdjustEntities();
+
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+
+    private void AdjustEntities()
+    {
         var entries = ChangeTracker
-              .Entries()
-              .Where(e => e.Entity is DatedEntity && (
-                  e.State == EntityState.Added
-                  || e.State == EntityState.Modified));
+                      .Entries()
+                      .Where(e => e.Entity is DatedEntity && (
+                          e.State == EntityState.Added
+                          || e.State == EntityState.Modified));
 
         foreach (var entityEntry in entries)
         {
@@ -329,7 +342,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 ((DatedEntity)entityEntry.Entity).CreatedDate = DateTime.UtcNow;
             }
         }
-
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

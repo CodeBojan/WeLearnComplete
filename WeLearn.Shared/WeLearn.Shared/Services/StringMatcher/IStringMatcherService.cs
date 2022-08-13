@@ -1,4 +1,4 @@
-﻿namespace WeLearn.Shared.Services
+﻿namespace WeLearn.Shared.Services.StringMatcher
 {
     public interface IStringMatcherService
     {

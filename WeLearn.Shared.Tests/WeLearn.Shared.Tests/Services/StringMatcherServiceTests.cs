@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeLearn.Shared.Services;
+using WeLearn.Shared.Services.StringMatcher;
 using Xunit.Abstractions;
 
 namespace WeLearn.Shared.Tests.Services;

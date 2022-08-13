@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ public abstract class TypedContentImporter<TContent, TDto> : ITypedContentImport
     where TContent : Data.Models.Content.Content
     where TDto : class
 {
+    // TODO add INotificationService
     public virtual bool IsFinished { get; set; }
     public virtual async Task ImportNextAsync(CancellationToken cancellationToken)
     {
@@ -24,6 +26,7 @@ public abstract class TypedContentImporter<TContent, TDto> : ITypedContentImport
     public abstract void Reset();
     public abstract string Name { get; }
 
+    protected abstract ILogger Logger { get; }
     protected abstract IEnumerable<TContent> CurrentContent { get; set; }
     protected abstract IEnumerable<TDto> CurrentDtos { get; set; }
 

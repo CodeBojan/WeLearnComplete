@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Importers.Services.File;
 
-public class LocalFilePersistenceService : IFilePersistenceService
+public interface IFileSystemPersistenceService
 {
+    Task<string> DownloadFileAsync(Stream stream, string key, CancellationToken cancellationToken);
 }

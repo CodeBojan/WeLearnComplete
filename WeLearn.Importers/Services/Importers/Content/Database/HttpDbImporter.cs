@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Persistence;
 using WeLearn.Data.Models.Content;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace WeLearn.Importers.Services.Importers.Content.Database;
 
@@ -18,16 +20,40 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
 
     protected override async Task SaveCurrentContentAsync(CancellationToken cancellationToken)
     {
-        if (IsFinished)
-            return;
-
         var dbSet = DbContext.Set<TContent>();
         if (!(CurrentContent?.Any() ?? false))
             return;
 
-        // TODO check if each entry of current content exists
-        dbSet.AddRange(CurrentContent);
+        foreach (var content in CurrentContent)
+        {
+            var externalId = content.ExternalId;
+            var externalSystemId = content.ExternalSystemId;
+            var existingContent = await dbSet.FirstOrDefaultAsync(e =>
+            e.ExternalId == externalId
+            && e.ExternalSystemId == externalSystemId, cancellationToken);
 
-        await DbContext.SaveChangesAsync();
+            if (existingContent is null)
+            {
+                dbSet.Add(content);
+                Logger.LogInformation("Added Content {@ContentId} with ExternalId {@ExternalId}", content.Id, content.ExternalId);
+            }
+            else
+            {
+                existingContent.Update(content);
+                Logger.LogInformation("Updating Content {@ContentId} with ExternalId {@ExternalId}", content.Id, content.ExternalId);
+            }
+        }
+
+        if (DbContext.ChangeTracker.HasChanges())
+        {
+            Logger.LogInformation("Saving changes to database");
+            await DbContext.SaveChangesAsync();
+        }
+        else
+            Logger.LogInformation("No changes to save");
+
+        // clear after saving
+        CurrentContent = new List<TContent>();
+        CurrentDtos = new List<TDto>();
     }
 }

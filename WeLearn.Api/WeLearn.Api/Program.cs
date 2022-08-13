@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WeLearn.Api.Data.Seeding;
 using WeLearn.Api.Extensions;
 using WeLearn.Data.Extensions;
 using WeLearn.Data.Persistence;
@@ -19,6 +20,8 @@ var app = builder.Build();
 
 Configure(app);
 
+SeedData.EnsureSeedData(app);
+
 app.Run();
 
 static void ConfigureServices(WebApplicationBuilder builder)
@@ -37,9 +40,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
         logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.None;
     });
 
-    services.AddWeLearnDbContext(configuration.GetConnectionString("DefaultConnection"));
-
-    services.AddWeLearnImporterServices(configuration);
+    services.AddApiServices(configuration);
 }
 
 static void Configure(WebApplication app)
