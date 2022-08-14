@@ -5,10 +5,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using WeLearn.Importers.Services.File;
 
-namespace WeLearn.Importers.Services.File;
+namespace WeLearn.Data.Persistence.File.FileSystem;
 
-public class FileSystemPersistenceService : IFileSystemPersistenceService
+public class FileSystemPersistenceService : IFilePersistenceService
 {
     private readonly FileSystemPersistenceServiceSettings _settings;
 

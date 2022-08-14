@@ -2,7 +2,7 @@
 
 public interface IContentImporter
 {
-    // TODO add IsEnabled
+    // TODO use IsEnabled
     public string Name { get; }
     bool IsFinished { get; }
     Task ImportNextAsync(CancellationToken cancellationToken);

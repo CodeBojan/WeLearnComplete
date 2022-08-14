@@ -1,4 +1,4 @@
-﻿namespace WeLearn.Importers.Services.File;
+﻿namespace WeLearn.Data.Persistence.File.FileSystem;
 
 public class FileSystemPersistenceServiceSettings
 {

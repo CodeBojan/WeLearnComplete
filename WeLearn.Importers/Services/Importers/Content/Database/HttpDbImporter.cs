@@ -7,6 +7,7 @@ using WeLearn.Data.Persistence;
 using WeLearn.Data.Models.Content;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using WeLearn.Importers.Services.File;
 
 namespace WeLearn.Importers.Services.Importers.Content.Database;
 
@@ -16,6 +17,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
 {
     protected HttpClient HttpClient { get; set; }
     protected ApplicationDbContext DbContext { get; set; }
+    protected abstract IFilePersistenceService FilePersistence { get; }
 
     protected override async Task SaveCurrentContentAsync(CancellationToken cancellationToken)
     {

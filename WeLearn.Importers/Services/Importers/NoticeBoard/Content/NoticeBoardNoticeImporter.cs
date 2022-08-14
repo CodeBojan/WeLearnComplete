@@ -31,7 +31,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
     private readonly IStringMatcherService _stringMatcher;
     private readonly ICourseTitleCleanerService _titleCleaner;
     private readonly IOptionsMonitor<NoticeBoardNoticeImporterSettings> _settingsMonitor;
-    private readonly IFileSystemPersistenceService _filePersistenceService;
+    private readonly IFilePersistenceService _filePersistenceService;
     private readonly ILogger _logger;
 
     public NoticeBoardNoticeImporter(
@@ -41,7 +41,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         ILogger<NoticeBoardNoticeImporter> logger,
         IStringMatcherService stringMatcher,
         ICourseTitleCleanerService courseTitleCleanerService,
-        IFileSystemPersistenceService filePersistenceService)
+        IFilePersistenceService filePersistenceService)
     {
         _settings = settingsMonitor.CurrentValue;
         DbContext = dbContext;
@@ -69,6 +69,8 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
     protected override IEnumerable<GetNoticeBoardNoticeDto> CurrentDtos { get => currentDtos; set => currentDtos = value.ToList(); }
 
     protected override ILogger Logger => _logger;
+
+    protected override IFilePersistenceService FilePersistence => _filePersistenceService;
 
     public override void Reset()
     {
@@ -179,7 +181,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 try
                 {
                     using var webStream = await HttpClient.GetStreamAsync(attachmentDownloadUrl, cancellationToken);
-                    downloadedAttachmentUri = await _filePersistenceService.DownloadFileAsync(webStream, persistenceKey, cancellationToken);
+                    downloadedAttachmentUri = await PersistFileAsync(webStream, cancellationToken);
                     (hash, hashAlgo) = await _filePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
                 }
                 catch (HttpRequestException ex)
@@ -200,6 +202,12 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         _logger.LogInformation("Mapped DTOs {@DtoIds}", currentDtos.Select(d => d.Id));
 
         return notices;
+    }
+
+    private async Task<string> PersistFileAsync(Stream webStream, CancellationToken cancellationToken)
+    {
+        var downloadedAttachmentUri = await _filePersistenceService.DownloadFileAsync(webStream, persistenceKey, cancellationToken);
+        return downloadedAttachmentUri;
     }
 
     private async Task<ExternalSystem> InitializeExternalSystemAsync(CancellationToken cancellationToken)

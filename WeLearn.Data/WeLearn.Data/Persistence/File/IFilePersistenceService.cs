@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Importers.Services.File;
 
-public interface IFileSystemPersistenceService
+public interface IFilePersistenceService
 {
     Task<string> DownloadFileAsync(Stream stream, string key, CancellationToken cancellationToken);
     Task<(string, string)> GetFileHashAsync(string uri, CancellationToken cancellationToken);
