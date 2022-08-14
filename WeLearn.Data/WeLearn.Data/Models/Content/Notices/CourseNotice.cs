@@ -18,6 +18,7 @@ public class CourseNotice : Notice
         Guid? courseId,
         Guid? creatorId,
         Guid? externalSystemId,
+        DateTime? externalCreatedDate,
         DateTime? relevantUntil) : base(
             externalId,
             externalUrl,
@@ -29,6 +30,7 @@ public class CourseNotice : Notice
             ContentType.NoticeCourse.Value(),
             creatorId,
             externalSystemId,
+            externalCreatedDate,
             relevantUntil)
     {
     }
@@ -37,7 +39,7 @@ public class CourseNotice : Notice
     {
         if (content is not CourseNotice courseNotice)
             throw new ArgumentException($"{nameof(content)} is not a {nameof(CourseNotice)}");
-        
+
         base.Update(content);
     }
 }

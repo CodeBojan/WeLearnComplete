@@ -20,6 +20,7 @@ public class DocumentContainer : Content
         string type,
         Guid? creatorId,
         Guid? externalSystemId,
+        DateTime? externalCreatedDate,
         int documentCount = 0) : base(
             externalId,
             externalUrl,
@@ -30,7 +31,8 @@ public class DocumentContainer : Content
             courseId,
             type,
             creatorId,
-            externalSystemId)
+            externalSystemId,
+            externalCreatedDate)
     {
         DocumentCount = 0;
     }

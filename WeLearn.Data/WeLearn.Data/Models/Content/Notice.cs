@@ -19,6 +19,7 @@ public class Notice : DocumentContainer
         string type,
         Guid? creatorId,
         Guid? externalSystemId,
+        DateTime? externalCreatedDate,
         DateTime? relevantUntil) : base(
             externalId,
             externalUrl,
@@ -29,7 +30,8 @@ public class Notice : DocumentContainer
             courseId,
             type,
             creatorId,
-            externalSystemId)
+            externalSystemId,
+            externalCreatedDate)
     {
         Id = Guid.NewGuid();
         RelevantUntil = relevantUntil;

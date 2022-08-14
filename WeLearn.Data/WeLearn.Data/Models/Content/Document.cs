@@ -18,6 +18,7 @@ public class Document : Content
         Guid? courseId,
         Guid? creatorId,
         Guid? externalSystemId,
+        DateTime? externalCreatedDate,
         string fileName,
         string uri,
         long? size,
@@ -34,7 +35,8 @@ public class Document : Content
             courseId,
             ContentType.Document.Value(),
             creatorId,
-            externalSystemId)
+            externalSystemId,
+            externalCreatedDate)
     {
         FileName = fileName;
         Uri = uri;

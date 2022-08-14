@@ -155,17 +155,17 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             var title = dto.Title;
             var cleanedTitle = _titleCleaner.Cleanup(title);
 
-            var (percentage, courseName, courseId) = GetHighestMatchPercentage(title, courseNameIdDict);
+            var (percentage, courseName, courseId) = GetHighestMatchPercentage(cleanedTitle, courseNameIdDict);
 
             Notice notice;
             bool isCourseNotice = percentage >= _settings.MinTitleMatchPercentage;
             if (isCourseNotice)
             {
-                notice = new CourseNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.ExpiryDate.ToUniversalTime());
+                notice = new CourseNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime());
             }
             else
             {
-                notice = new StudyYearNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
+                notice = new StudyYearNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
             }
 
             foreach (var attachment in dto.Attachments)
@@ -191,7 +191,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 if (!isCourseNotice)
                     courseId = null;
 
-                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
+                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
                 notice.TryAddDocument(document);
             }
             notices.Add(notice);
@@ -201,8 +201,6 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
         return notices;
     }
-
-
 
     private async Task<ExternalSystem> InitializeExternalSystemAsync(CancellationToken cancellationToken)
     {
@@ -229,18 +227,27 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         return dict;
     }
 
-    private static (double, string, Guid?) GetHighestMatchPercentage(string title, Dictionary<string, Guid> courseNameIdDict)
+    private (double?, string?, Guid?) GetHighestMatchPercentage(string noticeTitle, Dictionary<string, Guid> courseNameIdDict)
     {
         // TODO cache comparison results in dict
+        (double? maxPercentage, string? maxPercentageCourseName, Guid? maxPercentageCourseId) = (null, null, null);
         foreach (var nameIdPair in courseNameIdDict)
         {
+            var courseName = nameIdPair.Key;
+            var courseId = nameIdPair.Value;
 
+            // TODO cache cleanup result
+            var cleanedCourseName = _titleCleaner.Cleanup(courseName);
+            var percentage = _stringMatcher.GetMatchPercentage(noticeTitle, cleanedCourseName);
+            if (percentage > (maxPercentage ?? 0))
+            {
+                maxPercentage = percentage;
+                maxPercentageCourseName = courseName;
+                maxPercentageCourseId = courseId;
+            }
         }
 
-        //courseNameIdDict.Select()
-        //var percentage = _stringMatcher.GetMatchPercentage(title, );
-
-        return (0, null, Guid.Empty);
+        return (maxPercentage, maxPercentageCourseName, maxPercentageCourseId);
     }
 
     private async Task<Dictionary<string, Guid>> InitializeCourseNamesDictAsync(CancellationToken cancellationToken)

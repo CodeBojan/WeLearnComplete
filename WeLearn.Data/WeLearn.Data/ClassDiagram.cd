@@ -3,12 +3,12 @@
   <Class Name="WeLearn.Data.Models.Content.Content">
     <Position X="13" Y="4.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAQEAAAgAAAAgEACgIABAAAAAAAABAIAEQAAgAAAoAA=</HashCode>
+      <HashCode>AAQEAAAgAAAAgEACgIABAAAAAAAABAIAESAAgAAAoAA=</HashCode>
       <FileName>Models\Content\Content.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.CourseMaterial">
-    <Position X="17.5" Y="12.75" Width="1.5" />
+    <Position X="17.5" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Content\CourseMaterial.cs</FileName>
@@ -108,49 +108,49 @@
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Document">
-    <Position X="19.75" Y="9.75" Width="4.25" />
+    <Position X="19.75" Y="10" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIAgAAAAAAAEAAAAAAAAAgACAECAABACAA=</HashCode>
       <FileName>Models\Content\Document.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Notice">
-    <Position X="8" Y="12.75" Width="2" />
+    <Position X="8" Y="13" Width="2" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Models\Content\Notice.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Post">
-    <Position X="13" Y="12.75" Width="1.5" />
+    <Position X="13" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Content\Post.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.StudyMaterial">
-    <Position X="15.25" Y="12.75" Width="1.5" />
+    <Position X="15.25" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Content\StudyMaterial.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Notices.CourseNotice">
-    <Position X="5.75" Y="15.25" Width="1.5" />
+    <Position X="5.75" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Content\Notices\CourseNotice.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Notices.GeneralNotice">
-    <Position X="10.75" Y="15.25" Width="1.5" />
+    <Position X="10.75" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Content\Notices\GeneralNotice.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Notices.StudyYearNotice">
-    <Position X="8" Y="15.25" Width="2" />
+    <Position X="8" Y="15.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAQAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Content\Notices\StudyYearNotice.cs</FileName>
@@ -199,9 +199,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.DocumentContainer">
-    <Position X="11" Y="9.75" Width="2.75" />
+    <Position X="11" Y="10" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAgAAABAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAABAAAAAAACAAAAgAAAAAA=</HashCode>
       <FileName>Models\Content\DocumentContainer.cs</FileName>
     </TypeIdentifier>
   </Class>

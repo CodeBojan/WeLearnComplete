@@ -18,7 +18,8 @@ public class CourseMaterial : DocumentContainer
         Guid? courseId,
         string type,
         Guid? creatorId,
-        Guid? externalSystemId) : base(
+        Guid? externalSystemId,
+        DateTime? externalCreatedDate) : base(
             externalId,
             externalUrl,
             body,
@@ -28,7 +29,8 @@ public class CourseMaterial : DocumentContainer
             courseId,
             type,
             creatorId,
-            externalSystemId)
+            externalSystemId,
+            externalCreatedDate)
     {
     }
 }

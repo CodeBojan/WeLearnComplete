@@ -40,7 +40,14 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
             else
             {
                 Logger.LogInformation("Updating Content {@ContentId} with ExternalId {@ExternalId}", content.Id, content.ExternalId);
-                existingContent.Update(content);
+                try
+                {
+                    existingContent.Update(content);
+                }
+                catch (ArgumentException ex)
+                {
+                    Logger.LogError(ex, "Updating Content {@ContentId} with ExternalId {@ExternalId} failed", content.Id, content.ExternalId);
+                }
             }
         }
 

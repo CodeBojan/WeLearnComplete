@@ -19,7 +19,8 @@ public class Content : BaseEntity
         Guid? courseId,
         string type,
         Guid? creatorId,
-        Guid? externalSystemId)
+        Guid? externalSystemId,
+        DateTime? externalCreatedDate)
     {
         ExternalId = externalId;
         ExternalUrl = externalUrl;
@@ -31,6 +32,7 @@ public class Content : BaseEntity
         Type = type;
         CreatorId = creatorId;
         ExternalSystemId = externalSystemId;
+        ExternalCreatedDate = externalCreatedDate;
     }
 
     public long? ExternalId { get; set; }
@@ -43,6 +45,7 @@ public class Content : BaseEntity
     public string Type { get; set; }
     public Guid? CreatorId { get; set; }
     public Guid? ExternalSystemId { get; set; }
+    public DateTime? ExternalCreatedDate { get; set; }
 
     public virtual Account? Creator { get; set; }
     public virtual Course? Course { get; set; }

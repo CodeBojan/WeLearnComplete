@@ -19,6 +19,7 @@ public class GeneralNotice : Notice
         string type,
         Guid? creatorId,
         Guid? externalSystemId,
+        DateTime? externalCreatedDate,
         DateTime? relevantUntil) : base(
             externalId,
             externalUrl,
@@ -30,6 +31,7 @@ public class GeneralNotice : Notice
             type,
             creatorId,
             externalSystemId,
+            externalCreatedDate,
             relevantUntil)
     {
     }
@@ -38,7 +40,7 @@ public class GeneralNotice : Notice
     {
         if (content is not GeneralNotice notice)
             throw new ArgumentException($"{nameof(content)} is not a {nameof(GeneralNotice)}");
-        
+
         base.Update(content);
     }
 }

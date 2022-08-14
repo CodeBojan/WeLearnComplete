@@ -18,6 +18,7 @@ public class StudyYearNotice : Notice
         bool isImported,
         Guid? creatorId,
         Guid? externalSystemId,
+        DateTime? externalCreatedDate,
         DateTime? relevantUntil,
         Guid studyYearId) : base(
             externalId,
@@ -30,6 +31,7 @@ public class StudyYearNotice : Notice
             ContentType.NoticeStudyYear.Value(),
             creatorId,
             externalSystemId,
+            externalCreatedDate,
             relevantUntil)
     {
         StudyYearId = studyYearId;

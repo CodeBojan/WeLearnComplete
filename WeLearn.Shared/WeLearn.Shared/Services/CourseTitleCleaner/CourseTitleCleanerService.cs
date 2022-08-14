@@ -18,7 +18,7 @@ public class CourseTitleCleanerService : ICourseTitleCleanerService
     public CourseTitleCleanerService(IOptionsMonitor<CourseTitleCleanerServiceSettings> settingsMonitor)
     {
         _settingsMonitor = settingsMonitor;
-        settings = _settingsMonitor.CurrentValue;
+        InitializeSettings();
     }
 
     public string Cleanup(string input)
@@ -43,6 +43,22 @@ public class CourseTitleCleanerService : ICourseTitleCleanerService
 
     private string ApplyRegex(string input)
     {
+        InitializeSettings();
+
+        string result = input;
+
+        foreach (var regexPair in regexReplaceDict)
+        {
+            var regex = regexPair.Key;
+            var replaceWith = regexPair.Value;
+            result = regex.Replace(result, replaceWith);
+        }
+
+        return result;
+    }
+
+    private void InitializeSettings()
+    {
         var currentSettings = _settingsMonitor.CurrentValue;
         if (currentSettings != settings)
         {
@@ -55,16 +71,5 @@ public class CourseTitleCleanerService : ICourseTitleCleanerService
                         new Regex(p.Key), p.Value)));
             }
         }
-
-        string result = input;
-
-        foreach (var regexPair in regexReplaceDict)
-        {
-            var regex = regexPair.Key;
-            var replaceWith = regexPair.Value;
-            result = regex.Replace(result, replaceWith);
-        }
-
-        return result;
     }
 }

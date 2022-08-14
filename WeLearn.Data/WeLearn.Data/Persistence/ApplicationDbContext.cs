@@ -192,6 +192,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             c.HasKey(c => c.Id);
 
+            c.HasIndex(c => c.Code)
+            .IsUnique();
+
             c.Ignore(c => c.Notices)
             .Ignore(c => c.Posts)
             .Ignore(c => c.Documents)
