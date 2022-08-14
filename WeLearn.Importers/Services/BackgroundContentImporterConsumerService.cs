@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,19 @@ namespace WeLearn.Importers.Services;
 
 public class BackgroundContentImporterConsumerService : BackgroundService, IBackgroundContentImporterConsumerService
 {
+    // TODO add settings for sleeping timeout
+    private BackgroundContentImporterConsumerServiceSettings settings;
     private readonly ILogger _logger;
     private readonly IServiceProvider _serviceProvider;
     private IEnumerable<ISystemImporter> systemImporters = new List<ISystemImporter>();
 
     public BackgroundContentImporterConsumerService(ILogger<BackgroundContentImporterConsumerService> logger,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+       IOptionsMonitor<BackgroundContentImporterConsumerServiceSettings> settings)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
+        this.settings = settings.CurrentValue;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,9 +33,8 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
         _logger.LogInformation("{@ServiceName} is starting", nameof(BackgroundContentImporterConsumerService));
         while (!stoppingToken.IsCancellationRequested)
         {
-            TimeSpan timeoutTimeSpan = TimeSpan.FromSeconds(20);
-            _logger.LogInformation("{@ServiceName} is sleeping for {@Timeout}", nameof(BackgroundContentImporterConsumerService), timeoutTimeSpan);
-            await Task.Delay(timeoutTimeSpan);
+            _logger.LogInformation("{@ServiceName} is sleeping for {@Timeout}", nameof(BackgroundContentImporterConsumerService), settings.PreImportTimeout);
+            await Task.Delay(settings.PreImportTimeout, stoppingToken);
 
 
             _logger.LogInformation("{@ServiceName} is consuming", nameof

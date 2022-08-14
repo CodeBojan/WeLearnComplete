@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,5 +29,18 @@ public class FileSystemPersistenceService : IFileSystemPersistenceService
         await stream.CopyToAsync(fs, cancellationToken);
 
         return filePath;
+    }
+
+    public async Task<(string, string)> GetFileHashAsync(string uri, CancellationToken cancellationToken)
+    {
+        if (!System.IO.File.Exists(uri))
+            throw new FileNotFoundException(uri);
+
+        using var algo = SHA256.Create();
+        using var fs = new FileStream(uri, FileMode.Open);
+        var hashBytes = await algo.ComputeHashAsync(fs, cancellationToken);
+
+        var hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToUpper();
+        return (hash, nameof(SHA256));
     }
 }

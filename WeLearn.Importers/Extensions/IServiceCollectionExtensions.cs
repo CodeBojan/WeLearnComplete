@@ -16,9 +16,11 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddWeLearnImporterServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<BackgroundContentImporterConsumerServiceSettings>(
+             configuration.GetSection(
+                 nameof(BackgroundContentImporterConsumerServiceSettings)));
         services.AddHostedService<BackgroundContentImporterConsumerService>();
 
-        // TODO move to API extension
         services.AddNoticeBoardServices(configuration);
 
         return services;

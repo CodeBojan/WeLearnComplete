@@ -173,19 +173,20 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 var attachmentDownloadUrl = GetAttachmentDownloadRoute(attachmentId.ToString());
 
                 string downloadedAttachmentUri;
+                string hash;
+                string hashAlgo;
                 try
                 {
-                    // TODO mock test download api
                     using var webStream = await HttpClient.GetStreamAsync(attachmentDownloadUrl, cancellationToken);
                     downloadedAttachmentUri = await _filePersistenceService.DownloadFileAsync(webStream, persistenceKey, cancellationToken);
+                    (hash, hashAlgo) = await _filePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
                 }
                 catch (HttpRequestException ex)
                 {
                     _logger.LogError(ex, "Error downloading attachment {@AttachmentId}", attachmentId);
                     continue;
                 }
-                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), string.Empty, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, null, null, null, null);
-                // TODO calculate hash
+                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), string.Empty, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
                 // TODO create relation between document and notice and post
             }
             notices.Add(notice);
@@ -205,7 +206,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
     private async Task<StudyYear?> GetStudyYearByShortNameAsync(string studyYearName, CancellationToken cancellationToken)
     {
         var studyYear = await DbContext.StudyYears.FirstOrDefaultAsync(sy => sy.ShortName == studyYearName, cancellationToken);
-        
+
         return studyYear;
     }
 
