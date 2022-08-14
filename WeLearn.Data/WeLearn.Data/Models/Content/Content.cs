@@ -12,8 +12,8 @@ public class Content : BaseEntity
     public Content(
         long? externalId,
         string? externalUrl,
-        string body,
-        string title,
+        string? body,
+        string? title,
         string? author,
         bool isImported,
         Guid? courseId,
@@ -35,8 +35,8 @@ public class Content : BaseEntity
 
     public long? ExternalId { get; set; }
     public string? ExternalUrl { get; set; }
-    public string Body { get; set; }
-    public string Title { get; set; }
+    public string? Body { get; set; }
+    public string? Title { get; set; }
     public string? Author { get; set; }
     public bool IsImported { get; set; }
     public Guid? CourseId { get; set; }

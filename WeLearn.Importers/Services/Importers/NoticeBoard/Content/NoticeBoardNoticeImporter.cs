@@ -158,7 +158,8 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             var (percentage, courseName, courseId) = GetHighestMatchPercentage(title, courseNameIdDict);
 
             Notice notice;
-            if (percentage >= _settings.MinTitleMatchPercentage)
+            bool isCourseNotice = percentage >= _settings.MinTitleMatchPercentage;
+            if (isCourseNotice)
             {
                 notice = new CourseNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.ExpiryDate.ToUniversalTime());
             }
@@ -186,8 +187,12 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                     _logger.LogError(ex, "Error downloading attachment {@AttachmentId}", attachmentId);
                     continue;
                 }
-                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), string.Empty, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
-                // TODO create relation between document and notice and post
+
+                if (!isCourseNotice)
+                    courseId = null;
+
+                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
+                notice.TryAddDocument(document);
             }
             notices.Add(notice);
         }
@@ -196,6 +201,8 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
         return notices;
     }
+
+
 
     private async Task<ExternalSystem> InitializeExternalSystemAsync(CancellationToken cancellationToken)
     {
@@ -222,7 +229,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         return dict;
     }
 
-    private static (double, string, Guid) GetHighestMatchPercentage(string title, Dictionary<string, Guid> courseNameIdDict)
+    private static (double, string, Guid?) GetHighestMatchPercentage(string title, Dictionary<string, Guid> courseNameIdDict)
     {
         // TODO cache comparison results in dict
         foreach (var nameIdPair in courseNameIdDict)

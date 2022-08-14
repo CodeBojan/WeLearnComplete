@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WeLearn.Data.Models.Content.Content">
+    <Position X="13" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAgAAAAgEACgIABAAAAAAAABAIAEQAAgAAAoAA=</HashCode>
+      <FileName>Models\Content\Content.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.CourseMaterial">
+    <Position X="17.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\CourseMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Account">
+    <Position X="28.5" Y="4.5" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAAIAAgAAAAAQAAAAAAAgAEAAAAAAAAAAgCIIg=</HashCode>
+      <FileName>Models\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.ApplicationUser" Collapsed="true">
+    <Position X="70.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAEA=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.BaseEntity">
+    <Position X="31.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Comment">
+    <Position X="55.5" Y="4.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAgAABAAAAAAAAAAgAEBAAAAAAAAA=</HashCode>
+      <FileName>Models\Comment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Course">
+    <Position X="34.25" Y="4.5" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AgAAgAAAIAAgAIAAFAAgQAAAACAFAIADAAAAAABAAAA=</HashCode>
+      <FileName>Models\Course.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.CourseMaterialUploadRequest">
+    <Position X="48.25" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAACAIABAAAAAAAAAAACEQAAAAAAAQA=</HashCode>
+      <FileName>Models\CourseMaterialUploadRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Credentials">
+    <Position X="51.75" Y="4.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAgAAAAAAECAYAAAAAAAAAAAAAAEAAAIAAAgAA=</HashCode>
+      <FileName>Models\Credentials.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Data.Models.DatedEntity">
+    <Position X="34.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Models\DatedEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.ExternalSystem">
+    <Position X="40" Y="4.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAEAAAAAAAQAAAAEAAAACAAAAABAAAA=</HashCode>
+      <FileName>Models\ExternalSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Data.Models.FollowedCourse">
+    <Position X="65.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Models\FollowedCourse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.FollowedStudyYear">
+    <Position X="67.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Models\FollowedStudyYear.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Notification">
+    <Position X="61.5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAEAAAIABEAAAAAAEAAAACQAABAAAAAA=</HashCode>
+      <FileName>Models\Notification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.StudyYear">
+    <Position X="43.75" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAIAQAAAAAAAAAAABAIAAAAAAABAAAIA=</HashCode>
+      <FileName>Models\StudyYear.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Document">
+    <Position X="19.75" Y="9.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAgAAAAAAAEAAAAAAAAAgACAECAABACAA=</HashCode>
+      <FileName>Models\Content\Document.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notice">
+    <Position X="8" Y="12.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Post">
+    <Position X="13" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Post.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.StudyMaterial">
+    <Position X="15.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\StudyMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notices.CourseNotice">
+    <Position X="5.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notices\CourseNotice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notices.GeneralNotice">
+    <Position X="10.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notices\GeneralNotice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notices.StudyYearNotice">
+    <Position X="8" Y="15.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notices\StudyYearNotice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Notifications.CommentNotification">
+    <Position X="60.25" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Notifications\CommentNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Notifications.ContentNotification">
+    <Position X="62.75" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\Notifications\ContentNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.AccountRole">
+    <Position X="2" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAEgAAAAAAAAAAAAAAAQAAAAAAAEA=</HashCode>
+      <FileName>Models\Roles\AccountRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.CourseAdminRole">
+    <Position X="0.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Roles\CourseAdminRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.Role">
+    <Position X="24.75" Y="4.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>Models\Roles\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.StudyYearAdminRole">
+    <Position X="3" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Roles\YearAdminRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.DocumentContainer">
+    <Position X="11" Y="9.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAgAAABAA=</HashCode>
+      <FileName>Models\Content\DocumentContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="WeLearn.Data.Models.IExternalSystem" Collapsed="true">
+    <Position X="70.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IExternalSystem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="WeLearn.Data.Models.Content.ContentType" Collapsed="true">
+    <Position X="70.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAABAAAAAAAAAAAACACAAEAgACAAACAAAAABA=</HashCode>
+      <FileName>Models\Content\ContentType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WeLearn.Data.Models.Notifications.NotificationType" Collapsed="true">
+    <Position X="72.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Notifications\NotificationType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WeLearn.Data.Models.Roles.RoleType" Collapsed="true">
+    <Position X="70.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Roles\RoleType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

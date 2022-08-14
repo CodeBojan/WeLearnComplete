@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models.Content;
 
-public class Post : Content
+public class Post : DocumentContainer
 {
     public Post(
         long? externalId,

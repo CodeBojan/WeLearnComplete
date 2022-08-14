@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace WeLearn.Importers.Services.Importers.Content.Database;
 
-// TODO remove setters from interfaces
 public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TContent, TDto>
     where TContent : Data.Models.Content.Content
     where TDto : class
@@ -28,7 +27,8 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
         {
             var externalId = content.ExternalId;
             var externalSystemId = content.ExternalSystemId;
-            var existingContent = await dbSet.FirstOrDefaultAsync(e =>
+            var existingContent = await IncludeEntitiesBeforeUpdate(dbSet)
+                .FirstOrDefaultAsync(e =>
             e.ExternalId == externalId
             && e.ExternalSystemId == externalSystemId, cancellationToken);
 
@@ -39,8 +39,8 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
             }
             else
             {
-                existingContent.Update(content);
                 Logger.LogInformation("Updating Content {@ContentId} with ExternalId {@ExternalId}", content.Id, content.ExternalId);
+                existingContent.Update(content);
             }
         }
 
@@ -52,8 +52,12 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
         else
             Logger.LogInformation("No changes to save");
 
-        // clear after saving
         CurrentContent = new List<TContent>();
         CurrentDtos = new List<TDto>();
+    }
+
+    protected virtual IQueryable<TContent> IncludeEntitiesBeforeUpdate(DbSet<TContent> dbSet)
+    {
+        return dbSet;
     }
 }

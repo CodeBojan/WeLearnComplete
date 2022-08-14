@@ -19,7 +19,7 @@ public class Account : BaseEntity
 
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public string? FacultyId { get; set; }
+    public string? StudentId { get; set; }
 
     public virtual ApplicationUser User { get; set; }
     public virtual ICollection<AccountRole> Roles { get; set; }

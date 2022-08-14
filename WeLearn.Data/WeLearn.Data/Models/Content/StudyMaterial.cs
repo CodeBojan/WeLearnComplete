@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models.Content;
 
-public class StudyMaterial : Content
+public class StudyMaterial : DocumentContainer
 {
     public StudyMaterial(
         long? externalId,
@@ -31,7 +31,4 @@ public class StudyMaterial : Content
             externalSystemId)
     {
     }
-
-    public int DocumentCount { get; set; }
-    public ICollection<Document> Documents { get; set; }
 }

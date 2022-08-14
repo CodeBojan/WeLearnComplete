@@ -15,7 +15,9 @@ public enum ContentType
     StudyMaterial = 4,
     NoticeGeneral = 5,
     NoticeStudyYear = 6,
-    NoticeCourse = 7
+    NoticeCourse = 7,
+    DocumentContainer = 8,
+    
 }
 
 public static class ContentTypeExtensions
@@ -38,6 +40,8 @@ public static class ContentTypeExtensions
                 return "NoticeStudyYear";
             case ContentType.NoticeCourse:
                 return "NoticeCourse";
+            case ContentType.DocumentContainer:
+                return "DocumentContainer";
             default:
                 throw new NotImplementedException();
         }

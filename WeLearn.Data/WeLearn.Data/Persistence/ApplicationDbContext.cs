@@ -127,7 +127,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
             c.HasOne(c => c.Creator)
             .WithMany(a => a.Credentials)
-            .HasForeignKey(c => c.AccountId)
+            .HasForeignKey(c => c.CreatorId)
             .HasPrincipalKey(a => a.Id)
             .OnDelete(DeleteBehavior.Cascade);
         });
@@ -233,6 +233,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .OnDelete(DeleteBehavior.Cascade);
         });
 
+        builder.Entity<DocumentContainer>(dc =>
+        {
+            dc.HasMany(dc => dc.Documents)
+            .WithOne(d => d.DocumentContainer)
+            .HasForeignKey(dc => dc.DocumentContainerId)
+            .HasPrincipalKey(d => d.Id)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
         builder.Entity<StudyYearNotice>(syn =>
         {
             syn.HasOne(syn => syn.StudyYear)
@@ -244,12 +254,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         builder.Entity<StudyMaterial>(sm =>
         {
-            sm.HasMany(sm => sm.Documents)
-            .WithOne(d => d.StudyMaterial)
-            .HasForeignKey(d => d.StudyMaterialId)
-            .HasPrincipalKey(sm => sm.Id)
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.Cascade);
         });
 
         builder.Entity<Document>(d =>

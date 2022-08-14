@@ -13,7 +13,6 @@ namespace WeLearn.Importers.Services;
 
 public class BackgroundContentImporterConsumerService : BackgroundService, IBackgroundContentImporterConsumerService
 {
-    // TODO add settings for sleeping timeout
     private BackgroundContentImporterConsumerServiceSettings settings;
     private readonly ILogger _logger;
     private readonly IServiceProvider _serviceProvider;

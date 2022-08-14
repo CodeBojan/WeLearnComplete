@@ -11,8 +11,8 @@ public class Document : Content
     public Document(
         long? externalId,
         string? externalUrl,
-        string body,
-        string title,
+        string? body,
+        string? title,
         string? author,
         bool isImported,
         Guid? courseId,
@@ -23,7 +23,7 @@ public class Document : Content
         long? size,
         string? hash,
         string? hashAlgorithm,
-        Guid? studyMaterialId,
+        Guid? documentContainerId,
         Guid? courseMaterialUploadRequestId) : base(
             externalId,
             externalUrl,
@@ -41,7 +41,7 @@ public class Document : Content
         Size = size;
         Hash = hash;
         HashAlgorithm = hashAlgorithm;
-        StudyMaterialId = studyMaterialId;
+        DocumentContainerId = documentContainerId;
         CourseMaterialUploadRequestId = courseMaterialUploadRequestId;
     }
 
@@ -50,9 +50,9 @@ public class Document : Content
     public long? Size { get; set; }
     public string? Hash { get; set; }
     public string? HashAlgorithm { get; set; }
-    public Guid? StudyMaterialId { get; set; }
+    public Guid? DocumentContainerId { get; set; }
     public Guid? CourseMaterialUploadRequestId { get; set; }
 
-    public virtual StudyMaterial? StudyMaterial { get; set; }
+    public virtual DocumentContainer? DocumentContainer { get; set; }
     public virtual CourseMaterialUploadRequest? CourseMaterialUploadRequest { get; set; }
 }

@@ -12,7 +12,7 @@ public class Credentials : BaseEntity, IExternalSystem
     public string Secret { get; set; }
     public Guid ExternalSystemId { get; set; }
     public Guid? CourseId { get; set; }
-    public Guid AccountId { get; set; }
+    public Guid CreatorId { get; set; }
 
     public virtual ExternalSystem ExternalSystem { get; set; }
     public virtual Course? Course { get; set; }

@@ -13,7 +13,7 @@ public class SeedData
         {
             var serviceProvider = scope.ServiceProvider;
             var logger = serviceProvider.GetRequiredService<ILogger<SeedData>>();
-            var dbContext = serviceProvider.GetService<ApplicationDbContext>();
+            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
             logger.LogDebug("Migrating database");
             dbContext.Database.Migrate();

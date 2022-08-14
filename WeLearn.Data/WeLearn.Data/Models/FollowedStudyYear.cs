@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Data.Models;
 
-public class FollowedStudyYear
+public class FollowedStudyYear : DatedEntity
 {
     public Guid AccountId { get; set; }
     public Guid StudyYearId { get; set; }
