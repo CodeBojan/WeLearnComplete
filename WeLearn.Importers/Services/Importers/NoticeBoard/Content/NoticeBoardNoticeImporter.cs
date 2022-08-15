@@ -1,20 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Content;
 using WeLearn.Data.Models.Content.Notices;
 using WeLearn.Data.Persistence;
 using WeLearn.Importers.Services.File;
-using WeLearn.Importers.Services.Importers.Content;
-using WeLearn.Importers.Services.Importers.Content.Database;
 using WeLearn.Importers.Services.Importers.Content.Database.Notice;
 using WeLearn.Importers.Services.Importers.NoticeBoard.Dtos;
 using WeLearn.Shared.Services.CourseTitleCleaner;
@@ -197,7 +189,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 if (!isCourseNotice)
                     courseId = null;
 
-                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
+                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null, $".{attachment.FileExtension}");
                 notice.TryAddDocument(document);
             }
             notices.Add(notice);

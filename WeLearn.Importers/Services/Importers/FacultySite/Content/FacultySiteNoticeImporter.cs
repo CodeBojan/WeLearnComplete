@@ -20,6 +20,7 @@ using WeLearn.Importers.Services.Importers.Content;
 using WeLearn.Importers.Services.Importers.Content.Database;
 using WeLearn.Importers.Services.Importers.Content.Database.Notice;
 using WeLearn.Importers.Services.Importers.FacultySite.Dtos;
+using WeLearn.Importers.Util.Uri;
 
 namespace WeLearn.Importers.Services.Importers.FacultySite.Content;
 
@@ -30,7 +31,7 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
     private List<Notice> currentContent;
     private List<GetFacultySiteNoticeDto> currentDtos;
     private readonly CultureInfo cultureInfo = CultureInfo.GetCultureInfo("sr");
-    private readonly Regex externalIdRegex = new Regex("novosti\\/(\\d+)");
+    private readonly Regex externalIdRegex = new("novosti\\/(\\d+)");
 
     public FacultySiteNoticeImporter(
         IOptionsMonitor<FacultySiteNoticeImporterSettings> settingsMonitor,
@@ -80,7 +81,7 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
             var homeHtmlDocument = new HtmlDocument();
             homeHtmlDocument.LoadHtml(homeHtml);
 
-            var aNodes = homeHtmlDocument.DocumentNode.QuerySelectorAll(".mod-articles-category-title").Take(3); // TODO remove take - IMPORTANT
+            var aNodes = homeHtmlDocument.DocumentNode.QuerySelectorAll(".mod-articles-category-title");
             if (!aNodes.Any())
             {
                 Logger.LogWarning("No notice links found");
@@ -195,14 +196,27 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
 
             foreach (var attachment in dto.Attachments)
             {
+                string attachmentExternalId = $"{dto.Id}:{attachment.PreviewName}";
+
                 string downloadedAttachmentUri;
                 string hash;
                 string hashAlgo;
 
-                using var webStream = await HttpClient.GetStreamAsync(attachment.Url);
-                downloadedAttachmentUri = await FilePersistenceService.DownloadFileAsync(webStream, "attachment", cancellationToken);
-                (hash, hashAlgo) = await FilePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
-                var document = new Document($"{dto.Id}:{attachment.PreviewName}", attachment.Url, null, null, null, true, null, null, externalSystem.Id, attachment.CreatedDate.ToUniversalTime(), attachment.PreviewName, downloadedAttachmentUri, attachment.FileSize, hash, hashAlgo, generalNotice.Id, null);
+                string fileExtension = UriUtil.ExtractFileExtensions(attachment.Url);
+
+                try
+                {
+                    using var webStream = await HttpClient.GetStreamAsync(attachment.Url);
+                    downloadedAttachmentUri = await FilePersistenceService.DownloadFileAsync(webStream, "attachment", cancellationToken);
+                    (hash, hashAlgo) = await FilePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
+                }
+                catch (HttpRequestException ex)
+                {
+                    Logger.LogError(ex, "Error downloading attachment {@AttachmentId}", attachmentExternalId);
+                    continue;
+                }
+
+                var document = new Document(attachmentExternalId, attachment.Url, null, null, null, true, null, null, externalSystem.Id, attachment.CreatedDate.ToUniversalTime(), attachment.PreviewName, downloadedAttachmentUri, attachment.FileSize, hash, hashAlgo, generalNotice.Id, null, fileExtension);
 
                 generalNotice.TryAddDocument(document);
             }

@@ -25,7 +25,8 @@ public class Document : Content
         string? hash,
         string? hashAlgorithm,
         Guid? documentContainerId,
-        Guid? courseMaterialUploadRequestId) : base(
+        Guid? courseMaterialUploadRequestId,
+        string fileExtension) : base(
             externalId,
             externalUrl,
             body,
@@ -45,6 +46,7 @@ public class Document : Content
         HashAlgorithm = hashAlgorithm;
         DocumentContainerId = documentContainerId;
         CourseMaterialUploadRequestId = courseMaterialUploadRequestId;
+        FileExtension = fileExtension;
     }
 
     public string FileName { get; set; }
@@ -54,7 +56,8 @@ public class Document : Content
     public string? HashAlgorithm { get; set; }
     public Guid? DocumentContainerId { get; set; }
     public Guid? CourseMaterialUploadRequestId { get; set; }
-
+    public string FileExtension { get; private set; }
+    
     public virtual DocumentContainer? DocumentContainer { get; set; }
     public virtual CourseMaterialUploadRequest? CourseMaterialUploadRequest { get; set; }
 }
