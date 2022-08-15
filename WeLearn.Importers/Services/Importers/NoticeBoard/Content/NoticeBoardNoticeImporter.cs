@@ -26,7 +26,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 {
     // TODO extract
     private const string persistenceKey = "attachment";
-    private NoticeBoardNoticeImporterSettings _settings;
+    private NoticeBoardNoticeImporterSettings settings;
     private List<Notice> currentContent;
     private List<GetNoticeBoardNoticeDto> currentDtos;
     private readonly IStringMatcherService _stringMatcher;
@@ -46,7 +46,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             filePersistenceService,
             logger)
     {
-        _settings = settingsMonitor.CurrentValue;
+        settings = settingsMonitor.CurrentValue;
         _settingsMonitor = settingsMonitor;
         _stringMatcher = stringMatcher;
         _titleCleaner = courseTitleCleanerService;
@@ -59,7 +59,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
     private void ConfigureHttpClient()
     {
-        HttpClient.BaseAddress = new Uri(_settings.BaseUrl);
+        HttpClient.BaseAddress = new Uri(settings.BaseUrl);
     }
 
     public override string Name => nameof(NoticeBoardNoticeImporter);
@@ -69,7 +69,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
     public override void Reset()
     {
-        _settings = _settingsMonitor.CurrentValue;
+        settings = _settingsMonitor.CurrentValue;
         Logger.LogWarning("Resetting");
         // TODO reset
     }
@@ -78,23 +78,32 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
     {
         var resultDtos = new List<GetNoticeBoardNoticeDto>();
 
-        foreach (var boardId in _settings.BoardIds)
+        try
         {
-            Logger.LogInformation("Fetching Notice Board {@NoticeBoardId}", boardId);
-
-            var dtos = await HttpClient.GetFromJsonAsync<IEnumerable<GetNoticeBoardNoticeDto>>(GetBoardNoticesRoute(boardId), cancellationToken);
-
-            if (dtos is null)
+            foreach (var boardId in settings.BoardIds)
             {
-                Logger.LogWarning("No notices found for board {@NoticeBoardId}", boardId);
-                continue;
+                Logger.LogInformation("Fetching Notice Board {@NoticeBoardId}", boardId);
+
+                var dtos = await HttpClient.GetFromJsonAsync<IEnumerable<GetNoticeBoardNoticeDto>>(GetBoardNoticesRoute(boardId), cancellationToken);
+
+                if (dtos is null)
+                {
+                    Logger.LogWarning("No notices found for board {@NoticeBoardId}", boardId);
+                    continue;
+                }
+
+                Logger.LogInformation("Fetched NoticeBoard {@NoticeBoardId}", boardId);
+                resultDtos.AddRange(dtos);
             }
-
-            Logger.LogInformation("Fetched NoticeBoard {@NoticeBoardId}", boardId);
-            resultDtos.AddRange(dtos);
         }
-
-        IsFinished = true;
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            IsFinished = true;
+        }
 
         return resultDtos;
     }
@@ -111,7 +120,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
     private string GetAbsoluteUrl(string route)
     {
-        return $"{_settings.BaseUrl}{route}";
+        return $"{settings.BaseUrl}{route}";
     }
 
     protected override async Task<IEnumerable<Notice>> MapDtoAsync(CancellationToken cancellationToken)
@@ -135,7 +144,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         foreach (var dto in currentDtos)
         {
             var noticeBoardName = dto.NoticeBoard.BoardName;
-            var studyYearName = _settings.BoardNameToStudyYearMapping.GetValueOrDefault(noticeBoardName, string.Empty);
+            var studyYearName = settings.BoardNameToStudyYearMapping.GetValueOrDefault(noticeBoardName, string.Empty);
             if (string.IsNullOrWhiteSpace(studyYearName))
             {
                 Logger.LogError("No study year name found for board {@NoticeBoardName}", noticeBoardName);
@@ -155,14 +164,14 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             var (percentage, courseName, courseId) = GetHighestMatchPercentage(cleanedTitle, courseNameIdDict);
 
             Notice notice;
-            bool isCourseNotice = percentage >= _settings.MinTitleMatchPercentage;
+            bool isCourseNotice = percentage >= settings.MinTitleMatchPercentage;
             if (isCourseNotice)
             {
-                notice = new CourseNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime());
+                notice = new CourseNotice(dto.Id.ToString(), GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime());
             }
             else
             {
-                notice = new StudyYearNotice(dto.Id, GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
+                notice = new StudyYearNotice(dto.Id.ToString(), GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
             }
 
             foreach (var attachment in dto.Attachments)
@@ -188,13 +197,13 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 if (!isCourseNotice)
                     courseId = null;
 
-                var document = new Document(attachmentId, GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
+                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null);
                 notice.TryAddDocument(document);
             }
             notices.Add(notice);
         }
 
-        Logger.LogInformation("Mapped DTOs {@DtoIds}", currentDtos.Select(d => d.Id));
+        Logger.LogInformation("Mapped DTOs {@DtoIds}", dtoIds);
 
         return notices;
     }
@@ -205,6 +214,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         return downloadedAttachmentUri;
     }
 
+    // TODO move to base class
     private async Task<ExternalSystem> InitializeExternalSystemAsync(CancellationToken cancellationToken)
     {
         var externalSystem = await DbContext.ExternalSystems.FirstOrDefaultAsync(es => es.Name == Constants.NoticeBoardSystemName, cancellationToken);

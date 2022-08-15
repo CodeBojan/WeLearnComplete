@@ -9,14 +9,12 @@ namespace WeLearn.Data.Models.Content.Notices;
 public class GeneralNotice : Notice
 {
     public GeneralNotice(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,
         string? author,
         bool isImported,
-        Guid? courseId,
-        string type,
         Guid? creatorId,
         Guid? externalSystemId,
         DateTime? externalCreatedDate,
@@ -27,8 +25,8 @@ public class GeneralNotice : Notice
             title,
             author,
             isImported,
-            courseId,
-            type,
+            null,
+            ContentType.NoticeGeneral.Value(),
             creatorId,
             externalSystemId,
             externalCreatedDate,

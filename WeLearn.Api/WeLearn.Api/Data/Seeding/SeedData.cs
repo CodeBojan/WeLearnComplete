@@ -18,16 +18,22 @@ public class SeedData
             logger.LogDebug("Migrating database");
             dbContext.Database.Migrate();
 
-            const string noticeBoardSystemName = Constants.NoticeBoardSystemName;
-            var noticeBoardSystem = dbContext.ExternalSystems.FirstOrDefault(es => es.Name == noticeBoardSystemName);
-            if (noticeBoardSystem is null)
-            {
-                noticeBoardSystem = new ExternalSystem(noticeBoardSystemName);
-                dbContext.ExternalSystems.Add(noticeBoardSystem);
-                logger.LogInformation($"Added {noticeBoardSystemName} to ExternalSystems");
-            }
+            var systemNames = new List<string>() { Constants.NoticeBoardSystemName, Importers.Services.Importers.FacultySite.Constants.FacultySystemName };
+            foreach (var systemName in systemNames)
+                InitializeExternalSystem(logger, dbContext, systemName);
 
             dbContext.SaveChanges();
+        }
+    }
+
+    private static void InitializeExternalSystem(ILogger<SeedData> logger, ApplicationDbContext dbContext, string noticeBoardSystemName)
+    {
+        var noticeBoardSystem = dbContext.ExternalSystems.FirstOrDefault(es => es.Name == noticeBoardSystemName);
+        if (noticeBoardSystem is null)
+        {
+            noticeBoardSystem = new ExternalSystem(noticeBoardSystemName);
+            dbContext.ExternalSystems.Add(noticeBoardSystem);
+            logger.LogInformation($"Added {noticeBoardSystemName} to ExternalSystems");
         }
     }
 }

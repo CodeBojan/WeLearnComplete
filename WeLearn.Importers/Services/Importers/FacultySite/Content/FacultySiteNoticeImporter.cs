@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -8,8 +9,11 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WeLearn.Data.Models;
 using WeLearn.Data.Models.Content;
+using WeLearn.Data.Models.Content.Notices;
 using WeLearn.Data.Persistence;
 using WeLearn.Importers.Services.File;
 using WeLearn.Importers.Services.Importers.Content;
@@ -21,14 +25,15 @@ namespace WeLearn.Importers.Services.Importers.FacultySite.Content;
 
 public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoticeDto>, IFacultySiteNoticeImporter
 {
-    private readonly IOptionsMonitor<FacultySiteNoticeImporterSettings> _optionsMonitor;
+    private readonly IOptionsMonitor<FacultySiteNoticeImporterSettings> _settingsMonitor;
     private FacultySiteNoticeImporterSettings settings;
     private List<Notice> currentContent;
     private List<GetFacultySiteNoticeDto> currentDtos;
     private readonly CultureInfo cultureInfo = CultureInfo.GetCultureInfo("sr");
+    private readonly Regex externalIdRegex = new Regex("novosti\\/(\\d+)");
 
     public FacultySiteNoticeImporter(
-        IOptionsMonitor<FacultySiteNoticeImporterSettings> optionsMonitor,
+        IOptionsMonitor<FacultySiteNoticeImporterSettings> settingsMonitor,
         HttpClient httpClient,
         ApplicationDbContext dbContext,
         IFilePersistenceService filePersistenceService,
@@ -38,8 +43,8 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
             filePersistenceService,
             logger)
     {
-        _optionsMonitor = optionsMonitor;
-        settings = _optionsMonitor.CurrentValue;
+        _settingsMonitor = settingsMonitor;
+        settings = _settingsMonitor.CurrentValue;
 
         currentContent = new List<Notice>();
         currentDtos = new List<GetFacultySiteNoticeDto>();
@@ -54,23 +59,28 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
     public override string Name => nameof(FacultySiteNoticeImporter);
 
     protected override IEnumerable<Notice> CurrentContent { get => currentContent; set => currentContent = new List<Notice>(value); }
-    protected override IEnumerable<GetFacultySiteNoticeDto> CurrentDtos { get => currentDtos; set => new List<GetFacultySiteNoticeDto>(value); }
+    protected override IEnumerable<GetFacultySiteNoticeDto> CurrentDtos { get => currentDtos; set => currentDtos = new List<GetFacultySiteNoticeDto>(value); }
 
     public override void Reset()
     {
+        settings = _settingsMonitor.CurrentValue;
+        Logger.LogWarning("Resetting");
+        // TODO reset
     }
 
     protected override async Task<IEnumerable<GetFacultySiteNoticeDto>> GetNextDtoAsync(CancellationToken cancellationToken)
     {
         var resultDtos = new List<GetFacultySiteNoticeDto>();
 
+        string homePageUrl = settings.HomePageUrl;
+        Logger.LogInformation("Fetching FacultySite {@FacultySiteUrl}", homePageUrl);
         try
         {
-            var homeHtml = await HttpClient.GetStringAsync(settings.HomePageUrl, cancellationToken);
+            var homeHtml = await HttpClient.GetStringAsync(homePageUrl, cancellationToken);
             var homeHtmlDocument = new HtmlDocument();
             homeHtmlDocument.LoadHtml(homeHtml);
 
-            var aNodes = homeHtmlDocument.DocumentNode.QuerySelectorAll(".mod-articles-category-title");
+            var aNodes = homeHtmlDocument.DocumentNode.QuerySelectorAll(".mod-articles-category-title").Take(3); // TODO remove take - IMPORTANT
             if (!aNodes.Any())
             {
                 Logger.LogWarning("No notice links found");
@@ -79,10 +89,11 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
             foreach (var aNode in aNodes)
             {
                 var link = aNode.Attributes["href"].Value;
+                Logger.LogInformation("Fetching FacultySite Notice {@NoticeUrl}", link);
                 try
                 {
-                    // TODO take innerhtml for hyperlinks
-                    var noticeHtml = await HttpClient.GetStringAsync(link);
+                    var noticeId = int.Parse(externalIdRegex.Match(link).Groups[1].Value);
+                    var noticeHtml = await HttpClient.GetStringAsync(link, cancellationToken);
                     var noticeHtmlDocument = new HtmlDocument();
                     noticeHtmlDocument.LoadHtml(noticeHtml);
 
@@ -133,29 +144,31 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
 
                     var dto = new GetFacultySiteNoticeDto
                     {
-                        // TODO get Id from link
+                        Id = noticeId,
                         CreatedDate = createdDate,
                         PublishedDate = publishedDate,
                         Title = title,
+                        Body = body,
                         Attachments = attachments,
+                        Url = link
                     };
                     resultDtos.Add(dto);
                 }
                 catch (HttpRequestException ex)
                 {
-                    Logger.LogError(ex, $"Error getting Notice html from {link}");
+                    Logger.LogError(ex, "Error getting Notice from {@NoticeUrl}", link);
                     throw;
                 }
-
             }
-
-
         }
         catch (HttpRequestException ex)
         {
-            Logger.LogError(ex, "Failed to get {@Url}", settings.HomePageUrl);
+            Logger.LogError(ex, "Failed to get {@Url}", homePageUrl);
         }
-
+        finally
+        {
+            IsFinished = true;
+        }
 
         return resultDtos;
     }
@@ -164,6 +177,47 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
     {
         var notices = new List<Notice>();
 
+        var externalSystem = await InitializeExternalSystemAsync(cancellationToken);
+        if (externalSystem is null)
+        {
+            Logger.LogError("External system {@ExternalSystemName} not initialized", Constants.FacultySystemName);
+            return notices;
+        }
+
+        var currentDtos = CurrentDtos;
+        var dtoIds = currentDtos.Select(dto => dto.Id);
+
+        Logger.LogInformation("Mapping DTOs {@DtoIds}", dtoIds);
+
+        foreach (var dto in currentDtos)
+        {
+            var generalNotice = new GeneralNotice(dto.Id.ToString(), dto.Url, dto.Body, dto.Title, null, true, null, externalSystem.Id, dto.PublishedDate.ToUniversalTime(), null);
+
+            foreach (var attachment in dto.Attachments)
+            {
+                string downloadedAttachmentUri;
+                string hash;
+                string hashAlgo;
+
+                using var webStream = await HttpClient.GetStreamAsync(attachment.Url);
+                downloadedAttachmentUri = await FilePersistenceService.DownloadFileAsync(webStream, "attachment", cancellationToken);
+                (hash, hashAlgo) = await FilePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
+                var document = new Document($"{dto.Id}:{attachment.PreviewName}", attachment.Url, null, null, null, true, null, null, externalSystem.Id, attachment.CreatedDate.ToUniversalTime(), attachment.PreviewName, downloadedAttachmentUri, attachment.FileSize, hash, hashAlgo, generalNotice.Id, null);
+
+                generalNotice.TryAddDocument(document);
+            }
+
+            notices.Add(generalNotice);
+        }
+
+        Logger.LogInformation("Mapped DTOs {@DtoIds}", dtoIds);
+
         return notices;
+    }
+
+    private async Task<ExternalSystem?> InitializeExternalSystemAsync(CancellationToken cancellationToken)
+    {
+        var externalSystem = await DbContext.ExternalSystems.FirstOrDefaultAsync(es => es.Name == Constants.FacultySystemName, cancellationToken);
+        return externalSystem;
     }
 }

@@ -9,7 +9,7 @@ namespace WeLearn.Data.Models.Content;
 public class StudyMaterial : DocumentContainer
 {
     public StudyMaterial(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,

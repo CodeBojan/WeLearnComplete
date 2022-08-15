@@ -9,7 +9,7 @@ namespace WeLearn.Data.Models.Content.Notices;
 public class CourseNotice : Notice
 {
     public CourseNotice(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,

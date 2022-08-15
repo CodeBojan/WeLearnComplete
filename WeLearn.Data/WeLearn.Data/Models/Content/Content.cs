@@ -10,7 +10,7 @@ namespace WeLearn.Data.Models.Content;
 public class Content : BaseEntity
 {
     public Content(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string? body,
         string? title,
@@ -35,7 +35,7 @@ public class Content : BaseEntity
         ExternalCreatedDate = externalCreatedDate;
     }
 
-    public long? ExternalId { get; set; }
+    public string? ExternalId { get; set; }
     public string? ExternalUrl { get; set; }
     public string? Body { get; set; }
     public string? Title { get; set; }

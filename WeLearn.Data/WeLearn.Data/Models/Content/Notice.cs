@@ -9,7 +9,7 @@ namespace WeLearn.Data.Models.Content;
 public class Notice : DocumentContainer
 {
     public Notice(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,

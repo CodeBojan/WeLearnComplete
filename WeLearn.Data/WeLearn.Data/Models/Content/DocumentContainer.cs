@@ -10,7 +10,7 @@ namespace WeLearn.Data.Models.Content;
 public class DocumentContainer : Content
 {
     public DocumentContainer(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,

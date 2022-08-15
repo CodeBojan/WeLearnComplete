@@ -10,7 +10,7 @@ namespace WeLearn.Data.Models.Content.Notices;
 public class StudyYearNotice : Notice
 {
     public StudyYearNotice(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,

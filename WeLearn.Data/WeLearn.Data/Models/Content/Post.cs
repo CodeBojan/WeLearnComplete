@@ -9,7 +9,7 @@ namespace WeLearn.Data.Models.Content;
 public class Post : DocumentContainer
 {
     public Post(
-        long? externalId,
+        string? externalId,
         string? externalUrl,
         string body,
         string title,
