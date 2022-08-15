@@ -24,6 +24,7 @@ namespace WeLearn.Importers.Services.Importers.NoticeBoard.Content;
 
 public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoticeDto>, INoticeBoardNoticeImporter
 {
+    // TODO extract
     private const string persistenceKey = "attachment";
     private NoticeBoardNoticeImporterSettings _settings;
     private List<Notice> currentContent;
@@ -31,8 +32,6 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
     private readonly IStringMatcherService _stringMatcher;
     private readonly ICourseTitleCleanerService _titleCleaner;
     private readonly IOptionsMonitor<NoticeBoardNoticeImporterSettings> _settingsMonitor;
-    private readonly IFilePersistenceService _filePersistenceService;
-    private readonly ILogger _logger;
 
     public NoticeBoardNoticeImporter(
         IOptionsMonitor<NoticeBoardNoticeImporterSettings> settingsMonitor,
@@ -41,16 +40,16 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         ILogger<NoticeBoardNoticeImporter> logger,
         IStringMatcherService stringMatcher,
         ICourseTitleCleanerService courseTitleCleanerService,
-        IFilePersistenceService filePersistenceService)
+        IFilePersistenceService filePersistenceService) : base(
+            httpClient,
+            dbContext,
+            filePersistenceService,
+            logger)
     {
         _settings = settingsMonitor.CurrentValue;
-        DbContext = dbContext;
-        HttpClient = httpClient;
         _settingsMonitor = settingsMonitor;
-        _logger = logger;
         _stringMatcher = stringMatcher;
         _titleCleaner = courseTitleCleanerService;
-        _filePersistenceService = filePersistenceService;
 
         currentContent = new List<Notice>();
         currentDtos = new List<GetNoticeBoardNoticeDto>();
@@ -68,14 +67,10 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
     protected override IEnumerable<Notice> CurrentContent { get => currentContent; set => currentContent = value.ToList(); }
     protected override IEnumerable<GetNoticeBoardNoticeDto> CurrentDtos { get => currentDtos; set => currentDtos = value.ToList(); }
 
-    protected override ILogger Logger => _logger;
-
-    protected override IFilePersistenceService FilePersistence => _filePersistenceService;
-
     public override void Reset()
     {
         _settings = _settingsMonitor.CurrentValue;
-        _logger.LogWarning("Resetting");
+        Logger.LogWarning("Resetting");
         // TODO reset
     }
 
@@ -85,17 +80,17 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
 
         foreach (var boardId in _settings.BoardIds)
         {
-            _logger.LogInformation("Fetching Notice Board {@NoticeBoardId}", boardId);
+            Logger.LogInformation("Fetching Notice Board {@NoticeBoardId}", boardId);
 
             var dtos = await HttpClient.GetFromJsonAsync<IEnumerable<GetNoticeBoardNoticeDto>>(GetBoardNoticesRoute(boardId), cancellationToken);
 
             if (dtos is null)
             {
-                _logger.LogWarning("No notices found for board {@NoticeBoardId}", boardId);
+                Logger.LogWarning("No notices found for board {@NoticeBoardId}", boardId);
                 continue;
             }
 
-            _logger.LogInformation("Fetched NoticeBoard {@NoticeBoardId}", boardId);
+            Logger.LogInformation("Fetched NoticeBoard {@NoticeBoardId}", boardId);
             resultDtos.AddRange(dtos);
         }
 
@@ -125,7 +120,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         var externalSystem = await InitializeExternalSystemAsync(cancellationToken);
         if (externalSystem is null)
         {
-            _logger.LogError("External system {@ExternalSystemName} not initialized", Constants.NoticeBoardSystemName);
+            Logger.LogError("External system {@ExternalSystemName} not initialized", Constants.NoticeBoardSystemName);
             return notices;
         }
 
@@ -135,7 +130,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         var currentDtos = CurrentDtos;
         var dtoIds = currentDtos.Select(d => d.Id);
 
-        _logger.LogInformation("Mapping DTOs {@DtoIds}", dtoIds);
+        Logger.LogInformation("Mapping DTOs {@DtoIds}", dtoIds);
 
         foreach (var dto in currentDtos)
         {
@@ -143,14 +138,14 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             var studyYearName = _settings.BoardNameToStudyYearMapping.GetValueOrDefault(noticeBoardName, string.Empty);
             if (string.IsNullOrWhiteSpace(studyYearName))
             {
-                _logger.LogError("No study year name found for board {@NoticeBoardName}", noticeBoardName);
+                Logger.LogError("No study year name found for board {@NoticeBoardName}", noticeBoardName);
                 continue;
             }
 
             var studyYear = await GetStudyYearByShortNameAsync(studyYearName, cancellationToken);
             if (studyYear is null)
             {
-                _logger.LogError("No study year found for name {@StudyYearName}", studyYearName);
+                Logger.LogError("No study year found for name {@StudyYearName}", studyYearName);
                 continue;
             }
 
@@ -182,11 +177,11 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 {
                     using var webStream = await HttpClient.GetStreamAsync(attachmentDownloadUrl, cancellationToken);
                     downloadedAttachmentUri = await PersistFileAsync(webStream, cancellationToken);
-                    (hash, hashAlgo) = await _filePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
+                    (hash, hashAlgo) = await FilePersistenceService.GetFileHashAsync(downloadedAttachmentUri, cancellationToken);
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogError(ex, "Error downloading attachment {@AttachmentId}", attachmentId);
+                    Logger.LogError(ex, "Error downloading attachment {@AttachmentId}", attachmentId);
                     continue;
                 }
 
@@ -199,14 +194,14 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             notices.Add(notice);
         }
 
-        _logger.LogInformation("Mapped DTOs {@DtoIds}", currentDtos.Select(d => d.Id));
+        Logger.LogInformation("Mapped DTOs {@DtoIds}", currentDtos.Select(d => d.Id));
 
         return notices;
     }
 
     private async Task<string> PersistFileAsync(Stream webStream, CancellationToken cancellationToken)
     {
-        var downloadedAttachmentUri = await _filePersistenceService.DownloadFileAsync(webStream, persistenceKey, cancellationToken);
+        var downloadedAttachmentUri = await FilePersistenceService.DownloadFileAsync(webStream, persistenceKey, cancellationToken);
         return downloadedAttachmentUri;
     }
 

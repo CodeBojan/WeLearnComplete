@@ -15,9 +15,22 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
     where TContent : Data.Models.Content.Content
     where TDto : class
 {
-    protected HttpClient HttpClient { get; set; }
-    protected ApplicationDbContext DbContext { get; set; }
-    protected abstract IFilePersistenceService FilePersistence { get; }
+    public HttpDbImporter(
+        HttpClient httpClient,
+        ApplicationDbContext dbContext,
+        IFilePersistenceService filePersistenceService,
+        ILogger logger)
+    {
+        HttpClient = httpClient;
+        DbContext = dbContext;
+        FilePersistenceService = filePersistenceService;
+        Logger = logger;
+    }
+
+    protected HttpClient HttpClient { get; init; }
+    protected ApplicationDbContext DbContext { get; init; }
+    protected IFilePersistenceService FilePersistenceService { get; init; }
+    protected ILogger Logger { get; init; }
 
     protected override async Task SaveCurrentContentAsync(CancellationToken cancellationToken)
     {

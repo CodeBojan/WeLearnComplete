@@ -8,6 +8,7 @@ using WeLearn.Importers.Services.System;
 
 namespace WeLearn.Importers.Services.Importers.System;
 
+// TODO add isenabled and monitor from IOptionsMonitor of settings
 public abstract class SystemImporter : ISystemImporter
 {
     public abstract string Name { get; }

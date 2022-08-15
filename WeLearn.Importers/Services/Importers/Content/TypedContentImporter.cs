@@ -26,7 +26,6 @@ public abstract class TypedContentImporter<TContent, TDto> : ITypedContentImport
     public abstract void Reset();
     public abstract string Name { get; }
 
-    protected abstract ILogger Logger { get; }
     protected abstract IEnumerable<TContent> CurrentContent { get; set; }
     protected abstract IEnumerable<TDto> CurrentDtos { get; set; }
 
