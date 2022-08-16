@@ -4,7 +4,7 @@ using System.Security.Claims;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Roles;
 using WeLearn.Data.Persistence;
-using WeLearn.IdentityServer.Exceptions;
+using WeLearn.Shared.Exceptions.Models;
 
 namespace WeLearn.IdentityServer.Services.Account;
 

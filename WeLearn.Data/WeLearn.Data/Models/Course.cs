@@ -32,4 +32,5 @@ public class Course : BaseEntity
     public virtual ICollection<Post> Posts { get; set; }
     public virtual ICollection<Document> Documents { get; set; }
     public virtual ICollection<StudyMaterial> StudyMaterials { get; set; }
+    public virtual ICollection<CourseCredentials> CourseCredentials { get; set; }
 }

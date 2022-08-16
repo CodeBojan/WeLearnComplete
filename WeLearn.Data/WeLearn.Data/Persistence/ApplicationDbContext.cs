@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<StudyYearAdminRole> StudyYearAdminRoles { get; set; }
     public DbSet<CourseAdminRole> CourseAdminRoles { get; set; }
     public DbSet<FollowedCourse> FollowedCourses { get; set; }
+    public DbSet<FollowedStudyYear> FollowedStudyYears { get; set; }
     public DbSet<Content> Contents { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<Document> Documents { get; set; }
@@ -119,16 +120,27 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             c.HasKey(c => c.Id);
 
-            c.HasOne(c => c.Course)
-            .WithMany(c => c.Credentials)
-            .HasForeignKey(c => c.CourseId)
-            .HasPrincipalKey(c => c.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-
             c.HasOne(c => c.Creator)
             .WithMany(a => a.Credentials)
             .HasForeignKey(c => c.CreatorId)
             .HasPrincipalKey(a => a.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<CourseCredentials>(cc =>
+        {
+            cc.HasKey(cc => new { cc.CourseId, cc.CredentialsId });
+
+            cc.HasOne(cc => cc.Course)
+            .WithMany(c => c.CourseCredentials)
+            .HasForeignKey(cc => cc.CourseId)
+            .HasPrincipalKey(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            cc.HasOne(cc => cc.Credentials)
+            .WithMany(c => c.CourseCredentials)
+            .HasForeignKey(cc => cc.CredentialsId)
+            .HasPrincipalKey(c => c.Id)
             .OnDelete(DeleteBehavior.Cascade);
         });
 

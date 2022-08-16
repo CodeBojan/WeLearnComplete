@@ -6,8 +6,33 @@ using System.Threading.Tasks;
 
 namespace WeLearn.Auth.Authorization.Claims;
 
-public class ClaimTypes
+public static class ClaimTypes
 {
     public const string StudyYearAdmin = "year-admin";
     public const string CourseAdmin = "course-admin";
+
+    public static class StudyYear
+    {
+        public const string Read = "year.read";
+        public const string Write = "year.write";
+    }
+    public static class Course
+    {
+        public const string Read = "course.read";
+        public const string Write = "course.write";
+    }
+    public static class Config
+    {
+        public const string Read = "config.read";
+        public const string Write = "config.write";
+    }
+    public static class Credentials
+    {
+        public const string Read = "creds.read";
+        public const string Write = "creds.write";
+    }
+    public static class Account
+    {
+        public const string Manage = "account.manage";
+    }
 }

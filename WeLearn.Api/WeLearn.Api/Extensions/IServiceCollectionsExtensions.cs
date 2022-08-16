@@ -1,4 +1,5 @@
-﻿using WeLearn.Data.Extensions;
+﻿using WeLearn.Api.Services.FollowedCourse.Extensions;
+using WeLearn.Data.Extensions;
 using WeLearn.Importers.Extensions;
 using WeLearn.Shared.Extensions.Services;
 
@@ -14,6 +15,15 @@ public static class IServiceCollectionsExtensions
         services.AddWeLearnFileSystemPersistence(configuration);
 
         services.AddWeLearnImporterServices(configuration);
+
+
+
+        return services;
+    }
+
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddFollowedCourseServices(configuration);
 
         return services;
     }

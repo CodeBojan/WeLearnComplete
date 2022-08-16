@@ -59,7 +59,7 @@
   <Class Name="WeLearn.Data.Models.Credentials">
     <Position X="51.75" Y="4.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAgAAAAAAECAYAAAAAAAAAAAAAAEAAAIAAAgAA=</HashCode>
+      <HashCode>AAAAAAAgAAAAAAECAQAAAAAAAAAAAAAAEAAAIACAgAA=</HashCode>
       <FileName>Models\Credentials.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

@@ -20,6 +20,11 @@
 	  <ProjectReference Include="..\..\WeLearn.Shared\WeLearn.Shared\WeLearn.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Dtos\Credentials\" />
+	  <Folder Include="Exceptions\" />
+	</ItemGroup>
+
 	<ProjectExtensions>
 		<VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://json.schemastore.org/appsettings.json" appsettings_1local_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio>
 	</ProjectExtensions>

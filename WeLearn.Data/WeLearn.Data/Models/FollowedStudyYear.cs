@@ -8,6 +8,12 @@ namespace WeLearn.Data.Models;
 
 public class FollowedStudyYear : DatedEntity
 {
+    public FollowedStudyYear(Guid accountId, Guid studyYearId)
+    {
+        AccountId = accountId;
+        StudyYearId = studyYearId;
+    }
+
     public Guid AccountId { get; set; }
     public Guid StudyYearId { get; set; }
 

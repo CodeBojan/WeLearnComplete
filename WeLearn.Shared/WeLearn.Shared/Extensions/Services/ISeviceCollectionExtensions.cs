@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Shared.Services.CourseTitleCleaner;
+using WeLearn.Shared.Services.CourseTitleCleaner.Extensions;
+using WeLearn.Shared.Services.Credentials.Extensions;
 using WeLearn.Shared.Services.StringMatcher;
 
 namespace WeLearn.Shared.Extensions.Services;
@@ -14,11 +16,11 @@ public static class ISeviceCollectionExtensions
 {
     public static IServiceCollection AddSharedServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<StringMatcherServiceSettings>(configuration.GetSection(nameof(StringMatcherServiceSettings)));
-        services.AddSingleton<IStringMatcherService, StringMatcherService>();
+        services.AddCredentialsServices(configuration);
 
-        services.Configure<CourseTitleCleanerServiceSettings>(configuration.GetSection(nameof(CourseTitleCleanerServiceSettings)));
-        services.AddSingleton<ICourseTitleCleanerService, CourseTitleCleanerService>();
+        services.AddCourseTitleCleanerServices(configuration);
+
+        services.AddCredentialsServices(configuration);
 
         return services;
     }

@@ -41,11 +41,11 @@ public static class Config
                 PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
 
                 AllowOfflineAccess = true,
-                // TODO add scopes
                 AllowedScopes = Auth.Authorization.Scopes.Api.ApiScopes.Scopes
-                    .Add(new ApiScope("openid"))
-                    .Add(new ApiScope("profile"))
-                    .Select(s => s.Name).ToArray()
+                 .Add(new ApiScope("openid"))
+                 .Add(new ApiScope("profile"))
+                 .Add(new ApiScope("email"))
+                 .Select(s => s.Name).ToArray()
             },
         };
 }

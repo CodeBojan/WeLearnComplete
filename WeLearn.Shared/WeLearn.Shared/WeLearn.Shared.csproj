@@ -17,4 +17,8 @@
 	  <Folder Include="Util\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\WeLearn.Data\WeLearn.Data\WeLearn.Data.csproj" />
+	</ItemGroup>
+
 </Project>

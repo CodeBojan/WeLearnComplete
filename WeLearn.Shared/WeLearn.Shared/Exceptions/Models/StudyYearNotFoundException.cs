@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace WeLearn.IdentityServer.Exceptions;
+namespace WeLearn.Shared.Exceptions.Models;
 
 [Serializable]
 public class StudyYearNotFoundException : Exception

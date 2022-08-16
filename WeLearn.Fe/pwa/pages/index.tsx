@@ -1,6 +1,6 @@
+import { signIn } from "next-auth/react"
 import styles from '../styles/Home.module.scss'
 import variables from '../styles/variables.module.scss'
-import { signIn } from "next-auth/react"
 
 export default function Home() {
   return (
