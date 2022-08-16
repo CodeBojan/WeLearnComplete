@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using WeLearn.Auth.Authorization.Mvc.Filters;
+using WeLearn.Auth.Extensions;
 using WeLearn.IdentityServer.Configuration.Providers;
 using WeLearn.IdentityServer.Configuration.Services.Register;
 using WeLearn.IdentityServer.Services.Account;
@@ -42,6 +43,8 @@ public static class IServiceCollectionExtensions
 
         services.AddScoped<IAccountStore, AccountStore>();
         services.AddScoped<WeLearnUserManager>();
+
+        services.AddIpWhitelistFilter<IpWhitelistSettings>(configuration);
 
         return services;
     }

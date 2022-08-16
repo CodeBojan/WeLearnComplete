@@ -26,6 +26,14 @@
 		<Exec Command="npm run css:build" />
 	</Target>
 
+	<ItemGroup>
+	  <Content Remove="Pages\Admin\Initialize\Index.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Watch Remove="Pages\Admin\Initialize\Index.cshtml" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.4" />
@@ -74,6 +82,7 @@
 		<None Include="Pages\Admin\Configuration\Index.cshtml" />
 		<None Include="Pages\Admin\Index.cshtml" />
 		<None Include="Pages\Admin\Error.cshtml" />
+		<None Include="Pages\Admin\Initialize\Index.cshtml" />
 		<None Include="Pages\Admin\Roles\Index.cshtml" />
 		<None Include="Pages\Admin\Users\Approve.cshtml" />
 		<None Include="Pages\Admin\Users\Index.cshtml" />
@@ -84,6 +93,14 @@
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ProjectExtensions>
