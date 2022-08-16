@@ -28,21 +28,24 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.2" />
+		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.4" />
+		<PackageReference Include="IdentityModel.OidcClient" Version="5.0.2" />
 
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.8" />
 
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.8" />
 
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
 
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.7" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
 
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.7" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -56,7 +59,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\" />
 		<Folder Include="Dtos\Configuration\" />
 		<Folder Include="Extensions\Configuration\" />
 		<Folder Include="wwwroot\css\" />
@@ -78,6 +80,11 @@
 		<None Include="Pages\Admin\Users\User.cshtml" />
 		<None Include="Pages\Admin\_Layout.cshtml" />
 	</ItemGroup>
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
 
 	<ProjectExtensions>
 		<VisualStudio>

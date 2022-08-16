@@ -1,22 +1,30 @@
 using Duende.IdentityServer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Reflection;
+using WeLearn.Auth.SwaggerGen.OperationFilters;
 using WeLearn.Data.Extensions;
 using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 using WeLearn.IdentityServer.Configuration.Auth.Google;
-using WeLearn.IdentityServer.Extensions;
 using WeLearn.IdentityServer.Extensions.Seeding;
 using WeLearn.IdentityServer.Extensions.Services;
 using WeLearn.IdentityServer.Services.Identity;
 using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
+using System.IdentityModel.Tokens.Jwt;
+using IdentityModel.OidcClient;
+using System.Security.Claims;
 
 namespace WeLearn.IdentityServer;
 
 internal static class HostingExtensions
 {
+    private const string authority = "https://localhost:7230"; // TODO read from config
+
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
@@ -27,8 +35,47 @@ internal static class HostingExtensions
         if (environment.IsLocal())
             mvcBuilder.AddRazorRuntimeCompilation();
         services.AddControllers();
+        services.AddControllersWithViews();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "WeLearn",
+                Version = "v1"
+            });
+
+            var jwtSecurityScheme = new OpenApiSecurityScheme()
+            {
+                BearerFormat = "JWT",
+                Type = SecuritySchemeType.Http,
+                In = ParameterLocation.Header,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                },
+                Description = "JWT Bearer authorization. Insert just the JWT token from the Authorization header."
+            };
+
+            options.AddSecurityDefinition(
+                name: JwtBearerDefaults.AuthenticationScheme,
+                securityScheme: jwtSecurityScheme);
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        jwtSecurityScheme, Array.Empty<string>()
+                    }
+            });
+
+            options.OperationFilter<SwaggerJsonIgnoreFilter>();
+
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            options.IncludeXmlComments(xmlPath);
+        });
 
         services.Configure<ForwardedHeadersOptions>(options =>
         {
@@ -59,9 +106,45 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
-            .AddAspNetIdentity<ApplicationUser>();
+            .AddAspNetIdentity<ApplicationUser>()
+            ;
+        //.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+        //.AddProfileService<ProfileService>();
 
-        var authentication = services.AddAuthentication();
+        var authentication = services.AddAuthentication()
+        .AddJwtBearer(options =>
+        {
+            options.Authority = authority; // TODO use configuration
+
+            options.TokenValidationParameters.ValidateAudience = false;
+
+            options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+
+            options.Events = new JwtBearerEvents
+            {
+                OnTokenValidated = async (context) =>
+                {
+                    //context.HttpContext.RequestServices // TODO use
+                    // TODO use usermanager here with sub claim
+                    if (context.SecurityToken is JwtSecurityToken jwt)
+                    {
+                        var accessToken = jwt.RawData;
+                        var oidcClient = new OidcClient(new OidcClientOptions
+                        {
+                            Authority = authority,
+                        });
+                        var userInfoResult = await oidcClient.GetUserInfoAsync(accessToken);
+                        if (userInfoResult.IsError)
+                            throw new Exception(userInfoResult.ErrorDescription); // TODO
+
+                        var claims = userInfoResult.Claims;
+                        var claimsIdentity = new ClaimsIdentity(claims); 
+                        context.Principal.AddIdentity(claimsIdentity);
+                    }
+                }
+            };
+        });
+
         var googleAuthSettings = configuration.GetSection("Auth").GetSection(GoogleAuthSettings.SectionName)
                     .Get<GoogleAuthSettings>();
         if (googleAuthSettings is not null && googleAuthSettings.Enabled)
@@ -79,6 +162,11 @@ internal static class HostingExtensions
             });
             Log.Logger.Information("Google auth detected.");
         }
+
+        services.AddAuthorization(options =>
+        {
+            // TODO note: define "ApiController" policy - requires jwt auth - apply to every controller (maybe using reflection)
+        });
 
         services.AddWeLearnServices(configuration);
 
@@ -107,7 +195,8 @@ internal static class HostingExtensions
 
         app.MapRazorPages()
             .RequireAuthorization();
-        app.MapControllers();
+        app.MapControllers()
+            .RequireAuthorization();
 
         app.UseWeLearnSeeding();
 

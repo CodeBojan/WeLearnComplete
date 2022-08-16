@@ -25,11 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.Importers", "WeLear
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.Shared", "WeLearn.Shared", "{D9236708-07B5-4DE1-BD0E-E015E9ED89B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.Shared", "WeLearn.Shared\WeLearn.Shared\WeLearn.Shared.csproj", "{A541E63B-7EAD-4E8D-8269-A40954521AE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.Shared", "WeLearn.Shared\WeLearn.Shared\WeLearn.Shared.csproj", "{A541E63B-7EAD-4E8D-8269-A40954521AE6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeLearn.Shared.Tests", "WeLearn.Shared.Tests", "{343A074E-94CB-4EC7-860C-ED6376613699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeLearn.Shared.Tests", "WeLearn.Shared.Tests\WeLearn.Shared.Tests\WeLearn.Shared.Tests.csproj", "{B4F8AEF2-8880-43FC-8649-27555A536F52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeLearn.Shared.Tests", "WeLearn.Shared.Tests\WeLearn.Shared.Tests\WeLearn.Shared.Tests.csproj", "{B4F8AEF2-8880-43FC-8649-27555A536F52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
