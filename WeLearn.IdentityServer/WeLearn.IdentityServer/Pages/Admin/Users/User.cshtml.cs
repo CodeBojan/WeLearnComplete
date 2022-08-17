@@ -6,6 +6,7 @@ using ClaimTypes = WeLearn.Auth.Authorization.Claims.ClaimTypes;
 using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 using System.Security.Claims;
+using WeLearn.IdentityServer.Extensions.ModelState;
 
 namespace WeLearn.IdentityServer.Pages.Admin.Users;
 
@@ -82,18 +83,9 @@ public class UserModel : PageModel
         }
 
         var addClaimResult = await _userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
-        TryAddModelStateErrors(addClaimResult);
+        ModelState.TryAddModelStateErrors(addClaimResult);
 
         return await GetIndexPageAsync(user);
-    }
-
-    private void TryAddModelStateErrors(IdentityResult addClaimResult)
-    {
-        if (addClaimResult.Errors.Any())
-            foreach (var error in addClaimResult.Errors)
-            {
-                ModelState.AddModelError(error.Code, error.Description);
-            }
     }
 
     private async Task<Claim> GetUserClaimAsync(ApplicationUser user, string claimType, string claimValue)
@@ -120,7 +112,7 @@ public class UserModel : PageModel
         }
 
         var removeClaimResult = await _userManager.RemoveClaimAsync(user, claim);
-        TryAddModelStateErrors(removeClaimResult);
+        ModelState.TryAddModelStateErrors(removeClaimResult);
 
         return await GetIndexPageAsync(user);
     }

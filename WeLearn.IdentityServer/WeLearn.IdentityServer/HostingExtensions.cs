@@ -87,7 +87,10 @@ internal static class HostingExtensions
 
         services.AddWeLearnDbContext(configuration.GetConnectionString("DefaultConnection"));
 
-        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+        {
+            options.User.RequireUniqueEmail = true; // TODO migration for unique index
+        })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddUserManager<WeLearnUserManager>()
             .AddDefaultTokenProviders();

@@ -1,0 +1,40 @@
+﻿@page
+@model WeLearn.IdentityServer.Pages.Admin.Initialize.ConfigurationModel
+@{
+    ViewData["Title"] = "Initialize Configuration";
+}
+
+<a class="font-medium text-4xl col-black" href="/Admin/Initialize/Configuration">Configuration Initialization</a>
+
+<div class="my-4 text-2xl">
+    Configuration
+</div>
+
+<form method="post" class="my-4">
+    <div class="flex flex-col gap-y-4">
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input asp-for="ApproveAll"
+                           type="checkbox" aria-label="Approved" checked="@false"
+                           onchange="document.getElementById('approved-domain').disabled = this.checked;">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="AutoApprove" value="AutoApprove" readonly>
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="approved-domain-label">Approved domain</span>
+            </div>
+            <input asp-for="ApprovedDomain"
+                   type="text" class="form-control" placeholder="your_org.org" aria-label="Username" aria-describedby="approved-domain-label" id="approved-domain">
+        </div>
+
+        <div class="input-group">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </div>
+</form>
+

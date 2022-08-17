@@ -1,4 +1,55 @@
 ﻿@page
 @model WeLearn.IdentityServer.Pages.Admin.Initialize.IndexModel
 @{
+    ViewData["Title"] = "Create Admin Account";
+    var inputModel = Model.AdminCredentialsInputModel;
 }
+
+<a class="font-medium text-4xl col-black" href="/Admin/Initialize">System Initialization</a>
+
+<div class="my-4 text-2xl">
+    Admin Account
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-red-500">
+        <span>Please correct the following errors</span>
+    </div>
+}
+
+<form method="post" class="my-4">
+    <div class="flex flex-col gap-y-4">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="username-label">Username</span>
+            </div>
+            <input asp-for="AdminCredentialsInputModel.Username" type="text" class="form-control" placeholder="admin" aria-label="Username" aria-describedby="username-label">
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="email-label">Email</span>
+            </div>
+            <input asp-for="AdminCredentialsInputModel.Email" type="email" class="form-control" placeholder="admin@system.org" aria-label="email" aria-describedby="email-label">
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="password-label">Password</span>
+            </div>
+            <input asp-for="AdminCredentialsInputModel.Password" type="password" class="form-control" placeholder="******" aria-label="password" aria-describedby="password-label">
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="confirm-password-label">Confirm Password</span>
+            </div>
+            <input asp-for="AdminCredentialsInputModel.ConfirmPassword" type="password" class="form-control" placeholder="******" aria-label="confirm-password" aria-describedby="confirm-password-label">
+        </div>
+
+        <div class="input-group">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </div>
+</form>
