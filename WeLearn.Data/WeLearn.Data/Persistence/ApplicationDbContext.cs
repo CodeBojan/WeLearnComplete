@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Content;
 using WeLearn.Data.Models.Content.Notices;
+using WeLearn.Data.Models.Identity;
 using WeLearn.Data.Models.Notifications;
 using WeLearn.Data.Models.Roles;
 
@@ -11,6 +12,7 @@ namespace WeLearn.Data.Persistence;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
+    public DbSet<DbPersistedGrant> Grants { get; set; }
     public DbSet<Account> Accounts { get; set; }
     public DbSet<ExternalSystem> ExternalSystems { get; set; }
     public DbSet<Credentials> Credentials { get; set; }
@@ -49,6 +51,24 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         builder.Ignore<DatedEntity>();
 
         // TODO indices
+
+        builder.Entity<DbPersistedGrant>(dpg =>
+        {
+            dpg.HasKey(dpg => dpg.Key);
+
+            dpg.Property(dpg => dpg.SubjectId)
+            .HasMaxLength(36);
+
+            //pg.Property(pg => pg.Key)
+            //   .HasMaxLength(44);
+
+            //pg.Property(pg => pg.SessionId)
+            //.HasMaxLength(32);
+
+            dpg.HasIndex(dpg => dpg.SessionId);
+            dpg.HasIndex(dpg => dpg.SubjectId);
+            dpg.HasIndex(dpg => dpg.ClientId);
+        });
 
         builder.Entity<Account>(a =>
         {

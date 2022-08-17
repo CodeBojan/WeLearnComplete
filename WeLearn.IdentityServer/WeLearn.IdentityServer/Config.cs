@@ -55,7 +55,8 @@ public static class Config
                  .Add(new ApiScope("openid"))
                  .Add(new ApiScope("profile"))
                  .Add(new ApiScope("email"))
-                 .Select(s => s.Name).ToArray(),
+                 .Select(s => s.Name)
+                .ToArray(),
                 AlwaysIncludeUserClaimsInIdToken = true,
                 UpdateAccessTokenClaimsOnRefresh = true
             },

@@ -11,25 +11,26 @@ const getScopes = () => process.env.IS_SCOPES;
 
 async function refreshAccessToken(token) {
   try {
-    const refreshUrl =
-      `${process.env.IS_ISSUER}/connect/token?` +
-      new URLSearchParams({
-        client_id: getClientId(),
-        client_secret: getClientSecret(),
-        grant_type: "refresh_token",
-        refresh_token: token.refreshToken,
-      });
+    const refreshUrl = `${process.env.IS_ISSUER}/connect/token`;
+
+    const body = new URLSearchParams({
+      client_id: getClientId(),
+      client_secret: getClientSecret(),
+      grant_type: "refresh_token",
+      refresh_token: token.refreshToken,
+    });
+
+    refreshUrl;
 
     const response = await fetch(refreshUrl, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       method: "POST",
+      body: body,
     });
 
     const refreshedTokens = await response.json();
-
-    console.log(refreshedTokens);
 
     if (!response.ok) {
       throw refreshedTokens;
@@ -38,8 +39,8 @@ async function refreshAccessToken(token) {
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
-      accessTokenExpires: refreshedTokens.expires_at * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+      accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
     console.error(error);
@@ -65,7 +66,6 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }) {
       if (account && user) {
-        console.log("account & user");
         return {
           idToken: account.id_token,
           accessToken: account.access_token,
@@ -75,18 +75,13 @@ export default NextAuth({
         };
       }
 
-      console.log(Date.now());
-      console.log(token.accessTokenExpires);
       if (Date.now() >= token.accessTokenExpires) {
-        console.log("refreshing");
-        return refreshAccessToken();
+        return refreshAccessToken(token);
       }
 
-      console.log("returning token");
       return token;
     },
     async session({ session, token, user }) {
-      console.log(token);
       session.user = token.user;
       session.error = token.error;
       session.accessToken = token.accessToken;

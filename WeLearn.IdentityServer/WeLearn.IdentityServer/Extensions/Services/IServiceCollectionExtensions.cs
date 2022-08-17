@@ -1,9 +1,11 @@
-﻿using WeLearn.Auth.Authorization.Mvc.Filters;
+﻿using Duende.IdentityServer.Stores;
+using WeLearn.Auth.Authorization.Mvc.Filters;
 using WeLearn.Auth.Extensions;
 using WeLearn.IdentityServer.Configuration.Providers;
 using WeLearn.IdentityServer.Configuration.Services.Register;
 using WeLearn.IdentityServer.Services.Account;
 using WeLearn.IdentityServer.Services.Identity;
+using WeLearn.IdentityServer.Services.Identity.Grants;
 using WeLearn.IdentityServer.Services.Register;
 using WeLearn.IdentityServer.Services.Users;
 
@@ -35,11 +37,19 @@ public static class IServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddDbPersistedGrantService(this IServiceCollection services)
+    {
+        services.AddTransient<IPersistedGrantStore, DbPersistedGrantStoreService>();
+
+        return services;
+    }
+
     public static IServiceCollection AddWeLearnServices(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddConfigurationServices(configuration);
         services.AddUserApprovalValidationServices(configuration);
         services.AddUserApprovalServices();
+        services.AddDbPersistedGrantService();
 
         services.AddScoped<IAccountStore, AccountStore>();
         services.AddScoped<WeLearnUserManager>();
