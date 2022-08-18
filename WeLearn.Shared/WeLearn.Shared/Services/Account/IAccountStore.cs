@@ -3,7 +3,7 @@ using System.Security.Claims;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Roles;
 
-namespace WeLearn.IdentityServer.Services.Account;
+namespace WeLearn.Shared.Services.Account;
 
 public interface IAccountStore
 {

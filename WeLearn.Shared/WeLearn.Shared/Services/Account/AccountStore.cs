@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Roles;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Exceptions.Models;
 
-namespace WeLearn.IdentityServer.Services.Account;
+namespace WeLearn.Shared.Services.Account;
 
 public class AccountStore : IAccountStore
 {

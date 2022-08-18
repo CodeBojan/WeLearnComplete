@@ -17,10 +17,12 @@ public static class IServiceCollectionsExtensions
 
         services.AddWeLearnImporterServices(configuration);
 
+        services.AddBusinessServices(configuration);
+
         return services;
     }
 
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddBusinessServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddFollowedCourseServices(configuration);
         services.AddFollowedStudyYearServices(configuration);

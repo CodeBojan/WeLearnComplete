@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeLearn.Shared.Dtos.StudyYear
+namespace WeLearn.Shared.Dtos.StudyYear;
+
+public class PutStudyYearDto
 {
-    internal class PutStudyYearDto
-    {
-    }
+    public string ShortName { get; set; }
+    public string FullName { get; set; }
+    public string Description { get; set; }
 }

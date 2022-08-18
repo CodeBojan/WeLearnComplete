@@ -31,6 +31,7 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
+        // TODO refactor to use service
         UserListDto = await _dbContext.Users
             .MapToListItemDto()
             .ToListAsync();

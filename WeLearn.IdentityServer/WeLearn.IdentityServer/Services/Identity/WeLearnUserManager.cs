@@ -3,9 +3,9 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using ClaimTypes = WeLearn.Auth.Authorization.Claims.ClaimTypes;
 using WeLearn.Data.Models;
-using WeLearn.IdentityServer.Services.Account;
 using WeLearn.Auth.Authorization.Roles;
 using WeLearn.Data.Models.Roles;
+using WeLearn.Shared.Services.Account;
 
 namespace WeLearn.IdentityServer.Services.Identity;
 

@@ -218,6 +218,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         builder.Entity<StudyYear>(sy =>
         {
             sy.HasKey(sy => sy.Id);
+
+            sy.HasIndex(sy => sy.ShortName)
+            .IsUnique();
+            sy.HasIndex(sy => sy.FullName)
+            .IsUnique();
         });
 
         builder.Entity<Course>(c =>

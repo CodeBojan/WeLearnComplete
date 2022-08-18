@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Persistence;
+using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Dtos.StudyYear;
 using WeLearn.Shared.Exceptions.Models;
@@ -17,10 +19,12 @@ namespace WeLearn.Shared.Services.StudyYear;
 public class StudyYearsService : IStudyYearsService
 {
     private readonly ApplicationDbContext _dbContext;
+    private readonly ILogger _logger;
 
-    public StudyYearsService(ApplicationDbContext dbContext)
+    public StudyYearsService(ApplicationDbContext dbContext, ILogger<StudyYearsService> logger)
     {
         _dbContext = dbContext;
+        _logger = logger;
     }
 
     public async Task<GetStudyYearDto> GetStudyYearAsync(Guid studyYearId)
@@ -36,10 +40,32 @@ public class StudyYearsService : IStudyYearsService
         return dto;
     }
 
+    public async Task<GetStudyYearDto> UpdateStudyYearAsync(Guid studyYearId, string shortName, string fullName, string description)
+    {
+        var existingStudyYear = await _dbContext.StudyYears.FirstOrDefaultAsync(sy => sy.Id == studyYearId);
+        if (existingStudyYear is null)
+            throw new StudyYearNotFoundException();
+
+        existingStudyYear.ShortName = shortName;
+        existingStudyYear.FullName = fullName;
+
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO catch better exception
+            _logger.LogError(ex, "Error updating Study Year {@StudyYearId}", studyYearId);
+            throw new StudyYearUpdateException(null, ex);
+        }
+
+        return existingStudyYear.MapToGetDto();
+    }
+
     public async Task<GetStudyYearDto> CreateStudyYearAsync(string shortName, string fullName, string description)
     {
-        // TODO unique index
-        var existingStudyYear = await _dbContext.StudyYears.FirstOrDefaultAsync(sy => sy.ShortName == shortName || sy.FullName == fullName);
+        var existingStudyYear = await GetStudyYearByNamesAsync(shortName, fullName);
         if (existingStudyYear is not null)
             throw new StudyYearAlreadyExistsException();
 
@@ -49,6 +75,31 @@ public class StudyYearsService : IStudyYearsService
         await _dbContext.SaveChangesAsync();
 
         return existingStudyYear.MapToGetDto();
+    }
+
+    private Task<Data.Models.StudyYear?> GetStudyYearByNamesAsync(string shortName, string fullName)
+    {
+        // TODO unique index
+        return _dbContext.StudyYears.FirstOrDefaultAsync(sy => sy.ShortName == shortName || sy.FullName == fullName);
+    }
+
+    public async Task<PagedResponseDto<GetAccountDto>> GetFollowingAccountsAsync(Guid studyYearId, PageOptionsDto pageOptions)
+    {
+        var studyYear = await _dbContext.StudyYears
+            .AsNoTracking()
+            .FirstOrDefaultAsync(sy => sy.Id == studyYearId);
+        if (studyYear is null)
+            throw new StudyYearNotFoundException();
+
+        var dto = await _dbContext.FollowedStudyYears
+            .AsNoTracking()
+            .Include(fsy => fsy.Account)
+                .ThenInclude(a => a.User)
+            .Where(fsy => fsy.StudyYearId == studyYearId)
+            .Select(fsy => fsy.Account)
+            .GetPagedResponseDtoAsync(pageOptions, MapAccountToGetDto());
+
+        return dto;
     }
 
     public async Task<PagedResponseDto<GetStudyYearDto>> GetStudyYearsAsync(PageOptionsDto pageOptions)
@@ -64,5 +115,10 @@ public class StudyYearsService : IStudyYearsService
     private static Expression<Func<Data.Models.StudyYear, GetStudyYearDto>> MapStudyYearToGetDto()
     {
         return sy => sy.MapToGetDto();
+    }
+
+    private static Expression<Func<Data.Models.Account, GetAccountDto>> MapAccountToGetDto()
+    {
+        return a => a.MapToGetDto();
     }
 }

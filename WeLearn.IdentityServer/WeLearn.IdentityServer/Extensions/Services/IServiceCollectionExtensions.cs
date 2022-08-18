@@ -3,11 +3,11 @@ using WeLearn.Auth.Authorization.Mvc.Filters;
 using WeLearn.Auth.Extensions;
 using WeLearn.IdentityServer.Configuration.Providers;
 using WeLearn.IdentityServer.Configuration.Services.Register;
-using WeLearn.IdentityServer.Services.Account;
 using WeLearn.IdentityServer.Services.Identity;
 using WeLearn.IdentityServer.Services.Identity.Grants;
 using WeLearn.IdentityServer.Services.Register;
 using WeLearn.IdentityServer.Services.Users;
+using WeLearn.Shared.Services.Account;
 
 namespace WeLearn.IdentityServer.Extensions.Services;
 
