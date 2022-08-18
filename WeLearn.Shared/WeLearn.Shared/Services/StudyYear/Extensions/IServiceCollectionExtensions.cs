@@ -12,7 +12,7 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddStudyYearServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IStudyYearService, StudyYearService>();
+        services.AddScoped<IStudyYearsService, StudyYearsService>();
 
         return services;
     }

@@ -11,7 +11,7 @@ namespace WeLearn.IdentityServer.Pages.Admin.StudyYears;
 
 public class IndexModel : PageModel
 {
-    private readonly IStudyYearService _studyYearService;
+    private readonly IStudyYearsService _studyYearService;
 
     [BindProperty(Name = "pg", SupportsGet = true)]
     public new int? Page { get; set; }
@@ -24,7 +24,7 @@ public class IndexModel : PageModel
 
     public IndexViewModel ViewModel { get; set; }
 
-    public IndexModel(IStudyYearService studyYearService)
+    public IndexModel(IStudyYearsService studyYearService)
     {
         _studyYearService = studyYearService;
     }

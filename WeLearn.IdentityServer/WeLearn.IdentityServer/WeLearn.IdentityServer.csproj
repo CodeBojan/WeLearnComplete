@@ -59,6 +59,7 @@
 
 	<ItemGroup>
 		<Folder Include="Dtos\Configuration\" />
+		<Folder Include="Extensions\ClaimsPrincipal\" />
 		<Folder Include="Extensions\Configuration\" />
 		<Folder Include="wwwroot\css\" />
 		<Folder Include="wwwroot\images\" />

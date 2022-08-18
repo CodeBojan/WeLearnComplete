@@ -7,9 +7,9 @@ namespace WeLearn.IdentityServer.Pages.Admin.StudyYears;
 
 public class StudyYearModel : PageModel
 {
-    private readonly IStudyYearService _studyYearService;
+    private readonly IStudyYearsService _studyYearService;
 
-    public StudyYearModel(IStudyYearService studyYearService)
+    public StudyYearModel(IStudyYearsService studyYearService)
     {
         _studyYearService = studyYearService;
     }

@@ -14,11 +14,11 @@ using WeLearn.Shared.Extensions.Paging;
 
 namespace WeLearn.Shared.Services.StudyYear;
 
-public class StudyYearService : IStudyYearService
+public class StudyYearsService : IStudyYearsService
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public StudyYearService(ApplicationDbContext dbContext)
+    public StudyYearsService(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
