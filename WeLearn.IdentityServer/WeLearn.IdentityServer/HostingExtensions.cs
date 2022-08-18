@@ -120,38 +120,7 @@ internal static class HostingExtensions
             .AddAspNetIdentity<ApplicationUser>();
 
         var authentication = services.AddAuthentication()
-        .AddJwtBearer(options =>
-        {
-            options.Authority = authority; // TODO use configuration
-
-            options.TokenValidationParameters.ValidateAudience = false;
-
-            options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-
-            options.Events = new JwtBearerEvents
-            {
-                OnTokenValidated = async (context) =>
-                {
-                    //context.HttpContext.RequestServices // TODO use
-                    // TODO use usermanager here with sub claim
-                    if (context.SecurityToken is JwtSecurityToken jwt)
-                    {
-                        var accessToken = jwt.RawData;
-                        var oidcClient = new OidcClient(new OidcClientOptions
-                        {
-                            Authority = authority,
-                        });
-                        var userInfoResult = await oidcClient.GetUserInfoAsync(accessToken);
-                        if (userInfoResult.IsError)
-                            throw new Exception(userInfoResult.ErrorDescription); // TODO
-
-                        var claims = userInfoResult.Claims;
-                        var claimsIdentity = new ClaimsIdentity(claims);
-                        context.Principal.AddIdentity(claimsIdentity);
-                    }
-                }
-            };
-        });
+        .AddIdentityServerAuthentication(authority);
 
         var googleAuthSettings = configuration.GetSection("Auth").GetSection(GoogleAuthSettings.SectionName)
                     .Get<GoogleAuthSettings>();

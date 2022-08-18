@@ -10,6 +10,7 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddNoticeBoardServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<NoticeBoardSystemImporterSettings>(configuration.GetSection(nameof(NoticeBoardSystemImporterSettings)));
         services.AddScoped<NoticeBoardSystemImporter>();
         services.AddScoped<ISystemImporter, NoticeBoardSystemImporter>(sp => sp.GetRequiredService<NoticeBoardSystemImporter>());
         services.AddScoped<INoticeBoardSystemImporter, NoticeBoardSystemImporter>(sp => sp.GetRequiredService<NoticeBoardSystemImporter>());

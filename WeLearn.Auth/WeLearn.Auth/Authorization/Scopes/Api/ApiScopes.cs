@@ -11,7 +11,6 @@ namespace WeLearn.Auth.Authorization.Scopes.Api
     {
         // TODO define more scopes
         public static readonly ImmutableList<ApiScope> Scopes = ImmutableList.Create(
-
             new ApiScope(ClaimTypes.StudyYear.Name),
             new ApiScope(ClaimTypes.Course.Name),
             new ApiScope(ClaimTypes.Config.Name),

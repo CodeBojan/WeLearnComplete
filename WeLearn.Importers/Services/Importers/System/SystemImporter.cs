@@ -11,6 +11,7 @@ namespace WeLearn.Importers.Services.Importers.System;
 // TODO add isenabled and monitor from IOptionsMonitor of settings
 public abstract class SystemImporter : ISystemImporter
 {
+    public bool IsEnabled { get; set; }
     public abstract string Name { get; }
     public abstract IEnumerable<IContentImporter> ContentImporters { get; }
     public void ResetImporters()

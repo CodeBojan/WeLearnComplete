@@ -28,6 +28,8 @@ public abstract class AuthorizedHttpDbContentImporter<TContent, TDto> : HttpDbIm
     }
 
     // TODO add authorization settings?
+    // TODO move to some higher abstract class
+    // TODO move externalsystemid to higher abstract class
     public Guid ExternalSystemId { get; protected set; }
     public abstract Task<IEnumerable<Credentials>> GetCredentialsAsync();
     public abstract Task PrepareHttpClientAsync();

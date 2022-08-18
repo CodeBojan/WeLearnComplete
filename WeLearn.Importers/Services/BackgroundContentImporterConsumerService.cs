@@ -2,11 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeLearn.Importers.Services.System;
 
 namespace WeLearn.Importers.Services;
@@ -16,15 +11,17 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
     private BackgroundContentImporterConsumerServiceSettings settings;
     private readonly ILogger _logger;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IOptionsMonitor<BackgroundContentImporterConsumerServiceSettings> _settingsMonitor;
     private IEnumerable<ISystemImporter> systemImporters = new List<ISystemImporter>();
 
     public BackgroundContentImporterConsumerService(ILogger<BackgroundContentImporterConsumerService> logger,
         IServiceProvider serviceProvider,
-       IOptionsMonitor<BackgroundContentImporterConsumerServiceSettings> settings)
+       IOptionsMonitor<BackgroundContentImporterConsumerServiceSettings> settingsMonitor)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
-        this.settings = settings.CurrentValue;
+        _settingsMonitor = settingsMonitor;
+        settings = settingsMonitor.CurrentValue;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,6 +29,7 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
         _logger.LogInformation("{@ServiceName} is starting", nameof(BackgroundContentImporterConsumerService));
         while (!stoppingToken.IsCancellationRequested)
         {
+            settings = _settingsMonitor.CurrentValue;
             _logger.LogInformation("{@ServiceName} is sleeping for {@Timeout}", nameof(BackgroundContentImporterConsumerService), settings.PreImportTimeout);
             await Task.Delay(settings.PreImportTimeout, stoppingToken);
 
@@ -61,6 +59,12 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
                     continue;
                 }
 
+                if (!systemImporter.IsEnabled)
+                {
+                    _logger.LogInformation("{@SystemImporter} is disabled", systemImporter.Name);
+                    continue;
+                }
+
                 foreach (var contentImporter in contentImporters)
                 {
                     _logger.LogInformation("{@ContentImporter} beginning importing", contentImporter.Name);
@@ -75,6 +79,9 @@ public class BackgroundContentImporterConsumerService : BackgroundService, IBack
                     _logger.LogInformation("{@ContentImporter} finished", contentImporter.Name);
                 }
             }
+
+            _logger.LogInformation("{@ServiceName} is sleeping for {@Timeout}", nameof(BackgroundContentImporterConsumerService), settings.PostImportTimeout);
+            await Task.Delay(settings.PostImportTimeout, stoppingToken);
         }
     }
 

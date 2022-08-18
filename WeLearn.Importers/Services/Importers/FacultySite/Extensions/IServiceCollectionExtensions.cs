@@ -15,6 +15,7 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddFacultySiteServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<FacultySiteSystemImporterSettings>(configuration.GetSection(nameof(FacultySiteSystemImporterSettings)));
         services.AddScoped<FacultySiteSystemImporter>();
         services.AddScoped<ISystemImporter, FacultySiteSystemImporter>(sp => sp.GetRequiredService<FacultySiteSystemImporter>());
         services.AddScoped<IFacultySiteSystemImporter, FacultySiteSystemImporter>(sp => sp.GetRequiredService<FacultySiteSystemImporter>());

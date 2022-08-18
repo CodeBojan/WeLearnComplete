@@ -9,6 +9,7 @@ using WeLearn.Shared.Services.CourseTitleCleaner;
 using WeLearn.Shared.Services.CourseTitleCleaner.Extensions;
 using WeLearn.Shared.Services.Credentials.Extensions;
 using WeLearn.Shared.Services.StringMatcher;
+using WeLearn.Shared.Services.StringMatcher.Extensions;
 using WeLearn.Shared.Services.StudyYear.Extensions;
 
 namespace WeLearn.Shared.Extensions.Services;
@@ -19,9 +20,9 @@ public static class ISeviceCollectionExtensions
     {
         services.AddCredentialsServices(configuration);
 
-        services.AddCourseTitleCleanerServices(configuration);
+        services.AddStringMatcherServices(configuration);
 
-        services.AddCredentialsServices(configuration);
+        services.AddCourseTitleCleanerServices(configuration);
 
         services.AddStudyYearServices(configuration);
 
