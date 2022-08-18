@@ -40,7 +40,7 @@ public class UserModel : PageModel
     {
         if (user is null)
         {
-            AddUserNotFoundModelStateError();
+            AddUserNotFoundModelStateError(); // TODO pass through tempdata or something similar - model state doesnt persist when redirect
             return RedirectToPage("/Admin/Users/Index");
         }
 
@@ -51,7 +51,7 @@ public class UserModel : PageModel
 
     private void AddUserNotFoundModelStateError()
     {
-        ModelState.AddModelError("User", "User not found.");
+        ModelState.AddModelError("", "User not found.");
     }
 
     public async Task<IActionResult> OnPostAddRoleClaim(AddUserRoleClaimModel addUserRoleClaimModel)

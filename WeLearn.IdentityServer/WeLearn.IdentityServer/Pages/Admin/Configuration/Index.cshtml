@@ -21,14 +21,14 @@
 
 <div class="my-4">
 
-    <!-- Trigger -->
+    @*Trigger*@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPairModal">
         Add
     </button>
 
-    <!-- Modal -->
+    @*Modal*@
     <div class="modal fade" id="addPairModal" tabindex="-1" aria-labelledby="addPairModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title font-medium" id="addPairModalLabel">Add Configuration Pair</h5>
@@ -73,7 +73,10 @@
     {
         <div class="grid grid-cols-3 gap-4 mb-4">
             <span class="font-medium text-xl">Key</span>
-            <span class="font-medium text-xl col-span-2">Value</span>
+            <span class="font-medium text-xl">Value</span>
+            <span class="font-medium text-xl">Actions</span>
+
+            <div class="col-span-3 border border-gray-500"></div>
 
             @for (var i = 0; i < (configuration?.Length ?? 0); i++)
             {

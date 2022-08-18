@@ -26,7 +26,6 @@
 		<Exec Command="npm run css:build" />
 	</Target>
 
-
 	<ItemGroup>
 		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.4" />
 		<PackageReference Include="IdentityModel.OidcClient" Version="5.0.2" />
@@ -77,6 +76,8 @@
 		<None Include="Pages\Admin\Initialize\Configuration.cshtml" />
 		<None Include="Pages\Admin\Initialize\Index.cshtml" />
 		<None Include="Pages\Admin\Roles\Index.cshtml" />
+		<None Include="Pages\Admin\StudyYears\Index.cshtml" />
+		<None Include="Pages\Admin\StudyYears\StudyYear.cshtml" />
 		<None Include="Pages\Admin\Users\Approve.cshtml" />
 		<None Include="Pages\Admin\Users\Index.cshtml" />
 		<None Include="Pages\Admin\Users\User.cshtml" />

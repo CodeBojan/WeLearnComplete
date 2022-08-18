@@ -10,6 +10,14 @@ namespace WeLearn.Data.Models;
 
 public class StudyYear : BaseEntity
 {
+    public StudyYear(string shortName, string fullName, string description)
+    {
+        Id = Guid.NewGuid();
+        ShortName = shortName;
+        FullName = fullName;
+        Description = description;
+    }
+
     public string ShortName { get; set; }
     public string FullName { get; set; }
     public string Description { get; set; }

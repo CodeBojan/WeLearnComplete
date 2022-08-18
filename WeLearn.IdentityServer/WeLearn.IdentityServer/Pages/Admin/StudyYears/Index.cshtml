@@ -1,0 +1,183 @@
+﻿@page
+@model WeLearn.IdentityServer.Pages.Admin.StudyYears.IndexModel
+@{
+    ViewData["Title"] = "Study Years";
+    var viewModel = Model.ViewModel;
+    var pagedResponse = viewModel.PagedStudyYears;
+    var studyYears = pagedResponse.Data;
+
+    var currentPage = pagedResponse.Page;
+    var totalPages = pagedResponse.TotalPages;
+    var itemsPerPage = pagedResponse.Limit;
+}
+
+<a class="font-medium text-4xl col-black" href="/Admin/StudyYears">Study Years</a>
+
+<div class="my-4 text-2xl">
+    Study Years
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-red-500">
+        <span>Please correct the following errors</span>
+    </div>
+}
+
+<div class="my-4">
+
+    @*Trigger*@
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudyYearModal">
+        Add
+    </button>
+
+    @*Modal*@
+    <div class="modal fade" id="addStudyYearModal" tabindex="-1" aria-labelledby="add-study-year-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-medium" id="add-study-year-modal-label">Add Study Year</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form method="post" asp-page-handler="Create">
+                    <div class="modal-body flex flex-col gap-y-4">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="shortname-input">Short Name</span>
+                            </div>
+                            <input asp-for="Post.ShortName" type="text" class="form-control" aria-label="Small" aria-describedby="shortname-input" placeholder="Short Name">
+                        </div>
+
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="fullname-input">Full Name</span>
+                            </div>
+                            <input asp-for="Post.FullName" type="text" class="form-control" aria-label="Small" aria-describedby="fullname-input" placeholder="Full Name">
+                        </div>
+
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="description-input">Description</span>
+                            </div>
+                            <textarea asp-for="Post.Description" class="form-control" aria-label="Small" aria-describedby="description-input" placeholder="Description"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="flex flex-col my-4">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="shortname-search-input">Short Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Short Name" aria-label="shortname" aria-describedby="shortname-search-input">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="fullname-search-input">Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Name" aria-label="fullname" aria-describedby="fullname-search-input">
+    </div>
+    <div>
+        <a class="btn btn-primary" href="/">Search</a>
+    </div>
+</div>
+
+<div class="flex flex-col gap-y-2 ">
+    <div class="grid grid-cols-5 gap-2">
+        <span class="font-medium text-xl">Short Name</span>
+        <span class="font-medium text-xl">Name</span>
+        <span class="font-medium text-xl">Created Date</span>
+        <span class="col-span-2 font-medium text-xl">Updated Date</span>
+        @* TODO add follower count *@
+
+        <div class="col-span-5 border border-gray-500"></div>
+
+        @foreach (var studyYear in studyYears)
+        {
+            <span class="">@studyYear.ShortName</span>
+            <span class="">@studyYear.FullName</span>
+            <span class="">@studyYear.CreatedDate</span>
+            <span class="">@studyYear.UpdatedDate</span>
+            <div class="flex flex-row gap-x-4 items-center justify-center">
+                <a class="btn btn-primary" asp-page="StudyYear" asp-route-studyYearId="@studyYear.Id">View</a>
+            </div>
+            @*<span class="font-medium text-xl">@studyYear.FollowerCount</span>*@
+        }
+    </div>
+</div>
+
+<div class="flex flex-row gap-x-4">
+    <div class="flex flex-row items-center">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="page-size-selector">Items</label>
+            </div>
+            <form method="get">
+                <select asp-for="Limit" class="custom-select" onchange="this.form.submit()">
+                    <option selected>@itemsPerPage</option>
+                    <option value="1"><a asp-for-limit="1">1</a></option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    
+    <div class="flex flex-col items-center my-4">
+        <nav aria-label="navigationexample">
+            <ul class="pagination">
+                @{
+                    async Task RenderPageItem(int currentPage, int limit, bool isActive)
+                    {
+                        var className = isActive ? "active" : null;
+                        <li class="page-item @className"><a class="page-link" asp-route-pg="@(currentPage)" asp-route-limit="@(limit)">@(currentPage)</a></li>
+                    }
+
+                    int previousToShow = Math.Min(currentPage - 1, 2);
+                    int followingToShow = (int)totalPages - currentPage;
+                    var shouldShowPrevious = currentPage > 1;
+                    var shouldShowFollowing = currentPage < totalPages;
+
+                    <li class="page-item @(!shouldShowPrevious? "disabled": "")"><a class="page-link" asp-route-pg="@(currentPage -1)" asp-route-limit="@(itemsPerPage)" asp-ro>Previous</a></li>
+
+                    if (shouldShowPrevious)
+                    {
+                        for (int i = 0; i < previousToShow; i++)
+                        {
+                            var currPage = currentPage - previousToShow + i;
+                            await RenderPageItem(currPage, itemsPerPage, false);
+                        }
+                    }
+
+                    await RenderPageItem(currentPage, itemsPerPage, true);
+
+                    if (shouldShowFollowing)
+                    {
+                        for (int i = 1; i <= followingToShow; i++)
+                        {
+                            var currPage = currentPage + i;
+                            await RenderPageItem(currPage, itemsPerPage, false);
+                        }
+                    }
+                    <li class="page-item @(!shouldShowFollowing? "disabled": "")"><a class="page-link" asp-route-pg="@(currentPage +1)" asp-route-limit="@(itemsPerPage)">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

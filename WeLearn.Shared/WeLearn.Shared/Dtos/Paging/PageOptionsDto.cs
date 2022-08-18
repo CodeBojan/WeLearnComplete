@@ -9,8 +9,20 @@ namespace WeLearn.Shared.Dtos.Paging;
 
 public class PageOptionsDto
 {
+
+
     private int limit = 1;
     private int page = 1;
+
+    public PageOptionsDto()
+    {
+    }
+
+    public PageOptionsDto(int page, int limit)
+    {
+        Limit = limit;
+        Page = page;
+    }
 
     public int Limit
     {

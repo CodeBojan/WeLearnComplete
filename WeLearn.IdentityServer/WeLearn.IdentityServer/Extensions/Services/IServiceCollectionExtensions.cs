@@ -44,7 +44,7 @@ public static class IServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddWeLearnServices(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddWeLearnIdentityServerServices(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddConfigurationServices(configuration);
         services.AddUserApprovalValidationServices(configuration);

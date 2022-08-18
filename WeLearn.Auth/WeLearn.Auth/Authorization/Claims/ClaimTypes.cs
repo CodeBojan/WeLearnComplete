@@ -8,6 +8,7 @@ namespace WeLearn.Auth.Authorization.Claims;
 
 public static class ClaimTypes
 {
+    public const string Role = "role";
     public const string StudyYearAdmin = "year-admin";
     public const string CourseAdmin = "course-admin";
 

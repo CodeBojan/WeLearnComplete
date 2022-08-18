@@ -1,15 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@using Duende.IdentityServer.Extensions
+@using WeLearn.IdentityServer.Extensions.ClaimsPrincipal
+
+@{
+    var email = @Context.User?.GetEmail();
+    var roles = @Context.User?.GetRoles();
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
     <title>@ViewData["Title"] - Admin - WeLearn</title>
 
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
-    
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css" />
     <link rel="stylesheet" href="~/css/output.css" />
@@ -25,6 +33,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="~/Admin" class="navbar-brand">Home</a>
+                @Context.User?.GetDisplayName()
+                @(string.IsNullOrEmpty(email)? string.Empty : $" - {email}")
+                @((roles?.Any() ?? false) ? $" - {string.Join(", ", roles)}" : string.Empty)
             </div>
             <div class="navbar-collapse collapse">
             </div>

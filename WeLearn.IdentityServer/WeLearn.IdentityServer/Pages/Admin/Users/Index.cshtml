@@ -29,7 +29,7 @@ Search
         <div class="input-group-prepend">
             <span class="input-group-text" id="username-search-input">Username</span>
         </div>
-        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username-search-input">
+        <input type="text" class="form-control" placeholder="Username" aria-label="username" aria-describedby="username-search-input">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -47,7 +47,10 @@ Search
         <span class="font-medium text-xl">Email</span>
         <span class="font-medium text-xl">Username</span>
         <span class="font-medium text-xl">Approved</span>
-        <span class="col-span-2 font-medium text-xl">Created Date</span>
+        <span class="font-medium text-xl">Created Date</span>
+        <span class="font-medium text-xl">Actions</span>
+
+        <div class="col-span-5 border border-gray-500"></div>
 
         @for (int i = 0; i < users?.Count(); i++)
         {

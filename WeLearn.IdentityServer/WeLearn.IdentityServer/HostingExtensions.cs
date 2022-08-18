@@ -18,6 +18,11 @@ using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
 using System.IdentityModel.Tokens.Jwt;
 using IdentityModel.OidcClient;
 using System.Security.Claims;
+using WeLearn.Shared.Extensions.Services;
+using WeLearn.Auth.Policy;
+using WeLearn.Auth.Authorization.Roles;
+using WeLearn.Auth.Extensions;
+using WeLearn.IdentityServer.Extensions.RazorPages;
 
 namespace WeLearn.IdentityServer;
 
@@ -31,7 +36,10 @@ internal static class HostingExtensions
         var environment = builder.Environment;
         var services = builder.Services;
 
-        var mvcBuilder = services.AddRazorPages();
+        var mvcBuilder = services.AddRazorPages(options =>
+        {
+            options.ApplyAuthPolicies();
+        });
         if (environment.IsLocal())
             mvcBuilder.AddRazorRuntimeCompilation();
         services.AddControllers();
@@ -109,10 +117,7 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
-            .AddAspNetIdentity<ApplicationUser>()
-            ;
-        //.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-        //.AddProfileService<ProfileService>();
+            .AddAspNetIdentity<ApplicationUser>();
 
         var authentication = services.AddAuthentication()
         .AddJwtBearer(options =>
@@ -141,7 +146,7 @@ internal static class HostingExtensions
                             throw new Exception(userInfoResult.ErrorDescription); // TODO
 
                         var claims = userInfoResult.Claims;
-                        var claimsIdentity = new ClaimsIdentity(claims); 
+                        var claimsIdentity = new ClaimsIdentity(claims);
                         context.Principal.AddIdentity(claimsIdentity);
                     }
                 }
@@ -168,10 +173,11 @@ internal static class HostingExtensions
 
         services.AddAuthorization(options =>
         {
-            // TODO note: define "ApiController" policy - requires jwt auth - apply to every controller (maybe using reflection)
+            options.AddAuthorizationPolicies();
         });
 
-        services.AddWeLearnServices(configuration);
+        services.AddSharedServices(configuration);
+        services.AddWeLearnIdentityServerServices(configuration);
 
         return builder.Build();
     }

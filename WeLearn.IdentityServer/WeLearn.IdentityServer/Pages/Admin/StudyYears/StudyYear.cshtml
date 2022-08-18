@@ -1,0 +1,74 @@
+﻿@page
+@model WeLearn.IdentityServer.Pages.Admin.StudyYears.StudyYearModel
+@{
+    var viewModel = Model.ViewModel;
+    var studyYear = viewModel.StudyYear;
+
+    var id = studyYear.Id;
+    var shortName = studyYear.ShortName;
+    var fullName = studyYear.FullName;
+    var description = studyYear.Description;
+    var createdDate = studyYear.CreatedDate;
+    var updatedDate = studyYear.UpdatedDate;
+
+    ViewData["Title"] = shortName;
+}
+
+<a class="font-medium text-4xl col-black" asp-route-studyYearId="@id">Study Year</a>
+
+<div class="my-4 text-2xl font-medium">
+    Study Year
+</div>
+
+@if (!ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="text-red-500 my-4">
+        <span>Please correct the following errors</span>
+    </div>
+}
+
+<div class="flex flex-col gap-y-4 mb-4">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="id-description">Id</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="id-description" value="@id" readonly>
+    </div>
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="shortname-description">Short Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Short Name" aria-label="ShortName" aria-describedby="shortname-description" value="@shortName" readonly>
+    </div>
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="fullname-description">Full Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Full Name" aria-label="FullName" aria-describedby="fullname-description" value="@fullName" readonly>
+    </div>
+
+
+    <div class="input-group flex">
+        <div class="input-group-text flex grow">
+            <textarea class="w-100" disabled="disabled">@description</textarea>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="created-date-description">Created Date</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="CreatedDate" aria-describedby="created-date-description" value="@createdDate" readonly>
+    </div>
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="updated-date-description">Updated Date</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="UpdatedDate" aria-describedby="updated-date-description" value="@updatedDate" readonly>
+    </div>
+</div>
+
+@*TODO users following study year*@

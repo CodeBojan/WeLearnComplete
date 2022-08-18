@@ -70,10 +70,16 @@ public class IndexModel : PageModel
 
         user = new ApplicationUser(username, email, approved: true);
         var createdUserResult = await _userManager.CreateAsync(user);
-
         if (!createdUserResult.Succeeded)
         {
             ModelState.TryAddModelStateErrors(createdUserResult);
+            return Page();
+        }
+
+        var addPasswordResult = await _userManager.AddPasswordAsync(user, password);
+        if (!addPasswordResult.Succeeded)
+        {
+            ModelState.TryAddModelStateErrors(addPasswordResult);
             return Page();
         }
 

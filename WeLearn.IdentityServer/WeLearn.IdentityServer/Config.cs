@@ -16,7 +16,7 @@ public static class Config
                 .AddRange(new string[]{
                     ClaimTypes.StudyYearAdmin,
                     ClaimTypes.CourseAdmin,
-                    "role"
+                    ClaimTypes.Role
                 })),
             new IdentityResources.Email(),
         };

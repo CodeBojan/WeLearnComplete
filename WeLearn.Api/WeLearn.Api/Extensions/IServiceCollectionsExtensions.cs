@@ -16,8 +16,6 @@ public static class IServiceCollectionsExtensions
 
         services.AddWeLearnImporterServices(configuration);
 
-
-
         return services;
     }
 
