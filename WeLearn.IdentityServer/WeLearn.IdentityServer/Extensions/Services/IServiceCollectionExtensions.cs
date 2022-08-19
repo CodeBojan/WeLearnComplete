@@ -51,7 +51,6 @@ public static class IServiceCollectionExtensions
         services.AddUserApprovalServices();
         services.AddDbPersistedGrantService();
 
-        services.AddScoped<IAccountStore, AccountStore>();
         services.AddScoped<WeLearnUserManager>();
 
         services.AddIpWhitelistFilter<IpWhitelistSettings>(configuration);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Persistence;
+using WeLearn.Importers.Dtos.Notification;
 
 namespace WeLearn.Importers.Services.Notification
 {

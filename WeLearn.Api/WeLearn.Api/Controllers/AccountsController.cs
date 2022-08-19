@@ -22,7 +22,7 @@ public class AccountsController : UserAuthorizedController
     {
         try
         {
-            var dto = _accountStore.GetAccountAsync(UserId);
+            var dto = await _accountStore.GetAccountAsync(UserId);
             return Ok(dto);
         }
         catch (AccountNotFoundException)

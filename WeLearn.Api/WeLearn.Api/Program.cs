@@ -99,6 +99,16 @@ static void ConfigureServices(WebApplicationBuilder builder)
     });
 
     services.AddApiServices(configuration);
+
+    services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins(configuration.GetSection("Cors:AllowedOrigins").Get<string[]>())
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
 }
 
 static void Configure(WebApplication app)
@@ -114,6 +124,9 @@ static void Configure(WebApplication app)
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseRouting();
+    app.UseCors();
 
     if (configuration.GetSection("Authentication:Enabled").Get<bool>())
     {
