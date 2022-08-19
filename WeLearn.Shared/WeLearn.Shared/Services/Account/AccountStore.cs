@@ -5,7 +5,9 @@ using System.Security.Claims;
 using WeLearn.Data.Models;
 using WeLearn.Data.Models.Roles;
 using WeLearn.Data.Persistence;
+using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Exceptions.Models;
+using WeLearn.Shared.Extensions.Models;
 
 namespace WeLearn.Shared.Services.Account;
 
@@ -20,6 +22,20 @@ public class AccountStore : IAccountStore
     {
         _dbContext = dbContext;
         _logger = logger;
+    }
+
+    public async Task<GetAccountDto> GetAccountAsync(Guid accountId)
+    {
+        var dto = await _dbContext.Accounts
+            .AsNoTracking()
+            .Include(a => a.User)
+            .Where(a => a.Id == accountId)
+            .Select(AccountExtensions.MapAccountToGetDto())
+            .FirstOrDefaultAsync();
+        if (dto is null)
+            throw new AccountNotFoundException();
+
+        return dto;
     }
 
     public async Task<AccountRole> AddRoleAsync(WeLearn.Data.Models.Account account, Role role, RoleType roleType)
@@ -60,7 +76,7 @@ public class AccountStore : IAccountStore
         var roleTypeStr = roleType.ToString();
         var role = await GetOrCreateRoleFromRoleClaimAsync(roleTypeStr, roleTypeStr, value);
 
-        var account = await GetAccountAsync(userId);
+        var account = await GetAccountWithTrackingAsync(userId);
         try
         {
             var accountRole = await AddRoleAsync(account, role, roleType);
@@ -92,9 +108,10 @@ public class AccountStore : IAccountStore
         return IdentityResult.Success;
     }
 
-    public async Task<WeLearn.Data.Models.Account> GetAccountAsync(Guid id)
+    public async Task<WeLearn.Data.Models.Account> GetAccountWithTrackingAsync(Guid id)
     {
-        var account = await _dbContext.Accounts.FirstOrDefaultAsync(a => a.Id == id);
+        var account = await _dbContext.Accounts
+            .FirstOrDefaultAsync(a => a.Id == id);
 
         return account;
     }
