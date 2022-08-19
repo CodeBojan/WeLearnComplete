@@ -97,7 +97,7 @@ public class StudyYearsService : IStudyYearsService
                 .ThenInclude(a => a.User)
             .Where(fsy => fsy.StudyYearId == studyYearId)
             .Select(fsy => fsy.Account)
-            .GetPagedResponseDtoAsync(pageOptions, MapAccountToGetDto());
+            .GetPagedResponseDtoAsync(pageOptions, AccountExtensions.MapAccountToGetDto());
 
         return dto;
     }
@@ -115,10 +115,5 @@ public class StudyYearsService : IStudyYearsService
     private static Expression<Func<Data.Models.StudyYear, GetStudyYearDto>> MapStudyYearToGetDto()
     {
         return sy => sy.MapToGetDto();
-    }
-
-    private static Expression<Func<Data.Models.Account, GetAccountDto>> MapAccountToGetDto()
-    {
-        return a => a.MapToGetDto();
     }
 }

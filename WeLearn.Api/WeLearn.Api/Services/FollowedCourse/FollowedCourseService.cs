@@ -62,7 +62,7 @@ namespace WeLearn.Api.Services.FollowedCourse
             return dto;
         }
 
-        private IIncludableQueryable<WeLearn.Data.Models.FollowedCourse, Course> GetUntrackedQueryable()
+        private IIncludableQueryable<WeLearn.Data.Models.FollowedCourse, WeLearn.Data.Models.Course> GetUntrackedQueryable()
         {
             return _dbContext.FollowedCourses
                             .AsNoTracking()

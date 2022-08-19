@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Models;
@@ -21,5 +22,10 @@ public static class AccountExtensions
             Username = a.Username,
             FacultyStudendId = a.StudentId,
         };
+    }
+
+    public static Expression<Func<Account, GetAccountDto>> MapAccountToGetDto()
+    {
+        return a => a.MapToGetDto();
     }
 }
