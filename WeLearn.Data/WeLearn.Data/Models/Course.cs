@@ -10,6 +10,18 @@ namespace WeLearn.Data.Models;
 
 public class Course : BaseEntity
 {
+    public Course(string code, string shortName, string fullName, string staff, string description, string rules, Guid studyYearId)
+    {
+        Id = Guid.NewGuid();
+        Code = code;
+        ShortName = shortName;
+        FullName = fullName;
+        Staff = staff;
+        Description = description;
+        Rules = rules;
+        StudyYearId = studyYearId;
+    }
+
     // TODO index on codes
     public string Code { get; set; }
     public string ShortName { get; set; }

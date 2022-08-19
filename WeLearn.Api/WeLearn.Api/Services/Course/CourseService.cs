@@ -99,6 +99,31 @@ public class CourseService : ICourseService
         }
     }
 
+    public async Task<GetCourseDto> CreateCourseAsync(
+        string code,
+        string shortName,
+        string fullName,
+        string staff,
+        string description,
+        string rules,
+        Guid studyYearId)
+    {
+        var course = new WeLearn.Data.Models.Course(code, shortName, fullName, staff, description, rules, studyYearId);
+
+        _dbContext.Add(course);
+        // TODO better exception handling
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new CourseCreationException(null, ex);
+        }
+
+        return course.MapToGetDto();
+    }
+
     private static Expression<Func<WeLearn.Data.Models.Course, GetCourseDto>> MapCourseToGetDto()
     {
         return c => c.MapToGetDto();

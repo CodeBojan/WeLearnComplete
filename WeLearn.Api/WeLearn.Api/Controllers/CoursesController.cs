@@ -54,5 +54,50 @@ namespace WeLearn.Api.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<GetCourseDto>>
+            PostCourseAsync([FromBody] PostCourseDto postDto)
+        {
+            try
+            {
+                var dto = await _courseService.CreateCourseAsync(
+                    postDto.Code,
+                    postDto.ShortName,
+                    postDto.FullName,
+                    postDto.Staff,
+                    postDto.Description,
+                    postDto.Rules,
+                    postDto.StudyYearId);
+
+                return Ok(dto);
+            }
+            catch (CourseCreationException)
+            {
+                return Conflict();
+            }
+        }
+
+        [HttpPut("{courseId}")]
+        public async Task<ActionResult<GetCourseDto>> PutCourseAsync([FromRoute] Guid courseId, [FromBody] PutCourseDto putDto)
+        {
+            try
+            {
+                var dto = await _courseService.UpdateCourseAsync(
+                    courseId,
+                    putDto.Code,
+                    putDto.ShortName,
+                    putDto.FullName,
+                    putDto.Staff,
+                    putDto.Description,
+                    putDto.Rules);
+
+                return Ok(dto);
+            }
+            catch (CourseUpdateException)
+            {
+                return Conflict();
+            }
+        }
     }
 }
