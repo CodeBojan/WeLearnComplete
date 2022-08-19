@@ -12,6 +12,7 @@ public static class StudyYearExtensions
 {
     public static GetStudyYearDto MapToGetDto(this StudyYear studyYear)
     {
+        // TODO map whether the user is following
         return new GetStudyYearDto
         {
             Id = studyYear.Id,

@@ -1,4 +1,5 @@
 ﻿using WeLearn.Api.Services.Course.Extensions;
+using WeLearn.Api.Services.CourseMaterialUploadRequest.Extensions;
 using WeLearn.Api.Services.FollowedCourse.Extensions;
 using WeLearn.Api.Services.FollowedStudyYear.Extensions;
 using WeLearn.Data.Extensions;
@@ -28,6 +29,7 @@ public static class IServiceCollectionsExtensions
         services.AddFollowedCourseServices(configuration);
         services.AddFollowedStudyYearServices(configuration);
         services.AddCourseServices(configuration);
+        services.AddCourseMaterialUploadRequestServices(configuration);
 
         return services;
     }
