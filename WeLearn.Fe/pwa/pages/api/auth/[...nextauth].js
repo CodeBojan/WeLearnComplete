@@ -1,13 +1,15 @@
+import {
+  getClientId,
+  getClientSecret,
+  getIsIssuer,
+  getScopes,
+} from "../../../util/auth";
+
 import { Console } from "console";
 import IdentityServerProvider from "next-auth/providers/identity-server4";
 import NextAuth from "next-auth/next";
 
 const refreshAccessTokenError = "RefreshAccessTokenError";
-
-const getIsIssuer = () => process.env.IS_ISSUER;
-const getClientId = () => process.env.IS_CLIENT_ID;
-const getClientSecret = () => process.env.IS_CLIENT_SECRET;
-const getScopes = () => process.env.IS_SCOPES;
 
 async function refreshAccessToken(token) {
   try {
