@@ -20,11 +20,13 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="bg-white h-full w-7/12 md:w-4/12">
+        <div className="bg-white h-full w-10/12 md:w-6/12 lg:w-5/12 xl:w-3/12">
           <div className="flex flex-col h-full justify-between">
             <div>
-              <div>
-                <IconButton onClick={() => onTryClose && onTryClose()}>
+              <div className="flex flex-row justify-end">
+                <IconButton 
+                className="mr-4 mt-4 text-4xl"
+                onClick={() => onTryClose && onTryClose()}>
                   <AiOutlineClose />
                 </IconButton>
               </div>

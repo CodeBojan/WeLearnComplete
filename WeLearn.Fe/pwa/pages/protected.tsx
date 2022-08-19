@@ -2,9 +2,11 @@ import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import AccessDenied from "../components/access-denied";
+import { AppPageWithLayout } from "./_app";
+import Layout from "../layouts/layout";
 import { signInUtil } from "../util/auth";
 
-export default function ProtectedPage() {
+const ProtectedPage: AppPageWithLayout = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const [content, setContent] = useState();
@@ -47,4 +49,8 @@ export default function ProtectedPage() {
       </p>
     </>
   );
-}
+};
+
+ProtectedPage.getLayout = (page) => <Layout>{page}</Layout>;
+
+export default ProtectedPage;
