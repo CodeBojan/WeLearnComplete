@@ -1,4 +1,5 @@
 import { GetAccountDto } from "../types/api";
+import { createContext } from "react";
 
 export enum MeActionKind {
   SET_ME = "SET_ME",
@@ -7,7 +8,7 @@ export enum MeActionKind {
 export type MeAction = { type: MeActionKind.SET_ME; payload: GetAccountDto };
 
 export type MeState = {
-  account?: GetAccountDto | unknown;
+  account?: GetAccountDto | null;
 };
 
 export const initialMeState: MeState = {
@@ -23,3 +24,5 @@ export function meReducer(_state: MeState, action: MeAction): MeState {
     }
   }
 }
+
+export const MeContext = createContext(initialMeState);

@@ -15,32 +15,10 @@ import { useAppSession } from "../util/auth";
 import useSWR from "swr";
 
 const Home: AppPageWithLayout = () => {
-  const [meState, meDispatch] = useReducer(meReducer, initialMeState);
   const { data: session, status } = useAppSession();
-
-  const [isSideBarOpen, setIsSidebarOpen] = useState(false);
-
-  const { data: me, error } = useSWR<GetAccountDto>(
-    () => (!session ? null : ["/api/Accounts/Me", session.accessToken]),
-    apiGetFetcher
-  );
-
-  useEffect(() => {
-    if (!me) return;
-    meDispatch({ type: MeActionKind.SET_ME, payload: me });
-  }, [me]);
 
   return (
     <>
-      <Navbar
-        onDrawerToggle={() => {
-          setIsSidebarOpen(!isSideBarOpen);
-        }}
-      />
-      <Sidebar
-        isOpen={isSideBarOpen}
-        onTryClose={() => setIsSidebarOpen(false)}
-      />
       <div className={styles.container}>
         <main className={styles.main}>
           <h1 className={styles.title}>
@@ -105,7 +83,6 @@ const Home: AppPageWithLayout = () => {
           </div>
         </main>
       </div>
-      <BottomNav />
     </>
   );
 };

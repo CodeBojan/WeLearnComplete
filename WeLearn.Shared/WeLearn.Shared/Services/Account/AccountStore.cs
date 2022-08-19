@@ -71,6 +71,21 @@ public class AccountStore : IAccountStore
         return accountRole;
     }
 
+    public async Task<GetAccountDto> UpdateAccountAsync(Guid accountId, string firstName, string lastName, string facultyStudentId)
+    {
+        var account = await GetAccountWithTrackingAsync(accountId);
+        if (account is null)
+            throw new AccountNotFoundException();
+
+        account.FirstName = firstName;
+        account.LastName = lastName;
+        account.StudentId = facultyStudentId;
+
+        await _dbContext.SaveChangesAsync();
+
+        return AccountExtensions.MapToGetDto(account);
+    }
+
     public async Task<IdentityResult> AddRoleClaimAsync(Guid userId, RoleType roleType, string value)
     {
         var roleTypeStr = roleType.ToString();
@@ -108,7 +123,7 @@ public class AccountStore : IAccountStore
         return IdentityResult.Success;
     }
 
-    public async Task<WeLearn.Data.Models.Account> GetAccountWithTrackingAsync(Guid id)
+    public async Task<WeLearn.Data.Models.Account?> GetAccountWithTrackingAsync(Guid id)
     {
         var account = await _dbContext.Accounts
             .FirstOrDefaultAsync(a => a.Id == id);

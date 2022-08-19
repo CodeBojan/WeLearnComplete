@@ -30,4 +30,18 @@ public class AccountsController : UserAuthorizedController
             return NotFound();
         }
     }
+
+    [HttpPut("me")]
+    public async Task<ActionResult<GetAccountDto>> PutMeAsync([FromBody] PutAccountDto putDto)
+    {
+        try
+        {
+            var dto = await _accountStore.UpdateAccountAsync(UserId, putDto.FirstName, putDto.LastName, putDto.FacultyStudentId);
+            return Ok(dto);
+        }
+        catch (AccountNotFoundException)
+        {
+            return NotFound();
+        }
+    }
 }

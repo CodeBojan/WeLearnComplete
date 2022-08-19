@@ -12,4 +12,5 @@ public interface IAccountStore
     Task<IdentityResult> AddRoleClaimAsync(Guid id, RoleType roleType, string value);
     Task<IdentityResult> RemoveAccountRoleClaimAsync(ApplicationUser user, Claim claim, RoleType roleType);
     Task<GetAccountDto> GetAccountAsync(Guid accountId);
+    Task<GetAccountDto> UpdateAccountAsync(Guid accountId, string firstName, string lastName, string facultyStudentId);
 }
