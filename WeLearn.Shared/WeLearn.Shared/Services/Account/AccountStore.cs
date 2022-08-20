@@ -50,7 +50,8 @@ public class AccountStore : IAccountStore
         AccountRole accountRole;
         if (roleType is RoleType.CourseAdmin)
         {
-            var course = await _dbContext.Courses.FirstOrDefaultAsync(c => c.Id == entityId);
+            var course = await _dbContext.Courses
+                .FirstOrDefaultAsync(c => c.Id == entityId);
             if (course is null)
                 throw new CourseNotFoundException(entityId.ToString());
 
@@ -58,7 +59,8 @@ public class AccountStore : IAccountStore
         }
         else if (roleType is RoleType.StudyYearAdmin)
         {
-            var studyYear = await _dbContext.StudyYears.FirstOrDefaultAsync(y => y.Id == entityId);
+            var studyYear = await _dbContext.StudyYears
+                .FirstOrDefaultAsync(y => y.Id == entityId);
             if (studyYear is null)
                 throw new StudyYearNotFoundException(entityId.ToString());
 
@@ -73,7 +75,7 @@ public class AccountStore : IAccountStore
 
     public async Task<GetAccountDto> UpdateAccountAsync(Guid accountId, string firstName, string lastName, string facultyStudentId)
     {
-        var account = await GetAccountWithTrackingAsync(accountId);
+        var account = await GetAccountWithTrackingUser(accountId);
         if (account is null)
             throw new AccountNotFoundException();
 
@@ -131,6 +133,15 @@ public class AccountStore : IAccountStore
         return account;
     }
 
+    public async Task<Data.Models.Account?> GetAccountWithTrackingUser(Guid id)
+    {
+        var account = await _dbContext.Accounts
+            .Include(a => a.User)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        return account;
+    }
+
     public async Task<Role> GetOrCreateRoleFromRoleClaimAsync(string name, string type, string value)
     {
         var role = await _dbContext.ApiRoles.FirstOrDefaultAsync(r =>
@@ -152,7 +163,7 @@ public class AccountStore : IAccountStore
         var accountId = user.Id;
         var entityId = new Guid(claim.Value);
 
-        AccountRole accountRole;
+        AccountRole? accountRole;
         if (roleType is RoleType.CourseAdmin)
         {
             accountRole = await _dbContext.CourseAdminRoles.FirstOrDefaultAsync(car => car.CourseId == entityId && car.AccountId == accountId);

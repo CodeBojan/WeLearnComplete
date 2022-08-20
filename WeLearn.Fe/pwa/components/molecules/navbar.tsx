@@ -1,17 +1,12 @@
-import { AiOutlineBell, AiOutlineLogout, AiOutlineMenu } from "react-icons/ai";
-
+import { AiOutlineMenu } from "react-icons/ai";
 import IconButton from "../atoms/icon-button";
-import { MeContext } from "../../store/me-store";
 import NotificationBell from "../atoms/notification-bell";
-import { useContext } from "react";
 
 export interface NavbarProps {
   onDrawerToggle?: () => void;
 }
 
 export default function Navbar({ onDrawerToggle }: NavbarProps) {
-  const meContext = useContext(MeContext);
-
   return (
     <>
       <nav className="flex fixed w-full items-center justify-between px-6 h-16 bg-primary-dark border-b border-gray-200 z-10 text-white">

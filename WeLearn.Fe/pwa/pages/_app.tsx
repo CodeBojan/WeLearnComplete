@@ -27,7 +27,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <SessionProvider session={pageProps.session} refetchInterval={0}>
+    <SessionProvider
+      session={pageProps.session}
+      refetchInterval={5 * 60} // 5 minutes
+      refetchOnWindowFocus={true}
+    >
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

@@ -8,7 +8,7 @@ import NotificationBell from "../atoms/notification-bell";
 
 const bottomNavButton = (
   text: string,
-  icon: FunctionComponentElement<{ class: string }>,
+  icon: FunctionComponentElement<{ className: string }>,
   href: string
 ) => {
   return (
@@ -19,7 +19,9 @@ const bottomNavButton = (
     items-center
     justify-center cursor-pointer p-2 hover:bg-blue-400 hover:bg-opacity-50 hover:rounded-lg"
         >
-          {cloneElement(icon, { class: icon.props.class + " text-2xl" })}
+          {cloneElement(icon, {
+            className: icon.props.className + " text-2xl",
+          })}
           <span>{text}</span>
         </div>
       </a>

@@ -2,11 +2,18 @@
   "profiles": {
     "SelfHost": {
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
       },
       "applicationUrl": "https://localhost:7230;http://localhost:7229"
+    },
+    "SelfHostSeed": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      },
+      "applicationUrl": "https://localhost:7230;http://localhost:7229",
+      "commandLineArgs": "/seed"
     },
     "Docker": {
       "commandName": "Docker",

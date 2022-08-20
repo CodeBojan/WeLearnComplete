@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
 import IconButton from "../atoms/icon-button";
+import { MeContext } from "../../store/me-store";
 import SidebarMenu from "./sidebar-menu";
 import SignOutButton from "../auth/sign-out-button";
 
@@ -11,6 +12,11 @@ export interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
+  const meContext = useContext(MeContext);
+  const account = meContext.state.account;
+
+  if (!account) return <></>;
+
   return (
     <>
       <aside
@@ -24,14 +30,32 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
           <div className="flex flex-col h-full justify-between">
             <div>
               <div className="flex flex-row justify-end">
-                <IconButton 
-                className="mr-4 mt-4 text-4xl"
-                onClick={() => onTryClose && onTryClose()}>
+                <IconButton
+                  className="mr-4 mt-4 text-4xl"
+                  onClick={() => onTryClose && onTryClose()}
+                >
                   <AiOutlineClose />
                 </IconButton>
               </div>
+              <div className="flex flex-col items-start justify-start gap-y-2 ml-8">
+                <div>
+                  <span>{account.username}</span>
+                </div>
+                <div>
+                  <span>{account.email}</span>
+                </div>
+                {(account.firstName || account.lastName) && (
+                  <div className="flex flex-row items-center justify-start gap-x-4">
+                    {account.firstName && <span>{account.firstName}</span>}
+                    {account.lastName && <span>{account.lastName}</span>}
+                  </div>
+                )}
+                {account.facultyStudentId && (
+                  <div>{account.facultyStudentId}</div>
+                )}
+              </div>
               <div>
-                <SidebarMenu />
+                <SidebarMenu onNavigate={() => onTryClose && onTryClose()} />
               </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ public static class AccountExtensions
             LastName = a.LastName,
             Email = a.User.Email,
             Username = a.Username,
-            FacultyStudendId = a.StudentId,
+            FacultyStudentId = a.StudentId,
         };
     }
 

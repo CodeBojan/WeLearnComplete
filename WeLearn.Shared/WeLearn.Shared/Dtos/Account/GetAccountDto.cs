@@ -7,5 +7,5 @@ public class GetAccountDto
     public string Email { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public string? FacultyStudendId { get; set; }
+    public string? FacultyStudentId { get; set; }
 }

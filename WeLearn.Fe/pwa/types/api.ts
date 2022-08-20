@@ -96,7 +96,7 @@ export class GetAccountDto implements IGetAccountDto {
     email?: string | null;
     firstName?: string | null;
     lastName?: string | null;
-    facultyStudendId?: string | null;
+    facultyStudentId?: string | null;
 
     constructor(data?: IGetAccountDto) {
         if (data) {
@@ -114,7 +114,7 @@ export class GetAccountDto implements IGetAccountDto {
             this.email = _data["email"] !== undefined ? _data["email"] : <any>null;
             this.firstName = _data["firstName"] !== undefined ? _data["firstName"] : <any>null;
             this.lastName = _data["lastName"] !== undefined ? _data["lastName"] : <any>null;
-            this.facultyStudendId = _data["facultyStudendId"] !== undefined ? _data["facultyStudendId"] : <any>null;
+            this.facultyStudentId = _data["facultyStudentId"] !== undefined ? _data["facultyStudentId"] : <any>null;
         }
     }
 
@@ -132,7 +132,7 @@ export class GetAccountDto implements IGetAccountDto {
         data["email"] = this.email !== undefined ? this.email : <any>null;
         data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
         data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
-        data["facultyStudendId"] = this.facultyStudendId !== undefined ? this.facultyStudendId : <any>null;
+        data["facultyStudentId"] = this.facultyStudentId !== undefined ? this.facultyStudentId : <any>null;
         return data;
     }
 }
@@ -143,7 +143,7 @@ export interface IGetAccountDto {
     email?: string | null;
     firstName?: string | null;
     lastName?: string | null;
-    facultyStudendId?: string | null;
+    facultyStudentId?: string | null;
 }
 
 export class GetAccountDtoPagedResponseDto implements IGetAccountDtoPagedResponseDto {
@@ -973,6 +973,50 @@ export class PostFollowedStudyYearDto implements IPostFollowedStudyYearDto {
 export interface IPostFollowedStudyYearDto {
     accountId?: string;
     studyYearId?: string;
+}
+
+export class PutAccountDto implements IPutAccountDto {
+    firstName?: string | null;
+    lastName?: string | null;
+    facultyStudentId?: string | null;
+
+    constructor(data?: IPutAccountDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.firstName = _data["firstName"] !== undefined ? _data["firstName"] : <any>null;
+            this.lastName = _data["lastName"] !== undefined ? _data["lastName"] : <any>null;
+            this.facultyStudentId = _data["facultyStudentId"] !== undefined ? _data["facultyStudentId"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): PutAccountDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PutAccountDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
+        data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
+        data["facultyStudentId"] = this.facultyStudentId !== undefined ? this.facultyStudentId : <any>null;
+        return data;
+    }
+}
+
+export interface IPutAccountDto {
+    firstName?: string | null;
+    lastName?: string | null;
+    facultyStudentId?: string | null;
 }
 
 export class PutCourseDto implements IPutCourseDto {

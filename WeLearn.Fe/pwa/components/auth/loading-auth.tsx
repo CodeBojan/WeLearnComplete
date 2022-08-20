@@ -8,6 +8,7 @@ import {
 } from "react-spinners";
 import { getIsIssuer, signInUtil } from "../../util/auth";
 
+import Button from "../atoms/button";
 import Link from "next/link";
 import SignInButton from "./sign-in-button";
 
@@ -43,14 +44,19 @@ export default function LoadingAuth() {
           />
         </div>
 
-        {timeoutExpired && (
-          <div className="grid grid-cols-1 w-full px-4 mt-12 md:mt-20 gap-y-4">
-            <p className="row-span-1 text-center">
-              Don't have an account or haven't signed in?
-            </p>
-            <SignInButton className="row-span-1 text-2xl" />
-          </div>
-        )}
+        <div
+          className={`grid grid-cols-1 w-full px-4 mt-12 md:mt-20 gap-y-4 ease-in-out transition-opacity duration-500 ${
+            timeoutExpired ? "opacity-100" : "opacity-0 invisible"
+          }`}
+        >
+          <p className="row-span-1 text-center">
+            Don't have an account or haven't signed in?
+          </p>
+          <SignInButton className="row-span-1 text-2xl" />
+          {/* <Link href="/offline">
+            <Button className="mt-8 text-2xl bg-purple-600">Go Offline</Button>
+          </Link> */}
+        </div>
       </div>
     </>
   );
