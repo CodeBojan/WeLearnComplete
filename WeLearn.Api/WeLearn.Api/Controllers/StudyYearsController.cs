@@ -21,7 +21,7 @@ public class StudyYearsController : UserAuthorizedController
     [HttpGet]
     public async Task<ActionResult<PagedResponseDto<GetStudyYearDto>>> GetStudyYearsAsync([FromQuery] PageOptionsDto pageOptions)
     {
-        var dto = await _studyYearService.GetStudyYearsAsync(pageOptions);
+        var dto = await _studyYearService.GetStudyYearsAsync(pageOptions, UserId);
 
         return Ok(dto);
     }

@@ -219,6 +219,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             sy.HasKey(sy => sy.Id);
 
+            sy.Ignore(sy => sy.FollowingCount);
+            sy.Ignore(sy => sy.IsFollowing);
+
             sy.HasIndex(sy => sy.ShortName)
             .IsUnique();
             sy.HasIndex(sy => sy.FullName)

@@ -716,6 +716,95 @@ export interface IGetFollowedStudyYearDtoPagedResponseDto {
     data?: GetFollowedStudyYearDto[] | null;
 }
 
+export class GetNotificationDto implements IGetNotificationDto {
+
+    constructor(data?: IGetNotificationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): GetNotificationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetNotificationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data;
+    }
+}
+
+export interface IGetNotificationDto {
+}
+
+export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPagedResponseDto {
+    limit?: number;
+    page?: number;
+    totalPages?: number | null;
+    data?: GetNotificationDto[] | null;
+
+    constructor(data?: IGetNotificationDtoPagedResponseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
+            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(GetNotificationDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
+            }
+        }
+    }
+
+    static fromJS(data: any): GetNotificationDtoPagedResponseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetNotificationDtoPagedResponseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
+        data["page"] = this.page !== undefined ? this.page : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IGetNotificationDtoPagedResponseDto {
+    limit?: number;
+    page?: number;
+    totalPages?: number | null;
+    data?: GetNotificationDto[] | null;
+}
+
 export class GetStudyYearDto implements IGetStudyYearDto {
     readonly id?: string;
     readonly createdDate?: Date;
@@ -724,6 +813,7 @@ export class GetStudyYearDto implements IGetStudyYearDto {
     fullName?: string | null;
     description?: string | null;
     following?: number | null;
+    isFollowing?: boolean | null;
 
     constructor(data?: IGetStudyYearDto) {
         if (data) {
@@ -743,6 +833,7 @@ export class GetStudyYearDto implements IGetStudyYearDto {
             this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
             this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
             this.following = _data["following"] !== undefined ? _data["following"] : <any>null;
+            this.isFollowing = _data["isFollowing"] !== undefined ? _data["isFollowing"] : <any>null;
         }
     }
 
@@ -762,6 +853,7 @@ export class GetStudyYearDto implements IGetStudyYearDto {
         data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
         data["description"] = this.description !== undefined ? this.description : <any>null;
         data["following"] = this.following !== undefined ? this.following : <any>null;
+        data["isFollowing"] = this.isFollowing !== undefined ? this.isFollowing : <any>null;
         return data;
     }
 }
@@ -774,6 +866,7 @@ export interface IGetStudyYearDto {
     fullName?: string | null;
     description?: string | null;
     following?: number | null;
+    isFollowing?: boolean | null;
 }
 
 export class GetStudyYearDtoPagedResponseDto implements IGetStudyYearDtoPagedResponseDto {

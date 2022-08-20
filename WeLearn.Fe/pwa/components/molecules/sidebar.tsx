@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
+import { GetAccountDto } from "../../types/api";
 import IconButton from "../atoms/icon-button";
 import { MeContext } from "../../store/me-store";
 import SidebarMenu from "./sidebar-menu";
@@ -14,8 +15,6 @@ export interface SidebarProps {
 export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
   const meContext = useContext(MeContext);
   const account = meContext.state.account;
-
-  if (!account) return <></>;
 
   return (
     <>
@@ -37,23 +36,7 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
                   <AiOutlineClose />
                 </IconButton>
               </div>
-              <div className="flex flex-col items-start justify-start gap-y-2 ml-8">
-                <div>
-                  <span>{account.username}</span>
-                </div>
-                <div>
-                  <span>{account.email}</span>
-                </div>
-                {(account.firstName || account.lastName) && (
-                  <div className="flex flex-row items-center justify-start gap-x-4">
-                    {account.firstName && <span>{account.firstName}</span>}
-                    {account.lastName && <span>{account.lastName}</span>}
-                  </div>
-                )}
-                {account.facultyStudentId && (
-                  <div>{account.facultyStudentId}</div>
-                )}
-              </div>
+              {account && getAccountInfo(account)}
               <div>
                 <SidebarMenu onNavigate={() => onTryClose && onTryClose()} />
               </div>
@@ -66,5 +49,25 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
         ></div>
       </aside>
     </>
+  );
+}
+
+function getAccountInfo(account: GetAccountDto) {
+  return (
+    <div className="flex flex-col items-start justify-start gap-y-2 ml-8">
+      <div>
+        <span>{account.username}</span>
+      </div>
+      <div>
+        <span>{account.email}</span>
+      </div>
+      {(account.firstName || account.lastName) && (
+        <div className="flex flex-row items-center justify-start gap-x-4">
+          {account.firstName && <span>{account.firstName}</span>}
+          {account.lastName && <span>{account.lastName}</span>}
+        </div>
+      )}
+      {account.facultyStudentId && <div>{account.facultyStudentId}</div>}
+    </div>
   );
 }

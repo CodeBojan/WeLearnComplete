@@ -15,4 +15,5 @@ public class GetStudyYearDto
     public string FullName { get; set; }
     public string Description { get; set; }
     public int? Following { get; set; }
+    public bool? IsFollowing { get; set; }
 }

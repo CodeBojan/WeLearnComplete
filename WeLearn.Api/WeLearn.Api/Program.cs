@@ -114,7 +114,9 @@ static void ConfigureServices(WebApplicationBuilder builder)
 static void Configure(WebApplication app)
 {
     var configuration = app.Configuration;
-
+    app.UseRouting();
+    app.UseCors();
+    
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     {
@@ -124,9 +126,6 @@ static void Configure(WebApplication app)
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
-    app.UseRouting();
-    app.UseCors();
 
     if (configuration.GetSection("Authentication:Enabled").Get<bool>())
     {

@@ -10,6 +10,10 @@ namespace WeLearn.Data.Models;
 
 public class StudyYear : BaseEntity
 {
+    public StudyYear()
+    {
+    }
+    
     public StudyYear(string shortName, string fullName, string description)
     {
         Id = Guid.NewGuid();
@@ -21,6 +25,8 @@ public class StudyYear : BaseEntity
     public string ShortName { get; set; }
     public string FullName { get; set; }
     public string Description { get; set; }
+    public int FollowingCount { get; set; }
+    public bool? IsFollowing { get; set; }
 
     public virtual ICollection<Course> Courses { get; set; }
     public virtual ICollection<StudyYearAdminRole> AdminRoles { get; set; }

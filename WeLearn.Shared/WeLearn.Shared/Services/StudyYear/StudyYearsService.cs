@@ -112,6 +112,28 @@ public class StudyYearsService : IStudyYearsService
         return dto;
     }
 
+    public async Task<PagedResponseDto<GetStudyYearDto>> GetStudyYearsAsync(PageOptionsDto pageOptions, Guid accountId)
+    {
+        var dto = await _dbContext.StudyYears
+            .AsNoTracking()
+            .Include(sy => sy.FollowedStudyYears
+                //.Where(fsy => fsy.AccountId == accountId)
+                )
+        .OrderByDescending(sy => sy.UpdatedDate)
+        .Select(sy => new Data.Models.StudyYear
+        {
+            Id = sy.Id,
+            ShortName = sy.ShortName,
+            FullName = sy.FullName,
+            Description = sy.Description,
+            IsFollowing = sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId),
+            FollowingCount = sy.FollowedStudyYears.Count
+        })
+        .GetPagedResponseDtoAsync(pageOptions, MapStudyYearToGetDto());
+
+        return dto;
+    }
+
     private static Expression<Func<Data.Models.StudyYear, GetStudyYearDto>> MapStudyYearToGetDto()
     {
         return sy => sy.MapToGetDto();

@@ -23,8 +23,9 @@ public class FollowedStudyYearService : IFollowedStudyYearService
     public async Task<GetFollowedStudyYearDto> FollowStudyYearAsync(Guid accountId, Guid studyYearId)
     {
         var existingFollowedStudyYear = await GetUntrackedQueryable()
+            .Where(fc => fc.AccountId == accountId && fc.StudyYearId == studyYearId)
             .Select(MapFollowedStudyYearToGetDto())
-            .FirstOrDefaultAsync(fc => fc.AccountId == accountId && fc.StudyYearId == studyYearId);
+            .FirstOrDefaultAsync();
 
         if (existingFollowedStudyYear is not null)
             return existingFollowedStudyYear;
@@ -40,7 +41,8 @@ public class FollowedStudyYearService : IFollowedStudyYearService
     public async Task<GetFollowedStudyYearDto> UnfollowStudyYearAsync(Guid accountId, Guid studyYearId)
     {
         var existingFollowedStudyYear = await GetUntrackedQueryable()
-            .FirstOrDefaultAsync(fc => fc.AccountId == accountId && fc.StudyYearId == studyYearId);
+            .Where(fc => fc.AccountId == accountId && fc.StudyYearId == studyYearId)
+            .FirstOrDefaultAsync();
 
         if (existingFollowedStudyYear is null)
             throw new NotFollowingStudyYearException();

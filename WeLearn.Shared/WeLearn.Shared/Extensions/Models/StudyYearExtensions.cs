@@ -12,7 +12,6 @@ public static class StudyYearExtensions
 {
     public static GetStudyYearDto MapToGetDto(this StudyYear studyYear)
     {
-        // TODO map whether the user is following
         return new GetStudyYearDto
         {
             Id = studyYear.Id,
@@ -20,7 +19,9 @@ public static class StudyYearExtensions
             UpdatedDate = studyYear.UpdatedDate,
             ShortName = studyYear.ShortName,
             Description = studyYear.Description,
-            FullName = studyYear.FullName
+            FullName = studyYear.FullName,
+            Following = studyYear.FollowingCount,
+            IsFollowing = studyYear.IsFollowing
         };
     }
 }

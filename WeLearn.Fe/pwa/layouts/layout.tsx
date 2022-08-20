@@ -5,7 +5,7 @@ import {
   initialMeState,
   meReducer,
 } from "../store/me-store";
-import { apiAccountsMe, apiGetFetcher } from "../util/api";
+import { apiAccountsMe, apiGetFetcher, getApiRouteCacheKey } from "../util/api";
 import { createContext, useEffect, useReducer } from "react";
 import useSWR, { mutate } from "swr";
 
@@ -16,11 +16,12 @@ import { GetAccountDto } from "../types/api";
 import LoadingAuth from "../components/auth/loading-auth";
 import Navbar from "../components/molecules/navbar";
 import Sidebar from "../components/molecules/sidebar";
+import { ToastContainer } from "react-toastify";
 import { useAppSession } from "../util/auth";
 import { useState } from "react";
 
 const getAccountMeCacheKey = (session: AppSession) => {
-  return !session ? null : [apiAccountsMe, session.accessToken];
+  return getApiRouteCacheKey(apiAccountsMe, session);
 };
 
 export interface LayoutProps extends ComponentProps {}
@@ -64,7 +65,9 @@ export default function Layout({ children, ...props }: LayoutProps) {
                 isOpen={isSideBarOpen}
                 onTryClose={() => setIsSidebarOpen(false)}
               />
-              <div>{children}</div>
+              <div className="min-h-screen flex flex-col items-center justify-center">
+                {children}
+              </div>
             </MeInvalidationContext.Provider>
             <BottomNav />
           </MeContext.Provider>
@@ -73,3 +76,7 @@ export default function Layout({ children, ...props }: LayoutProps) {
     </div>
   );
 }
+
+export const defaultGetLayout = (page: React.ReactElement) => {
+  return <Layout>{page}</Layout>;
+};

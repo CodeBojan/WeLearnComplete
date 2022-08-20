@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "nprogress/nprogress.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import { ReactElement, ReactNode } from "react";
 
@@ -10,6 +11,7 @@ import { NextPage } from "next";
 import { Router } from "next/router";
 import { SWRConfig } from "swr";
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -61,6 +63,18 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       {/* TODO Solve type problem */}
       {getLayout(<Component {...pageProps} />)}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        theme={"light"}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </SessionProvider>
   );
 }

@@ -1,4 +1,5 @@
 import { GetAccountDto, PutAccountDto } from "../../types/api";
+import Layout, { defaultGetLayout } from "../../layouts/layout";
 import {
   MeActionKind,
   MeContext,
@@ -13,11 +14,10 @@ import {
   useReducer,
   useState,
 } from "react";
-import { apiAccountsMe, apiRoute } from "../../util/api";
+import { apiAccountsMe, apiMethodFetcher, apiRoute } from "../../util/api";
 
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
-import Layout from "../../layouts/layout";
 import { useAppSession } from "../../util/auth";
 import { useSWRConfig } from "swr";
 import { useSession } from "next-auth/react";
@@ -73,62 +73,50 @@ const Settings: AppPageWithLayout = () => {
   if (!session || !account) return <></>;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <div className="grow flex flex-col w-full items-start justify-start mt-20 px-8">
-        <div>
-          <h1 className="text-3xl font-bold text-left">Settings</h1>
-        </div>
-        <div className="flex flex-col gap-y-2 mt-8 w-full">
-          {renderInput("User Id", account.id)}
-          {renderInput("Username", account.username)}
-          {renderInput("Email", account.email)}
-          {renderInput("First Name", firstName, (e) => {
-            setFirstName(e.target.value);
-          })}
-          {renderInput("Last Name", lastName, (e) => {
-            setLastName(e.target.value);
-          })}
-          {renderInput("Faculty/Student Id", facultyStudentId, (e) => {
-            setFacultyStudentId(e.target.value);
-          })}
-          <Button
-            onClick={(e) => {
-              fetch(apiRoute("/api/accounts/me"), {
-                method: "PUT",
-                body: JSON.stringify({
-                  firstName: firstName,
-                  lastName: lastName,
-                  facultyStudentId: facultyStudentId,
-                } as PutAccountDto),
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${session.accessToken}`,
-                },
+    <div className="grow flex flex-col w-full items-start justify-start mt-20 px-8">
+      <div>
+        <h1 className="text-3xl font-bold text-left">Settings</h1>
+      </div>
+      <div className="flex flex-col gap-y-2 mt-8 w-full">
+        {renderInput("User Id", account.id)}
+        {renderInput("Username", account.username)}
+        {renderInput("Email", account.email)}
+        {renderInput("First Name", firstName, (e) => {
+          setFirstName(e.target.value);
+        })}
+        {renderInput("Last Name", lastName, (e) => {
+          setLastName(e.target.value);
+        })}
+        {renderInput("Faculty/Student Id", facultyStudentId, (e) => {
+          setFacultyStudentId(e.target.value);
+        })}
+        <Button
+          onClick={(e) => {
+            apiMethodFetcher(apiAccountsMe, session.accessToken, "PUT", {
+              firstName: firstName,
+              lastName: lastName,
+              facultyStudentId: facultyStudentId,
+            } as PutAccountDto)
+              .then((res) => {
+                const dto = res as GetAccountDto;
+                meInvalidate();
+                setApiError(null);
+                // TODO toast
               })
-                .then((res) => res.json())
-                .then((res) => {
-                  const dto = res as GetAccountDto;
-                  meInvalidate();
-                  setApiError(null);
-                  // TODO toast
-                })
-                .catch((err) => {
-                  // TODO toast
-                  setApiError(err.message);
-                });
-            }}
-            className="mt-8 text-xl"
-          >
-            Save
-          </Button>
-        </div>
+              .catch((err) => {
+                // TODO toast
+                setApiError(err.message);
+              });
+          }}
+          className="mt-8 text-xl"
+        >
+          Save
+        </Button>
       </div>
     </div>
   );
 };
 
-Settings.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
+Settings.getLayout = defaultGetLayout;
 
 export default Settings;
