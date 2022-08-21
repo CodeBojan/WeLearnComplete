@@ -20,9 +20,9 @@ public class CoursesController : UserAuthorizedController
     }
 
     [HttpGet]
-    public async Task<ActionResult<PagedResponseDto<GetCourseDto>>> GetCoursesAsync([FromQuery] PageOptionsDto pageOptions, [FromQuery] bool isFollowing = false)
+    public async Task<ActionResult<PagedResponseDto<GetCourseDto>>> GetCoursesAsync([FromQuery] PageOptionsDto pageOptions, [FromQuery] Guid? studyYearId, [FromQuery] bool isFollowing = false)
     {
-        var dto = await _courseService.GetCoursesAsync(pageOptions, UserId, isFollowing);
+        var dto = await _courseService.GetCoursesAsync(pageOptions, UserId, studyYearId, isFollowing);
 
         return Ok(dto);
     }
@@ -42,7 +42,7 @@ public class CoursesController : UserAuthorizedController
     }
 
     [HttpGet("{courseId}/accounts")]
-    public async Task<ActionResult<PagedResponseDto<GetAccountDto>>> GetFollowingAccountsAsync([FromRoute] Guid courseId, [FromQuery] PageOptionsDto pageOptions)
+    public async Task<ActionResult<PagedResponseDto<GetAccountDto>>> GetFollowingAccountsAsync([FromRoute] Guid courseId, [FromQuery] PageOptionsDto pageOptions, [FromQuery] Guid studyYearId)
     {
         try
         {

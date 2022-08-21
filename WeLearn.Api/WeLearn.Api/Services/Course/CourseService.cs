@@ -30,7 +30,7 @@ public class CourseService : ICourseService
         return dto;
     }
 
-    public async Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions, Guid accountId, bool isFollowing)
+    public async Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions, Guid accountId, Guid? studyYearId, bool isFollowing)
     {
         IQueryable<WeLearn.Data.Models.Course> queryable = _dbContext.Courses
             .AsNoTracking()
@@ -39,6 +39,9 @@ public class CourseService : ICourseService
 
         if (isFollowing)
             queryable = queryable.Where(c => c.FollowingUsers.Any(fc => fc.AccountId == accountId));
+
+        if (studyYearId is not null)
+            queryable = queryable.Where(c => c.StudyYearId == studyYearId);
 
         var dto = await queryable
             .Select(c => new WeLearn.Data.Models.Course

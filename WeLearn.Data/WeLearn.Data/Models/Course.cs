@@ -10,9 +10,11 @@ namespace WeLearn.Data.Models;
 
 public class Course : BaseEntity
 {
+    // TODO add semester property
     public Course()
     {
     }
+    
     public Course(string code, string shortName, string fullName, string staff, string description, string rules, Guid studyYearId)
     {
         Id = Guid.NewGuid();

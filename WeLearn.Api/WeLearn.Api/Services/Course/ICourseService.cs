@@ -9,7 +9,7 @@ namespace WeLearn.Api.Services.Course
         Task<GetCourseDto> CreateCourseAsync(string code, string shortName, string fullName, string staff, string description, string rules, Guid studyYearId);
         Task<GetCourseDto> GetCourseAsync(Guid courseId);
         Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions);
-        Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions, Guid accountId, bool isFollowing);
+        Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions, Guid accountId, Guid? studyYearId, bool isFollowing);
         Task<PagedResponseDto<GetAccountDto>> GetFollowingAccountsAsync(Guid courseId, PageOptionsDto pageOptions);
         Task<GetCourseDto> UpdateCourseAsync(Guid courseId, string code, string shortName, string fullName, string staff, string description, string rules);
     }

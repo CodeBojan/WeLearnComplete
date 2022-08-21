@@ -87,7 +87,7 @@ export const getSearchApiRouteCacheKey = (
 export const getPagedSearchApiRouteCacheKey = (
   url: string,
   session: AppSession,
-  params: Record<string, string> & { page: string; limit: string}
+  params: Record<string, string> & { page: string; limit: string }
 ) => {
   return getSearchApiRouteCacheKey(url, session, new URLSearchParams(params));
 };
@@ -97,6 +97,8 @@ export const apiStudyYears = "/api/StudyYears";
 export const apiFollowedStudyYears = "/api/FollowedStudyYears";
 export const apiCourses = "/api/Courses";
 export const apiFollowedCourses = "/api/FollowedCourses";
+export const apiNotificationsMe = "/api/Notifications/Me";
+export const apiStudyYear = (id: string) => `/api/StudyYears/${id}`;
 
 export const getSearchParamPath = (
   url: string,

@@ -10,14 +10,14 @@ const BellIcon = w(AiOutlineBell, {
       dark: "text-primary-dark",
       black: "text-black",
     },
-    textSize: {
+    textsize: {
       medium: "text-2xl",
       large: "text-4xl",
     },
   },
   defaultVariants: {
     theme: "light",
-    textSize: "medium",
+    textsize: "medium",
   },
 });
 
@@ -28,11 +28,11 @@ export default function NotificationBell({
   ...props
 }: NotificationBellProps & { notifCount?: number }) {
   const theme = props.theme || "light";
-  const textSize = props.textSize || "medium";
+  const textSize = props.textsize || "medium";
   const _notifsCount = notifCount || 0;
   return (
     <div className="relative items-center">
-      <BellIcon theme={theme} textSize={textSize} />
+      <BellIcon theme={theme} textsize={textSize} />
       {_notifsCount > 0 && (
         <div className="inline-flex absolute top-2 -right-3.5 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-primary-dark dark:border-gray-900">
           {_notifsCount}

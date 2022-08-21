@@ -9,9 +9,8 @@ const Notifications: AppPageWithLayout = () => {
   const [notifications, setNotifications] = useState<GetNotificationDto[]>([]);
 
   return (
-    //
     <TitledPageContainer
-      icon={<NotificationBell theme="black" textSize="large" />}
+      icon={<NotificationBell theme="black" textsize="large" />}
       title={"Notifications"}
     >
       <></>
