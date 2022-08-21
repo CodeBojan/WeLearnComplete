@@ -30,6 +30,29 @@ public class CourseService : ICourseService
         return dto;
     }
 
+    public async Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions, Guid accountId)
+    {
+        var dto = await _dbContext.Courses
+            .AsNoTracking()
+            .Include(c => c.FollowingUsers)
+            .OrderByDescending(c => c.UpdatedDate)
+            .Select(c => new WeLearn.Data.Models.Course
+            {
+                Id = c.Id,
+                Code = c.Code,
+                ShortName = c.ShortName,
+                FullName = c.FullName,
+                Description = c.Description,
+                UpdatedDate = c.UpdatedDate,
+                CreatedDate = c.CreatedDate,
+                IsFollowing = c.FollowingUsers.Any(fu => fu.AccountId == accountId),
+                FollowingCount = c.FollowingUsers.Count
+            })
+            .GetPagedResponseDtoAsync(pageOptions, MapCourseToGetDto());
+
+        return dto;
+    }
+
     public async Task<GetCourseDto> GetCourseAsync(Guid courseId)
     {
         // TODO maybe use different dto - coursedetails

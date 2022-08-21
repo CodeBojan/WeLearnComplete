@@ -77,3 +77,5 @@ export const getPagedApiRouteCacheKey = (
 export const apiAccountsMe = "/api/Accounts/Me";
 export const apiStudyYears = "/api/StudyYears";
 export const apiFollowedStudyYears = "/api/FollowedStudyYears";
+export const apiCourses = "/api/Courses";
+export const apiFollowedCourses = "/api/FollowedCourses";

@@ -18,6 +18,7 @@ import { apiAccountsMe, apiMethodFetcher, apiRoute } from "../../util/api";
 
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
+import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 import { useSWRConfig } from "swr";
 import { useSession } from "next-auth/react";
@@ -101,10 +102,10 @@ const Settings: AppPageWithLayout = () => {
                 const dto = res as GetAccountDto;
                 meInvalidate();
                 setApiError(null);
-                // TODO toast
+                toast("Settings updated successfully", { type: "success" });
               })
               .catch((err) => {
-                // TODO toast
+                toast("Failed To Update Profile!", { type: "error" });
                 setApiError(err.message);
               });
           }}

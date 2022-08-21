@@ -22,7 +22,7 @@ namespace WeLearn.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedResponseDto<GetCourseDto>>> GetCoursesAsync([FromQuery] PageOptionsDto pageOptions)
         {
-            var dto = await _courseService.GetCoursesAsync(pageOptions);
+            var dto = await _courseService.GetCoursesAsync(pageOptions, UserId);
 
             return Ok(dto);
         }

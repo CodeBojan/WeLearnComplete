@@ -235,6 +235,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             c.HasIndex(c => c.Code)
             .IsUnique();
 
+            c.Ignore(c => c.IsFollowing)
+            .Ignore(c => c.FollowingCount);
+
             c.Ignore(c => c.Notices)
             .Ignore(c => c.Posts)
             .Ignore(c => c.Documents)

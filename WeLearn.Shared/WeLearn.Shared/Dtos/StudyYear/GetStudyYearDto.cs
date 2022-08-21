@@ -14,6 +14,6 @@ public class GetStudyYearDto
     public string ShortName { get; internal set; }
     public string FullName { get; set; }
     public string Description { get; set; }
-    public int? Following { get; set; }
+    public int? FollowingCount { get; set; }
     public bool? IsFollowing { get; set; }
 }

@@ -23,25 +23,38 @@ namespace WeLearn.Api.Services.FollowedCourse
         public async Task<GetFollowedCourseDto> FollowCourseAsync(Guid accountId, Guid courseId)
         {
             var existingFollowedCourse = await GetUntrackedQueryable()
-                .Select(MapFollowedCourseToGetDto())
-                .FirstOrDefaultAsync(fc => fc.AccountId == accountId && fc.CourseId == courseId);
+                .Where(fc => fc.AccountId == accountId && fc.CourseId == courseId)
+                .FirstOrDefaultAsync();
 
             // TODO throw exception
             if (existingFollowedCourse is not null)
-                return existingFollowedCourse;
+                return existingFollowedCourse.MapToGetDto();
 
             var followedCourse = new WeLearn.Data.Models.FollowedCourse(accountId, courseId);
 
             _dbContext.Add(followedCourse);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            { // TODO exception
+                throw;
+            }
+
+            var course = await _dbContext.Courses
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == courseId);
+            followedCourse.Course = course!;
 
             return followedCourse.MapToGetDto();
         }
 
         public async Task<GetFollowedCourseDto> UnfollowCourseAsync(Guid accountId, Guid courseId)
         {
-            var existingFollowedCourse = await _dbContext.FollowedCourses
-                .FirstOrDefaultAsync(fc => fc.AccountId == accountId && fc.CourseId == courseId);
+            var existingFollowedCourse = await GetTrackedQueryable()
+                .Where(fc => fc.AccountId == accountId && fc.CourseId == courseId)
+                .FirstOrDefaultAsync();
 
             if (existingFollowedCourse is null)
                 throw new NotFollowingCourseException();
@@ -62,11 +75,17 @@ namespace WeLearn.Api.Services.FollowedCourse
             return dto;
         }
 
+        private IIncludableQueryable<WeLearn.Data.Models.FollowedCourse, WeLearn.Data.Models.Course> GetTrackedQueryable()
+        {
+            return _dbContext.FollowedCourses
+                .Include(fc => fc.Course);
+        }
+
         private IIncludableQueryable<WeLearn.Data.Models.FollowedCourse, WeLearn.Data.Models.Course> GetUntrackedQueryable()
         {
             return _dbContext.FollowedCourses
-                            .AsNoTracking()
-                            .Include(fc => fc.Course);
+                .AsNoTracking()
+                .Include(fc => fc.Course);
         }
 
         private static Expression<Func<WeLearn.Data.Models.FollowedCourse, GetFollowedCourseDto>> MapFollowedCourseToGetDto()

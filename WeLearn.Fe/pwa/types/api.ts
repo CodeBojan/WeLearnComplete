@@ -214,6 +214,8 @@ export class GetCourseDto implements IGetCourseDto {
     description?: string | null;
     rules?: string | null;
     studyYearId?: string;
+    followingCount?: number | null;
+    isFollowing?: boolean | null;
 
     constructor(data?: IGetCourseDto) {
         if (data) {
@@ -234,6 +236,8 @@ export class GetCourseDto implements IGetCourseDto {
             this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
             this.rules = _data["rules"] !== undefined ? _data["rules"] : <any>null;
             this.studyYearId = _data["studyYearId"] !== undefined ? _data["studyYearId"] : <any>null;
+            this.followingCount = _data["followingCount"] !== undefined ? _data["followingCount"] : <any>null;
+            this.isFollowing = _data["isFollowing"] !== undefined ? _data["isFollowing"] : <any>null;
         }
     }
 
@@ -254,6 +258,8 @@ export class GetCourseDto implements IGetCourseDto {
         data["description"] = this.description !== undefined ? this.description : <any>null;
         data["rules"] = this.rules !== undefined ? this.rules : <any>null;
         data["studyYearId"] = this.studyYearId !== undefined ? this.studyYearId : <any>null;
+        data["followingCount"] = this.followingCount !== undefined ? this.followingCount : <any>null;
+        data["isFollowing"] = this.isFollowing !== undefined ? this.isFollowing : <any>null;
         return data;
     }
 }
@@ -267,6 +273,8 @@ export interface IGetCourseDto {
     description?: string | null;
     rules?: string | null;
     studyYearId?: string;
+    followingCount?: number | null;
+    isFollowing?: boolean | null;
 }
 
 export class GetCourseDtoPagedResponseDto implements IGetCourseDtoPagedResponseDto {
@@ -812,7 +820,7 @@ export class GetStudyYearDto implements IGetStudyYearDto {
     readonly shortName?: string | null;
     fullName?: string | null;
     description?: string | null;
-    following?: number | null;
+    followingCount?: number | null;
     isFollowing?: boolean | null;
 
     constructor(data?: IGetStudyYearDto) {
@@ -832,7 +840,7 @@ export class GetStudyYearDto implements IGetStudyYearDto {
             (<any>this).shortName = _data["shortName"] !== undefined ? _data["shortName"] : <any>null;
             this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
             this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
-            this.following = _data["following"] !== undefined ? _data["following"] : <any>null;
+            this.followingCount = _data["followingCount"] !== undefined ? _data["followingCount"] : <any>null;
             this.isFollowing = _data["isFollowing"] !== undefined ? _data["isFollowing"] : <any>null;
         }
     }
@@ -852,7 +860,7 @@ export class GetStudyYearDto implements IGetStudyYearDto {
         data["shortName"] = this.shortName !== undefined ? this.shortName : <any>null;
         data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
         data["description"] = this.description !== undefined ? this.description : <any>null;
-        data["following"] = this.following !== undefined ? this.following : <any>null;
+        data["followingCount"] = this.followingCount !== undefined ? this.followingCount : <any>null;
         data["isFollowing"] = this.isFollowing !== undefined ? this.isFollowing : <any>null;
         return data;
     }
@@ -865,7 +873,7 @@ export interface IGetStudyYearDto {
     shortName?: string | null;
     fullName?: string | null;
     description?: string | null;
-    following?: number | null;
+    followingCount?: number | null;
     isFollowing?: boolean | null;
 }
 

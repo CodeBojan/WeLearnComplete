@@ -20,7 +20,7 @@ public static class StudyYearExtensions
             ShortName = studyYear.ShortName,
             Description = studyYear.Description,
             FullName = studyYear.FullName,
-            Following = studyYear.FollowingCount,
+            FollowingCount = studyYear.FollowingCount,
             IsFollowing = studyYear.IsFollowing
         };
     }

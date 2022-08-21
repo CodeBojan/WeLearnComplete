@@ -116,20 +116,20 @@ public class StudyYearsService : IStudyYearsService
     {
         var dto = await _dbContext.StudyYears
             .AsNoTracking()
-            .Include(sy => sy.FollowedStudyYears
-                //.Where(fsy => fsy.AccountId == accountId)
-                )
-        .OrderByDescending(sy => sy.UpdatedDate)
-        .Select(sy => new Data.Models.StudyYear
-        {
-            Id = sy.Id,
-            ShortName = sy.ShortName,
-            FullName = sy.FullName,
-            Description = sy.Description,
-            IsFollowing = sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId),
-            FollowingCount = sy.FollowedStudyYears.Count
-        })
-        .GetPagedResponseDtoAsync(pageOptions, MapStudyYearToGetDto());
+            .Include(sy => sy.FollowedStudyYears)
+            .OrderByDescending(sy => sy.UpdatedDate)
+            .Select(sy => new Data.Models.StudyYear
+            {
+                Id = sy.Id,
+                ShortName = sy.ShortName,
+                FullName = sy.FullName,
+                Description = sy.Description,
+                IsFollowing = sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId),
+                FollowingCount = sy.FollowedStudyYears.Count,
+                CreatedDate = sy.CreatedDate,
+                UpdatedDate = sy.UpdatedDate
+            }) // TODO use the maptogetdto with argument - pass the any to it
+            .GetPagedResponseDtoAsync(pageOptions, MapStudyYearToGetDto());
 
         return dto;
     }

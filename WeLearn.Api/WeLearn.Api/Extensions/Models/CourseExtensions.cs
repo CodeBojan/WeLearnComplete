@@ -16,7 +16,9 @@ public static class CourseExtensions
             Rules = c.Rules,
             ShortName = c.ShortName,
             Staff = c.Staff,
-            StudyYearId = c.StudyYearId
+            StudyYearId = c.StudyYearId,
+            FollowingCount = c.FollowingCount,
+            IsFollowing = c.IsFollowing,
         };
     }
 }

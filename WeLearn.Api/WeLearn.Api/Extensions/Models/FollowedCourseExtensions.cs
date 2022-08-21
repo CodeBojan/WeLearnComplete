@@ -12,7 +12,7 @@ public static class FollowedCourseExtensions
             CourseId = fc.CourseId,
             CourseCode = fc.Course.Code,
             CourseFullName = fc.Course.FullName,
-            CourseShortName = fc.Course.ShortName
+            CourseShortName = fc.Course.ShortName,
         };
     }
 }
