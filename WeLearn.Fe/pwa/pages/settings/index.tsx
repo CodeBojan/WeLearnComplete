@@ -1,27 +1,20 @@
 import { GetAccountDto, PutAccountDto } from "../../types/api";
-import Layout, { defaultGetLayout } from "../../layouts/layout";
 import {
-  MeActionKind,
   MeContext,
   MeInvalidationContext,
-  initialMeState,
-  meReducer,
 } from "../../store/me-store";
+import { apiAccountsMe, apiMethodFetcher } from "../../util/api";
 import {
-  ReactElement,
   useContext,
   useEffect,
-  useReducer,
   useState,
 } from "react";
-import { apiAccountsMe, apiMethodFetcher, apiRoute } from "../../util/api";
 
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
+import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
-import { useSWRConfig } from "swr";
-import { useSession } from "next-auth/react";
 
 const renderInput = (
   label: string,

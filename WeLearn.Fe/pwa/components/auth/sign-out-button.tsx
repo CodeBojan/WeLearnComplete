@@ -1,4 +1,3 @@
-import Button from "../atoms/button";
 import Link from "next/link";
 import { signOutUrl } from "../../util/auth";
 

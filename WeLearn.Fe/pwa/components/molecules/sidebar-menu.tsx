@@ -20,23 +20,22 @@ const renderLink = (
   icon: FunctionComponentElement<{ className: string }>,
   onNavigate?: () => void
 ) => (
-  <div
-    key={href}
-    className="shadow-sm text-lg font-semibold hover:bg-slate-500 hover:bg-opacity-50 py-4 cursor-pointer"
-  >
-    <Link href={href}>
-      <a onClick={() => onNavigate && onNavigate()}>
-        <div className="flex flex-row items-center px-8">
-          <div>
-            {cloneElement(icon, {
-              className: icon.props.className + " text-2xl mr-8",
-            })}
-          </div>
-          <span className="text-2xl">{text}</span>
+  <Link href={href}>
+    <a
+      key={href}
+      className="shadow-sm text-lg font-semibold hover:bg-slate-500 hover:bg-opacity-50 py-4 cursor-pointer"
+      onClick={() => onNavigate && onNavigate()}
+    >
+      <div className="flex flex-row items-center px-8">
+        <div>
+          {cloneElement(icon, {
+            className: icon.props.className + " text-2xl mr-8",
+          })}
         </div>
-      </a>
-    </Link>
-  </div>
+        <span className="text-2xl">{text}</span>
+      </div>
+    </a>
+  </Link>
 );
 
 export default function SidebarMenu({ onNavigate }: SidebarMenuProps) {

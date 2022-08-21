@@ -9,8 +9,6 @@ import {
   apiFollowedCourses,
   apiGetFetcher,
   apiMethodFetcher,
-  apiPagedGetFetcher,
-  getPagedApiRouteCacheKey,
   getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
 import { queryTypes, useQueryState } from "next-usequerystate";
@@ -19,7 +17,6 @@ import useSWR, { mutate } from "swr";
 
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
-import CheckBox from "../../components/atoms/checkbox";
 import FavoritableContainer from "../../components/containers/favoritable-container";
 import FavoriteInfo from "../../components/molecules/favorite-info";
 import FavoritesContainer from "../../components/containers/favorites-container";
@@ -66,9 +63,9 @@ const Courses: AppPageWithLayout = () => {
   return (
     <TitledPageContainer icon={<MdSubject />} title={"Courses"}>
       <div className="my-8">
-        {/* TODO styled component */}
         <Button
-          className="px-4"
+          variant={onlyMine ? "normal" : "outline"}
+          padding="large"
           onClick={() => {
             setMineQueryParam(!mineQueryParam);
           }}

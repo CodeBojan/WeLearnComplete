@@ -1,6 +1,8 @@
 import { AiOutlineMenu } from "react-icons/ai";
 import IconButton from "../atoms/icon-button";
+import Link from "next/link";
 import NotificationBell from "../atoms/notification-bell";
+import router from "next/router";
 
 export interface NavbarProps {
   onDrawerToggle?: () => void;
@@ -18,7 +20,11 @@ export default function Navbar({ onDrawerToggle }: NavbarProps) {
         <div>
           <div className="flex flex-row items-center gap-x-4">
             <div className="hidden md:block mr-4">
-              <NotificationBell />
+              <Link href="/notifications">
+                <a>
+                  <NotificationBell />
+                </a>
+              </Link>
             </div>
             <span className="font-semibold text-lg text-white">WeLearn</span>
           </div>

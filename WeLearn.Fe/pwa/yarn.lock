@@ -1114,6 +1114,11 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@stitches/react@^1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.2.8.tgz#954f8008be8d9c65c4e58efa0937f32388ce3a38"
+  integrity sha512-9g9dWI4gsSVe8bNLlb+lMkBYsnIKCZTmvqvDG+Avnn69XfmHZKiaMrx7cgTaddq7aTPPmXiTsbFcUy0xgI4+wA==
+
 "@styled-system/background@^5.1.2":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@styled-system/background/-/background-5.1.2.tgz#75c63d06b497ab372b70186c0bf608d62847a2ba"
@@ -3460,6 +3465,11 @@ which-boxed-primitive@^1.0.2:
     is-number-object "^1.0.4"
     is-string "^1.0.5"
     is-symbol "^1.0.3"
+
+windstitch@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/windstitch/-/windstitch-0.2.0.tgz#84a6843c15c1460312e8d284b8ecfde44210f2ea"
+  integrity sha512-eQAUgFRhLHaZ9xtd6sYth6CVXVSvANBc4gY1o0Ojtr50rNbytOc3GOCJGDrxVTCJspfsFkCd3tJf7ebPP2qFow==
 
 workbox-background-sync@6.5.4:
   version "6.5.4"

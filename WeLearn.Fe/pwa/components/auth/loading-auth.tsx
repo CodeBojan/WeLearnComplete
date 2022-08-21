@@ -1,15 +1,8 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import {
-  ClipLoader,
-  ClockLoader,
-  FadeLoader,
-  HashLoader,
-  MoonLoader,
-} from "react-spinners";
-import { getIsIssuer, signInUtil } from "../../util/auth";
 
-import Button from "../atoms/button";
-import Link from "next/link";
+import {
+  HashLoader,
+} from "react-spinners";
 import SignInButton from "./sign-in-button";
 
 const override: CSSProperties = {
