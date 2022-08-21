@@ -112,12 +112,17 @@ public class StudyYearsService : IStudyYearsService
         return dto;
     }
 
-    public async Task<PagedResponseDto<GetStudyYearDto>> GetStudyYearsAsync(PageOptionsDto pageOptions, Guid accountId)
+    public async Task<PagedResponseDto<GetStudyYearDto>> GetStudyYearsAsync(PageOptionsDto pageOptions, Guid accountId, bool isFollowing)
     {
-        var dto = await _dbContext.StudyYears
+        IQueryable<WeLearn.Data.Models.StudyYear> queryable = _dbContext.StudyYears
             .AsNoTracking()
             .Include(sy => sy.FollowedStudyYears)
-            .OrderByDescending(sy => sy.UpdatedDate)
+            .OrderByDescending(sy => sy.UpdatedDate);
+
+        if (isFollowing)
+            queryable = queryable.Where(sy => sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId));
+
+        var dto = await queryable
             .Select(sy => new Data.Models.StudyYear
             {
                 Id = sy.Id,
