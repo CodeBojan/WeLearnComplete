@@ -32,7 +32,7 @@ public class CoursesController : UserAuthorizedController
     {
         try
         {
-            var dto = await _courseService.GetCourseAsync(courseId);
+            var dto = await _courseService.GetCourseAsync(courseId, UserId);
             return dto;
         }
         catch (CourseNotFoundException)

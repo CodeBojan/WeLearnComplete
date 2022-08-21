@@ -43,7 +43,14 @@ public class CourseService : ICourseService
         if (studyYearId is not null)
             queryable = queryable.Where(c => c.StudyYearId == studyYearId);
 
-        var dto = await queryable
+        var dto = await GetCourseWithFollowingStatus(accountId, queryable).GetPagedResponseDtoAsync(pageOptions, MapCourseToGetDto());
+
+        return dto;
+    }
+
+    private static IQueryable<WeLearn.Data.Models.Course> GetCourseWithFollowingStatus(Guid accountId, IQueryable<WeLearn.Data.Models.Course> queryable)
+    {
+        return queryable
             .Select(c => new WeLearn.Data.Models.Course
             {
                 Id = c.Id,
@@ -55,19 +62,19 @@ public class CourseService : ICourseService
                 CreatedDate = c.CreatedDate,
                 IsFollowing = c.FollowingUsers.Any(fu => fu.AccountId == accountId),
                 FollowingCount = c.FollowingUsers.Count
-            })
-            .GetPagedResponseDtoAsync(pageOptions, MapCourseToGetDto());
-
-        return dto;
+            });
     }
 
-    public async Task<GetCourseDto> GetCourseAsync(Guid courseId)
+    public async Task<GetCourseDto> GetCourseAsync(Guid courseId, Guid userId)
     {
         // TODO maybe use different dto - coursedetails
         // TODO retrieve course content, ...
-        var dto = await _dbContext.Courses
-            .AsNoTracking()
-            .Where(c => c.Id == courseId)
+        var dto = await GetCourseWithFollowingStatus(
+                userId, _dbContext.Courses
+                .AsNoTracking()
+                .Include(c => c.FollowingUsers)
+                .Where(c => c.Id == courseId)
+            )
             .Select(MapCourseToGetDto())
             .FirstOrDefaultAsync();
 
