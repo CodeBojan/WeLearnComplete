@@ -99,6 +99,7 @@ export const apiCourses = "/api/Courses";
 export const apiFollowedCourses = "/api/FollowedCourses";
 export const apiNotificationsMe = "/api/Notifications/Me";
 export const apiStudyYear = (id: string) => `/api/StudyYears/${id}`;
+export const apiCourse = (id: string) => `/api/Courses/${id}`;
 
 export const getSearchParamPath = (
   url: string,

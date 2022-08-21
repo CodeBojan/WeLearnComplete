@@ -75,7 +75,7 @@ const StudyYear: AppPageWithLayout = () => {
     >
       <div className="my-8">{studyYear?.description}</div>
       <div className="w-full mb-4 flex flex-col gap-y-4">
-        <div className="text-2xl font-bold">Kursevi</div>
+        <div className="text-2xl font-bold">Courses</div>
         <div>
           <CoursesList courses={courses} onMutate={() => mutate(cacheKey)} />
         </div>
