@@ -7,9 +7,11 @@ import {
 import {
   apiCourses,
   apiFollowedCourses,
+  apiGetFetcher,
   apiMethodFetcher,
   apiPagedGetFetcher,
   getPagedApiRouteCacheKey,
+  getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -29,19 +31,19 @@ const Courses: AppPageWithLayout = () => {
   const [courses, setCourses] = useState<GetCourseDto[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [page, setPage] = useState(1);
+  const [onlyMine, setOnlyMine] = useState(false);
 
   // TODO useSWRInfinite
 
-  const cacheKey = getPagedApiRouteCacheKey(
-    apiCourses,
-    session,
-    page,
-    itemsPerPage
-  );
+  const cacheKey = getPagedSearchApiRouteCacheKey(apiCourses, session, {
+    page: page.toString(),
+    limit: itemsPerPage.toString(),
+    isFollowing: onlyMine.toString(),
+  });
 
   const { data: pagedStudyYears, error } = useSWR<GetCourseDtoPagedResponseDto>(
     cacheKey,
-    apiPagedGetFetcher
+    apiGetFetcher
   );
 
   useEffect(() => {
@@ -55,7 +57,9 @@ const Courses: AppPageWithLayout = () => {
         {courses.map((course) => (
           <FavoritableContainer key={course.id}>
             <div className="flex flex-row gap-x-8">
-              <div>[{course.code} - {course.shortName}]</div>
+              <div>
+                [{course.code} - {course.shortName}]
+              </div>
               <div>{course.fullName}</div>
             </div>
             <FavoriteInfo

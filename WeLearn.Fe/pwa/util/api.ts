@@ -74,8 +74,31 @@ export const getPagedApiRouteCacheKey = (
   return !session ? null : [url, session.accessToken, page, itemsPerPage];
 };
 
+export const getSearchApiRouteCacheKey = (
+  url: string,
+  session: AppSession,
+  searchParams: URLSearchParams
+) => {
+  return !session
+    ? null
+    : [getSearchParamPath(url, searchParams), session.accessToken];
+};
+
+export const getPagedSearchApiRouteCacheKey = (
+  url: string,
+  session: AppSession,
+  params: Record<string, string> & { page: string; limit: string}
+) => {
+  return getSearchApiRouteCacheKey(url, session, new URLSearchParams(params));
+};
+
 export const apiAccountsMe = "/api/Accounts/Me";
 export const apiStudyYears = "/api/StudyYears";
 export const apiFollowedStudyYears = "/api/FollowedStudyYears";
 export const apiCourses = "/api/Courses";
 export const apiFollowedCourses = "/api/FollowedCourses";
+
+export const getSearchParamPath = (
+  url: string,
+  searchParams: URLSearchParams
+) => `${url}?` + searchParams;
