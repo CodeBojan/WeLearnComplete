@@ -15,7 +15,6 @@ export default function FavoriteInfo({
   onFollow: () => void;
   onUnfollow: () => void;
 }) {
-  console.log(isFollowing);
   return (
     <FavoriteInfoContainer>
       <span>{followerCount}</span>

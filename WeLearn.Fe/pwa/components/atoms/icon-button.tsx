@@ -7,8 +7,8 @@ export type IconButtonProps = ComponentProps & {
 };
 
 export default function IconButton({
-  children,
   onClick,
+  children,
   ...props
 }: IconButtonProps) {
   return (

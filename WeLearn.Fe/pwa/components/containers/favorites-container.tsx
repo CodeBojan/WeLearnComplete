@@ -2,11 +2,13 @@ import { ReactNode } from "react";
 
 export default function FavoritesContainer({
   children,
+  className,
 }: {
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="w-full flex flex-col justify-start mt-8 gap-y-8">
+    <div className={`w-full flex flex-col justify-start gap-y-4 ${className}`}>
       {children}
     </div>
   );

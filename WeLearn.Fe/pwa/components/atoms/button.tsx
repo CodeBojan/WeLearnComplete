@@ -12,7 +12,7 @@ export default function Button({ children, onClick, ...props }: ButtonProps) {
     <button
       {...props}
       onClick={(e) => onClick && onClick(e)}
-      className={`cursor-pointer text-white bg-primary rounded py-2 text-center ${props?.className}`}
+      className={`cursor-pointer text-white bg-primary hover:bg-primary-dark rounded-lg py-2 text-center ${props?.className}`}
     >
       {children}
     </button>

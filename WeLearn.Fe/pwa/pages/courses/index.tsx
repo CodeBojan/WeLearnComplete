@@ -13,16 +13,20 @@ import {
   getPagedApiRouteCacheKey,
   getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
+import { queryTypes, useQueryState } from "next-usequerystate";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 
 import { AppPageWithLayout } from "../_app";
+import Button from "../../components/atoms/button";
+import CheckBox from "../../components/atoms/checkbox";
 import FavoritableContainer from "../../components/containers/favoritable-container";
 import FavoriteInfo from "../../components/molecules/favorite-info";
 import FavoritesContainer from "../../components/containers/favorites-container";
 import { MdSubject } from "react-icons/md";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
+import router from "next/router";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 
@@ -32,7 +36,10 @@ const Courses: AppPageWithLayout = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [onlyMine, setOnlyMine] = useState(false);
-
+  const [mineQueryParam, setMineQueryParam] = useQueryState(
+    "mine",
+    queryTypes.boolean
+  );
   // TODO useSWRInfinite
 
   const cacheKey = getPagedSearchApiRouteCacheKey(apiCourses, session, {
@@ -47,16 +54,35 @@ const Courses: AppPageWithLayout = () => {
   );
 
   useEffect(() => {
+    if (mineQueryParam === null) return;
+    if (mineQueryParam != onlyMine) setOnlyMine(mineQueryParam);
+  }, [mineQueryParam]);
+
+  useEffect(() => {
     if (!pagedStudyYears || !pagedStudyYears.data) return;
     setCourses(pagedStudyYears.data);
   }, [pagedStudyYears]);
 
   return (
     <TitledPageContainer icon={<MdSubject />} title={"Courses"}>
+      <div className="my-8">
+        {/* TODO styled component */}
+        <Button
+          className="px-4"
+          onClick={() => {
+            setMineQueryParam(!mineQueryParam);
+          }}
+        >
+          Only Mine
+        </Button>
+      </div>
       <FavoritesContainer>
         {courses.map((course) => (
           <FavoritableContainer key={course.id}>
-            <div className="flex flex-row gap-x-8">
+            <div
+              className="flex flex-row gap-x-8"
+              onClick={() => router.push(`/course/${course.id}`)}
+            >
               <div>
                 [{course.code} - {course.shortName}]
               </div>

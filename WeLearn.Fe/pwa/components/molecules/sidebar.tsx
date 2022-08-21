@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-
 import { AiOutlineClose } from "react-icons/ai";
 import { GetAccountDto } from "../../types/api";
 import IconButton from "../atoms/icon-button";
 import { MeContext } from "../../store/me-store";
 import SidebarMenu from "./sidebar-menu";
-import SignOutButton from "../auth/sign-out-button";
+import { useContext } from "react";
 
 export interface SidebarProps {
   isOpen: boolean;

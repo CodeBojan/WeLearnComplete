@@ -40,7 +40,11 @@ export default function BottomNav() {
             <NotificationBell />,
             "/notifications"
           )}
-          {bottomNavButton("My Courses", <AiFillHeart />, "/my-courses")}
+          {bottomNavButton(
+            "My Courses",
+            <AiFillHeart />,
+            "/courses" + "?mine=true"
+          )}
         </div>
       </div>
     </>

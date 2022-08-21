@@ -52,7 +52,7 @@ export default function SidebarMenu({ onNavigate }: SidebarMenuProps) {
         {renderLink("/courses", "Courses", <MdSubject />, onNavigate)}
         {renderLink("/settings", "Settings", <AiTwotoneSetting />, onNavigate)}
         <div className="flex items-center justify-center mx-8 mt-4">
-          <SignOutButton className="bg-red-600 text-white grow md:grow-0 md:w-10/12 lg:w-5/12 py-2 text-center" />
+          <SignOutButton className="bg-red-600 hover:bg-red-700 rounded-lg text-white grow md:grow-0 md:w-10/12 lg:w-5/12 py-2" />
         </div>
       </div>
     </>

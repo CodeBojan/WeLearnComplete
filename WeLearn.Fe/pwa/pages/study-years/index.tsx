@@ -1,4 +1,3 @@
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import {
   DeleteFollowedStudyYearDto,
   GetFollowedStudyYearDto,
@@ -6,30 +5,23 @@ import {
   GetStudyYearDtoPagedResponseDto,
   PostFollowedStudyYearDto,
 } from "../../types/api";
-import Layout, { defaultGetLayout } from "../../layouts/layout";
-import { ReactElement, useEffect, useState } from "react";
 import {
   apiFollowedStudyYears,
-  apiGetFetcher,
   apiMethodFetcher,
   apiPagedGetFetcher,
-  apiSearchGetFetcher,
   apiStudyYears,
-  getApiRouteCacheKey,
   getPagedApiRouteCacheKey,
 } from "../../util/api";
+import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 
 import { AppPageWithLayout } from "../_app";
 import FavoritableContainer from "../../components/containers/favoritable-container";
 import FavoriteInfo from "../../components/molecules/favorite-info";
-import FavoriteInfoContainer from "../../components/containers/favorite-info-container";
 import FavoritesContainer from "../../components/containers/favorites-container";
-import IconButton from "../../components/atoms/icon-button";
 import { MdCalendarToday } from "react-icons/md";
-import StyledPageContainer from "../../components/containers/page-container";
 import TitledPageContainer from "../../components/containers/titled-page-container";
-import { cache } from "swr/dist/utils/config";
+import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 
@@ -40,6 +32,7 @@ const StudyYears: AppPageWithLayout = () => {
   const [page, setPage] = useState(1);
 
   // TODO useSWRInfinite
+  // TODO add filtering based on following
 
   const cacheKey = getPagedApiRouteCacheKey(
     apiStudyYears,

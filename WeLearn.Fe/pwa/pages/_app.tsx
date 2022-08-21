@@ -9,7 +9,6 @@ import Head from "next/head";
 import NProgress from "nprogress";
 import { NextPage } from "next";
 import { Router } from "next/router";
-import { SWRConfig } from "swr";
 import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 
@@ -61,7 +60,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />
       </Head>
-      {/* TODO Solve type problem */}
       {getLayout(<Component {...pageProps} />)}
       <ToastContainer
         position="top-right"
