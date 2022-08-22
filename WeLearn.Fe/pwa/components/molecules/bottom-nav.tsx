@@ -1,10 +1,16 @@
-import { FunctionComponentElement, ReactNode, cloneElement } from "react";
+import {
+  FunctionComponentElement,
+  ReactNode,
+  cloneElement,
+  useContext,
+} from "react";
 
 import { AiFillHeart } from "react-icons/ai";
 import { ComponentProps } from "../../types/components";
 import Link from "next/link";
 import { MdDashboard } from "react-icons/md";
 import NotificationBell from "../atoms/notification-bell";
+import { NotificationsContext } from "../../store/notifications-store";
 
 const bottomNavButton = (
   text: string,
@@ -30,6 +36,8 @@ const bottomNavButton = (
 };
 
 export default function BottomNav() {
+  const notificationsContext = useContext(NotificationsContext);
+
   return (
     <>
       <div className="md:hidden bottom-0 flex flex-col fixed w-full items-center justify-evenly px-6 h-20 text-white border-t border-gray-200 z-10 bg-primary-dark text-md">
@@ -37,7 +45,9 @@ export default function BottomNav() {
           {bottomNavButton("Dashboard", <MdDashboard />, "/")}
           {bottomNavButton(
             "Notifications",
-            <NotificationBell />,
+            <NotificationBell
+              notifCount={notificationsContext.state.unreadCount}
+            />,
             "/notifications"
           )}
           {bottomNavButton(

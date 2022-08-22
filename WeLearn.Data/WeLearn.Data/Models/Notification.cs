@@ -12,6 +12,7 @@ public class Notification : BaseEntity
     public string Body { get; set; }
     public bool IsRead { get; set; }
     public string Uri { get; set; }
+    public string? ImageUri { get; set; }
     public string Type { get; set; }
     public Guid ReceiverId { get; set; }
 

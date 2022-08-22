@@ -333,6 +333,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             n.HasKey(n => n.Id);
 
             n.HasDiscriminator(n => n.Type)
+            .HasValue<Notification>(NotificationType.General.Value())
             .HasValue<CommentNotification>(NotificationType.Comment.Value())
             .HasValue<ContentNotification>(NotificationType.Content.Value());
 

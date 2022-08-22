@@ -877,12 +877,16 @@ export interface IGetFollowedStudyYearDtoPagedResponseDto {
 }
 
 export class GetNotificationDto implements IGetNotificationDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
     title?: string | undefined;
     body?: string | undefined;
     isRead?: boolean;
     uri?: string | undefined;
     type?: string | undefined;
-    receiverId?: string | undefined;
+    imageUri?: string | undefined;
+    receiverId?: string;
 
     constructor(data?: IGetNotificationDto) {
         if (data) {
@@ -895,11 +899,15 @@ export class GetNotificationDto implements IGetNotificationDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
             this.title = _data["title"];
             this.body = _data["body"];
             this.isRead = _data["isRead"];
             this.uri = _data["uri"];
             this.type = _data["type"];
+            this.imageUri = _data["imageUri"];
             this.receiverId = _data["receiverId"];
         }
     }
@@ -913,23 +921,31 @@ export class GetNotificationDto implements IGetNotificationDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
         data["title"] = this.title;
         data["body"] = this.body;
         data["isRead"] = this.isRead;
         data["uri"] = this.uri;
         data["type"] = this.type;
+        data["imageUri"] = this.imageUri;
         data["receiverId"] = this.receiverId;
         return data;
     }
 }
 
 export interface IGetNotificationDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
     title?: string | undefined;
     body?: string | undefined;
     isRead?: boolean;
     uri?: string | undefined;
     type?: string | undefined;
-    receiverId?: string | undefined;
+    imageUri?: string | undefined;
+    receiverId?: string;
 }
 
 export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPagedResponseDto {
@@ -1106,6 +1122,42 @@ export interface IGetStudyYearDtoPagedResponseDto {
     page?: number;
     totalPages?: number | undefined;
     data?: GetStudyYearDto[] | undefined;
+}
+
+export class GetUnreadNotificationsDto implements IGetUnreadNotificationsDto {
+    unread?: number;
+
+    constructor(data?: IGetUnreadNotificationsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.unread = _data["unread"];
+        }
+    }
+
+    static fromJS(data: any): GetUnreadNotificationsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetUnreadNotificationsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["unread"] = this.unread;
+        return data;
+    }
+}
+
+export interface IGetUnreadNotificationsDto {
+    unread?: number;
 }
 
 export class PostCourseDto implements IPostCourseDto {

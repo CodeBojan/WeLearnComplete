@@ -104,6 +104,7 @@ export const apiCourseMaterialUploadRequests =
   "/api/CourseMaterialUploadRequests";
 export const apiCourseMaterialUploadRequestCourse = (id: string) =>
   `/api/CourseMaterialUploadRequests/course/${id}`;
+export const apiNotificationsMeUnread = "/api/Notifications/Me/Unread";
 
 export const getSearchParamPath = (
   url: string,

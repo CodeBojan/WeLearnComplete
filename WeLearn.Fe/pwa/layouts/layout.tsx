@@ -1,3 +1,4 @@
+import { GetAccountDto, GetUnreadNotificationsDto } from "../types/api";
 import {
   MeActionKind,
   MeContext,
@@ -5,14 +6,25 @@ import {
   initialMeState,
   meReducer,
 } from "../store/me-store";
-import { apiAccountsMe, apiGetFetcher, getApiRouteCacheKey } from "../util/api";
+import {
+  NotificationsActionKind,
+  NotificationsContext,
+  NotificationsInvalidationContext,
+  initialNotificationsState,
+  notificationsReducer,
+} from "../store/notifications-store";
+import {
+  apiAccountsMe,
+  apiGetFetcher,
+  apiNotificationsMeUnread,
+  getApiRouteCacheKey,
+} from "../util/api";
 import { useEffect, useReducer } from "react";
 import useSWR, { mutate } from "swr";
 
 import { AppSession } from "../types/auth";
 import BottomNav from "../components/molecules/bottom-nav";
 import { ComponentProps } from "../types/components";
-import { GetAccountDto } from "../types/api";
 import LoadingAuth from "../components/auth/loading-auth";
 import Navbar from "../components/molecules/navbar";
 import Sidebar from "../components/molecules/sidebar";
@@ -23,27 +35,55 @@ const getAccountMeCacheKey = (session: AppSession) => {
   return getApiRouteCacheKey(apiAccountsMe, session);
 };
 
+const getNotificationsMeUnreadCacheKey = (session: AppSession) => {
+  return getApiRouteCacheKey(apiNotificationsMeUnread, session);
+};
+
 export interface LayoutProps extends ComponentProps {}
 
 export default function Layout({ children, ...props }: LayoutProps) {
   const { data: session, status } = useAppSession();
   const [isSideBarOpen, setIsSidebarOpen] = useState(false);
 
+  // me
   const [meState, meDispatch] = useReducer(meReducer, initialMeState);
-
   const [invalidateMe] = useState(() => () => {
     mutate(getAccountMeCacheKey(session));
   });
-
   const { data: me, error } = useSWR<GetAccountDto>(
     getAccountMeCacheKey(session),
     apiGetFetcher
   );
+  // end me
+
+  // unread notifications
+  const [notificationsState, notificationsDispatch] = useReducer(
+    notificationsReducer,
+    initialNotificationsState
+  );
+  const [invalidateNotifications] = useState(() => () => {
+    mutate(getNotificationsMeUnreadCacheKey(session));
+  });
+  const { data: unreadDto, error: unreadCountError } =
+    useSWR<GetUnreadNotificationsDto>(
+      getNotificationsMeUnreadCacheKey(session),
+      apiGetFetcher
+    );
+  // end unread notifications
 
   useEffect(() => {
     if (!me) return;
     meDispatch({ type: MeActionKind.SET_ME, payload: me });
   }, [me]);
+
+  useEffect(() => {
+    if (!unreadDto) return;
+    console.log(unreadDto);
+    notificationsDispatch({
+      type: NotificationsActionKind.SET_UNREAD_NOTIFICATION_COUNT,
+      unreadCount: unreadDto.unread ?? 0,
+    });
+  }, [unreadDto]);
 
   return (
     <div className="layout">
@@ -55,20 +95,31 @@ export default function Layout({ children, ...props }: LayoutProps) {
             <MeInvalidationContext.Provider
               value={{ meInvalidate: invalidateMe }}
             >
-              <Navbar
-                onDrawerToggle={() => {
-                  setIsSidebarOpen(!isSideBarOpen);
+              <NotificationsContext.Provider
+                value={{
+                  state: notificationsState,
+                  dispatch: notificationsDispatch,
                 }}
-              />
-              <Sidebar
-                isOpen={isSideBarOpen}
-                onTryClose={() => setIsSidebarOpen(false)}
-              />
-              <div className="min-h-screen flex flex-col items-center justify-center">
-                {children}
-              </div>
+              >
+                <NotificationsInvalidationContext.Provider
+                  value={{ notificationsInvalidate: invalidateNotifications }}
+                >
+                  <Navbar
+                    onDrawerToggle={() => {
+                      setIsSidebarOpen(!isSideBarOpen);
+                    }}
+                  />
+                  <Sidebar
+                    isOpen={isSideBarOpen}
+                    onTryClose={() => setIsSidebarOpen(false)}
+                  />
+                  <div className="min-h-screen flex flex-col items-center justify-center">
+                    {children}
+                  </div>
+                  <BottomNav />
+                </NotificationsInvalidationContext.Provider>
+              </NotificationsContext.Provider>
             </MeInvalidationContext.Provider>
-            <BottomNav />
           </MeContext.Provider>
         </div>
       )}

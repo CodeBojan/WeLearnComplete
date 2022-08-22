@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Persistence;
 using WeLearn.Importers.Dtos.Notification;
+using WeLearn.Importers.Exceptions;
 using WeLearn.Importers.Extensions.Models;
 using WeLearn.Shared.Dtos.Paging;
+using WeLearn.Shared.Exceptions.Models;
 using WeLearn.Shared.Extensions.Paging;
 
 namespace WeLearn.Importers.Services.Notification
@@ -36,6 +38,29 @@ namespace WeLearn.Importers.Services.Notification
                 .GetPagedResponseDtoAsync(pageOptions, MapNotificationToGetDto());
 
             return dto;
+        }
+
+        public async Task<int> GetUnreadNotificationsCountAsync(Guid userId)
+        {
+            var unread = await _dbContext.Notifications
+                .AsNoTracking()
+                .Where(n => n.ReceiverId == userId && n.IsRead == false)
+                .CountAsync();
+
+            return unread;
+        }
+
+        public async Task ReadNotificationAsync(Guid notificationId, Guid accountId, bool readState)
+        {
+            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(n => n.Id == notificationId);
+            if (notification is null)
+                throw new NotificationNotFoundException();
+
+            if (notification.ReceiverId != accountId)
+                throw new UnauthorizedModelAccessException();
+
+            notification.IsRead = readState;
+            await _dbContext.SaveChangesAsync();
         }
 
         private Expression<Func<Data.Models.Notification, GetNotificationDto>> MapNotificationToGetDto()

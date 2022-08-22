@@ -22,6 +22,7 @@ export default function CoursesContainer({
   onMutate?: () => void;
 }) {
   const { data: session, status } = useAppSession();
+  // TODO skeletonized preview if no courses
 
   return (
     <FavoritesContainer>

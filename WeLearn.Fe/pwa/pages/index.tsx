@@ -1,18 +1,10 @@
-import { MeActionKind, initialMeState, meReducer } from "../store/me-store";
-import { ReactElement, useEffect, useReducer, useState } from "react";
-
 import { AppPageWithLayout } from "./_app";
-import BottomNav from "../components/molecules/bottom-nav";
-import { GetAccountDto } from "../types/api";
 import Layout from "../layouts/layout";
 import Link from "next/link";
-import Navbar from "../components/molecules/navbar";
-import Sidebar from "../components/molecules/sidebar";
+import { ReactElement } from "react";
 import SignOutButton from "../components/auth/sign-out-button";
-import { apiGetFetcher } from "../util/api";
 import styles from "../styles/Home.module.scss";
 import { useAppSession } from "../util/auth";
-import useSWR from "swr";
 
 const Home: AppPageWithLayout = () => {
   const { data: session, status } = useAppSession();

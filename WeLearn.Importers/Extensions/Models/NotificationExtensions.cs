@@ -13,7 +13,16 @@ public static class NotificationExtensions
     {
         return new GetNotificationDto
         {
-            // TODO : Map properties
+            Id = n.Id,
+            CreatedDate = n.CreatedDate,
+            UpdatedDate = n.UpdatedDate,
+            Title = n.Title,
+            Body = n.Body,
+            IsRead = n.IsRead,
+            Uri = n.Uri,
+            Type = n.Type,
+            ImageUri = n.ImageUri,
+            ReceiverId = n.ReceiverId,
         };
     }
 }

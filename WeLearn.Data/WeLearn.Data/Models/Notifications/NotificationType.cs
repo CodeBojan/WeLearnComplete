@@ -8,6 +8,7 @@ namespace WeLearn.Data.Models.Notifications;
 
 public enum NotificationType
 {
+    General,
     Comment,
     Content,
 }
@@ -18,6 +19,8 @@ public static class NotificationTypeExtensions
     {
         switch (notificationType)
         {
+            case NotificationType.General:
+                return "General";
             case NotificationType.Content:
                 return "Content";
             case NotificationType.Comment:
