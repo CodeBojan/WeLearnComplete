@@ -189,7 +189,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 if (!isCourseNotice)
                     courseId = null;
 
-                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, attachment.ByteSize, hash, hashAlgo, null, null, $".{attachment.FileExtension}");
+                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, null, attachment.ByteSize, hash, hashAlgo, null, null, $".{attachment.FileExtension}");
                 notice.TryAddDocument(document);
             }
             notices.Add(notice);

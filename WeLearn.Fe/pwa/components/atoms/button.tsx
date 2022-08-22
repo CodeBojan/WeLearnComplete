@@ -11,6 +11,8 @@ const StyledButton = w.button(
         normal: "text-white bg-primary hover:bg-primary-dark border",
         outline:
           "text-primary-dark bg-white hover:bg-white hover:border-primary-dark border",
+        danger:
+          "text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800",
       },
       padding: {
         normal: "px-2",

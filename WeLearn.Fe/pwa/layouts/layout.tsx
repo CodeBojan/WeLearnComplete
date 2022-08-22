@@ -6,7 +6,7 @@ import {
   meReducer,
 } from "../store/me-store";
 import { apiAccountsMe, apiGetFetcher, getApiRouteCacheKey } from "../util/api";
-import { createContext, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import useSWR, { mutate } from "swr";
 
 import { AppSession } from "../types/auth";
@@ -16,7 +16,6 @@ import { GetAccountDto } from "../types/api";
 import LoadingAuth from "../components/auth/loading-auth";
 import Navbar from "../components/molecules/navbar";
 import Sidebar from "../components/molecules/sidebar";
-import { ToastContainer } from "react-toastify";
 import { useAppSession } from "../util/auth";
 import { useState } from "react";
 
@@ -48,8 +47,8 @@ export default function Layout({ children, ...props }: LayoutProps) {
 
   return (
     <div className="layout">
-      {!session ? (
-        <LoadingAuth></LoadingAuth>
+      {!session || error ? (
+        <LoadingAuth error={error}></LoadingAuth>
       ) : (
         <div>
           <MeContext.Provider value={{ state: meState, dispatch: meDispatch }}>

@@ -10,6 +10,8 @@ public class GetCourseDto
     public string Description { get; set; }
     public string Rules { get; set; }
     public Guid StudyYearId { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; }
     public int? FollowingCount { get; set; }
     public bool? IsFollowing { get; set; }
 }

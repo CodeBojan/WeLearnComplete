@@ -21,6 +21,7 @@ public class Document : Content
         DateTime? externalCreatedDate,
         string fileName,
         string uri,
+        string? version,
         long? size,
         string? hash,
         string? hashAlgorithm,
@@ -41,6 +42,7 @@ public class Document : Content
     {
         FileName = fileName;
         Uri = uri;
+        Version = version;
         Size = size;
         Hash = hash;
         HashAlgorithm = hashAlgorithm;
@@ -51,13 +53,14 @@ public class Document : Content
 
     public string FileName { get; set; }
     public string Uri { get; set; }
+    public string? Version { get; set; }
     public long? Size { get; set; }
     public string? Hash { get; set; }
     public string? HashAlgorithm { get; set; }
     public Guid? DocumentContainerId { get; set; }
     public Guid? CourseMaterialUploadRequestId { get; set; }
     public string FileExtension { get; private set; }
-    
+
     public virtual DocumentContainer? DocumentContainer { get; set; }
     public virtual CourseMaterialUploadRequest? CourseMaterialUploadRequest { get; set; }
 }

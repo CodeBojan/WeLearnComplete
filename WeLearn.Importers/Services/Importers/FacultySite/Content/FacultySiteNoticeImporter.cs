@@ -216,7 +216,7 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
                     continue;
                 }
 
-                var document = new Document(attachmentExternalId, attachment.Url, null, null, null, true, null, null, externalSystem.Id, attachment.CreatedDate.ToUniversalTime(), attachment.PreviewName, downloadedAttachmentUri, attachment.FileSize, hash, hashAlgo, generalNotice.Id, null, fileExtension);
+                var document = new Document(attachmentExternalId, attachment.Url, null, null, null, true, null, null, externalSystem.Id, attachment.CreatedDate.ToUniversalTime(), attachment.PreviewName, downloadedAttachmentUri, null, attachment.FileSize, hash, hashAlgo, generalNotice.Id, null, fileExtension);
 
                 generalNotice.TryAddDocument(document);
             }

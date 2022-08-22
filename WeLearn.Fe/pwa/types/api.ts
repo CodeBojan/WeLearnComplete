@@ -25,8 +25,8 @@ export class DeleteFollowedCourseDto implements IDeleteFollowedCourseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.accountId = _data["accountId"] !== undefined ? _data["accountId"] : <any>null;
-            this.courseId = _data["courseId"] !== undefined ? _data["courseId"] : <any>null;
+            this.accountId = _data["accountId"];
+            this.courseId = _data["courseId"];
         }
     }
 
@@ -39,8 +39,8 @@ export class DeleteFollowedCourseDto implements IDeleteFollowedCourseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accountId"] = this.accountId !== undefined ? this.accountId : <any>null;
-        data["courseId"] = this.courseId !== undefined ? this.courseId : <any>null;
+        data["accountId"] = this.accountId;
+        data["courseId"] = this.courseId;
         return data;
     }
 }
@@ -65,8 +65,8 @@ export class DeleteFollowedStudyYearDto implements IDeleteFollowedStudyYearDto {
 
     init(_data?: any) {
         if (_data) {
-            this.accountId = _data["accountId"] !== undefined ? _data["accountId"] : <any>null;
-            this.studyYearId = _data["studyYearId"] !== undefined ? _data["studyYearId"] : <any>null;
+            this.accountId = _data["accountId"];
+            this.studyYearId = _data["studyYearId"];
         }
     }
 
@@ -79,8 +79,8 @@ export class DeleteFollowedStudyYearDto implements IDeleteFollowedStudyYearDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accountId"] = this.accountId !== undefined ? this.accountId : <any>null;
-        data["studyYearId"] = this.studyYearId !== undefined ? this.studyYearId : <any>null;
+        data["accountId"] = this.accountId;
+        data["studyYearId"] = this.studyYearId;
         return data;
     }
 }
@@ -92,11 +92,11 @@ export interface IDeleteFollowedStudyYearDto {
 
 export class GetAccountDto implements IGetAccountDto {
     id?: string;
-    username?: string | null;
-    email?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
-    facultyStudentId?: string | null;
+    username?: string | undefined;
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    facultyStudentId?: string | undefined;
 
     constructor(data?: IGetAccountDto) {
         if (data) {
@@ -109,12 +109,12 @@ export class GetAccountDto implements IGetAccountDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
-            this.username = _data["username"] !== undefined ? _data["username"] : <any>null;
-            this.email = _data["email"] !== undefined ? _data["email"] : <any>null;
-            this.firstName = _data["firstName"] !== undefined ? _data["firstName"] : <any>null;
-            this.lastName = _data["lastName"] !== undefined ? _data["lastName"] : <any>null;
-            this.facultyStudentId = _data["facultyStudentId"] !== undefined ? _data["facultyStudentId"] : <any>null;
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.email = _data["email"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.facultyStudentId = _data["facultyStudentId"];
         }
     }
 
@@ -127,30 +127,30 @@ export class GetAccountDto implements IGetAccountDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["username"] = this.username !== undefined ? this.username : <any>null;
-        data["email"] = this.email !== undefined ? this.email : <any>null;
-        data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
-        data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
-        data["facultyStudentId"] = this.facultyStudentId !== undefined ? this.facultyStudentId : <any>null;
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["email"] = this.email;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["facultyStudentId"] = this.facultyStudentId;
         return data;
     }
 }
 
 export interface IGetAccountDto {
     id?: string;
-    username?: string | null;
-    email?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
-    facultyStudentId?: string | null;
+    username?: string | undefined;
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    facultyStudentId?: string | undefined;
 }
 
 export class GetAccountDtoPagedResponseDto implements IGetAccountDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetAccountDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetAccountDto[] | undefined;
 
     constructor(data?: IGetAccountDtoPagedResponseDto) {
         if (data) {
@@ -163,16 +163,13 @@ export class GetAccountDtoPagedResponseDto implements IGetAccountDtoPagedRespons
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetAccountDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -186,9 +183,9 @@ export class GetAccountDtoPagedResponseDto implements IGetAccountDtoPagedRespons
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -201,21 +198,23 @@ export class GetAccountDtoPagedResponseDto implements IGetAccountDtoPagedRespons
 export interface IGetAccountDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetAccountDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetAccountDto[] | undefined;
 }
 
 export class GetCourseDto implements IGetCourseDto {
     id?: string;
-    code?: string | null;
-    shortName?: string | null;
-    fullName?: string | null;
-    staff?: string | null;
-    description?: string | null;
-    rules?: string | null;
+    code?: string | undefined;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    staff?: string | undefined;
+    description?: string | undefined;
+    rules?: string | undefined;
     studyYearId?: string;
-    followingCount?: number | null;
-    isFollowing?: boolean | null;
+    createdDate?: Date;
+    updatedDate?: Date;
+    followingCount?: number | undefined;
+    isFollowing?: boolean | undefined;
 
     constructor(data?: IGetCourseDto) {
         if (data) {
@@ -228,16 +227,18 @@ export class GetCourseDto implements IGetCourseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
-            this.code = _data["code"] !== undefined ? _data["code"] : <any>null;
-            this.shortName = _data["shortName"] !== undefined ? _data["shortName"] : <any>null;
-            this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
-            this.staff = _data["staff"] !== undefined ? _data["staff"] : <any>null;
-            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
-            this.rules = _data["rules"] !== undefined ? _data["rules"] : <any>null;
-            this.studyYearId = _data["studyYearId"] !== undefined ? _data["studyYearId"] : <any>null;
-            this.followingCount = _data["followingCount"] !== undefined ? _data["followingCount"] : <any>null;
-            this.isFollowing = _data["isFollowing"] !== undefined ? _data["isFollowing"] : <any>null;
+            this.id = _data["id"];
+            this.code = _data["code"];
+            this.shortName = _data["shortName"];
+            this.fullName = _data["fullName"];
+            this.staff = _data["staff"];
+            this.description = _data["description"];
+            this.rules = _data["rules"];
+            this.studyYearId = _data["studyYearId"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+            this.followingCount = _data["followingCount"];
+            this.isFollowing = _data["isFollowing"];
         }
     }
 
@@ -250,38 +251,42 @@ export class GetCourseDto implements IGetCourseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["code"] = this.code !== undefined ? this.code : <any>null;
-        data["shortName"] = this.shortName !== undefined ? this.shortName : <any>null;
-        data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
-        data["staff"] = this.staff !== undefined ? this.staff : <any>null;
-        data["description"] = this.description !== undefined ? this.description : <any>null;
-        data["rules"] = this.rules !== undefined ? this.rules : <any>null;
-        data["studyYearId"] = this.studyYearId !== undefined ? this.studyYearId : <any>null;
-        data["followingCount"] = this.followingCount !== undefined ? this.followingCount : <any>null;
-        data["isFollowing"] = this.isFollowing !== undefined ? this.isFollowing : <any>null;
+        data["id"] = this.id;
+        data["code"] = this.code;
+        data["shortName"] = this.shortName;
+        data["fullName"] = this.fullName;
+        data["staff"] = this.staff;
+        data["description"] = this.description;
+        data["rules"] = this.rules;
+        data["studyYearId"] = this.studyYearId;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        data["followingCount"] = this.followingCount;
+        data["isFollowing"] = this.isFollowing;
         return data;
     }
 }
 
 export interface IGetCourseDto {
     id?: string;
-    code?: string | null;
-    shortName?: string | null;
-    fullName?: string | null;
-    staff?: string | null;
-    description?: string | null;
-    rules?: string | null;
+    code?: string | undefined;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    staff?: string | undefined;
+    description?: string | undefined;
+    rules?: string | undefined;
     studyYearId?: string;
-    followingCount?: number | null;
-    isFollowing?: boolean | null;
+    createdDate?: Date;
+    updatedDate?: Date;
+    followingCount?: number | undefined;
+    isFollowing?: boolean | undefined;
 }
 
 export class GetCourseDtoPagedResponseDto implements IGetCourseDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetCourseDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetCourseDto[] | undefined;
 
     constructor(data?: IGetCourseDtoPagedResponseDto) {
         if (data) {
@@ -294,16 +299,13 @@ export class GetCourseDtoPagedResponseDto implements IGetCourseDtoPagedResponseD
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetCourseDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -317,9 +319,9 @@ export class GetCourseDtoPagedResponseDto implements IGetCourseDtoPagedResponseD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -332,8 +334,8 @@ export class GetCourseDtoPagedResponseDto implements IGetCourseDtoPagedResponseD
 export interface IGetCourseDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetCourseDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetCourseDto[] | undefined;
 }
 
 export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUploadRequestDto {
@@ -369,8 +371,8 @@ export interface IGetCourseMaterialUploadRequestDto {
 export class GetCourseMaterialUploadRequestDtoPagedResponseDto implements IGetCourseMaterialUploadRequestDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetCourseMaterialUploadRequestDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetCourseMaterialUploadRequestDto[] | undefined;
 
     constructor(data?: IGetCourseMaterialUploadRequestDtoPagedResponseDto) {
         if (data) {
@@ -383,16 +385,13 @@ export class GetCourseMaterialUploadRequestDtoPagedResponseDto implements IGetCo
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetCourseMaterialUploadRequestDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -406,9 +405,9 @@ export class GetCourseMaterialUploadRequestDtoPagedResponseDto implements IGetCo
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -421,8 +420,8 @@ export class GetCourseMaterialUploadRequestDtoPagedResponseDto implements IGetCo
 export interface IGetCourseMaterialUploadRequestDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetCourseMaterialUploadRequestDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetCourseMaterialUploadRequestDto[] | undefined;
 }
 
 export class GetFeedDto implements IGetFeedDto {
@@ -458,8 +457,8 @@ export interface IGetFeedDto {
 export class GetFeedDtoPagedResponseDto implements IGetFeedDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetFeedDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetFeedDto[] | undefined;
 
     constructor(data?: IGetFeedDtoPagedResponseDto) {
         if (data) {
@@ -472,16 +471,13 @@ export class GetFeedDtoPagedResponseDto implements IGetFeedDtoPagedResponseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetFeedDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -495,9 +491,9 @@ export class GetFeedDtoPagedResponseDto implements IGetFeedDtoPagedResponseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -510,16 +506,16 @@ export class GetFeedDtoPagedResponseDto implements IGetFeedDtoPagedResponseDto {
 export interface IGetFeedDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetFeedDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetFeedDto[] | undefined;
 }
 
 export class GetFollowedCourseDto implements IGetFollowedCourseDto {
     accountId?: string;
     courseId?: string;
-    courseShortName?: string | null;
-    courseFullName?: string | null;
-    courseCode?: string | null;
+    courseShortName?: string | undefined;
+    courseFullName?: string | undefined;
+    courseCode?: string | undefined;
 
     constructor(data?: IGetFollowedCourseDto) {
         if (data) {
@@ -532,11 +528,11 @@ export class GetFollowedCourseDto implements IGetFollowedCourseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.accountId = _data["accountId"] !== undefined ? _data["accountId"] : <any>null;
-            this.courseId = _data["courseId"] !== undefined ? _data["courseId"] : <any>null;
-            this.courseShortName = _data["courseShortName"] !== undefined ? _data["courseShortName"] : <any>null;
-            this.courseFullName = _data["courseFullName"] !== undefined ? _data["courseFullName"] : <any>null;
-            this.courseCode = _data["courseCode"] !== undefined ? _data["courseCode"] : <any>null;
+            this.accountId = _data["accountId"];
+            this.courseId = _data["courseId"];
+            this.courseShortName = _data["courseShortName"];
+            this.courseFullName = _data["courseFullName"];
+            this.courseCode = _data["courseCode"];
         }
     }
 
@@ -549,11 +545,11 @@ export class GetFollowedCourseDto implements IGetFollowedCourseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accountId"] = this.accountId !== undefined ? this.accountId : <any>null;
-        data["courseId"] = this.courseId !== undefined ? this.courseId : <any>null;
-        data["courseShortName"] = this.courseShortName !== undefined ? this.courseShortName : <any>null;
-        data["courseFullName"] = this.courseFullName !== undefined ? this.courseFullName : <any>null;
-        data["courseCode"] = this.courseCode !== undefined ? this.courseCode : <any>null;
+        data["accountId"] = this.accountId;
+        data["courseId"] = this.courseId;
+        data["courseShortName"] = this.courseShortName;
+        data["courseFullName"] = this.courseFullName;
+        data["courseCode"] = this.courseCode;
         return data;
     }
 }
@@ -561,16 +557,16 @@ export class GetFollowedCourseDto implements IGetFollowedCourseDto {
 export interface IGetFollowedCourseDto {
     accountId?: string;
     courseId?: string;
-    courseShortName?: string | null;
-    courseFullName?: string | null;
-    courseCode?: string | null;
+    courseShortName?: string | undefined;
+    courseFullName?: string | undefined;
+    courseCode?: string | undefined;
 }
 
 export class GetFollowedCourseDtoPagedResponseDto implements IGetFollowedCourseDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetFollowedCourseDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetFollowedCourseDto[] | undefined;
 
     constructor(data?: IGetFollowedCourseDtoPagedResponseDto) {
         if (data) {
@@ -583,16 +579,13 @@ export class GetFollowedCourseDtoPagedResponseDto implements IGetFollowedCourseD
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetFollowedCourseDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -606,9 +599,9 @@ export class GetFollowedCourseDtoPagedResponseDto implements IGetFollowedCourseD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -621,8 +614,8 @@ export class GetFollowedCourseDtoPagedResponseDto implements IGetFollowedCourseD
 export interface IGetFollowedCourseDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetFollowedCourseDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetFollowedCourseDto[] | undefined;
 }
 
 export class GetFollowedStudyYearDto implements IGetFollowedStudyYearDto {
@@ -640,8 +633,8 @@ export class GetFollowedStudyYearDto implements IGetFollowedStudyYearDto {
 
     init(_data?: any) {
         if (_data) {
-            this.accountId = _data["accountId"] !== undefined ? _data["accountId"] : <any>null;
-            this.studyYearId = _data["studyYearId"] !== undefined ? _data["studyYearId"] : <any>null;
+            this.accountId = _data["accountId"];
+            this.studyYearId = _data["studyYearId"];
         }
     }
 
@@ -654,8 +647,8 @@ export class GetFollowedStudyYearDto implements IGetFollowedStudyYearDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accountId"] = this.accountId !== undefined ? this.accountId : <any>null;
-        data["studyYearId"] = this.studyYearId !== undefined ? this.studyYearId : <any>null;
+        data["accountId"] = this.accountId;
+        data["studyYearId"] = this.studyYearId;
         return data;
     }
 }
@@ -668,8 +661,8 @@ export interface IGetFollowedStudyYearDto {
 export class GetFollowedStudyYearDtoPagedResponseDto implements IGetFollowedStudyYearDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetFollowedStudyYearDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetFollowedStudyYearDto[] | undefined;
 
     constructor(data?: IGetFollowedStudyYearDtoPagedResponseDto) {
         if (data) {
@@ -682,16 +675,13 @@ export class GetFollowedStudyYearDtoPagedResponseDto implements IGetFollowedStud
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetFollowedStudyYearDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -705,9 +695,9 @@ export class GetFollowedStudyYearDtoPagedResponseDto implements IGetFollowedStud
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -720,8 +710,8 @@ export class GetFollowedStudyYearDtoPagedResponseDto implements IGetFollowedStud
 export interface IGetFollowedStudyYearDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetFollowedStudyYearDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetFollowedStudyYearDto[] | undefined;
 }
 
 export class GetNotificationDto implements IGetNotificationDto {
@@ -757,8 +747,8 @@ export interface IGetNotificationDto {
 export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetNotificationDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetNotificationDto[] | undefined;
 
     constructor(data?: IGetNotificationDtoPagedResponseDto) {
         if (data) {
@@ -771,16 +761,13 @@ export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPa
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetNotificationDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -794,9 +781,9 @@ export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPa
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -809,19 +796,19 @@ export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPa
 export interface IGetNotificationDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetNotificationDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetNotificationDto[] | undefined;
 }
 
 export class GetStudyYearDto implements IGetStudyYearDto {
     readonly id?: string;
     readonly createdDate?: Date;
     readonly updatedDate?: Date;
-    readonly shortName?: string | null;
-    fullName?: string | null;
-    description?: string | null;
-    followingCount?: number | null;
-    isFollowing?: boolean | null;
+    readonly shortName?: string | undefined;
+    fullName?: string | undefined;
+    description?: string | undefined;
+    followingCount?: number | undefined;
+    isFollowing?: boolean | undefined;
 
     constructor(data?: IGetStudyYearDto) {
         if (data) {
@@ -834,14 +821,14 @@ export class GetStudyYearDto implements IGetStudyYearDto {
 
     init(_data?: any) {
         if (_data) {
-            (<any>this).id = _data["id"] !== undefined ? _data["id"] : <any>null;
-            (<any>this).createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>null;
-            (<any>this).updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>null;
-            (<any>this).shortName = _data["shortName"] !== undefined ? _data["shortName"] : <any>null;
-            this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
-            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
-            this.followingCount = _data["followingCount"] !== undefined ? _data["followingCount"] : <any>null;
-            this.isFollowing = _data["isFollowing"] !== undefined ? _data["isFollowing"] : <any>null;
+            (<any>this).id = _data["id"];
+            (<any>this).createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            (<any>this).updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+            (<any>this).shortName = _data["shortName"];
+            this.fullName = _data["fullName"];
+            this.description = _data["description"];
+            this.followingCount = _data["followingCount"];
+            this.isFollowing = _data["isFollowing"];
         }
     }
 
@@ -854,14 +841,14 @@ export class GetStudyYearDto implements IGetStudyYearDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>null;
-        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>null;
-        data["shortName"] = this.shortName !== undefined ? this.shortName : <any>null;
-        data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
-        data["description"] = this.description !== undefined ? this.description : <any>null;
-        data["followingCount"] = this.followingCount !== undefined ? this.followingCount : <any>null;
-        data["isFollowing"] = this.isFollowing !== undefined ? this.isFollowing : <any>null;
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        data["shortName"] = this.shortName;
+        data["fullName"] = this.fullName;
+        data["description"] = this.description;
+        data["followingCount"] = this.followingCount;
+        data["isFollowing"] = this.isFollowing;
         return data;
     }
 }
@@ -870,18 +857,18 @@ export interface IGetStudyYearDto {
     id?: string;
     createdDate?: Date;
     updatedDate?: Date;
-    shortName?: string | null;
-    fullName?: string | null;
-    description?: string | null;
-    followingCount?: number | null;
-    isFollowing?: boolean | null;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    description?: string | undefined;
+    followingCount?: number | undefined;
+    isFollowing?: boolean | undefined;
 }
 
 export class GetStudyYearDtoPagedResponseDto implements IGetStudyYearDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetStudyYearDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetStudyYearDto[] | undefined;
 
     constructor(data?: IGetStudyYearDtoPagedResponseDto) {
         if (data) {
@@ -894,16 +881,13 @@ export class GetStudyYearDtoPagedResponseDto implements IGetStudyYearDtoPagedRes
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"] !== undefined ? _data["limit"] : <any>null;
-            this.page = _data["page"] !== undefined ? _data["page"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(GetStudyYearDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
             }
         }
     }
@@ -917,9 +901,9 @@ export class GetStudyYearDtoPagedResponseDto implements IGetStudyYearDtoPagedRes
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit !== undefined ? this.limit : <any>null;
-        data["page"] = this.page !== undefined ? this.page : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -932,17 +916,17 @@ export class GetStudyYearDtoPagedResponseDto implements IGetStudyYearDtoPagedRes
 export interface IGetStudyYearDtoPagedResponseDto {
     limit?: number;
     page?: number;
-    totalPages?: number | null;
-    data?: GetStudyYearDto[] | null;
+    totalPages?: number | undefined;
+    data?: GetStudyYearDto[] | undefined;
 }
 
 export class PostCourseDto implements IPostCourseDto {
-    code?: string | null;
-    shortName?: string | null;
-    fullName?: string | null;
-    staff?: string | null;
-    description?: string | null;
-    rules?: string | null;
+    code?: string | undefined;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    staff?: string | undefined;
+    description?: string | undefined;
+    rules?: string | undefined;
     studyYearId?: string;
 
     constructor(data?: IPostCourseDto) {
@@ -956,13 +940,13 @@ export class PostCourseDto implements IPostCourseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.code = _data["code"] !== undefined ? _data["code"] : <any>null;
-            this.shortName = _data["shortName"] !== undefined ? _data["shortName"] : <any>null;
-            this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
-            this.staff = _data["staff"] !== undefined ? _data["staff"] : <any>null;
-            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
-            this.rules = _data["rules"] !== undefined ? _data["rules"] : <any>null;
-            this.studyYearId = _data["studyYearId"] !== undefined ? _data["studyYearId"] : <any>null;
+            this.code = _data["code"];
+            this.shortName = _data["shortName"];
+            this.fullName = _data["fullName"];
+            this.staff = _data["staff"];
+            this.description = _data["description"];
+            this.rules = _data["rules"];
+            this.studyYearId = _data["studyYearId"];
         }
     }
 
@@ -975,24 +959,24 @@ export class PostCourseDto implements IPostCourseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["code"] = this.code !== undefined ? this.code : <any>null;
-        data["shortName"] = this.shortName !== undefined ? this.shortName : <any>null;
-        data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
-        data["staff"] = this.staff !== undefined ? this.staff : <any>null;
-        data["description"] = this.description !== undefined ? this.description : <any>null;
-        data["rules"] = this.rules !== undefined ? this.rules : <any>null;
-        data["studyYearId"] = this.studyYearId !== undefined ? this.studyYearId : <any>null;
+        data["code"] = this.code;
+        data["shortName"] = this.shortName;
+        data["fullName"] = this.fullName;
+        data["staff"] = this.staff;
+        data["description"] = this.description;
+        data["rules"] = this.rules;
+        data["studyYearId"] = this.studyYearId;
         return data;
     }
 }
 
 export interface IPostCourseDto {
-    code?: string | null;
-    shortName?: string | null;
-    fullName?: string | null;
-    staff?: string | null;
-    description?: string | null;
-    rules?: string | null;
+    code?: string | undefined;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    staff?: string | undefined;
+    description?: string | undefined;
+    rules?: string | undefined;
     studyYearId?: string;
 }
 
@@ -1011,8 +995,8 @@ export class PostFollowedCourseDto implements IPostFollowedCourseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.accountId = _data["accountId"] !== undefined ? _data["accountId"] : <any>null;
-            this.courseId = _data["courseId"] !== undefined ? _data["courseId"] : <any>null;
+            this.accountId = _data["accountId"];
+            this.courseId = _data["courseId"];
         }
     }
 
@@ -1025,8 +1009,8 @@ export class PostFollowedCourseDto implements IPostFollowedCourseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accountId"] = this.accountId !== undefined ? this.accountId : <any>null;
-        data["courseId"] = this.courseId !== undefined ? this.courseId : <any>null;
+        data["accountId"] = this.accountId;
+        data["courseId"] = this.courseId;
         return data;
     }
 }
@@ -1051,8 +1035,8 @@ export class PostFollowedStudyYearDto implements IPostFollowedStudyYearDto {
 
     init(_data?: any) {
         if (_data) {
-            this.accountId = _data["accountId"] !== undefined ? _data["accountId"] : <any>null;
-            this.studyYearId = _data["studyYearId"] !== undefined ? _data["studyYearId"] : <any>null;
+            this.accountId = _data["accountId"];
+            this.studyYearId = _data["studyYearId"];
         }
     }
 
@@ -1065,8 +1049,8 @@ export class PostFollowedStudyYearDto implements IPostFollowedStudyYearDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accountId"] = this.accountId !== undefined ? this.accountId : <any>null;
-        data["studyYearId"] = this.studyYearId !== undefined ? this.studyYearId : <any>null;
+        data["accountId"] = this.accountId;
+        data["studyYearId"] = this.studyYearId;
         return data;
     }
 }
@@ -1077,9 +1061,9 @@ export interface IPostFollowedStudyYearDto {
 }
 
 export class PutAccountDto implements IPutAccountDto {
-    firstName?: string | null;
-    lastName?: string | null;
-    facultyStudentId?: string | null;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    facultyStudentId?: string | undefined;
 
     constructor(data?: IPutAccountDto) {
         if (data) {
@@ -1092,9 +1076,9 @@ export class PutAccountDto implements IPutAccountDto {
 
     init(_data?: any) {
         if (_data) {
-            this.firstName = _data["firstName"] !== undefined ? _data["firstName"] : <any>null;
-            this.lastName = _data["lastName"] !== undefined ? _data["lastName"] : <any>null;
-            this.facultyStudentId = _data["facultyStudentId"] !== undefined ? _data["facultyStudentId"] : <any>null;
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.facultyStudentId = _data["facultyStudentId"];
         }
     }
 
@@ -1107,26 +1091,26 @@ export class PutAccountDto implements IPutAccountDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
-        data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
-        data["facultyStudentId"] = this.facultyStudentId !== undefined ? this.facultyStudentId : <any>null;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["facultyStudentId"] = this.facultyStudentId;
         return data;
     }
 }
 
 export interface IPutAccountDto {
-    firstName?: string | null;
-    lastName?: string | null;
-    facultyStudentId?: string | null;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    facultyStudentId?: string | undefined;
 }
 
 export class PutCourseDto implements IPutCourseDto {
-    code?: string | null;
-    shortName?: string | null;
-    fullName?: string | null;
-    staff?: string | null;
-    description?: string | null;
-    rules?: string | null;
+    code?: string | undefined;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    staff?: string | undefined;
+    description?: string | undefined;
+    rules?: string | undefined;
 
     constructor(data?: IPutCourseDto) {
         if (data) {
@@ -1139,12 +1123,12 @@ export class PutCourseDto implements IPutCourseDto {
 
     init(_data?: any) {
         if (_data) {
-            this.code = _data["code"] !== undefined ? _data["code"] : <any>null;
-            this.shortName = _data["shortName"] !== undefined ? _data["shortName"] : <any>null;
-            this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
-            this.staff = _data["staff"] !== undefined ? _data["staff"] : <any>null;
-            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
-            this.rules = _data["rules"] !== undefined ? _data["rules"] : <any>null;
+            this.code = _data["code"];
+            this.shortName = _data["shortName"];
+            this.fullName = _data["fullName"];
+            this.staff = _data["staff"];
+            this.description = _data["description"];
+            this.rules = _data["rules"];
         }
     }
 
@@ -1157,29 +1141,29 @@ export class PutCourseDto implements IPutCourseDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["code"] = this.code !== undefined ? this.code : <any>null;
-        data["shortName"] = this.shortName !== undefined ? this.shortName : <any>null;
-        data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
-        data["staff"] = this.staff !== undefined ? this.staff : <any>null;
-        data["description"] = this.description !== undefined ? this.description : <any>null;
-        data["rules"] = this.rules !== undefined ? this.rules : <any>null;
+        data["code"] = this.code;
+        data["shortName"] = this.shortName;
+        data["fullName"] = this.fullName;
+        data["staff"] = this.staff;
+        data["description"] = this.description;
+        data["rules"] = this.rules;
         return data;
     }
 }
 
 export interface IPutCourseDto {
-    code?: string | null;
-    shortName?: string | null;
-    fullName?: string | null;
-    staff?: string | null;
-    description?: string | null;
-    rules?: string | null;
+    code?: string | undefined;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    staff?: string | undefined;
+    description?: string | undefined;
+    rules?: string | undefined;
 }
 
 export class PutStudyYearDto implements IPutStudyYearDto {
-    shortName?: string | null;
-    fullName?: string | null;
-    description?: string | null;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    description?: string | undefined;
 
     constructor(data?: IPutStudyYearDto) {
         if (data) {
@@ -1192,9 +1176,9 @@ export class PutStudyYearDto implements IPutStudyYearDto {
 
     init(_data?: any) {
         if (_data) {
-            this.shortName = _data["shortName"] !== undefined ? _data["shortName"] : <any>null;
-            this.fullName = _data["fullName"] !== undefined ? _data["fullName"] : <any>null;
-            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
+            this.shortName = _data["shortName"];
+            this.fullName = _data["fullName"];
+            this.description = _data["description"];
         }
     }
 
@@ -1207,24 +1191,24 @@ export class PutStudyYearDto implements IPutStudyYearDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["shortName"] = this.shortName !== undefined ? this.shortName : <any>null;
-        data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
-        data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["shortName"] = this.shortName;
+        data["fullName"] = this.fullName;
+        data["description"] = this.description;
         return data;
     }
 }
 
 export interface IPutStudyYearDto {
-    shortName?: string | null;
-    fullName?: string | null;
-    description?: string | null;
+    shortName?: string | undefined;
+    fullName?: string | undefined;
+    description?: string | undefined;
 }
 
 export class WeatherForecast implements IWeatherForecast {
     date?: Date;
     temperatureC?: number;
     readonly temperatureF?: number;
-    summary?: string | null;
+    summary?: string | undefined;
 
     constructor(data?: IWeatherForecast) {
         if (data) {
@@ -1237,10 +1221,10 @@ export class WeatherForecast implements IWeatherForecast {
 
     init(_data?: any) {
         if (_data) {
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
-            this.temperatureC = _data["temperatureC"] !== undefined ? _data["temperatureC"] : <any>null;
-            (<any>this).temperatureF = _data["temperatureF"] !== undefined ? _data["temperatureF"] : <any>null;
-            this.summary = _data["summary"] !== undefined ? _data["summary"] : <any>null;
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.temperatureC = _data["temperatureC"];
+            (<any>this).temperatureF = _data["temperatureF"];
+            this.summary = _data["summary"];
         }
     }
 
@@ -1253,10 +1237,10 @@ export class WeatherForecast implements IWeatherForecast {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["date"] = this.date ? this.date.toISOString() : <any>null;
-        data["temperatureC"] = this.temperatureC !== undefined ? this.temperatureC : <any>null;
-        data["temperatureF"] = this.temperatureF !== undefined ? this.temperatureF : <any>null;
-        data["summary"] = this.summary !== undefined ? this.summary : <any>null;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["temperatureC"] = this.temperatureC;
+        data["temperatureF"] = this.temperatureF;
+        data["summary"] = this.summary;
         return data;
     }
 }
@@ -1265,5 +1249,5 @@ export interface IWeatherForecast {
     date?: Date;
     temperatureC?: number;
     temperatureF?: number;
-    summary?: string | null;
+    summary?: string | undefined;
 }

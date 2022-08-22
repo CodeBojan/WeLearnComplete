@@ -13,7 +13,7 @@ public class CourseMaterialUploadRequest : BaseEntity
     public bool IsApproved { get; set; }
     public string Remark { get; set; }
     // TODO define somewhere - create,update
-    public string Type { get; set; }
+    public string? Type { get; set; }
     public Guid CreatorId { get; set; }
     public Guid CourseId { get; set; }
 

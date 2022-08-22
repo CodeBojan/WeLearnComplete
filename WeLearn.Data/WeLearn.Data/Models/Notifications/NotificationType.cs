@@ -9,7 +9,7 @@ namespace WeLearn.Data.Models.Notifications;
 public enum NotificationType
 {
     Comment,
-    Content
+    Content,
 }
 
 public static class NotificationTypeExtensions

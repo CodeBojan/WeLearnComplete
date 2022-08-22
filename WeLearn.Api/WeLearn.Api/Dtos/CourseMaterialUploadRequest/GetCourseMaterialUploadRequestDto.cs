@@ -1,6 +1,5 @@
-﻿namespace WeLearn.Api.Dtos.CourseMaterialUploadRequest
+﻿namespace WeLearn.Api.Dtos.CourseMaterialUploadRequest;
+
+public class GetCourseMaterialUploadRequestDto
 {
-    public class GetCourseMaterialUploadRequestDto
-    {
-    }
 }

@@ -57,6 +57,8 @@ public class CourseService : ICourseService
                 Code = c.Code,
                 ShortName = c.ShortName,
                 FullName = c.FullName,
+                Staff = c.Staff,
+                Rules = c.Rules,
                 Description = c.Description,
                 UpdatedDate = c.UpdatedDate,
                 CreatedDate = c.CreatedDate,

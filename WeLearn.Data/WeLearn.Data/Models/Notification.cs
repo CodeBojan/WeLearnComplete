@@ -14,8 +14,6 @@ public class Notification : BaseEntity
     public string Uri { get; set; }
     public string Type { get; set; }
     public Guid ReceiverId { get; set; }
-    public Guid CourseId { get; set; }
 
     public virtual Account Receiver { get; set; }
-    public virtual Course Course { get; set; }
 }

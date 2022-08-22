@@ -19,6 +19,8 @@ public static class CourseExtensions
             StudyYearId = c.StudyYearId,
             FollowingCount = c.FollowingCount,
             IsFollowing = c.IsFollowing,
+            CreatedDate = c.CreatedDate,
+            UpdatedDate = c.UpdatedDate
         };
     }
 }

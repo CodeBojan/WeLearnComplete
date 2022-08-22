@@ -45,7 +45,7 @@
   <Class Name="WeLearn.Data.Models.Course">
     <Position X="37" Y="4.5" Width="5" />
     <TypeIdentifier>
-      <HashCode>AgAAgAAAIAAgAIAAFAAgQAAAACAFAIADAAAAAADAAAA=</HashCode>
+      <HashCode>IgAAgAAAIAAgAIAAFAAgQAAAACAFEIADAAAAAADAAAA=</HashCode>
       <FileName>Models\Course.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -103,14 +103,14 @@
   <Class Name="WeLearn.Data.Models.StudyYear">
     <Position X="46.5" Y="4.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAIAQAAAAAAAAAAABAIAAAAAAABAAAIA=</HashCode>
+      <HashCode>IAAAAAAAAAAgAIAQAAAAAAAAAAABEIAAAAAAABAAAIA=</HashCode>
       <FileName>Models\StudyYear.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WeLearn.Data.Models.Content.Document">
     <Position X="22.5" Y="10" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAIAgAAAAAAAEAAAAAAAAAgACAECAABACAA=</HashCode>
+      <HashCode>IAAAAAAAAAIAgAAAAAAAEAAAAAAAAAgACAECAABACAA=</HashCode>
       <FileName>Models\Content\Document.cs</FileName>
     </TypeIdentifier>
   </Class>

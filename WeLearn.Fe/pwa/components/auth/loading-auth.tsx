@@ -1,15 +1,14 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
 
-import {
-  HashLoader,
-} from "react-spinners";
+import { HashLoader } from "react-spinners";
 import SignInButton from "./sign-in-button";
+import { toast } from "react-toastify";
 
 const override: CSSProperties = {
   display: "block",
 };
 
-export default function LoadingAuth() {
+export default function LoadingAuth({ error }: { error?: any }) {
   const [loading, setLoading] = useState(true);
   const [timeoutExpired, setTimeoutExpired] = useState(false);
   const timerRef = useRef(
@@ -24,6 +23,11 @@ export default function LoadingAuth() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!error) return;
+
+    toast("Auth failed: " + JSON.stringify(error), { type: "error" });
+  }, [error]);
   return (
     <>
       <div className="h-screen flex flex-col items-center justify-center mx-8">

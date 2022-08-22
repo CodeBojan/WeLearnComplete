@@ -341,6 +341,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasForeignKey(n => n.ReceiverId)
             .HasPrincipalKey(r => r.Id)
             .OnDelete(DeleteBehavior.Cascade);
+
         });
 
         builder.Entity<CommentNotification>(cn =>
