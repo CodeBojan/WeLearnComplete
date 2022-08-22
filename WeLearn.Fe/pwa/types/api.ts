@@ -339,6 +339,14 @@ export interface IGetCourseDtoPagedResponseDto {
 }
 
 export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUploadRequestDto {
+    id?: string;
+    body?: string | undefined;
+    isApproved?: boolean;
+    remark?: string | undefined;
+    type?: string | undefined;
+    creatorId?: string;
+    courseId?: string;
+    documents?: GetDocumentDto[] | undefined;
 
     constructor(data?: IGetCourseMaterialUploadRequestDto) {
         if (data) {
@@ -350,6 +358,20 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.body = _data["body"];
+            this.isApproved = _data["isApproved"];
+            this.remark = _data["remark"];
+            this.type = _data["type"];
+            this.creatorId = _data["creatorId"];
+            this.courseId = _data["courseId"];
+            if (Array.isArray(_data["documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["documents"])
+                    this.documents!.push(GetDocumentDto.fromJS(item));
+            }
+        }
     }
 
     static fromJS(data: any): GetCourseMaterialUploadRequestDto {
@@ -361,11 +383,31 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["body"] = this.body;
+        data["isApproved"] = this.isApproved;
+        data["remark"] = this.remark;
+        data["type"] = this.type;
+        data["creatorId"] = this.creatorId;
+        data["courseId"] = this.courseId;
+        if (Array.isArray(this.documents)) {
+            data["documents"] = [];
+            for (let item of this.documents)
+                data["documents"].push(item.toJSON());
+        }
         return data;
     }
 }
 
 export interface IGetCourseMaterialUploadRequestDto {
+    id?: string;
+    body?: string | undefined;
+    isApproved?: boolean;
+    remark?: string | undefined;
+    type?: string | undefined;
+    creatorId?: string;
+    courseId?: string;
+    documents?: GetDocumentDto[] | undefined;
 }
 
 export class GetCourseMaterialUploadRequestDtoPagedResponseDto implements IGetCourseMaterialUploadRequestDtoPagedResponseDto {
@@ -422,6 +464,126 @@ export interface IGetCourseMaterialUploadRequestDtoPagedResponseDto {
     page?: number;
     totalPages?: number | undefined;
     data?: GetCourseMaterialUploadRequestDto[] | undefined;
+}
+
+export class GetDocumentDto implements IGetDocumentDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    externalId?: string | undefined;
+    externalUrl?: string | undefined;
+    body?: string | undefined;
+    title?: string | undefined;
+    author?: string | undefined;
+    isImported?: boolean;
+    courseId?: string | undefined;
+    creatorId?: string | undefined;
+    externalSystemId?: string | undefined;
+    externalCreatedDate?: Date | undefined;
+    fileName?: string | undefined;
+    uri?: string | undefined;
+    version?: string | undefined;
+    size?: number | undefined;
+    hash?: string | undefined;
+    hashAlgorithm?: string | undefined;
+    documentContainerId?: string | undefined;
+    courseMaterialUploadRequestId?: string | undefined;
+    fileExtension?: string | undefined;
+
+    constructor(data?: IGetDocumentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+            this.externalId = _data["externalId"];
+            this.externalUrl = _data["externalUrl"];
+            this.body = _data["body"];
+            this.title = _data["title"];
+            this.author = _data["author"];
+            this.isImported = _data["isImported"];
+            this.courseId = _data["courseId"];
+            this.creatorId = _data["creatorId"];
+            this.externalSystemId = _data["externalSystemId"];
+            this.externalCreatedDate = _data["externalCreatedDate"] ? new Date(_data["externalCreatedDate"].toString()) : <any>undefined;
+            this.fileName = _data["fileName"];
+            this.uri = _data["uri"];
+            this.version = _data["version"];
+            this.size = _data["size"];
+            this.hash = _data["hash"];
+            this.hashAlgorithm = _data["hashAlgorithm"];
+            this.documentContainerId = _data["documentContainerId"];
+            this.courseMaterialUploadRequestId = _data["courseMaterialUploadRequestId"];
+            this.fileExtension = _data["fileExtension"];
+        }
+    }
+
+    static fromJS(data: any): GetDocumentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetDocumentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        data["externalId"] = this.externalId;
+        data["externalUrl"] = this.externalUrl;
+        data["body"] = this.body;
+        data["title"] = this.title;
+        data["author"] = this.author;
+        data["isImported"] = this.isImported;
+        data["courseId"] = this.courseId;
+        data["creatorId"] = this.creatorId;
+        data["externalSystemId"] = this.externalSystemId;
+        data["externalCreatedDate"] = this.externalCreatedDate ? this.externalCreatedDate.toISOString() : <any>undefined;
+        data["fileName"] = this.fileName;
+        data["uri"] = this.uri;
+        data["version"] = this.version;
+        data["size"] = this.size;
+        data["hash"] = this.hash;
+        data["hashAlgorithm"] = this.hashAlgorithm;
+        data["documentContainerId"] = this.documentContainerId;
+        data["courseMaterialUploadRequestId"] = this.courseMaterialUploadRequestId;
+        data["fileExtension"] = this.fileExtension;
+        return data;
+    }
+}
+
+export interface IGetDocumentDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    externalId?: string | undefined;
+    externalUrl?: string | undefined;
+    body?: string | undefined;
+    title?: string | undefined;
+    author?: string | undefined;
+    isImported?: boolean;
+    courseId?: string | undefined;
+    creatorId?: string | undefined;
+    externalSystemId?: string | undefined;
+    externalCreatedDate?: Date | undefined;
+    fileName?: string | undefined;
+    uri?: string | undefined;
+    version?: string | undefined;
+    size?: number | undefined;
+    hash?: string | undefined;
+    hashAlgorithm?: string | undefined;
+    documentContainerId?: string | undefined;
+    courseMaterialUploadRequestId?: string | undefined;
+    fileExtension?: string | undefined;
 }
 
 export class GetFeedDto implements IGetFeedDto {
@@ -715,6 +877,12 @@ export interface IGetFollowedStudyYearDtoPagedResponseDto {
 }
 
 export class GetNotificationDto implements IGetNotificationDto {
+    title?: string | undefined;
+    body?: string | undefined;
+    isRead?: boolean;
+    uri?: string | undefined;
+    type?: string | undefined;
+    receiverId?: string | undefined;
 
     constructor(data?: IGetNotificationDto) {
         if (data) {
@@ -726,6 +894,14 @@ export class GetNotificationDto implements IGetNotificationDto {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.body = _data["body"];
+            this.isRead = _data["isRead"];
+            this.uri = _data["uri"];
+            this.type = _data["type"];
+            this.receiverId = _data["receiverId"];
+        }
     }
 
     static fromJS(data: any): GetNotificationDto {
@@ -737,11 +913,23 @@ export class GetNotificationDto implements IGetNotificationDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["body"] = this.body;
+        data["isRead"] = this.isRead;
+        data["uri"] = this.uri;
+        data["type"] = this.type;
+        data["receiverId"] = this.receiverId;
         return data;
     }
 }
 
 export interface IGetNotificationDto {
+    title?: string | undefined;
+    body?: string | undefined;
+    isRead?: boolean;
+    uri?: string | undefined;
+    type?: string | undefined;
+    receiverId?: string | undefined;
 }
 
 export class GetNotificationDtoPagedResponseDto implements IGetNotificationDtoPagedResponseDto {
@@ -978,6 +1166,116 @@ export interface IPostCourseDto {
     description?: string | undefined;
     rules?: string | undefined;
     studyYearId?: string;
+}
+
+/** See  model. */
+export class PostCourseMaterialUploadRequestDto implements IPostCourseMaterialUploadRequestDto {
+    body?: string | undefined;
+    remark?: string | undefined;
+    courseId?: string;
+    documents?: PostDocumentDto[] | undefined;
+
+    constructor(data?: IPostCourseMaterialUploadRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.body = _data["body"];
+            this.remark = _data["remark"];
+            this.courseId = _data["courseId"];
+            if (Array.isArray(_data["documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["documents"])
+                    this.documents!.push(PostDocumentDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PostCourseMaterialUploadRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostCourseMaterialUploadRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["body"] = this.body;
+        data["remark"] = this.remark;
+        data["courseId"] = this.courseId;
+        if (Array.isArray(this.documents)) {
+            data["documents"] = [];
+            for (let item of this.documents)
+                data["documents"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** See  model. */
+export interface IPostCourseMaterialUploadRequestDto {
+    body?: string | undefined;
+    remark?: string | undefined;
+    courseId?: string;
+    documents?: PostDocumentDto[] | undefined;
+}
+
+export class PostDocumentDto implements IPostDocumentDto {
+    body?: string | undefined;
+    title?: string | undefined;
+    author?: string | undefined;
+    courseId?: string;
+    version?: string | undefined;
+
+    constructor(data?: IPostDocumentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.body = _data["body"];
+            this.title = _data["title"];
+            this.author = _data["author"];
+            this.courseId = _data["courseId"];
+            this.version = _data["version"];
+        }
+    }
+
+    static fromJS(data: any): PostDocumentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostDocumentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["body"] = this.body;
+        data["title"] = this.title;
+        data["author"] = this.author;
+        data["courseId"] = this.courseId;
+        data["version"] = this.version;
+        return data;
+    }
+}
+
+export interface IPostDocumentDto {
+    body?: string | undefined;
+    title?: string | undefined;
+    author?: string | undefined;
+    courseId?: string;
+    version?: string | undefined;
 }
 
 export class PostFollowedCourseDto implements IPostFollowedCourseDto {
@@ -1250,4 +1548,65 @@ export interface IWeatherForecast {
     temperatureC?: number;
     temperatureF?: number;
     summary?: string | undefined;
+}
+
+export class PostDto implements IPostDto {
+    body?: string | undefined;
+    remark?: string | undefined;
+    courseId?: string;
+    documents?: PostDocumentDto[] | undefined;
+
+    constructor(data?: IPostDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.body = _data["body"];
+            this.remark = _data["remark"];
+            this.courseId = _data["courseId"];
+            if (Array.isArray(_data["documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["documents"])
+                    this.documents!.push(PostDocumentDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PostDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["body"] = this.body;
+        data["remark"] = this.remark;
+        data["courseId"] = this.courseId;
+        if (Array.isArray(this.documents)) {
+            data["documents"] = [];
+            for (let item of this.documents)
+                data["documents"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPostDto {
+    body?: string | undefined;
+    remark?: string | undefined;
+    courseId?: string;
+    documents?: PostDocumentDto[] | undefined;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }

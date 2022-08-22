@@ -9,6 +9,23 @@ namespace WeLearn.Data.Models;
 
 public class CourseMaterialUploadRequest : BaseEntity
 {
+    public CourseMaterialUploadRequest(
+        string body,
+        bool isApproved,
+        string remark,
+        string? type,
+        Guid creatorId,
+        Guid courseId)
+    {
+        Id = Guid.NewGuid();
+        Body = body;
+        IsApproved = isApproved;
+        Remark = remark;
+        Type = type;
+        CreatorId = creatorId;
+        CourseId = courseId;
+    }
+
     public string Body { get; set; }
     public bool IsApproved { get; set; }
     public string Remark { get; set; }

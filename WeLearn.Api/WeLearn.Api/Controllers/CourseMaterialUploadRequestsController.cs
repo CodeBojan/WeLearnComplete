@@ -32,13 +32,32 @@ public class CourseMaterialUploadRequestsController : UserAuthorizedController
         }
     }
 
-    [HttpGet("{courseId}")]
+    [HttpGet("course/{courseId}")]
     public async Task<ActionResult<PagedResponseDto<GetCourseMaterialUploadRequestDto>>> GetCourseMaterialUploadRequestsAsync([FromRoute] Guid courseId, [FromQuery] PageOptionsDto pageOptions)
     {
         try
         {
             var dtos = await _uploadRequestService.GetCourseMaterialUploadRequestsAsync(courseId, pageOptions);
             return Ok(dtos);
+        }
+        catch (CourseNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPost("course/{courseId}")]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<GetCourseMaterialUploadRequestDto>> PostCourseMaterialUploadRequestAsync([FromRoute] Guid courseId, [FromForm] PostCourseMaterialUploadRequestDtoWrapper postDtoWrapper)
+    {
+        try
+        {
+            var dto = await _uploadRequestService.CreateCourseMaterialUploadRequestDtoAsync(courseId, postDtoWrapper.PostDto, postDtoWrapper.Files, UserId);
+            return Ok(dto);
+        }
+        catch (CourseMaterialUploadRequestValidationException)
+        {
+            return BadRequest();
         }
         catch (CourseNotFoundException)
         {

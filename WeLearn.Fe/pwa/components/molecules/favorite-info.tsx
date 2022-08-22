@@ -19,13 +19,9 @@ export default function FavoriteInfo({
     <FavoriteInfoContainer>
       <span>{followerCount}</span>
       {isFollowing ? (
-        <IconButton onClick={onUnfollow}>
-          <AiFillHeart />
-        </IconButton>
+        <AiFillHeart onClick={onUnfollow} />
       ) : (
-        <IconButton onClick={onFollow}>
-          <AiOutlineHeart />
-        </IconButton>
+        <AiOutlineHeart onClick={onFollow} />
       )}
     </FavoriteInfoContainer>
   );

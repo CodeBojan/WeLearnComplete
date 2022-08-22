@@ -100,6 +100,10 @@ export const apiFollowedCourses = "/api/FollowedCourses";
 export const apiNotificationsMe = "/api/Notifications/Me";
 export const apiStudyYear = (id: string) => `/api/StudyYears/${id}`;
 export const apiCourse = (id: string) => `/api/Courses/${id}`;
+export const apiCourseMaterialUploadRequests =
+  "/api/CourseMaterialUploadRequests";
+export const apiCourseMaterialUploadRequestCourse = (id: string) =>
+  `/api/CourseMaterialUploadRequests/course/${id}`;
 
 export const getSearchParamPath = (
   url: string,

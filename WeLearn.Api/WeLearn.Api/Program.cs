@@ -12,6 +12,8 @@ using WeLearn.Data.Persistence;
 using WeLearn.Importers.Extensions;
 using WeLearn.Shared.Extensions.Logging;
 using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
+using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Extensions;
+using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Integrations;
 
 const string authority = "https://localhost:7230"; // TODO read from config
 
@@ -40,6 +42,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // Swagger
     services.AddEndpointsApiExplorer();
+
     services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1",
@@ -75,7 +78,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
             });
 
         options.OperationFilter<SwaggerJsonIgnoreFilter>();
-
+        
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         options.IncludeXmlComments(xmlPath);
@@ -116,7 +119,7 @@ static void Configure(WebApplication app)
     var configuration = app.Configuration;
     app.UseRouting();
     app.UseCors();
-    
+
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     {
