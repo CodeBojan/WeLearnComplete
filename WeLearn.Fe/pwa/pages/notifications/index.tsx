@@ -11,6 +11,7 @@ import {
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { AppPageWithLayout } from "../_app";
+import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
 import { MdOpenInNew } from "react-icons/md";
 import NotificationBell from "../../components/atoms/notification-bell";
@@ -24,37 +25,33 @@ const Notifications: AppPageWithLayout = () => {
   const { data: session } = useAppSession();
   const notificationsContext = useContext(NotificationsContext);
 
-  const [previousPageData, setPreviousPageData] = useState<
-    GetNotificationDto[] | null
-  >([]);
+  const [pageSize, setPageSize] = useState(2);
 
   const getKey = (
     pageIndex: number,
-    previousPageData: GetNotificationDto[] | null
+    previousPageData: GetNotificationDtoPagedResponseDto | null
   ) => {
-    console.log(pageIndex);
     const pagedCacheKey = getPagedSearchApiRouteCacheKey(
       apiNotificationsMe,
       session,
       {
         page: (pageIndex + 1).toString(),
-        limit: "2", // TODO make this configurable
+        limit: pageSize.toString(),
       }
     );
-    console.log("pagedCacheKey", pagedCacheKey);
-    const returnedCacheKey = !pagedCacheKey
-      ? null
-      : previousPageData && !previousPageData.length
-      ? null
-      : pagedCacheKey;
 
-    console.log("returnedCacheKey", returnedCacheKey);
+    if (previousPageData)
+      if (pageIndex < (previousPageData.totalPages ?? 0)) {
+        return pagedCacheKey;
+      } else {
+        return null;
+      }
 
-    return returnedCacheKey;
+    return pagedCacheKey;
   };
 
   const {
-    data: pages,
+    data: pagesDtos,
     error,
     isValidating,
     mutate,
@@ -62,10 +59,17 @@ const Notifications: AppPageWithLayout = () => {
     setSize,
   } = useSWRInfinite<GetNotificationDtoPagedResponseDto>(getKey, apiGetFetcher);
 
-  const lastPageIndex = (pages?.length ?? 0) - 1;
-  const lastNotificationIndex = (pages?.[lastPageIndex]?.data?.length ?? 0) - 1;
-  console.log("lastPageIndex", lastPageIndex);
-  console.log("lastNotificationIndex", lastNotificationIndex);
+  const pages = pagesDtos ? [...pagesDtos] : [];
+  const isLoadingInitialData = !pagesDtos && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && pagesDtos && typeof pagesDtos[size - 1] === "undefined");
+  const isEmpty = pagesDtos?.[0]?.data?.length === 0;
+  const isReachingEnd =
+    isEmpty ||
+    (pagesDtos &&
+      (pagesDtos[pagesDtos.length - 1]?.data?.length ?? 0) < pageSize);
+  const isRefreshing = isValidating && pagesDtos && pagesDtos.length == size;
 
   return (
     <TitledPageContainer
@@ -78,54 +82,64 @@ const Notifications: AppPageWithLayout = () => {
       }
       title={"Notifications"}
     >
-      <div className="flex flex-col gap-y-4 w-full h-screen my-8">
-        {pages?.flatMap((notifications, pageIndex) =>
-          notifications.data?.flatMap((notification, notifIndex) => {
-            const isLast =
-              pageIndex === lastPageIndex &&
-              notifIndex === lastNotificationIndex;
-            console.log(isLast);
-            return (
-              <div
-                key={`${pageIndex}-${notifIndex}`}
-                className="flex flex-row justify-between items-center p-4 rounded-lg border-l-4 border-r-2 shadow-md border-slate-200"
-              >
-                <div className="flex flex-col w-full gap-y-2">
-                  <div className="text-2xl font-bold">{notification.title}</div>
-                  {/* TODO change depending on notificationType <div className="text-xl">{notification.type}</div> */}
-                  <div className="font-semibold">{notification.body}</div>
-                  <Link href={notification.uri ?? ""}>
-                    <a className="flex flex-row gap-x-2 items-center">
-                      <MdOpenInNew className="text-2xl text-primary" />
-                      <div>{new URL(notification.uri ?? "").hostname}</div>
-                    </a>
-                  </Link>
-                  <div>Created at {notification.createdDate?.toString()}</div>
-                  <div>Updated at {notification.createdDate?.toString()}</div>
-                </div>
-                <div className="flex flex-col text-2xl">
-                  {/* TODO replace with external system image uri - do this based on type */}
-                  {notification.imageUri && (
-                    <img
-                      className="rounded-full h-64"
-                      src={notification.imageUri}
-                    />
-                  )}
-                  {notification.isRead ? (
-                    <div>
-                      <IoMdEye />
+      <InfiniteScroll
+        pageStart={1}
+        loadMore={() => {
+          setSize(size + 1);
+        }}
+        hasMore={!isLoadingMore && !isReachingEnd}
+        loader={
+          <div className="loader" key={0}>
+            Loading ...
+          </div>
+        }
+      >
+        <div className="flex flex-col gap-y-4 w-full my-8">
+          {pagesDtos?.flatMap((notifications, pageIndex) =>
+            notifications.data?.flatMap((notification, notifIndex) => {
+              return (
+                <div
+                  key={notification.id}
+                  className="flex flex-row justify-between items-center p-4 rounded-lg border-l-4 border-r-2 shadow-md border-slate-200"
+                >
+                  <div className="flex flex-col w-full gap-y-2">
+                    <div className="text-2xl font-bold">
+                      {notification.title}
                     </div>
-                  ) : (
-                    <div>
-                      <IoMdEyeOff />
-                    </div>
-                  )}
+                    <div className="font-semibold">{notification.body}</div>
+                    <Link href={notification.uri ?? ""}>
+                      <a className="flex flex-row gap-x-2 items-center">
+                        <MdOpenInNew className="text-2xl text-primary" />
+                        <div>{new URL(notification.uri ?? "").hostname}</div>
+                      </a>
+                    </Link>
+                    <div>Created at {notification.createdDate?.toString()}</div>
+                    <div>Updated at {notification.createdDate?.toString()}</div>
+                  </div>
+                  <div className="flex flex-col text-2xl">
+                    {/* TODO replace with external system image uri - do this based on type */}
+                    {notification.imageUri && (
+                      <img
+                        className="rounded-full h-64"
+                        src={notification.imageUri}
+                      />
+                    )}
+                    {notification.isRead ? (
+                      <div className="rounded-full hover:bg-slate-200">
+                        <IoMdEye />
+                      </div>
+                    ) : (
+                      <div>
+                        <IoMdEyeOff className="text-2xl rounded-full hover:bg-slate-200" />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
+      </InfiniteScroll>
     </TitledPageContainer>
   );
 };

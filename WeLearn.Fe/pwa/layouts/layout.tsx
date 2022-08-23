@@ -27,6 +27,7 @@ import BottomNav from "../components/molecules/bottom-nav";
 import { ComponentProps } from "../types/components";
 import LoadingAuth from "../components/auth/loading-auth";
 import Navbar from "../components/molecules/navbar";
+import RightSideBar from "../components/molecules/right-side-bar";
 import Sidebar from "../components/molecules/sidebar";
 import { useAppSession } from "../util/auth";
 import { useState } from "react";
@@ -78,7 +79,6 @@ export default function Layout({ children, ...props }: LayoutProps) {
 
   useEffect(() => {
     if (!unreadDto) return;
-    console.log(unreadDto);
     notificationsDispatch({
       type: NotificationsActionKind.SET_UNREAD_NOTIFICATION_COUNT,
       unreadCount: unreadDto.unread ?? 0,
@@ -113,8 +113,13 @@ export default function Layout({ children, ...props }: LayoutProps) {
                     isOpen={isSideBarOpen}
                     onTryClose={() => setIsSidebarOpen(false)}
                   />
-                  <div className="min-h-screen flex flex-col items-center justify-center">
-                    {children}
+                  <div className="min-h-screen w-full flex flex-row items-start justify-center">
+                    <div className="min-h-screen grow flex-col items-center justify-center">
+                      {children}
+                    </div>
+                    <div className="min-h-screen flex flex-row justify-start">
+                      <RightSideBar />
+                    </div>
                   </div>
                   <BottomNav />
                 </NotificationsInvalidationContext.Provider>

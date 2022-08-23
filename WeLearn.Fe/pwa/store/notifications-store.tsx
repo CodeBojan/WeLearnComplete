@@ -23,7 +23,6 @@ export function notificationsReducer(
 ): NotificationsState {
   switch (action.type) {
     case NotificationsActionKind.SET_UNREAD_NOTIFICATION_COUNT:
-      console.log("setting unread count to " + action.unreadCount);
       return { ..._state, unreadCount: action.unreadCount };
     default:
       throw new Error(`Unhandled action type - ${JSON.stringify(action)}`);
