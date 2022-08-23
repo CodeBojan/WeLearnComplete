@@ -1410,6 +1410,46 @@ export interface IPostFollowedStudyYearDto {
     studyYearId?: string;
 }
 
+export class PostNotificationReadStatusDto implements IPostNotificationReadStatusDto {
+    notificationId?: string;
+    readState?: boolean;
+
+    constructor(data?: IPostNotificationReadStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.notificationId = _data["notificationId"];
+            this.readState = _data["readState"];
+        }
+    }
+
+    static fromJS(data: any): PostNotificationReadStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostNotificationReadStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["notificationId"] = this.notificationId;
+        data["readState"] = this.readState;
+        return data;
+    }
+}
+
+export interface IPostNotificationReadStatusDto {
+    notificationId?: string;
+    readState?: boolean;
+}
+
 export class PutAccountDto implements IPutAccountDto {
     firstName?: string | undefined;
     lastName?: string | undefined;

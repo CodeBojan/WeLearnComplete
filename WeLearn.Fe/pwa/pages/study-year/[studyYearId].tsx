@@ -44,7 +44,7 @@ const StudyYear: AppPageWithLayout = () => {
     "mine",
     queryTypes.boolean
   );
-  const courseCacheKey = getPagedSearchApiRouteCacheKey(apiCourses, session, {  
+  const courseCacheKey = getPagedSearchApiRouteCacheKey(apiCourses, session, {
     page: page.toString(),
     limit: itemsPerPage.toString(),
     isFollowing: onlyMine.toString(),

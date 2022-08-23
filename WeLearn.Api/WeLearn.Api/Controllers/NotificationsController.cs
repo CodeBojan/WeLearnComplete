@@ -34,12 +34,11 @@ public class NotificationsController : UserAuthorizedController
         return Ok(new GetUnreadNotificationsDto { Unread = count });
     }
 
-    [HttpPost("{notificationId}/read")]
+    [HttpPost("{notificationId}/readStatus")]
     public async Task<IActionResult> PostReadNotificationAsync([FromRoute] Guid notificationId, [FromBody] PostNotificationReadStatusDto postDto)
     {
         if (notificationId != postDto.NotificationId)
             return BadRequest();
-
         try
         {
             await _notificationService.ReadNotificationAsync(notificationId, UserId, postDto.ReadState);

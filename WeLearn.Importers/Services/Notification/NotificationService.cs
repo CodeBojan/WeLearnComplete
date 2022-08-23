@@ -34,7 +34,8 @@ namespace WeLearn.Importers.Services.Notification
             var dto = await _dbContext.Notifications
                 .AsNoTracking()
                 .Where(n => n.ReceiverId == accountId)
-                .OrderByDescending(n => n.UpdatedDate)
+                .OrderByDescending(n => n.IsRead ? 0 : 1)
+                .ThenByDescending(n => n.IsRead ? n.CreatedDate : n.UpdatedDate)
                 .GetPagedResponseDtoAsync(pageOptions, MapNotificationToGetDto());
 
             return dto;

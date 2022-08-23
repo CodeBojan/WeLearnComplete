@@ -1,5 +1,12 @@
+import { MdAlternateEmail, MdVerifiedUser } from "react-icons/md";
+import {
+  RenderPersonalInfo,
+  RenderPersonalInfoSection,
+} from "./right-side-bar";
+
 import { AiOutlineClose } from "react-icons/ai";
 import { GetAccountDto } from "../../types/api";
+import { HiOutlineIdentification } from "react-icons/hi";
 import IconButton from "../atoms/icon-button";
 import { MeContext } from "../../store/me-store";
 import SidebarMenu from "./sidebar-menu";
@@ -52,20 +59,8 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
 
 function getAccountInfo(account: GetAccountDto) {
   return (
-    <div className="flex flex-col items-start justify-start gap-y-2 ml-8">
-      <div>
-        <span>{account.username}</span>
-      </div>
-      <div>
-        <span>{account.email}</span>
-      </div>
-      {(account.firstName || account.lastName) && (
-        <div className="flex flex-row items-center justify-start gap-x-4">
-          {account.firstName && <span>{account.firstName}</span>}
-          {account.lastName && <span>{account.lastName}</span>}
-        </div>
-      )}
-      {account.facultyStudentId && <div>{account.facultyStudentId}</div>}
+    <div className="flex flex-col items-start justify-start gap-y-2 ml-8 my-8">
+      <RenderPersonalInfo account={account} />
     </div>
   );
 }

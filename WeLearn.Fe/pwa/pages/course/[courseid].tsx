@@ -184,7 +184,7 @@ const Course: AppPageWithLayout = () => {
         </span>
       </div>
       <div className="mt-8 w-full flex flex-row gap-x-4">
-        <Button>
+        <Button variant={course?.isFollowing ? "normal" : "outline"}>
           {/* TODO add toggle on whole button - maybe by passing bool prop which will disable the existing onclicks and also useeffect to toggle */}
           <CourseFollowInfo
             isFollowing={course?.isFollowing}

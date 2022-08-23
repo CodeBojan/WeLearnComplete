@@ -49,6 +49,7 @@ export const apiMethodFetcher = (
   token: string,
   method: string,
   body: any,
+  asJson: boolean = true,
   ...props: any
 ) => {
   return fetch(apiRoute(url), {
@@ -58,7 +59,7 @@ export const apiMethodFetcher = (
       Authorization: "Bearer " + token,
     },
     body: JSON.stringify(body),
-  }).then((res) => res.json());
+  }).then((res) => (asJson ? res.json() : res));
 };
 
 export const getApiRouteCacheKey = (url: string, session: AppSession) => {
@@ -105,6 +106,8 @@ export const apiCourseMaterialUploadRequests =
 export const apiCourseMaterialUploadRequestCourse = (id: string) =>
   `/api/CourseMaterialUploadRequests/course/${id}`;
 export const apiNotificationsMeUnread = "/api/Notifications/Me/Unread";
+export const apiNotificationReadStatus = (id: string) =>
+  `/api/Notifications/${id}/ReadStatus`;
 
 export const getSearchParamPath = (
   url: string,
