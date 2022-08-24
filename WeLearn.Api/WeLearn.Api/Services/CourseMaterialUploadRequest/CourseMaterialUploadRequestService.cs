@@ -8,6 +8,7 @@ using WeLearn.Data.Models.Content;
 using WeLearn.Data.Persistence;
 using WeLearn.Importers.Services.File;
 using WeLearn.Shared.Dtos.Paging;
+using WeLearn.Shared.Exceptions.Models;
 using WeLearn.Shared.Extensions.Paging;
 
 namespace WeLearn.Api.Services.CourseMaterialUploadRequest;
@@ -101,10 +102,29 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
         return cmur.MapToGetDto();
     }
 
-    // TODO for creating
-    //public async Task<PagedResponseDto<GetCourseMaterialUploadRequestDto>> CreateCourseMaterialUploadRequestAsync(Guid courseId, )
+    public async Task ApproveCourseMaterialUploadRequestAsync(Guid courseMaterialUploadRequestId)
+    {
+        var uploadRequest = await _dbContext.CourseMaterialUploadRequests
+                  .Include(cmur => cmur.Documents)
+                  .FirstOrDefaultAsync(cmur => cmur.Id == courseMaterialUploadRequestId);
+        if (uploadRequest is null)
+            throw new CourseMaterialUploadRequestNotFoundException();
 
-    // TODO for approving - authorize only the admin for the course
+        if (uploadRequest.IsApproved)
+            throw new CourseMaterialUploadRequestAlreadyApprovedException();
+
+        uploadRequest.IsApproved = true;
+        // TODO add title to upload request
+        var studyMaterial = new WeLearn.Data.Models.Content.StudyMaterial(null, null, "", uploadRequest.Body, null, false, uploadRequest.CourseId, uploadRequest.CreatorId, null, null);
+        foreach (var document in uploadRequest.Documents)
+        {
+            document.DocumentContainerId = studyMaterial.Id;
+        }
+
+        _dbContext.Add(studyMaterial);
+
+        await _dbContext.SaveChangesAsync();
+    }
     // TODO for updating
 
     private IIncludableQueryable<WeLearn.Data.Models.CourseMaterialUploadRequest, ICollection<WeLearn.Data.Models.Content.Document>> GetCourseMaterialsNoTracking()

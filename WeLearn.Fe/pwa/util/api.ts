@@ -108,6 +108,8 @@ export const apiCourseMaterialUploadRequestCourse = (id: string) =>
 export const apiNotificationsMeUnread = "/api/Notifications/Me/Unread";
 export const apiNotificationReadStatus = (id: string) =>
   `/api/Notifications/${id}/ReadStatus`;
+export const apiStudyMaterials = "/api/StudyMaterials";
+export const apiStudyMaterialsCourse = (id: string) => `/api/StudyMaterials/course/${id}`;
 
 export const getSearchParamPath = (
   url: string,

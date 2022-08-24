@@ -5,6 +5,7 @@ using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.Course;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
+using WeLearn.Shared.Exceptions.Models;
 
 namespace WeLearn.Api.Controllers;
 

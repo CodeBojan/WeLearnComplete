@@ -1,25 +1,13 @@
 import {
-  CourseMaterialUploadRequestAction,
   CourseMaterialUploadRequestActionKind,
-  CourseMaterialUploadRequestState,
   courseMaterialUploadRequestReducer,
   initialCourseMaterialUploadRequestState,
 } from "../../store/course-material-upload-request-store";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
 import {
   GetCourseDto,
   PostCourseMaterialUploadRequestDto,
   PostDocumentDto,
 } from "../../types/api";
-import { ImCross, ImPlus } from "react-icons/im";
-import Input, { InputLabel } from "../../components/atoms/input";
 import {
   apiCourse,
   apiCourseMaterialUploadRequestCourse,
@@ -27,16 +15,16 @@ import {
   apiRoute,
   getApiRouteCacheKey,
 } from "../../util/api";
+import { useEffect, useReducer, useState } from "react";
 import useSWR, { mutate } from "swr";
 
-import { AiOutlineCloudUpload } from "react-icons/ai";
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
 import CourseFollowInfo from "../../components/molecules/course-follow-info";
 import CourseMaterialUploadRequestModal from "../../components/molecules/course-material-upload-request-modal";
-import { FileUploader } from "react-drag-drop-files";
+import CourseMaterials from "../../components/molecules/course-materials";
+import { ImPlus } from "react-icons/im";
 import { MdGrading } from "react-icons/md";
-import Modal from "../../components/molecules/modal";
 import { ReactNode } from "react";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
@@ -220,7 +208,10 @@ const Course: AppPageWithLayout = () => {
         })}
         {/* TODO filter load only posts and notices */}
         {renderAccordionSection({ title: "Posts and Notices", content: "..." })}
-        {renderAccordionSection({ title: "Course Materials", content: "..." })}
+        {renderAccordionSection({
+          title: "Course Materials",
+          content: <CourseMaterials courseId={courseId} />,
+        })}
       </div>
 
       <CourseMaterialUploadRequestModal

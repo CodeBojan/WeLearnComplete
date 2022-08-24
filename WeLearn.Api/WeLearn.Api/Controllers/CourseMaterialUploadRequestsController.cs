@@ -4,6 +4,7 @@ using WeLearn.Api.Dtos.CourseMaterialUploadRequest;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.CourseMaterialUploadRequest;
 using WeLearn.Shared.Dtos.Paging;
+using WeLearn.Shared.Exceptions.Models;
 
 namespace WeLearn.Api.Controllers;
 
@@ -60,6 +61,21 @@ public class CourseMaterialUploadRequestsController : UserAuthorizedController
             return BadRequest();
         }
         catch (CourseNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPost("{courseMaterialUploadRequestId}/approve")]
+    public async Task<IActionResult>
+        PostApproveCourseMaterialUploadRequestAsync([FromRoute] Guid courseMaterialUploadRequestId)
+    {
+        try
+        {
+            await _uploadRequestService.ApproveCourseMaterialUploadRequestAsync(courseMaterialUploadRequestId);
+            return Ok();
+        }
+        catch (CourseMaterialUploadRequestNotFoundException)
         {
             return NotFound();
         }

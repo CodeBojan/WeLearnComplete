@@ -6,6 +6,7 @@ using WeLearn.Api.Extensions.Models;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
+using WeLearn.Shared.Exceptions.Models;
 using WeLearn.Shared.Extensions.Models;
 using WeLearn.Shared.Extensions.Paging;
 

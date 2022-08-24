@@ -16,7 +16,6 @@ public class StudyMaterial : DocumentContainer
         string? author,
         bool isImported,
         Guid? courseId,
-        string type,
         Guid? creatorId,
         Guid? externalSystemId,
         DateTime? externalCreatedDate) : base(
@@ -27,10 +26,11 @@ public class StudyMaterial : DocumentContainer
             author,
             isImported,
             courseId,
-            type,
+            ContentType.StudyMaterial.Value(),
             creatorId,
             externalSystemId,
             externalCreatedDate)
     {
+        Id = Guid.NewGuid();
     }
 }
