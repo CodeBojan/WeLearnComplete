@@ -13,7 +13,9 @@ import {
   apiMethodFetcher,
   apiNotificationReadStatus,
   apiNotificationsMe,
+  getApiSWRInfiniteKey,
   getPagedSearchApiRouteCacheKey,
+  processSWRInfiniteData,
 } from "../../util/api";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 
@@ -35,30 +37,15 @@ const Notifications: AppPageWithLayout = () => {
     NotificationsInvalidationContext
   );
 
-  const [pageSize, setPageSize] = useState(2);
+  // TODO skeletonize
 
-  const getKey = (
-    pageIndex: number,
-    previousPageData: GetNotificationDtoPagedResponseDto | null
-  ) => {
-    const pagedCacheKey = getPagedSearchApiRouteCacheKey(
-      apiNotificationsMe,
-      session,
-      {
-        page: (pageIndex + 1).toString(),
-        limit: pageSize.toString(),
-      }
-    );
+  const [pageSize, setPageSize] = useState(2); // TODO update
 
-    if (previousPageData)
-      if (pageIndex < (previousPageData.totalPages ?? 0)) {
-        return pagedCacheKey;
-      } else {
-        return null;
-      }
-
-    return pagedCacheKey;
-  };
+  const getKey = getApiSWRInfiniteKey({
+    url: apiNotificationsMe,
+    session: session,
+    pageSize: pageSize,
+  });
 
   const {
     data: pagesDtos,
@@ -73,19 +60,13 @@ const Notifications: AppPageWithLayout = () => {
     { revalidateAll: true }
   );
 
-  // TODO issue with key uniqueness when ordering changes
-
-  const pages = pagesDtos ? [...pagesDtos] : [];
-  const isLoadingInitialData = !pagesDtos && !error;
-  const isLoadingMore =
-    isLoadingInitialData ||
-    (size > 0 && pagesDtos && typeof pagesDtos[size - 1] === "undefined");
-  const isEmpty = pagesDtos?.[0]?.data?.length === 0;
-  const isReachingEnd =
-    isEmpty ||
-    (pagesDtos &&
-      (pagesDtos[pagesDtos.length - 1]?.data?.length ?? 0) < pageSize);
-  const isRefreshing = isValidating && pagesDtos && pagesDtos.length == size;
+  const { isLoadingMore, isReachingEnd } = processSWRInfiniteData(
+    size,
+    pageSize,
+    isValidating,
+    error,
+    pagesDtos
+  );
 
   const [notifications, setNotifications] = useState<
     GetNotificationDto[] | null

@@ -142,13 +142,15 @@ const Course: AppPageWithLayout = () => {
   const renderAccordionSection = ({
     title,
     content,
+    fullWidth,
   }: {
     title: ReactNode | null;
     content: ReactNode | null;
+    fullWidth?: boolean;
   }) =>
     title &&
     content && (
-      <div className="flex flex-col">
+      <div className={`flex flex-col ${fullWidth ? "w-full" : ""}`}>
         <span className="text-2xl font-bold">{title}</span>
         <span className="text-lg">{content}</span>
       </div>
@@ -165,10 +167,10 @@ const Course: AppPageWithLayout = () => {
       <div className="flex flex-col items-start justify-start mt-4">
         <span className="italic font-medium text-gray-400">
           {/* TODO formatting */}
-          Last updated at {course?.updatedDate?.toString()}
+          updated at {course?.updatedDate?.toString()}
         </span>
         <span className="italic font-medium text-gray-300">
-          Created at {course?.createdDate?.toString()}
+          created at {course?.createdDate?.toString()}
         </span>
       </div>
       <div className="mt-8 w-full flex flex-row gap-x-4">
@@ -211,6 +213,7 @@ const Course: AppPageWithLayout = () => {
         {renderAccordionSection({
           title: "Course Materials",
           content: <CourseMaterials courseId={courseId} />,
+          fullWidth: true,
         })}
       </div>
 

@@ -158,6 +158,7 @@ function renderModalFile(
   file: File,
   onRemove?: () => void
 ): JSX.Element {
+  // TODO add document version selector
   return (
     <div
       key={index}

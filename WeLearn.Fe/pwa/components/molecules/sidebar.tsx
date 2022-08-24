@@ -10,6 +10,8 @@ import { HiOutlineIdentification } from "react-icons/hi";
 import IconButton from "../atoms/icon-button";
 import { MeContext } from "../../store/me-store";
 import SidebarMenu from "./sidebar-menu";
+import heroBackgroundSvg from "../../public/abstract-timekeeper.svg";
+import { url } from "inspector";
 import { useContext } from "react";
 
 export interface SidebarProps {
@@ -33,15 +35,20 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
         <div className="bg-white h-full w-10/12 md:w-6/12 lg:w-5/12 xl:w-3/12">
           <div className="flex flex-col h-full justify-between">
             <div>
-              <div className="flex flex-row justify-end">
-                <IconButton
-                  className="mr-4 mt-4 text-4xl"
-                  onClick={() => onTryClose && onTryClose()}
-                >
-                  <AiOutlineClose />
-                </IconButton>
+              <div
+                className="bg-cover"
+                style={{ backgroundImage: "url('/vanishing-stripes.svg')" }}
+              >
+                <div className="flex flex-row justify-end">
+                  <IconButton
+                    className="mr-4 mt-4 text-4xl text-white"
+                    onClick={() => onTryClose && onTryClose()}
+                  >
+                    <AiOutlineClose />
+                  </IconButton>
+                </div>
+                {account && getAccountInfo(account)}
               </div>
-              {account && getAccountInfo(account)}
               <div>
                 <SidebarMenu onNavigate={() => onTryClose && onTryClose()} />
               </div>
@@ -59,8 +66,8 @@ export default function Sidebar({ isOpen, onTryClose }: SidebarProps) {
 
 function getAccountInfo(account: GetAccountDto) {
   return (
-    <div className="flex flex-col items-start justify-start gap-y-2 ml-8 my-8">
-      <RenderPersonalInfo account={account} />
+    <div className="flex flex-col items-start justify-start gap-y-2 p-8">
+      <RenderPersonalInfo className="text-white" account={account} />
     </div>
   );
 }

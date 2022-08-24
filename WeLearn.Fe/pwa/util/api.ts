@@ -1,5 +1,4 @@
 import { AppSession } from "../types/auth";
-import { MdSearch } from "react-icons/md";
 
 export const apiBaseUrl = process.env.NEXT_PUBLIC_API;
 
@@ -93,6 +92,64 @@ export const getPagedSearchApiRouteCacheKey = (
   return getSearchApiRouteCacheKey(url, session, new URLSearchParams(params));
 };
 
+export const getApiSWRInfiniteKey = ({
+  url,
+  session,
+  pageSize,
+}: {
+  url: string;
+  session: AppSession;
+  pageSize: number;
+}) => {
+  return (
+    pageIndex: number,
+    previousPageData: { totalPages: number } | null
+  ) => {
+    const pagedCacheKey = getPagedSearchApiRouteCacheKey(url, session, {
+      page: (pageIndex + 1).toString(),
+      limit: pageSize.toString(),
+    });
+
+    if (previousPageData)
+      if (pageIndex < (previousPageData.totalPages ?? 0)) {
+        return pagedCacheKey;
+      } else {
+        return null;
+      }
+
+    return pagedCacheKey;
+  };
+};
+
+export const processSWRInfiniteData = (
+  size: number,
+  pageSize: number,
+  isValidating: boolean,
+  error: any,
+  pagesDtos: { data?: any[] | undefined }[] | undefined
+) => {
+  const pages = pagesDtos ? [...pagesDtos] : [];
+  const isLoadingInitialData = !pagesDtos && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && pagesDtos && typeof pagesDtos[size - 1] === "undefined");
+  const isEmpty = pagesDtos?.[0]?.data?.length === 0;
+  const isReachingEnd =
+    isEmpty ||
+    (pagesDtos &&
+      (pagesDtos[pagesDtos.length - 1]?.data?.length ?? 0) < pageSize);
+  const isRefreshing = isValidating && pagesDtos && pagesDtos.length == size;
+
+  return {
+    pages,
+    isLoadingInitialData,
+    isLoadingMore,
+    isEmpty,
+    isReachingEnd,
+    isRefreshing,
+  };
+};
+
 export const apiAccountsMe = "/api/Accounts/Me";
 export const apiStudyYears = "/api/StudyYears";
 export const apiFollowedStudyYears = "/api/FollowedStudyYears";
@@ -109,7 +166,8 @@ export const apiNotificationsMeUnread = "/api/Notifications/Me/Unread";
 export const apiNotificationReadStatus = (id: string) =>
   `/api/Notifications/${id}/ReadStatus`;
 export const apiStudyMaterials = "/api/StudyMaterials";
-export const apiStudyMaterialsCourse = (id: string) => `/api/StudyMaterials/course/${id}`;
+export const apiStudyMaterialsCourse = (id: string) =>
+  `/api/StudyMaterials/course/${id}`;
 
 export const getSearchParamPath = (
   url: string,
