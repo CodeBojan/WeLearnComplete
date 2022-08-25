@@ -21,8 +21,10 @@ public static class IServiceCollectionExtensions
 
     public static IServiceCollection AddAuthorizationHandlers(this IServiceCollection services)
     {
-        services.AddSingleton<IAuthorizationHandler, CourseAdminClaimAuthorizationHandler>();
         services.AddSingleton<IAuthorizationHandler, StudyYearAdminAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationHandler, CourseAdminClaimAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationHandler, SystemAdminStudyYearAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationHandler, SystemAdminCourseAuthorizationHandler>();
 
         return services;
     }
