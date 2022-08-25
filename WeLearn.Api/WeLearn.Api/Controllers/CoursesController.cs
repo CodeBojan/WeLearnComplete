@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.Course;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.Course;
+using WeLearn.Auth.Policy;
+using WeLearn.Data.Models;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Exceptions.Models;
+using WeLearn.Shared.Services.StudyYear;
 
 namespace WeLearn.Api.Controllers;
 
@@ -56,11 +60,17 @@ public class CoursesController : UserAuthorizedController
         }
     }
 
-    // TODO apply authorization policy to check if admin
     [HttpPost]
     public async Task<ActionResult<GetCourseDto>>
-        PostCourseAsync([FromBody] PostCourseDto postDto)
+        PostCourseAsync([FromBody] PostCourseDto postDto, [FromServices] IStudyYearsService studyYearService, [FromServices] IAuthorizationService authorizationService)
     {
+        if (!await studyYearService.StudyYearExistsAsync(postDto.StudyYearId))
+            return NotFound();
+
+        var authResult = await authorizationService.AuthorizeAsync(User, new StudyYear { Id = postDto.StudyYearId }, Policies.IsResourceAdmin);
+        if (!authResult.Succeeded)
+            return Forbid();
+
         try
         {
             var dto = await _courseService.CreateCourseAsync(
@@ -80,6 +90,7 @@ public class CoursesController : UserAuthorizedController
         }
     }
 
+    // TODO apply authorization policy here and to the courses controller the same way as above
     [HttpPut("{courseId}")]
     public async Task<ActionResult<GetCourseDto>> PutCourseAsync([FromRoute] Guid courseId, [FromBody] PutCourseDto putDto)
     {

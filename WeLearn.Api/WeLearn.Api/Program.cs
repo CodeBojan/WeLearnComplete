@@ -101,6 +101,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
         options.AddAuthorizationPolicies();
     });
 
+    services.AddAuthorizationHandlers();
+    
     services.AddApiServices(configuration);
 
     services.AddCors(options =>

@@ -54,6 +54,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<WeLearnUserManager>();
 
         services.AddIpWhitelistFilter<IpWhitelistSettings>(configuration);
+        services.AddAuthorizationHandlers();
 
         return services;
     }

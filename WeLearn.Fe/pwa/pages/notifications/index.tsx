@@ -39,7 +39,7 @@ const Notifications: AppPageWithLayout = () => {
 
   // TODO skeletonize
 
-// TODO check that the invalidateNotificationtext is called - currently the unread count doesnt update until refresh
+  // TODO check that the invalidateNotificationtext is called - currently the unread count doesnt update until refresh
 
   const [pageSize, setPageSize] = useState(2); // TODO update
 

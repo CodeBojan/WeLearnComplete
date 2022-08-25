@@ -27,6 +27,11 @@ public class StudyYearsService : IStudyYearsService
         _logger = logger;
     }
 
+    public async Task<bool> StudyYearExistsAsync(Guid studyYearId)
+    {
+        return await _dbContext.StudyYears.AnyAsync(x => x.Id == studyYearId);
+    }
+
     public async Task<GetStudyYearDto> GetStudyYearAsync(Guid studyYearId)
     {
         var dto = await _dbContext.StudyYears

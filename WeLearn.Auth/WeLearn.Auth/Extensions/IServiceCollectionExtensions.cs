@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WeLearn.Auth.Authorization.Handlers;
 using WeLearn.Auth.Authorization.Mvc.Filters;
+using WeLearn.Data.Models;
 
 namespace WeLearn.Auth.Extensions;
 
@@ -12,6 +15,14 @@ public static class IServiceCollectionExtensions
         var section = configuration.GetSection(typeof(TOptions).Name);
         services.Configure<TOptions>(section);
         services.AddScoped<IpWhitelistFilter<TOptions>>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAuthorizationHandlers(this IServiceCollection services)
+    {
+        services.AddSingleton<IAuthorizationHandler, CourseAdminClaimAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationHandler, StudyYearAdminAuthorizationHandler>();
 
         return services;
     }
