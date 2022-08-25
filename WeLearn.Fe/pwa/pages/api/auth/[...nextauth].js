@@ -54,6 +54,8 @@ async function refreshAccessToken(token) {
   }
 }
 
+// TODO check token signatures
+
 export default NextAuth({
   providers: [
     IdentityServerProvider({
@@ -83,12 +85,89 @@ export default NextAuth({
 
       return token;
     },
-    async session({ session, token, user }) {
-      session.user = token.user;
-      session.error = token.error;
-      session.accessToken = token.accessToken;
-      session.idToken = token.idToken;
-      return session;
+    async session({ session, token: tokens, user }) {
+      session.user = tokens.user;
+      session.error = tokens.error;
+      session.accessToken = tokens.accessToken;
+      session.idToken = tokens.idToken;
+
+      return sessionWithMappedClaims(session);
     },
   },
 });
+
+// TODO function to force refresh of access token for new claims
+
+function sessionWithMappedClaims(session) {
+  const userId = session.user.id;
+  const idTokenPayload = decodeIdToken(session.idToken);
+  if (!idTokenPayload) return session;
+
+  const sessionWithRoleClaims = addClaimsToUser(
+    idTokenPayload,
+    session,
+    userId,
+    "role",
+    "roles"
+  );
+  const sessionWithStudyYearAdminClaims = addClaimsToUser(
+    idTokenPayload,
+    sessionWithRoleClaims,
+    userId,
+    "year-admin",
+    "studyYearAdmin"
+  );
+  const sessionWithCourseAdminClaims = addClaimsToUser(
+    idTokenPayload,
+    sessionWithStudyYearAdminClaims,
+    userId,
+    "course-admin",
+    "courseAdmin"
+  );
+
+  return sessionWithCourseAdminClaims;
+}
+
+function decodeIdToken(idToken, userId) {
+  let idTokenPayload = null;
+  try {
+    try {
+      idTokenPayload = JSON.parse(
+        Buffer.from(idToken.split(".")[1], "base64").toString()
+      );
+    } catch (error) {
+      console.error("Failed to decode ID token for user", userId, error);
+      throw error;
+    }
+  } finally {
+    return idTokenPayload;
+  }
+}
+
+function addClaimsToUser(idTokenPayload, session, userId, idTokenKey, userKey) {
+  try {
+    const userClaim = idTokenPayload[idTokenKey];
+    if(!userClaim) return session;
+    if (userClaim instanceof Array) {
+      session.user[userKey] = userClaim;
+    } else if (typeof userClaim === "string") {
+      session.user[userKey] = [userClaim];
+    } else {
+      console.error(
+        `Invalid "${idTokenKey}" claim for user`,
+        userId,
+        userClaim
+      );
+      throw new Error(`Invalid "${idTokenKey}" claim`);
+    }
+  } catch (error) {
+    console.error(
+      `Failed to set "${idTokenKey}" claims for user`,
+      userId,
+      error
+    );
+    throw error;
+  } finally {
+    return session;
+  }
+}

@@ -12,7 +12,7 @@ public class NoticeBoardSystemImporter : SystemImporter, INoticeBoardSystemImpor
     public override string Name => "Notice Board";
     private List<INoticeBoardImporter> importers;
 
-    public NoticeBoardSystemImporter(IEnumerable<INoticeBoardImporter> importers, IOptions<NoticeBoardSystemImporterSettings> options)
+    public NoticeBoardSystemImporter(IEnumerable<INoticeBoardImporter> importers, IOptionsSnapshot<NoticeBoardSystemImporterSettings> options)
     {
         this.importers = importers?.ToList() ?? new();
         _settings = options.Value;

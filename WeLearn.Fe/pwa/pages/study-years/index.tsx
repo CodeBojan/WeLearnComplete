@@ -14,6 +14,7 @@ import {
   getPagedApiRouteCacheKey,
   getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
+import { isStudyYearAdmin, useAppSession } from "../../util/auth";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -23,12 +24,13 @@ import Button from "../../components/atoms/button";
 import FavoritableContainer from "../../components/containers/favoritable-container";
 import FavoriteInfo from "../../components/molecules/favorite-info";
 import FavoritesContainer from "../../components/containers/favorites-container";
+import { GrUserAdmin } from "react-icons/gr";
 import { MdCalendarToday } from "react-icons/md";
+import OnlyMineButton from "../../components/atoms/only-mine-button";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
 import { toast } from "react-toastify";
-import { useAppSession } from "../../util/auth";
 
 const StudyYears: AppPageWithLayout = () => {
   const { data: session, status } = useAppSession();
@@ -42,7 +44,6 @@ const StudyYears: AppPageWithLayout = () => {
   );
 
   // TODO useSWRInfinite
-  // TODO add filtering based on following
 
   const cacheKey = getPagedSearchApiRouteCacheKey(apiStudyYears, session, {
     page: page.toString(),
@@ -67,22 +68,20 @@ const StudyYears: AppPageWithLayout = () => {
     <TitledPageContainer icon={<MdCalendarToday />} title={"Study Years"}>
       <FavoritesContainer className="my-8">
         <div className="my-8">
-          <Button
-            variant={onlyMine ? "normal" : "outline"}
-            padding="large"
-            onClick={() => {
-              setMineQueryParam(!mineQueryParam);
-            }}
-          >
-            Only Mine
-          </Button>
+          <OnlyMineButton
+            onlyMine={onlyMine}
+            onClick={() => setMineQueryParam(!mineQueryParam)}
+          />
         </div>
         {studyYears.map((studyYear) => (
           <FavoritableContainer key={studyYear.id}>
             <div
-              className="flex flex-row gap-x-8 cursor-pointer"
+              className="flex flex-row gap-x-8 cursor-pointer items-center"
               onClick={() => router.push(`/study-year/${studyYear.id}`)}
             >
+              {isStudyYearAdmin(session.user, studyYear.id!) && (
+                <GrUserAdmin className="text-2xl" />
+              )}
               <div>[{studyYear.shortName}]</div>
               <div>{studyYear.fullName}</div>
             </div>

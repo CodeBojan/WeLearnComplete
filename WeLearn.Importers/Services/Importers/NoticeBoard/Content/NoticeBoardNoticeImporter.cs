@@ -169,7 +169,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             foreach (var attachment in dto.Attachments)
             {
                 var attachmentId = attachment.Id;
-                var attachmentDownloadUrl = GetAttachmentDownloadRoute(attachmentId.ToString());
+                var attachmentDownloadUrl = GetAttachmentDownloadRoute(notice.ExternalId!.ToString()); // Note: the download url for all attachments is the id of the notice, not of the attachment
 
                 string downloadedAttachmentUri;
                 string hash;

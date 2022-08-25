@@ -103,9 +103,7 @@ function RenderStudyMaterial({
         </div>
         <RenderStudyMaterialDocuments studyMaterial={sm} />
         <div className="flex flex-row justify-between mt-4 items-center">
-          <div className="flex flex-row gap-x-4 items-center hover:bg-gray-200 rounded-lg p-2 cursor-pointer">
-            <span className="">7</span> <MdComment className="text-2xl" />
-          </div>
+          <RenderCommentsButton />
           {sm.externalUrl && (
             <div>
               <MdSource className="text-2xl" />
@@ -115,6 +113,15 @@ function RenderStudyMaterial({
       </div>
     </div>
   );
+}
+
+function RenderCommentsButton() {
+  return <div className="flex flex-row gap-x-4 items-center hover:bg-gray-200 rounded-lg p-2 cursor-pointer" onClick={() => {
+// TODO open comment modal
+  }}>
+    {/* TODO add comments to dto */}
+    <span className="">7</span> <MdComment className="text-2xl" />
+  </div>;
 }
 
 function RenderStudyMaterialDocuments({

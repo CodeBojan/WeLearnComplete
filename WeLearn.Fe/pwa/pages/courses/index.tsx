@@ -13,6 +13,7 @@ import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
 import CoursesList from "../../components/containers/courses-list";
 import { MdSubject } from "react-icons/md";
+import OnlyMineButton from "../../components/atoms/only-mine-button";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
 import { useAppSession } from "../../util/auth";
@@ -27,7 +28,7 @@ const Courses: AppPageWithLayout = () => {
     "mine",
     queryTypes.boolean
   );
-  
+
   // TODO useSWRInfinite
 
   const cacheKey = getPagedSearchApiRouteCacheKey(apiCourses, session, {
@@ -61,15 +62,10 @@ const Courses: AppPageWithLayout = () => {
       title={!onlyMine ? "Courses" : "My Courses"}
     >
       <div className="my-8">
-        <Button
-          variant={onlyMine ? "normal" : "outline"}
-          padding="large"
-          onClick={() => {
-            setMineQueryParam(!mineQueryParam);
-          }}
-        >
-          Only Mine
-        </Button>
+        <OnlyMineButton
+          onlyMine={onlyMine}
+          onClick={() => setMineQueryParam(!mineQueryParam)}
+        />
       </div>
       <CoursesList courses={courses} onMutate={() => mutate(cacheKey)} />
     </TitledPageContainer>

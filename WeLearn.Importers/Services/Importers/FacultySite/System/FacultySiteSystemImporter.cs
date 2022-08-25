@@ -17,7 +17,7 @@ public class FacultySiteSystemImporter : SystemImporter, IFacultySiteSystemImpor
 
     public FacultySiteSystemImporter(
         IEnumerable<IFacultySiteImporter> importers,
-         IOptions<SystemImporterSettings> options)
+         IOptionsSnapshot<SystemImporterSettings> options)
     {
         this.importers = importers?.ToList() ?? new();
         _settings = options.Value;

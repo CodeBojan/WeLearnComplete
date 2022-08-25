@@ -56,6 +56,7 @@ public class CoursesController : UserAuthorizedController
         }
     }
 
+    // TODO apply authorization policy to check if admin
     [HttpPost]
     public async Task<ActionResult<GetCourseDto>>
         PostCourseAsync([FromBody] PostCourseDto postDto)
