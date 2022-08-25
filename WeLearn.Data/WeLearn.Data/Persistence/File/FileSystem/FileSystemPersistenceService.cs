@@ -32,6 +32,11 @@ public class FileSystemPersistenceService : IFilePersistenceService
         return filePath;
     }
 
+    public Task<Stream> GetDocumentStreamAsync(string uri)
+    {
+        return Task.FromResult((Stream)System.IO.File.OpenRead(uri));
+    }
+
     public async Task<(string, string)> GetFileHashAsync(string uri, CancellationToken cancellationToken)
     {
         if (!System.IO.File.Exists(uri))

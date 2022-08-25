@@ -1,4 +1,9 @@
 import {
+  AccountSelectorActionKind,
+  accountSelectorReducer,
+  initialAccountSelectorState,
+} from "../../store/account-selector-store";
+import {
   CreateCourseAction,
   CreateCourseActionKind,
   CreateCourseState,
@@ -13,6 +18,11 @@ import {
   PostCourseDto,
 } from "../../types/api";
 import {
+  MdCalendarViewMonth,
+  MdOutlinePlaylistAdd,
+  MdPeople,
+} from "react-icons/md";
+import {
   apiCourses,
   apiGetFetcher,
   apiMethodFetcher,
@@ -25,6 +35,7 @@ import { queryTypes, useQueryState } from "next-usequerystate";
 import router, { useRouter } from "next/router";
 import useSWR, { mutate } from "swr";
 
+import AccountSelectorModal from "../../components/molecules/account-selector-modal";
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
 import CoursesList from "../../components/containers/courses-list";
@@ -32,12 +43,17 @@ import { CreateCourseModal } from "../../components/molecules/create-course-moda
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { GrUserAdmin } from "react-icons/gr";
 import Input from "../../components/atoms/input";
-import { MdCalendarViewMonth } from "react-icons/md";
 import Modal from "../../components/molecules/modal";
 import OnlyMineButton from "../../components/atoms/only-mine-button";
+import StudyYearAccountSelectorModal from "../../components/molecules/study-year-account-selector";
+import StudyYearFollowInfo from "../../components/molecules/study-year-follow-info";
 import TitledPageContainer from "../../components/containers/titled-page-container";
+import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
+
+// TODO favorite info
+// TODO general notices
 
 const StudyYear: AppPageWithLayout = () => {
   const { studyYearId } = router.query as { studyYearId: string };
@@ -75,6 +91,11 @@ const StudyYear: AppPageWithLayout = () => {
 
   const { data: pagedCourses, error: coursesError } =
     useSWR<GetCourseDtoPagedResponseDto>(courseCacheKey, apiGetFetcher);
+
+  const [accountSelectorState, accountSelectorDispatch] = useReducer(
+    accountSelectorReducer,
+    initialAccountSelectorState
+  );
 
   useEffect(() => {
     if (!studyYearResponse) return;
@@ -131,6 +152,15 @@ const StudyYear: AppPageWithLayout = () => {
         <div>created at {studyYear?.createdDate?.toString()}</div>
       </div>
       <div className="flex flex-row gap-x-4 items-center">
+        <Button variant={studyYear?.isFollowing ? "normal" : "outline"}>
+          <StudyYearFollowInfo
+            isFollowing={studyYear?.isFollowing}
+            followingCount={studyYear?.followingCount}
+            studyYearId={studyYearId}
+            studyYearShortName={studyYear?.shortName}
+            onMutate={() => mutate(cacheKey)}
+          />
+        </Button>
         {isAdmin && (
           <>
             <GrUserAdmin className="text-xl" />
@@ -142,9 +172,24 @@ const StudyYear: AppPageWithLayout = () => {
                 })
               }
             >
-              Add Course
+              <div className="flex flex-row items-center gap-x-2">
+                <MdOutlinePlaylistAdd className="text-2xl" />{" "}
+                <span>Add Course</span>
+              </div>
             </Button>
-            <Button variant="outline">View Users</Button>
+            <Button
+              variant="outline"
+              onClick={() =>
+                accountSelectorDispatch({
+                  type: AccountSelectorActionKind.OPEN_MODAL,
+                })
+              }
+            >
+              <div className="flex flex-row items-center gap-x-2">
+                <MdPeople className="text-2xl" />
+                <span>View Users</span>
+              </div>
+            </Button>
           </>
         )}
       </div>
@@ -171,6 +216,11 @@ const StudyYear: AppPageWithLayout = () => {
         createCourseState={createCourseState}
         createCourseDispatch={createCourseDispatch}
         createCourse={createCourse}
+      />
+      <StudyYearAccountSelectorModal
+        accountSelectorDispatch={accountSelectorDispatch}
+        accountSelectorState={accountSelectorState}
+        studyYearId={studyYearId}
       />
     </TitledPageContainer>
   );

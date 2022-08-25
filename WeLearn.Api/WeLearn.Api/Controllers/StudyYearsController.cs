@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WeLearn.Auth.Policy;
+using WeLearn.Data.Models;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Dtos.StudyYear;
@@ -32,7 +35,7 @@ public class StudyYearsController : UserAuthorizedController
         try
         {
             // TODO use separate method for including courses and content related to a study year
-            var dto = await _studyYearService.GetStudyYearAsync(studyYearId);
+            var dto = await _studyYearService.GetStudyYearWithFollowingInfoAsync(studyYearId, UserId);
 
             return Ok(dto);
         }
@@ -42,11 +45,19 @@ public class StudyYearsController : UserAuthorizedController
         }
     }
 
+    // TODO test auth policies
     [HttpGet("{studyYearId}/accounts")]
-    public async Task<ActionResult<PagedResponseDto<GetAccountDto>>> GetFollowingAccountsAsync([FromRoute] Guid studyYearId, [FromQuery] PageOptionsDto pageOptions)
+    public async Task<ActionResult<PagedResponseDto<GetAccountDto>>> GetFollowingAccountsAsync([FromRoute] Guid studyYearId, [FromQuery] PageOptionsDto pageOptions, [FromServices] IAuthorizationService authorizationService)
     {
         try
         {
+            if (!await _studyYearService.StudyYearExistsAsync(studyYearId))
+                return NotFound();
+
+            var authResult = await authorizationService.AuthorizeAsync(User, new StudyYear { Id = studyYearId }, Policies.IsResourceAdmin);
+            if (!authResult.Succeeded)
+                return Forbid();
+
             var dto = await _studyYearService.GetFollowingAccountsAsync(studyYearId, pageOptions);
             return Ok(dto);
         }

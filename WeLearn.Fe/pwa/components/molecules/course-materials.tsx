@@ -6,15 +6,21 @@ import {
 } from "../../types/api";
 import { MdComment, MdSource } from "react-icons/md";
 import {
+  apiDocument,
   apiGetFetcher,
+  apiMethodFetcher,
+  apiRoute,
   apiStudyMaterialsCourse,
   getApiSWRInfiniteKey,
   processSWRInfiniteData,
 } from "../../util/api";
 import { useEffect, useState } from "react";
 
+import { AppSession } from "../../types/auth";
 import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
+import fileDownload from "js-file-download";
+import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 import useSWRInfinite from "swr/infinite";
 
@@ -77,7 +83,7 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
       <div className="flex flex-col gap-y-4 mt-4">
         {pagesDtos &&
           studyMaterials?.flatMap((sm, studyMaterialIndex) => (
-            <RenderStudyMaterial studyMaterial={sm} />
+            <RenderStudyMaterial studyMaterial={sm} session={session} />
           ))}
       </div>
     </InfiniteScroll>
@@ -86,8 +92,10 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
 
 function RenderStudyMaterial({
   studyMaterial: sm,
+  session,
 }: {
   studyMaterial: GetStudyMaterialDto;
+  session: AppSession;
 }) {
   return (
     <div key={sm.id}>
@@ -101,7 +109,7 @@ function RenderStudyMaterial({
           <div>updated at {sm.createdDate?.toString()}</div>
           <div>created at {sm.updatedDate?.toString()}</div>
         </div>
-        <RenderStudyMaterialDocuments studyMaterial={sm} />
+        <RenderStudyMaterialDocuments studyMaterial={sm} session={session} />
         <div className="flex flex-row justify-between mt-4 items-center">
           <RenderCommentsButton />
           {sm.externalUrl && (
@@ -116,18 +124,25 @@ function RenderStudyMaterial({
 }
 
 function RenderCommentsButton() {
-  return <div className="flex flex-row gap-x-4 items-center hover:bg-gray-200 rounded-lg p-2 cursor-pointer" onClick={() => {
-// TODO open comment modal
-  }}>
-    {/* TODO add comments to dto */}
-    <span className="">7</span> <MdComment className="text-2xl" />
-  </div>;
+  return (
+    <div
+      className="flex flex-row gap-x-4 items-center hover:bg-gray-200 rounded-lg p-2 cursor-pointer"
+      onClick={() => {
+        // TODO open comment modal
+      }}
+    >
+      {/* TODO add comments to dto */}
+      <span className="">7</span> <MdComment className="text-2xl" />
+    </div>
+  );
 }
 
 function RenderStudyMaterialDocuments({
   studyMaterial: sm,
+  session,
 }: {
   studyMaterial: GetStudyMaterialDto;
+  session: AppSession;
 }) {
   return (
     <div>
@@ -145,6 +160,7 @@ function RenderStudyMaterialDocuments({
                 <RenderDocument
                   document={document}
                   fileExtension={fileExtension}
+                  session={session}
                 />
               );
             })}
@@ -158,17 +174,53 @@ function RenderStudyMaterialDocuments({
 function RenderDocument({
   document,
   fileExtension,
+  session,
 }: {
   document: GetDocumentDto;
   fileExtension: DefaultExtensionType;
+  session: AppSession;
 }): JSX.Element {
   return (
     <div key={document.id}>
       <div className="">
         <div className="">
           <div className="hover:drop-shadow-xl">
-            <Link href={document.uri || ""}>
-              <a>
+            <Link
+              href={
+                document.isImported
+                  ? document.externalUrl ?? ""
+                  : apiRoute(apiDocument(document.id!))
+              }
+            >
+              <a
+                onClickCapture={(e) => {
+                  if (!document.isImported) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    apiMethodFetcher(
+                      apiDocument(document.id!),
+                      session.accessToken,
+                      "GET",
+                      undefined,
+                      false
+                    )
+                      .then((res) => res.blob as Promise<Blob>)
+                      .then((blob) => {
+                        try {
+                          fileDownload(blob, document.fileName!);
+                          toast(
+                            `Downloaded ${document.fileName} successfully`,
+                            { type: "success" }
+                          );
+                        } catch (error) {
+                          toast(`Failed to download file: ${error}`, {
+                            type: "error",
+                          });
+                        }
+                      });
+                  }
+                }}
+              >
                 <div className="flex flex-row items-center gap-x-4">
                   <div className="w-12">
                     <FileIcon

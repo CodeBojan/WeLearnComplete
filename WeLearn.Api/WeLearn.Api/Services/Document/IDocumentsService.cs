@@ -5,5 +5,6 @@ namespace WeLearn.Api.Services.Document
     public interface IDocumentsService
     {
         Task<GetDocumentDto> GetDocumentAsync(Guid documentId);
+        Task<(Stream, string)> GetDocumentStreamAsync(Guid documentId);
     }
 }

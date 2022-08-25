@@ -47,7 +47,7 @@ export const apiMethodFetcher = (
   url: string,
   token: string,
   method: string,
-  body: any,
+  body?: any | undefined,
   asJson: boolean = true,
   ...props: any
 ) => {
@@ -121,12 +121,20 @@ export const getApiSWRInfiniteKey = ({
   };
 };
 
-export const processSWRInfiniteData = (
+export type Entity = {
+  id?: string | undefined;
+};
+
+export type PageDtos<TEntity extends Entity> =
+  | { data?: TEntity[] | undefined }[]
+  | undefined;
+
+export const processSWRInfiniteData = <TEntity extends Entity>(
   size: number,
   pageSize: number,
   isValidating: boolean,
   error: any,
-  pagesDtos: { data?: any[] | undefined }[] | undefined
+  pagesDtos: PageDtos<TEntity>
 ) => {
   const pages = pagesDtos ? [...pagesDtos] : [];
   const isLoadingInitialData = !pagesDtos && !error;
@@ -168,6 +176,10 @@ export const apiNotificationReadStatus = (id: string) =>
 export const apiStudyMaterials = "/api/StudyMaterials";
 export const apiStudyMaterialsCourse = (id: string) =>
   `/api/StudyMaterials/course/${id}`;
+export const apiDocuments = "/api/Documents";
+export const apiDocument = (id: string) => `/api/Documents/${id}`;
+export const apiStudyYearAccounts = (id: string) =>
+  `/api/StudyYears/${id}/Accounts`;
 
 export const getSearchParamPath = (
   url: string,

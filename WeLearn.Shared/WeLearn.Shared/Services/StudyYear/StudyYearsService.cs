@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using WeLearn.Data.Models;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
@@ -36,6 +38,20 @@ public class StudyYearsService : IStudyYearsService
     {
         var dto = await _dbContext.StudyYears
             .Where(sy => sy.Id == studyYearId)
+            .Select(MapStudyYearToGetDto())
+            .FirstOrDefaultAsync();
+
+        if (dto is null)
+            throw new StudyYearNotFoundException();
+
+        return dto;
+    }
+
+    public async Task<GetStudyYearDto> GetStudyYearWithFollowingInfoAsync(Guid studyYearId, Guid accountId)
+    {
+        var dto = await GetStudyYearsNoTrackingWithFollowingInfo()
+            .Where(sy => sy.Id == studyYearId)
+            .Select(SelectStudyYearWithFollowingInfo(accountId))
             .Select(MapStudyYearToGetDto())
             .FirstOrDefaultAsync();
 
@@ -119,29 +135,40 @@ public class StudyYearsService : IStudyYearsService
 
     public async Task<PagedResponseDto<GetStudyYearDto>> GetStudyYearsAsync(PageOptionsDto pageOptions, Guid accountId, bool isFollowing)
     {
-        IQueryable<WeLearn.Data.Models.StudyYear> queryable = _dbContext.StudyYears
-            .AsNoTracking()
-            .Include(sy => sy.FollowedStudyYears)
+        IQueryable<WeLearn.Data.Models.StudyYear> queryable =
+            GetStudyYearsNoTrackingWithFollowingInfo()
             .OrderByDescending(sy => sy.UpdatedDate);
 
         if (isFollowing)
             queryable = queryable.Where(sy => sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId));
 
         var dto = await queryable
-            .Select(sy => new Data.Models.StudyYear
-            {
-                Id = sy.Id,
-                ShortName = sy.ShortName,
-                FullName = sy.FullName,
-                Description = sy.Description,
-                IsFollowing = sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId),
-                FollowingCount = sy.FollowedStudyYears.Count,
-                CreatedDate = sy.CreatedDate,
-                UpdatedDate = sy.UpdatedDate
-            }) // TODO use the maptogetdto with argument - pass the any to it
+            .Select(SelectStudyYearWithFollowingInfo(accountId))
             .GetPagedResponseDtoAsync(pageOptions, MapStudyYearToGetDto());
 
         return dto;
+    }
+
+    private IIncludableQueryable<Data.Models.StudyYear, ICollection<FollowedStudyYear>> GetStudyYearsNoTrackingWithFollowingInfo()
+    {
+        return _dbContext.StudyYears
+                    .AsNoTracking()
+                    .Include(sy => sy.FollowedStudyYears);
+    }
+
+    private static Expression<Func<Data.Models.StudyYear, Data.Models.StudyYear>> SelectStudyYearWithFollowingInfo(Guid accountId)
+    {
+        return sy => new Data.Models.StudyYear
+        {
+            Id = sy.Id,
+            ShortName = sy.ShortName,
+            FullName = sy.FullName,
+            Description = sy.Description,
+            IsFollowing = sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId),
+            FollowingCount = sy.FollowedStudyYears.Count,
+            CreatedDate = sy.CreatedDate,
+            UpdatedDate = sy.UpdatedDate
+        };
     }
 
     private static Expression<Func<Data.Models.StudyYear, GetStudyYearDto>> MapStudyYearToGetDto()

@@ -13,5 +13,6 @@ namespace WeLearn.Shared.Services.StudyYear
         Task<PagedResponseDto<GetAccountDto>> GetFollowingAccountsAsync(Guid studyYearId, PageOptionsDto pageOptions);
         Task<PagedResponseDto<GetStudyYearDto>> GetStudyYearsAsync(PageOptionsDto pageOptions, Guid accountId, bool isFollowing);
         Task<bool> StudyYearExistsAsync(Guid studyYearId);
+        Task<GetStudyYearDto> GetStudyYearWithFollowingInfoAsync(Guid studyYearId, Guid accountId);
     }
 }

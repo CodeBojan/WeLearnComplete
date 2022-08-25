@@ -22,7 +22,7 @@ public static class DocumentExtensions
             ExternalSystemId = d.ExternalSystemId,
             ExternalCreatedDate = d.ExternalCreatedDate,
             FileName = d.FileName,
-            Uri = d.Uri,
+            //Uri = d.Uri, // TODO - adjust
             Version = d.Version,
             Size = d.Size,
             Hash = d.Hash,
