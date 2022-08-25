@@ -76,7 +76,7 @@ const Settings: AppPageWithLayout = () => {
                 toast("Settings updated successfully", { type: "success" });
               })
               .catch((err) => {
-                toast("Failed To Update Profile!", { type: "error" });
+                toast(`Failed To Update Profile: ${err}`, { type: "error" });
                 setApiError(err.message);
               });
           }}

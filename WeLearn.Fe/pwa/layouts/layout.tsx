@@ -48,7 +48,7 @@ export default function Layout({ children, ...props }: LayoutProps) {
 
   // me
   const [meState, meDispatch] = useReducer(meReducer, initialMeState);
-  const [invalidateMe] = useState(() => () => {
+  const [invalidateMe, setInvalidateMe] = useState(() => () => {
     mutate(getAccountMeCacheKey(session));
   });
   const { data: me, error } = useSWR<GetAccountDto>(
@@ -62,9 +62,11 @@ export default function Layout({ children, ...props }: LayoutProps) {
     notificationsReducer,
     initialNotificationsState
   );
-  const [invalidateNotifications] = useState(() => () => {
-    mutate(getNotificationsMeUnreadCacheKey(session));
-  });
+  const [invalidateNotifications, setInvalidateNotifications] = useState(
+    () => () => {
+      mutate(getNotificationsMeUnreadCacheKey(session));
+    }
+  );
   const { data: unreadDto, error: unreadCountError } =
     useSWR<GetUnreadNotificationsDto>(
       getNotificationsMeUnreadCacheKey(session),
@@ -84,6 +86,18 @@ export default function Layout({ children, ...props }: LayoutProps) {
       unreadCount: unreadDto.unread ?? 0,
     });
   }, [unreadDto]);
+
+  useEffect(() => {
+    if (!session) return;
+
+    // TODO check when session is refreshed that the new mutate is set
+    setInvalidateMe(() => () => {
+      mutate(getAccountMeCacheKey(session));
+    });
+    setInvalidateNotifications(() => () => {
+      mutate(getNotificationsMeUnreadCacheKey(session));
+    });
+  }, [session]);
 
   return (
     <div className="layout">
