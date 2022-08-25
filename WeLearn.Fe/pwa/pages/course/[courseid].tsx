@@ -1,3 +1,4 @@
+import { AiFillFile, AiFillFileAdd } from "react-icons/ai";
 import {
   CourseMaterialUploadRequestActionKind,
   courseMaterialUploadRequestReducer,
@@ -15,14 +16,17 @@ import {
   apiRoute,
   getApiRouteCacheKey,
 } from "../../util/api";
+import { isCourseAdmin, useAppSession } from "../../util/auth";
 import { useEffect, useReducer, useState } from "react";
 import useSWR, { mutate } from "swr";
 
 import { AppPageWithLayout } from "../_app";
+import { BsFillFileEarmarkArrowUpFill } from "react-icons/bs";
 import Button from "../../components/atoms/button";
 import CourseFollowInfo from "../../components/molecules/course-follow-info";
 import CourseMaterialUploadRequestModal from "../../components/molecules/course-material-upload-request-modal";
 import CourseMaterials from "../../components/molecules/course-materials";
+import { GrUserAdmin } from "react-icons/gr";
 import { ImPlus } from "react-icons/im";
 import { MdGrading } from "react-icons/md";
 import { ReactNode } from "react";
@@ -30,11 +34,11 @@ import TitledPageContainer from "../../components/containers/titled-page-contain
 import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
 import { toast } from "react-toastify";
-import { useAppSession } from "../../util/auth";
 
 const Course: AppPageWithLayout = () => {
   const { courseId: courseId } = router.query as { courseId: string };
   const { data: session } = useAppSession();
+  const isAdmin = isCourseAdmin(session.user, courseId);
   const [course, setCourse] = useState<GetCourseDto | null>(null);
   const [materialUploadState, materialUploadDispatch] = useReducer(
     courseMaterialUploadRequestReducer,
@@ -173,7 +177,7 @@ const Course: AppPageWithLayout = () => {
           created at {course?.createdDate?.toString()}
         </span>
       </div>
-      <div className="mt-8 w-full flex flex-row gap-x-4">
+      <div className="mt-8 w-full flex flex-row flex-wrap gap-y-4 gap-x-4 items-center">
         <Button variant={course?.isFollowing ? "normal" : "outline"}>
           {/* TODO add toggle on whole button - maybe by passing bool prop which will disable the existing onclicks and also useeffect to toggle */}
           <CourseFollowInfo
@@ -191,8 +195,20 @@ const Course: AppPageWithLayout = () => {
           className="flex flex-row gap-x-2 items-center"
           variant="outline"
         >
-          <ImPlus className="text-lg" /> Upload Material
+          <AiFillFileAdd className="text-2xl" /> Upload Material
         </Button>
+        {isAdmin && (
+          <>
+            <GrUserAdmin className="text-2xl" />
+            <Button variant="outline">
+              <div className="flex flex-row gap-x-2 items-center">
+                <BsFillFileEarmarkArrowUpFill className="text-2xl" />{" "}
+                <span>Upload Requests</span>
+              </div>
+            </Button>
+            <Button variant="outline">View Users</Button>
+          </>
+        )}
       </div>
       <div className="mt-8 flex flex-col w-full gap-y-8">
         {/* TODO accordion */}
@@ -211,7 +227,12 @@ const Course: AppPageWithLayout = () => {
         {/* TODO filter load only posts and notices */}
         {renderAccordionSection({ title: "Posts and Notices", content: "..." })}
         {renderAccordionSection({
-          title: "Course Materials",
+          title: (
+            <div className="flex flex-row gap-x-4 items-center">
+              <AiFillFile />
+              <span>Course Materials</span>
+            </div>
+          ),
           content: <CourseMaterials courseId={courseId} />,
           fullWidth: true,
         })}

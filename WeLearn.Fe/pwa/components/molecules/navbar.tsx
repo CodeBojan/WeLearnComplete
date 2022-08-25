@@ -1,4 +1,5 @@
 import { AiOutlineMenu } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
 import IconButton from "../atoms/icon-button";
 import Link from "next/link";
 import NotificationBell from "../atoms/notification-bell";
@@ -20,6 +21,15 @@ export default function Navbar({ onDrawerToggle }: NavbarProps) {
           <IconButton onClick={() => onDrawerToggle && onDrawerToggle()}>
             <AiOutlineMenu className="text-white text-2xl" />
           </IconButton>
+        </div>
+        <div>
+          <div className="flex flex-row gap-x-4 items-center">
+            <input
+              className="p-2 rounded-lg placeholder:text-white text-white bg-blue-800 "
+              placeholder="Search ..."
+            ></input>
+            <BsSearch />
+          </div>
         </div>
         <div>
           <div className="flex flex-row items-center gap-x-4">

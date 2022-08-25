@@ -4,15 +4,16 @@ import {
   PostFollowedCourseDto,
 } from "../../types/api";
 import { apiFollowedCourses, apiMethodFetcher } from "../../util/api";
+import { isCourseAdmin, useAppSession } from "../../util/auth";
 
 import CourseFollowInfo from "../molecules/course-follow-info";
 import FavoritableContainer from "./favoritable-container";
 import FavoriteInfo from "../molecules/favorite-info";
 import FavoritesContainer from "./favorites-container";
+import { GrUserAdmin } from "react-icons/gr";
 import { mutate } from "swr";
 import router from "next/router";
 import { toast } from "react-toastify";
-import { useAppSession } from "../../util/auth";
 
 export default function CoursesContainer({
   courses,
@@ -29,9 +30,12 @@ export default function CoursesContainer({
       {courses.map((course) => (
         <FavoritableContainer key={course.id}>
           <div
-            className="flex flex-row gap-x-8 cursor-pointer"
+            className="flex flex-row gap-x-8 cursor-pointer items-center"
             onClick={() => router.push(`/course/${course.id}`)}
           >
+            {isCourseAdmin(session.user, course.id!) && (
+              <GrUserAdmin className="text-2xl" />
+            )}
             <div>
               [{course.code} - {course.shortName}]
             </div>
