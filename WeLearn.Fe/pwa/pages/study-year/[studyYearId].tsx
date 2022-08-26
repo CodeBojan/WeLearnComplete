@@ -47,6 +47,7 @@ import Modal from "../../components/molecules/modal";
 import OnlyMineButton from "../../components/atoms/only-mine-button";
 import StudyYearAccountSelectorModal from "../../components/molecules/study-year-account-selector";
 import StudyYearFollowInfo from "../../components/molecules/study-year-follow-info";
+import StudyYearNotices from "../../components/molecules/study-year-notices";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
@@ -212,16 +213,24 @@ const StudyYear: AppPageWithLayout = () => {
           />
         </div>
       </div>
+      <div className="w-full mb-4 flex flex-col gap-y-4">
+        <div className="text-2xl font-bold">Notices</div>
+        <div className="w-full flex flex-col gap-y-4">
+          <StudyYearNotices studyYearId={studyYearId} />
+        </div>
+      </div>
       <CreateCourseModal
         createCourseState={createCourseState}
         createCourseDispatch={createCourseDispatch}
         createCourse={createCourse}
       />
-      <StudyYearAccountSelectorModal
-        accountSelectorDispatch={accountSelectorDispatch}
-        accountSelectorState={accountSelectorState}
-        studyYearId={studyYearId}
-      />
+      {isAdmin && (
+        <StudyYearAccountSelectorModal
+          accountSelectorDispatch={accountSelectorDispatch}
+          accountSelectorState={accountSelectorState}
+          studyYearId={studyYearId}
+        />
+      )}
     </TitledPageContainer>
   );
 };

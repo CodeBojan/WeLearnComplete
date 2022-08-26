@@ -35,6 +35,8 @@ import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
 import { toast } from "react-toastify";
 
+// TODO button to go back to study year
+
 const Course: AppPageWithLayout = () => {
   const { courseId: courseId } = router.query as { courseId: string };
   const { data: session } = useAppSession();

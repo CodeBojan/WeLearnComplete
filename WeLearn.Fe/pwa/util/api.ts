@@ -126,21 +126,23 @@ export type Entity = {
 };
 
 export type PageDtos<TEntity extends Entity> =
-  | { data?: TEntity[] | undefined }[]
-  | undefined;
+  | { data?: TEntity[] | undefined };
 
-export const processSWRInfiniteData = <TEntity extends Entity>(
+export const processSWRInfiniteData = <
+  TEntity extends Entity,
+  TPagedEntity extends PageDtos<TEntity> = PageDtos<TEntity>
+>(
   size: number,
   pageSize: number,
   isValidating: boolean,
   error: any,
-  pagesDtos: PageDtos<TEntity>
+  pagesDtos: TPagedEntity[] | undefined
 ) => {
   const pages = pagesDtos ? [...pagesDtos] : [];
   const isLoadingInitialData = !pagesDtos && !error;
   const isLoadingMore =
     isLoadingInitialData ||
-    (size > 0 && pagesDtos && typeof pagesDtos[size - 1] === "undefined");
+    (size > 0 && pagesDtos && typeof pagesDtos[size - 1] === undefined);
   const isEmpty = pagesDtos?.[0]?.data?.length === 0;
   const isReachingEnd =
     isEmpty ||
@@ -180,6 +182,8 @@ export const apiDocuments = "/api/Documents";
 export const apiDocument = (id: string) => `/api/Documents/${id}`;
 export const apiStudyYearAccounts = (id: string) =>
   `/api/StudyYears/${id}/Accounts`;
+export const apiStudyYearNotices = (id: string) =>
+  `/api/Notices/StudyYear/${id}`;
 
 export const getSearchParamPath = (
   url: string,

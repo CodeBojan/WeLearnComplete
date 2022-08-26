@@ -6,6 +6,7 @@ using WeLearn.Api.Services.Document.Extensions;
 using WeLearn.Api.Services.Feed.Extensions;
 using WeLearn.Api.Services.FollowedCourse.Extensions;
 using WeLearn.Api.Services.FollowedStudyYear.Extensions;
+using WeLearn.Api.Services.Notice.Extensions;
 using WeLearn.Api.Services.StudyMaterial.Extensions;
 using WeLearn.Data.Extensions;
 using WeLearn.Importers.Extensions;
@@ -43,6 +44,7 @@ public static class IServiceCollectionsExtensions
         services.AddFeedServices(configuration);
         services.AddDocumentsServices(configuration);
         services.AddStudyMaterialServices(configuration);
+        services.AddNoticeServices(configuration);
 
         return services;
     }

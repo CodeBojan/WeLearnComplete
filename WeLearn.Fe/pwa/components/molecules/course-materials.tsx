@@ -1,15 +1,10 @@
-import { DefaultExtensionType, FileIcon, defaultStyles } from "react-file-icon";
 import {
-  GetDocumentDto,
   GetStudyMaterialDto,
   GetStudyMaterialDtoPagedResponseDto,
 } from "../../types/api";
 import { MdComment, MdSource } from "react-icons/md";
 import {
-  apiDocument,
   apiGetFetcher,
-  apiMethodFetcher,
-  apiRoute,
   apiStudyMaterialsCourse,
   getApiSWRInfiniteKey,
   processSWRInfiniteData,
@@ -17,10 +12,8 @@ import {
 import { useEffect, useState } from "react";
 
 import { AppSession } from "../../types/auth";
+import { DocumentContainer } from "./document-container";
 import InfiniteScroll from "react-infinite-scroller";
-import Link from "next/link";
-import fileDownload from "js-file-download";
-import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 import useSWRInfinite from "swr/infinite";
 
@@ -148,93 +141,8 @@ function RenderStudyMaterialDocuments({
     <div>
       {/* TODO change course material upload request to have title and body and remark, while not requiring files - the body can contain useful links */}
       {(sm.documentCount ?? 0) > 0 && sm.documents && (
-        <div>
-          <div>Contains {sm.documentCount} documents</div>
-          <div>
-            {sm.documents?.map((document, documentIndex) => {
-              const fileExtension = document.fileExtension?.replace(
-                ".",
-                ""
-              ) as DefaultExtensionType;
-              return (
-                <RenderDocument
-                  document={document}
-                  fileExtension={fileExtension}
-                  session={session}
-                />
-              );
-            })}
-          </div>
-        </div>
+        <DocumentContainer documentContainer={sm} session={session} />
       )}
-    </div>
-  );
-}
-
-function RenderDocument({
-  document,
-  fileExtension,
-  session,
-}: {
-  document: GetDocumentDto;
-  fileExtension: DefaultExtensionType;
-  session: AppSession;
-}): JSX.Element {
-  return (
-    <div key={document.id}>
-      <div className="">
-        <div className="">
-          <div className="hover:drop-shadow-xl">
-            <Link
-              href={
-                document.isImported
-                  ? document.externalUrl ?? ""
-                  : apiRoute(apiDocument(document.id!))
-              }
-            >
-              <a
-                onClickCapture={(e) => {
-                  if (!document.isImported) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    apiMethodFetcher(
-                      apiDocument(document.id!),
-                      session.accessToken,
-                      "GET",
-                      undefined,
-                      false
-                    )
-                      .then((res) => res.blob as Promise<Blob>)
-                      .then((blob) => {
-                        try {
-                          fileDownload(blob, document.fileName!);
-                          toast(
-                            `Downloaded ${document.fileName} successfully`,
-                            { type: "success" }
-                          );
-                        } catch (error) {
-                          toast(`Failed to download file: ${error}`, {
-                            type: "error",
-                          });
-                        }
-                      });
-                  }
-                }}
-              >
-                <div className="flex flex-row items-center gap-x-4">
-                  <div className="w-12">
-                    <FileIcon
-                      extension={fileExtension}
-                      {...defaultStyles[fileExtension]}
-                    />
-                  </div>
-                  <div>{document.fileName}</div>
-                </div>
-              </a>
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

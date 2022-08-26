@@ -19,7 +19,7 @@ export default function useStudyYearAccounts({
   const { data: session } = useAppSession();
   const [pageSize, setPageSize] = useState(5);
   const [studyYearAccounts, setStudyYearAccounts] = useState<
-    GetAccountDto[] | null
+    GetAccountDto[] | null | undefined
   >();
 
   const getKey = getApiSWRInfiniteKey({

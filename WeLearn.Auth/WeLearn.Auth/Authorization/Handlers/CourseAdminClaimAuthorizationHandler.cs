@@ -14,6 +14,7 @@ public class CourseAdminClaimAuthorizationHandler : AuthorizationHandler<Resourc
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ResourceAdminRequirement requirement, Course resource)
     {
+        // TODO allow study year admins using studyYearId  of the course
         if (context.User.HasClaim(ClaimTypes.CourseAdmin, resource.Id.ToString()))
         {
             context.Succeed(requirement);

@@ -1,0 +1,75 @@
+import { DefaultExtensionType, FileIcon, defaultStyles } from "react-file-icon";
+import {
+  apiDocument,
+  apiMethodFetcher,
+  apiRoute
+} from "../../util/api";
+
+import { AppSession } from "../../types/auth";
+import { GetDocumentDto } from "../../types/api";
+import Link from "next/link";
+import fileDownload from "js-file-download";
+import { toast } from "react-toastify";
+
+export function RenderDocument({
+  document, fileExtension, session,
+}: {
+  document: GetDocumentDto;
+  fileExtension: DefaultExtensionType;
+  session: AppSession;
+}): JSX.Element {
+  return (
+    <div key={document.id}>
+      <div className="">
+        <div className="">
+          <div className="hover:drop-shadow-xl">
+            <Link
+              href={document.isImported
+                ? document.externalUrl ?? ""
+                : apiRoute(apiDocument(document.id!))}
+            >
+              <a
+                onClickCapture={(e) => {
+                  if (!document.isImported) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    apiMethodFetcher(
+                      apiDocument(document.id!),
+                      session.accessToken,
+                      "GET",
+                      undefined,
+                      false
+                    )
+                      .then((res) => res.blob as Promise<Blob>)
+                      .then((blob) => {
+                        try {
+                          fileDownload(blob, document.fileName!);
+                          toast(
+                            `Downloaded ${document.fileName} successfully`,
+                            { type: "success" }
+                          );
+                        } catch (error) {
+                          toast(`Failed to download file: ${error}`, {
+                            type: "error",
+                          });
+                        }
+                      });
+                  }
+                }}
+              >
+                <div className="flex flex-row items-center gap-x-4">
+                  <div className="w-12">
+                    <FileIcon
+                      extension={fileExtension}
+                      {...defaultStyles[fileExtension]} />
+                  </div>
+                  <div>{document.fileName}</div>
+                </div>
+              </a>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
