@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { AppSession } from "../../types/auth";
+import ContentCommentsInfo from "./content-comments-info";
 import { DocumentContainer } from "./document-container";
 import InfiniteScroll from "react-infinite-scroller";
 import { useAppSession } from "../../util/auth";
@@ -109,8 +110,10 @@ function RenderStudyMaterial({
           <div>created at {sm.updatedDate?.toString()}</div>
         </div>
         <RenderStudyMaterialDocuments studyMaterial={sm} session={session} />
+        {/* TODO content comments component */}
         <div className="flex flex-row justify-between mt-4 items-center">
-          <RenderCommentsButton />
+          {/* TODO add comment count to dto */}
+          <ContentCommentsInfo commentCount={7} contentId={sm.id!} />
           {sm.externalUrl && (
             <div>
               <MdSource className="text-2xl" />
@@ -118,20 +121,6 @@ function RenderStudyMaterial({
           )}
         </div>
       </div>
-    </div>
-  );
-}
-
-function RenderCommentsButton() {
-  return (
-    <div
-      className="flex flex-row gap-x-4 items-center hover:bg-gray-200 rounded-lg p-2 cursor-pointer"
-      onClick={() => {
-        // TODO open comment modal
-      }}
-    >
-      {/* TODO add comments to dto */}
-      <span className="">7</span> <MdComment className="text-2xl" />
     </div>
   );
 }

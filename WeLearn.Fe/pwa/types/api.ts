@@ -10,6 +10,36 @@
 
 
 
+export class DeleteCommentDto implements IDeleteCommentDto {
+
+    constructor(data?: IDeleteCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): DeleteCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeleteCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data;
+    }
+}
+
+export interface IDeleteCommentDto {
+}
+
 export class DeleteFollowedCourseDto implements IDeleteFollowedCourseDto {
     accountId?: string;
     courseId?: string;
@@ -260,6 +290,122 @@ export interface IGetAccountRoleDto {
     roleId?: string;
     type?: string | undefined;
     entityId?: string | undefined;
+}
+
+export class GetCommentDto implements IGetCommentDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    body?: string | undefined;
+    authorId?: string;
+    contentId?: string;
+    author?: GetAccountDto;
+
+    constructor(data?: IGetCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+            this.body = _data["body"];
+            this.authorId = _data["authorId"];
+            this.contentId = _data["contentId"];
+            this.author = _data["author"] ? GetAccountDto.fromJS(_data["author"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        data["body"] = this.body;
+        data["authorId"] = this.authorId;
+        data["contentId"] = this.contentId;
+        data["author"] = this.author ? this.author.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IGetCommentDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    body?: string | undefined;
+    authorId?: string;
+    contentId?: string;
+    author?: GetAccountDto;
+}
+
+export class GetCommentDtoPagedResponseDto implements IGetCommentDtoPagedResponseDto {
+    limit?: number;
+    page?: number;
+    totalPages?: number | undefined;
+    data?: GetCommentDto[] | undefined;
+
+    constructor(data?: IGetCommentDtoPagedResponseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(GetCommentDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetCommentDtoPagedResponseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCommentDtoPagedResponseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IGetCommentDtoPagedResponseDto {
+    limit?: number;
+    page?: number;
+    totalPages?: number | undefined;
+    data?: GetCommentDto[] | undefined;
 }
 
 export class GetCourseDto implements IGetCourseDto {
@@ -1554,6 +1700,50 @@ export class GetUnreadNotificationsDto implements IGetUnreadNotificationsDto {
 
 export interface IGetUnreadNotificationsDto {
     unread?: number;
+}
+
+export class PostCommentDto implements IPostCommentDto {
+    body?: string | undefined;
+    authorId?: string;
+    contentId?: string;
+
+    constructor(data?: IPostCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.body = _data["body"];
+            this.authorId = _data["authorId"];
+            this.contentId = _data["contentId"];
+        }
+    }
+
+    static fromJS(data: any): PostCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["body"] = this.body;
+        data["authorId"] = this.authorId;
+        data["contentId"] = this.contentId;
+        return data;
+    }
+}
+
+export interface IPostCommentDto {
+    body?: string | undefined;
+    authorId?: string;
+    contentId?: string;
 }
 
 export class PostCourseDto implements IPostCourseDto {

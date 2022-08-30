@@ -1,3 +1,8 @@
+import {
+  CommentsModalContext,
+  commentsModalReducer,
+  initialCommentsModalState,
+} from "../store/comments-modal-store";
 import { GetAccountDto, GetUnreadNotificationsDto } from "../types/api";
 import {
   MeActionKind,
@@ -24,6 +29,7 @@ import useSWR, { mutate } from "swr";
 
 import { AppSession } from "../types/auth";
 import BottomNav from "../components/molecules/bottom-nav";
+import CommentsModal from "../components/molecules/comments-modal";
 import { ComponentProps } from "../types/components";
 import LoadingAuth from "../components/auth/loading-auth";
 import Navbar from "../components/molecules/navbar";
@@ -74,6 +80,11 @@ export default function Layout({ children, ...props }: LayoutProps) {
     );
   // end unread notifications
 
+  const [commentsModalState, commentsModalDispatcher] = useReducer(
+    commentsModalReducer,
+    initialCommentsModalState
+  );
+
   useEffect(() => {
     if (!me) return;
     meDispatch({ type: MeActionKind.SET_ME, payload: me });
@@ -118,24 +129,32 @@ export default function Layout({ children, ...props }: LayoutProps) {
                 <NotificationsInvalidationContext.Provider
                   value={{ notificationsInvalidate: invalidateNotifications }}
                 >
-                  <Navbar
-                    onDrawerToggle={() => {
-                      setIsSidebarOpen(!isSideBarOpen);
+                  <CommentsModalContext.Provider
+                    value={{
+                      state: commentsModalState,
+                      dispatch: commentsModalDispatcher,
                     }}
-                  />
-                  <Sidebar
-                    isOpen={isSideBarOpen}
-                    onTryClose={() => setIsSidebarOpen(false)}
-                  />
-                  <div className="min-h-screen w-full flex flex-row items-start justify-center">
-                    <div className="min-h-screen grow flex-col items-center justify-center">
-                      {children}
+                  >
+                    <Navbar
+                      onDrawerToggle={() => {
+                        setIsSidebarOpen(!isSideBarOpen);
+                      }}
+                    />
+                    <Sidebar
+                      isOpen={isSideBarOpen}
+                      onTryClose={() => setIsSidebarOpen(false)}
+                    />
+                    <div className="min-h-screen w-full flex flex-row items-start justify-center">
+                      <div className="min-h-screen grow flex-col items-center justify-center">
+                        {children}
+                      </div>
+                      <div className="min-h-screen flex flex-row justify-start">
+                        <RightSideBar />
+                      </div>
                     </div>
-                    <div className="min-h-screen flex flex-row justify-start">
-                      <RightSideBar />
-                    </div>
-                  </div>
-                  <BottomNav />
+                    <BottomNav />
+                    <CommentsModal />
+                  </CommentsModalContext.Provider>
                 </NotificationsInvalidationContext.Provider>
               </NotificationsContext.Provider>
             </MeInvalidationContext.Provider>

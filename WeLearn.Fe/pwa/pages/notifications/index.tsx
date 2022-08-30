@@ -151,6 +151,7 @@ const Notifications: AppPageWithLayout = () => {
       }
       title={"Notifications"}
     >
+      {/* TODO adjust infinite scroll - currently will keep loading even if bottom is not in view */}
       <InfiniteScroll
         pageStart={1}
         loadMore={() => {

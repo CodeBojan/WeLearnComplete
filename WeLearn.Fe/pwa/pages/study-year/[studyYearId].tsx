@@ -70,6 +70,7 @@ const StudyYear: AppPageWithLayout = () => {
   const { studyYearId } = router.query as { studyYearId: string };
   const { data: session } = useAppSession();
   const isAdmin = isStudyYearAdmin(session.user, studyYearId);
+  // TODO add isSystemAdmin - only he can make other users study year admins
   const [studyYear, setStudyYear] = useState<GetStudyYearDto | null>(null);
 
   const cacheKey = getApiRouteCacheKey(apiStudyYear(studyYearId), session);

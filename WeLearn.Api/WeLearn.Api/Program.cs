@@ -101,7 +101,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
         options.AddAuthorizationPolicies();
     });
 
-    services.AddAuthorizationHandlers();
+    services.AddAuthorizationHandlers()
+        .AddApiAuthorizationHandlers();
 
     services.AddApiServices(configuration);
 

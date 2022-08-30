@@ -40,6 +40,7 @@ export default function AccountSelectorModal({
             type: AccountSelectorActionKind.CLOSE_MODAL,
           })
         }
+        showFooter={false}
       />
     </>
   );

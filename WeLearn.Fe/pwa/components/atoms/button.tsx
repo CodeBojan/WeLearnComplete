@@ -26,6 +26,8 @@ const StyledButton = w.button(
   }
 );
 
+// TODO add active:...
+
 type StyledButtonProps = W.Infer<typeof StyledButton>;
 export declare type ButtonProps = StyledButtonProps & ComponentProps;
 

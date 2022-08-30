@@ -7,12 +7,14 @@ export default function Modal({
   body,
   footer,
   onTryClose,
+  showFooter = true,
 }: {
   open: boolean;
   header: ReactNode;
   body: ReactNode;
   footer: ReactNode;
   onTryClose?: () => void;
+  showFooter?: boolean;
 }) {
   return !open ? (
     <div className="hidden"></div>
@@ -26,9 +28,7 @@ export default function Modal({
       <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-            <h3 className="text-xl font-semibold ">
-              {header}
-            </h3>
+            <h3 className="text-xl font-semibold ">{header}</h3>
             <button
               onClick={() => onTryClose && onTryClose()}
               type="button"
@@ -56,9 +56,11 @@ export default function Modal({
             </p>
           </div> */}
           {/* footer */}
-          <div className="flex items-center p-4 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-            {footer}
-          </div>
+          {showFooter && (
+            <div className="flex items-center p-4 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+              {footer}
+            </div>
+          )}
         </div>
       </div>
     </div>

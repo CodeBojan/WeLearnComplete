@@ -46,7 +46,7 @@ export const apiPagedGetFetcher = (
 export const apiMethodFetcher = (
   url: string,
   token: string,
-  method: string,
+  method: "POST" | "PUT" | "DELETE",
   body?: any | undefined,
   asJson: boolean = true,
   ...props: any
@@ -66,7 +66,7 @@ export const getApiRouteCacheKey = (url: string, session: AppSession) => {
 };
 
 export const getPagedApiRouteCacheKey = (
-  url: string,
+  url: string | null,
   session: AppSession,
   page: number,
   itemsPerPage: number
@@ -75,17 +75,19 @@ export const getPagedApiRouteCacheKey = (
 };
 
 export const getSearchApiRouteCacheKey = (
-  url: string,
+  url: string | null,
   session: AppSession,
   searchParams: URLSearchParams
 ) => {
   return !session
     ? null
+    : !url
+    ? null
     : [getSearchParamPath(url, searchParams), session.accessToken];
 };
 
 export const getPagedSearchApiRouteCacheKey = (
-  url: string,
+  url: string | null,
   session: AppSession,
   params: Record<string, string> & { page: string; limit: string }
 ) => {
@@ -97,7 +99,7 @@ export const getApiSWRInfiniteKey = ({
   session,
   pageSize,
 }: {
-  url: string;
+  url: string | null;
   session: AppSession;
   pageSize: number;
 }) => {
@@ -186,8 +188,9 @@ export const apiStudyYearNotices = (id: string) =>
 export const apiCourseAccounts = (id: string) => `/api/Courses/${id}/Accounts`;
 export const apiUnapprovedStudyMaterialsCourse = (id: string) =>
   `/api/CourseMaterialUploadRequests/Course/${id}/Unapproved`;
+export const apiContentComments = (id: string) => `/api/Comments/content/${id}`;
 
 export const getSearchParamPath = (
-  url: string,
+  url: string | null,
   searchParams: URLSearchParams
-) => `${url}?` + searchParams;
+) => (!url ? null : `${url}?` + searchParams);
