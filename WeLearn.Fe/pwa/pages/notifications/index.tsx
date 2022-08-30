@@ -20,7 +20,7 @@ import {
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { AppPageWithLayout } from "../_app";
-import InfiniteScroll from "react-infinite-scroller";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import { MdOpenInNew } from "react-icons/md";
 import NotificationBell from "../../components/atoms/notification-bell";
@@ -28,6 +28,7 @@ import TitledPageContainer from "../../components/containers/titled-page-contain
 import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
+import { useIsScrollable } from "../../util/useIsScrollable";
 import useSWRInfinite from "swr/infinite";
 
 const Notifications: AppPageWithLayout = () => {
@@ -41,7 +42,7 @@ const Notifications: AppPageWithLayout = () => {
 
   // TODO check that the invalidateNotificationtext is called - currently the unread count doesnt update until refresh
 
-  const [pageSize, setPageSize] = useState(2); // TODO update
+  const [pageSize, setPageSize] = useState(5); // TODO update
 
   const getKey = getApiSWRInfiniteKey({
     url: apiNotificationsMe,
@@ -140,6 +141,8 @@ const Notifications: AppPageWithLayout = () => {
     });
   };
 
+  const hasMore = !isLoadingMore && !isReachingEnd;
+
   return (
     <TitledPageContainer
       icon={
@@ -151,13 +154,10 @@ const Notifications: AppPageWithLayout = () => {
       }
       title={"Notifications"}
     >
-      {/* TODO adjust infinite scroll - currently will keep loading even if bottom is not in view */}
       <InfiniteScroll
-        pageStart={1}
-        loadMore={() => {
-          setSize(size + 1);
-        }}
-        hasMore={!isLoadingMore && !isReachingEnd}
+        dataLength={notifications?.length ?? 0}
+        next={() => setSize(size + 1)}
+        hasMore={hasMore}
         loader={
           <div className="loader" key={0}>
             Loading ...

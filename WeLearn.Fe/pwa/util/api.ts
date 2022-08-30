@@ -127,7 +127,7 @@ export type Entity = {
   id?: string | undefined;
 };
 
-export type PageDtos<TEntity extends Entity> = { data?: TEntity[] | undefined };
+export type PageDtos<TEntity extends Entity> = { data?: TEntity[] | undefined; page? : number | undefined };
 
 export const processSWRInfiniteData = <
   TEntity extends Entity,
@@ -147,8 +147,8 @@ export const processSWRInfiniteData = <
   const isEmpty = pagesDtos?.[0]?.data?.length === 0;
   const isReachingEnd =
     isEmpty ||
-    (pagesDtos &&
-      (pagesDtos[pagesDtos.length - 1]?.data?.length ?? 0) < pageSize);
+    (pagesDtos && 
+      (pagesDtos[pagesDtos.length - 1]?.page ?? 0) < size);
   const isRefreshing = isValidating && pagesDtos && pagesDtos.length == size;
 
   return {

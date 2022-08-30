@@ -7,7 +7,7 @@ import { apiContentComments, apiMethodFetcher } from "../../util/api";
 import { useContext, useRef } from "react";
 
 import Button from "../atoms/button";
-import InfiniteScroll from "react-infinite-scroller";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Input from "../atoms/input";
 import Modal from "./modal";
 import { mutate } from "swr";
@@ -52,9 +52,8 @@ export default function CommentsModal({}: {}) {
       });
     });
 
-  const scrollParent = useRef(null);
-
   const hasMore = !isLoadingMore && !isReachingEnd && !isValidating;
+  const modalScrollParentId = "modal-scroll-parent-div";
   return (
     <Modal
       open={commentsModalContext.isOpen}
@@ -92,21 +91,18 @@ export default function CommentsModal({}: {}) {
           <div className="flex flex-col">
             <div className="text-md font-semibold">Latest Comments</div>
             <div
+              id={modalScrollParentId}
               className="overflow-auto"
-              style={{ height: "700" }}
-              ref={scrollParent}
+              style={{ height: "520px" }}
             >
               <InfiniteScroll
-                pageStart={1}
-                useWindow={false}
-                getScrollParent={() => scrollParent.current}
-                loadMore={() => {
-                  if (!hasMore) return;
-                  setSize(size + 1);
-                  console.log("increasing to", size + 1);
+                dataLength={comments?.length ?? 0}
+                next={() => {
+                  return setSize(size + 1);
                 }}
                 hasMore={hasMore}
-                loader={<div key={0}>Loading...</div>}
+                loader={hasMore && <div key={0}>Loading...</div>}
+                scrollableTarget={modalScrollParentId}
               >
                 <div className="">
                   {comments?.map((comment, index) => (
@@ -126,11 +122,13 @@ export default function CommentsModal({}: {}) {
                       <div className="text-lg font-semibold">
                         {comment.body}
                       </div>
-                      <div className="text-sm italic text-gray-400">
-                        updated at{comment.updatedDate?.toString()}
-                      </div>
+                      {comment.updatedDate != comment.createdDate && (
+                        <div className="text-sm italic text-gray-400">
+                          updated at{comment.updatedDate?.toString()}
+                        </div>
+                      )}
                       <div className="text-sm italic text-gray-600">
-                        created at {comment.createdDate?.toString()}
+                        at {comment.createdDate?.toString()}
                       </div>
                     </div>
                   ))}
