@@ -1,3 +1,8 @@
+import {
+  AccountSelectorActionKind,
+  accountSelectorReducer,
+  initialAccountSelectorState,
+} from "../../store/account-selector-store";
 import { AiFillFile, AiFillFileAdd } from "react-icons/ai";
 import {
   CourseMaterialUploadRequestActionKind,
@@ -9,6 +14,12 @@ import {
   PostCourseMaterialUploadRequestDto,
   PostDocumentDto,
 } from "../../types/api";
+import { MdGrading, MdPeople } from "react-icons/md";
+import {
+  UnapprovedCourseMaterialUploadRequestActionKind,
+  initialUnapprovedCourseMaterialUploadRequestState,
+  unapprovedCourseMaterialUploadRequestReducer,
+} from "../../store/unapproved-course-material-upload-requests-store";
 import {
   apiCourse,
   apiCourseMaterialUploadRequestCourse,
@@ -23,14 +34,15 @@ import useSWR, { mutate } from "swr";
 import { AppPageWithLayout } from "../_app";
 import { BsFillFileEarmarkArrowUpFill } from "react-icons/bs";
 import Button from "../../components/atoms/button";
+import CourseAccountSelectorModal from "../../components/molecules/course-account-selector-modal";
 import CourseFollowInfo from "../../components/molecules/course-follow-info";
 import CourseMaterialUploadRequestModal from "../../components/molecules/course-material-upload-request-modal";
 import CourseMaterials from "../../components/molecules/course-materials";
 import { GrUserAdmin } from "react-icons/gr";
 import { ImPlus } from "react-icons/im";
-import { MdGrading } from "react-icons/md";
 import { ReactNode } from "react";
 import TitledPageContainer from "../../components/containers/titled-page-container";
+import UnapprovedCourseMaterialUploadRequestsModal from "../../components/molecules/unapproved-course-material-upload-requests-modal";
 import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
 import { toast } from "react-toastify";
@@ -54,12 +66,22 @@ const Course: AppPageWithLayout = () => {
     apiGetFetcher
   );
 
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+
+  const [accountSelectorState, accountSelectorDispatch] = useReducer(
+    accountSelectorReducer,
+    initialAccountSelectorState
+  );
+
+  const [unapprovedRequestsState, unapprovedRequestsDispatch] = useReducer(
+    unapprovedCourseMaterialUploadRequestReducer,
+    initialUnapprovedCourseMaterialUploadRequestState
+  );
+
   useEffect(() => {
     if (!courseResponse) return;
     setCourse(courseResponse);
   }, [courseResponse]);
-
-  const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
   function clearModalState() {
     materialUploadDispatch({
@@ -202,13 +224,31 @@ const Course: AppPageWithLayout = () => {
         {isAdmin && (
           <>
             <GrUserAdmin className="text-2xl" />
-            <Button variant="outline">
+            <Button
+              variant="outline"
+              onClick={() =>
+                unapprovedRequestsDispatch({
+                  type: UnapprovedCourseMaterialUploadRequestActionKind.OPEN_MODAL,
+                })
+              }
+            >
               <div className="flex flex-row gap-x-2 items-center">
-                <BsFillFileEarmarkArrowUpFill className="text-2xl" />{" "}
+                <BsFillFileEarmarkArrowUpFill className="text-2xl" />
                 <span>Upload Requests</span>
               </div>
             </Button>
-            <Button variant="outline">View Users</Button>
+            <Button
+              variant="outline"
+              onClick={() =>
+                accountSelectorDispatch({
+                  type: AccountSelectorActionKind.OPEN_MODAL,
+                })
+              }
+            >
+              <div className="flex flex-row items-center gap-x-2">
+                <MdPeople className="text-2xl" /> <span>View Users</span>
+              </div>
+            </Button>
           </>
         )}
       </div>
@@ -239,7 +279,6 @@ const Course: AppPageWithLayout = () => {
           fullWidth: true,
         })}
       </div>
-
       <CourseMaterialUploadRequestModal
         uploadModalOpen={uploadModalOpen}
         materialUploadState={materialUploadState}
@@ -251,6 +290,20 @@ const Course: AppPageWithLayout = () => {
         clearModalState={clearModalState}
         clearFiles={clearFiles}
       />
+      {isAdmin && (
+        <>
+          <CourseAccountSelectorModal
+            accountSelectorState={accountSelectorState}
+            accountSelectorDispatch={accountSelectorDispatch}
+            courseId={courseId}
+          />
+          <UnapprovedCourseMaterialUploadRequestsModal
+            unapprovedRequestsState={unapprovedRequestsState}
+            unapprovedRequestsDispatch={unapprovedRequestsDispatch}
+            courseId={courseId}
+          />
+        </>
+      )}
     </TitledPageContainer>
   );
 };

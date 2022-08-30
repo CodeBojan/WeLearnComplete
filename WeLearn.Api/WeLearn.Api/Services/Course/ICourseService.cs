@@ -6,6 +6,7 @@ namespace WeLearn.Api.Services.Course
 {
     public interface ICourseService
     {
+        Task<bool> CourseExistsAsync(Guid courseId);
         Task<GetCourseDto> CreateCourseAsync(string code, string shortName, string fullName, string staff, string description, string rules, Guid studyYearId);
         Task<GetCourseDto> GetCourseAsync(Guid courseId, Guid userId);
         Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions);

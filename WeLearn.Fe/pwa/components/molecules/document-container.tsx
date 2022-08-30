@@ -27,6 +27,7 @@ export function DocumentContainer({
           ) as DefaultExtensionType;
           return (
             <RenderDocument
+              key={document.id}
               document={document}
               fileExtension={fileExtension}
               session={session}

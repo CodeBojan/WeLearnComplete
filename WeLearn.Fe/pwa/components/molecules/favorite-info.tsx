@@ -18,11 +18,13 @@ export default function FavoriteInfo({
   return (
     <FavoriteInfoContainer>
       <span>{followerCount}</span>
-      {isFollowing ? (
-        <AiFillHeart className="cursor-pointer" onClick={onUnfollow} />
-      ) : (
-        <AiOutlineHeart className="cursor-pointer" onClick={onFollow} />
-      )}
+      <div className="p-1 hover:bg-slate-400 hover:rounded-full">
+        {isFollowing ? (
+          <AiFillHeart className="cursor-pointer" onClick={onUnfollow} />
+        ) : (
+          <AiOutlineHeart className="cursor-pointer" onClick={onFollow} />
+        )}
+      </div>
     </FavoriteInfoContainer>
   );
 }

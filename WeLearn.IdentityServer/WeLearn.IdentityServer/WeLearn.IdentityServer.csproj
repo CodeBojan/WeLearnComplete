@@ -28,6 +28,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.4" />
+		<PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
 		<PackageReference Include="IdentityModel.OidcClient" Version="5.0.2" />
 
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.8" />
@@ -61,6 +62,7 @@
 		<Folder Include="Dtos\Configuration\" />
 		<Folder Include="Extensions\ClaimsPrincipal\" />
 		<Folder Include="Extensions\Configuration\" />
+		<Folder Include="Services\StudyYearAdminRole\" />
 		<Folder Include="wwwroot\css\" />
 		<Folder Include="wwwroot\images\" />
 		<Folder Include="wwwroot\lib\bootstrap\" />

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.Course;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.Course;
+using WeLearn.Auth.Controllers;
 using WeLearn.Auth.Policy;
 using WeLearn.Data.Models;
 using WeLearn.Shared.Dtos.Account;

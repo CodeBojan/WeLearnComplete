@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.CourseMaterialUploadRequest;
 using WeLearn.Api.Exceptions.Models;
+using WeLearn.Api.Services.Course;
 using WeLearn.Api.Services.CourseMaterialUploadRequest;
+using WeLearn.Auth.Controllers;
+using WeLearn.Auth.Policy;
+using WeLearn.Data.Models;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Exceptions.Models;
 
@@ -38,7 +43,32 @@ public class CourseMaterialUploadRequestsController : UserAuthorizedController
     {
         try
         {
-            var dtos = await _uploadRequestService.GetCourseMaterialUploadRequestsAsync(courseId, pageOptions);
+            var dtos = await _uploadRequestService.GetApprovedCourseMaterialUploadRequestsAsync(courseId, pageOptions);
+            return Ok(dtos);
+        }
+        catch (CourseNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpGet("course/{courseId}/unapproved")]
+    public async Task<ActionResult<PagedResponseDto<GetCourseMaterialUploadRequestDto>>> GetUnapprovedCourseMaterialUploadRequestsAsync(
+        [FromRoute] Guid courseId,
+        [FromQuery] PageOptionsDto pageOptions,
+        [FromServices] IAuthorizationService authorizationService,
+        [FromServices] ICourseService courseService)
+    {
+        if (!await courseService.CourseExistsAsync(courseId))
+            return NotFound();
+
+        var authResult = await authorizationService.AuthorizeAsync(User, new Course { Id = courseId }, Policies.IsResourceAdmin);
+        if (!authResult.Succeeded)
+            return Forbid();
+
+        try
+        {
+            var dtos = await _uploadRequestService.GetUnapprovedCourseMaterialUploadRequestsAsync(courseId, pageOptions);
             return Ok(dtos);
         }
         catch (CourseNotFoundException)

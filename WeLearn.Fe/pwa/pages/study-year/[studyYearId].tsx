@@ -10,8 +10,14 @@ import {
   createCourseReducer,
   initialCreateCourseState,
 } from "../../store/create-course-store";
+import {
+  DeleteStudyYearAdminRoleDto,
+  PostStudyYearAdminRoleDto,
+  WeLearnProblemDetails,
+} from "../../types/isApi";
 import { Dispatch, useEffect, useReducer, useState } from "react";
 import {
+  GetAccountDto,
   GetCourseDto,
   GetCourseDtoPagedResponseDto,
   GetStudyYearDto,
@@ -30,6 +36,10 @@ import {
   getApiRouteCacheKey,
   getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
+import {
+  isApiMethodFetcher,
+  isApiStudyYearAccountRoles,
+} from "../../util/isApi";
 import { isStudyYearAdmin, useAppSession } from "../../util/auth";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import router, { useRouter } from "next/router";
@@ -224,11 +234,94 @@ const StudyYear: AppPageWithLayout = () => {
         createCourseDispatch={createCourseDispatch}
         createCourse={createCourse}
       />
+      {/* TODO extract to component */}
       {isAdmin && (
         <StudyYearAccountSelectorModal
           accountSelectorDispatch={accountSelectorDispatch}
           accountSelectorState={accountSelectorState}
           studyYearId={studyYearId}
+          actionButtons={(account: GetAccountDto, mutate: () => void) => {
+            const accountIsAdmin = account.accountRoles?.some(
+              (ar) => ar.entityId === studyYearId
+            );
+            const isCurrentAccount = account.id === session.user.id;
+            return (
+              <div className="flex flex-row items-center gap-x-2">
+                {accountIsAdmin && <GrUserAdmin className="text-xl" />}
+                {!accountIsAdmin ? (
+                  <Button
+                    disabled={accountIsAdmin}
+                    onClick={() => {
+                      isApiMethodFetcher(
+                        isApiStudyYearAccountRoles,
+                        session.accessToken,
+                        "POST",
+                        {
+                          studyYearId: studyYearId,
+                          accountId: account.id,
+                        } as PostStudyYearAdminRoleDto,
+                        false
+                      )
+                        .then((res) => {
+                          mutate();
+                          toast("Admin role added", { type: "success" });
+                        })
+                        .catch((err) => {
+                          const pd = err as Promise<WeLearnProblemDetails>;
+                          pd.then((details) => {
+                            toast(
+                              `Failed to make user admin: ${details.detail}`,
+                              {
+                                type: "error",
+                              }
+                            );
+                          });
+                        });
+                    }}
+                  >
+                    Make Admin
+                  </Button>
+                ) : (
+                  <Button
+                    variant="danger"
+                    disabled={isCurrentAccount}
+                    onClick={() => {
+                      isApiMethodFetcher(
+                        isApiStudyYearAccountRoles,
+                        session.accessToken,
+                        "DELETE",
+                        {
+                          studyYearId: studyYearId,
+                          accountId: account.id,
+                        } as DeleteStudyYearAdminRoleDto,
+                        false
+                      )
+                        .then((res) => {
+                          mutate();
+                          toast("Admin role removed", { type: "success" });
+                        })
+                        .catch((err) => {
+                          if (!err) return;
+                          console.log("caught", err);
+                          if (err instanceof Promise<WeLearnProblemDetails>) {
+                            err.then((details) => {
+                              toast(
+                                `Failed to make remove admin role: ${details.detail}`,
+                                {
+                                  type: "error",
+                                }
+                              );
+                            });
+                          }
+                        });
+                    }}
+                  >
+                    Remove Admin
+                  </Button>
+                )}
+              </div>
+            );
+          }}
         />
       )}
     </TitledPageContainer>

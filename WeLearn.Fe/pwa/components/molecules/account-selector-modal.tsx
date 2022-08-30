@@ -21,7 +21,10 @@ export default function AccountSelectorModal({
   accounts: GetAccountDto[];
   accountSelectorState: AccountSelectorState;
   accountSelectorDispatch: Dispatch<AccountSelectorAction>;
-  actionButtons?: ReactNode | undefined;
+  actionButtons?: (
+    account: GetAccountDto,
+    mutate: () => void
+  ) => ReactNode | undefined;
   body: ReactNode;
 }) {
   return (

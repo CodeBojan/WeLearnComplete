@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.Feed;
 using WeLearn.Api.Services.Feed;
+using WeLearn.Auth.Controllers;
 using WeLearn.Shared.Dtos.Paging;
 
 namespace WeLearn.Api.Controllers;

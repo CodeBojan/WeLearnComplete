@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.Document;
+using WeLearn.Auth.Controllers;
 
 namespace WeLearn.Api.Controllers;
 

@@ -23,6 +23,7 @@ using WeLearn.Auth.Policy;
 using WeLearn.Auth.Authorization.Roles;
 using WeLearn.Auth.Extensions;
 using WeLearn.IdentityServer.Extensions.RazorPages;
+using Hellang.Middleware.ProblemDetails;
 
 namespace WeLearn.IdentityServer;
 
@@ -42,6 +43,19 @@ internal static class HostingExtensions
         });
         if (environment.IsLocal())
             mvcBuilder.AddRazorRuntimeCompilation();
+        services.AddProblemDetails(options =>
+        {
+            options.IncludeExceptionDetails = (ctx, ex) =>
+            {
+                var env = ctx.RequestServices.GetRequiredService<IWebHostEnvironment>();
+                return env.IsDevelopment() || env.IsLocal();
+            };
+        });
+
+        services.AddCors(options =>
+        {
+            options.AddWeLearnCors(configuration);
+        });
         services.AddControllers();
         services.AddControllersWithViews();
         services.AddEndpointsApiExplorer();
@@ -49,7 +63,7 @@ internal static class HostingExtensions
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "WeLearn",
+                Title = "WeLearn Identity Server",
                 Version = "v1"
             });
 
@@ -145,6 +159,8 @@ internal static class HostingExtensions
             options.AddAuthorizationPolicies();
         });
 
+        services.AddAuthorizationHandlers();
+
         services.AddSharedServices(configuration);
         services.AddWeLearnIdentityServerServices(configuration);
 
@@ -159,6 +175,8 @@ internal static class HostingExtensions
 
         app.UseForwardedHeaders();
 
+        app.UseProblemDetails();
+
         if (environment.IsDevelopment() || environment.IsLocal())
         {
             app.UseDeveloperExceptionPage();
@@ -166,14 +184,17 @@ internal static class HostingExtensions
             app.UseSwaggerUI();
         }
 
+        //app.UseAuthentication();
+
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseCors();
         app.UseIdentityServer();
         app.UseAuthorization();
 
-        app.MapRazorPages()
-            .RequireAuthorization();
         app.MapControllers()
+            .RequireAuthorization();
+        app.MapRazorPages()
             .RequireAuthorization();
 
         app.UseWeLearnSeeding();

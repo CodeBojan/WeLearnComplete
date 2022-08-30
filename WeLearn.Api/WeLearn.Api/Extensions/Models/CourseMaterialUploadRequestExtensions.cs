@@ -18,6 +18,8 @@ public static class CourseMaterialUploadRequestExtensions
             CreatorId = r.CreatorId,
             CourseId = r.CourseId,
             Documents = r.Documents?.Select(d => d.MapToGetDto()).ToArray() ?? Array.Empty<GetDocumentDto>(),
+            CreatedDate = r.CreatedDate,
+            UpdatedDate = r.UpdatedDate
         };
     }
 }

@@ -97,6 +97,7 @@ export class GetAccountDto implements IGetAccountDto {
     firstName?: string | undefined;
     lastName?: string | undefined;
     facultyStudentId?: string | undefined;
+    accountRoles?: GetAccountRoleDto[] | undefined;
 
     constructor(data?: IGetAccountDto) {
         if (data) {
@@ -115,6 +116,11 @@ export class GetAccountDto implements IGetAccountDto {
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
             this.facultyStudentId = _data["facultyStudentId"];
+            if (Array.isArray(_data["accountRoles"])) {
+                this.accountRoles = [] as any;
+                for (let item of _data["accountRoles"])
+                    this.accountRoles!.push(GetAccountRoleDto.fromJS(item));
+            }
         }
     }
 
@@ -133,6 +139,11 @@ export class GetAccountDto implements IGetAccountDto {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["facultyStudentId"] = this.facultyStudentId;
+        if (Array.isArray(this.accountRoles)) {
+            data["accountRoles"] = [];
+            for (let item of this.accountRoles)
+                data["accountRoles"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -144,6 +155,7 @@ export interface IGetAccountDto {
     firstName?: string | undefined;
     lastName?: string | undefined;
     facultyStudentId?: string | undefined;
+    accountRoles?: GetAccountRoleDto[] | undefined;
 }
 
 export class GetAccountDtoPagedResponseDto implements IGetAccountDtoPagedResponseDto {
@@ -200,6 +212,54 @@ export interface IGetAccountDtoPagedResponseDto {
     page?: number;
     totalPages?: number | undefined;
     data?: GetAccountDto[] | undefined;
+}
+
+export class GetAccountRoleDto implements IGetAccountRoleDto {
+    accountId?: string;
+    roleId?: string;
+    type?: string | undefined;
+    entityId?: string | undefined;
+
+    constructor(data?: IGetAccountRoleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.accountId = _data["accountId"];
+            this.roleId = _data["roleId"];
+            this.type = _data["type"];
+            this.entityId = _data["entityId"];
+        }
+    }
+
+    static fromJS(data: any): GetAccountRoleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAccountRoleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accountId"] = this.accountId;
+        data["roleId"] = this.roleId;
+        data["type"] = this.type;
+        data["entityId"] = this.entityId;
+        return data;
+    }
+}
+
+export interface IGetAccountRoleDto {
+    accountId?: string;
+    roleId?: string;
+    type?: string | undefined;
+    entityId?: string | undefined;
 }
 
 export class GetCourseDto implements IGetCourseDto {
@@ -340,6 +400,8 @@ export interface IGetCourseDtoPagedResponseDto {
 
 export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUploadRequestDto {
     id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
     body?: string | undefined;
     isApproved?: boolean;
     remark?: string | undefined;
@@ -360,6 +422,8 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
             this.body = _data["body"];
             this.isApproved = _data["isApproved"];
             this.remark = _data["remark"];
@@ -384,6 +448,8 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
         data["body"] = this.body;
         data["isApproved"] = this.isApproved;
         data["remark"] = this.remark;
@@ -401,6 +467,8 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
 
 export interface IGetCourseMaterialUploadRequestDto {
     id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
     body?: string | undefined;
     isApproved?: boolean;
     remark?: string | undefined;

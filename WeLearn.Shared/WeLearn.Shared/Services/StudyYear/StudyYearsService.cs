@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Data.Models;
+using WeLearn.Data.Models.Roles;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Dtos.Paging;
@@ -104,6 +105,7 @@ public class StudyYearsService : IStudyYearsService
         return _dbContext.StudyYears.FirstOrDefaultAsync(sy => sy.ShortName == shortName || sy.FullName == fullName);
     }
 
+    // TODO move to different service
     public async Task<PagedResponseDto<GetAccountDto>> GetFollowingAccountsAsync(Guid studyYearId, PageOptionsDto pageOptions)
     {
         var studyYear = await _dbContext.StudyYears
@@ -112,8 +114,13 @@ public class StudyYearsService : IStudyYearsService
         if (studyYear is null)
             throw new StudyYearNotFoundException();
 
+        // TODO include role info
+
         var dto = await _dbContext.FollowedStudyYears
             .AsNoTracking()
+            .Include(fsy => fsy.Account)
+                .ThenInclude(a => a.Roles)
+                    .ThenInclude(r => (r as StudyYearAdminRole).StudyYear)
             .Include(fsy => fsy.Account)
                 .ThenInclude(a => a.User)
             .Where(fsy => fsy.StudyYearId == studyYearId)

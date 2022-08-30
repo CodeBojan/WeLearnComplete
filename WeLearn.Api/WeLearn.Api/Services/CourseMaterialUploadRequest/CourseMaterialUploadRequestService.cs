@@ -37,7 +37,7 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
         return cmur;
     }
 
-    public async Task<PagedResponseDto<GetCourseMaterialUploadRequestDto>> GetCourseMaterialUploadRequestsAsync(
+    public async Task<PagedResponseDto<GetCourseMaterialUploadRequestDto>> GetApprovedCourseMaterialUploadRequestsAsync(
         Guid courseId,
         PageOptionsDto pageOptions)
     {
@@ -47,7 +47,22 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
             throw new CourseNotFoundException();
 
         var dtos = await GetCourseMaterialsNoTracking()
-            .Where(cmur => cmur.CourseId == courseId)
+            .Where(cmur => cmur.CourseId == courseId && cmur.IsApproved)
+            .GetPagedResponseDtoAsync(pageOptions, MapCourseMaterialUploadRequestToDto());
+
+        return dtos;
+    }
+
+    public async Task<PagedResponseDto<GetCourseMaterialUploadRequestDto>> GetUnapprovedCourseMaterialUploadRequestsAsync(
+        Guid courseId, PageOptionsDto pageOptions)
+    {
+        var course = await _dbContext.Courses.AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Id == courseId);
+        if (course is null)
+            throw new CourseNotFoundException();
+
+        var dtos = await GetCourseMaterialsNoTracking()
+            .Where(cmur => cmur.CourseId == courseId && !cmur.IsApproved)
             .GetPagedResponseDtoAsync(pageOptions, MapCourseMaterialUploadRequestToDto());
 
         return dtos;
@@ -125,6 +140,7 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
 
         await _dbContext.SaveChangesAsync();
     }
+
     // TODO for updating
 
     private IIncludableQueryable<WeLearn.Data.Models.CourseMaterialUploadRequest, ICollection<WeLearn.Data.Models.Content.Document>> GetCourseMaterialsNoTracking()

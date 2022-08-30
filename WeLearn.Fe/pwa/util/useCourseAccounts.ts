@@ -1,5 +1,6 @@
 import { GetAccountDto, GetAccountDtoPagedResponseDto } from "../types/api";
 import {
+  apiCourseAccounts,
   apiGetFetcher,
   apiStudyYearAccounts,
   getApiSWRInfiniteKey,
@@ -11,19 +12,15 @@ import { useSWREffectHook } from "./useSWREffectHook";
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 
-export default function useStudyYearAccounts({
-  studyYearId,
-}: {
-  studyYearId: string;
-}) {
+export default function useCourseAccounts({ courseId }: { courseId: string }) {
   const { data: session } = useAppSession();
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(5); // TODO
   const [studyYearAccounts, setStudyYearAccounts] = useState<
     GetAccountDto[] | null | undefined
   >();
 
   const getKey = getApiSWRInfiniteKey({
-    url: apiStudyYearAccounts(studyYearId),
+    url: apiCourseAccounts(courseId),
     pageSize: pageSize,
     session: session,
   });
@@ -49,12 +46,5 @@ export default function useStudyYearAccounts({
 
   useSWREffectHook<GetAccountDto>(pageDtos, setStudyYearAccounts);
 
-  return {
-    studyYearAccounts,
-    size,
-    setSize,
-    isLoadingMore,
-    isReachingEnd,
-    mutate,
-  };
+  return { studyYearAccounts, size, setSize, isLoadingMore, isReachingEnd };
 }

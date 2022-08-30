@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WeLearn.Auth.Controllers;
 using WeLearn.Shared.Dtos.Account;
 using WeLearn.Shared.Exceptions.Models;
 using WeLearn.Shared.Services.Account;

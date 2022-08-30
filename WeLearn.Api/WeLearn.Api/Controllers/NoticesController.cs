@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.Notice;
 using WeLearn.Api.Services.Notice;
+using WeLearn.Auth.Controllers;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Exceptions.Models;
 

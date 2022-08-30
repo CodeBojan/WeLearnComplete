@@ -20,12 +20,14 @@ export const isStudyYearAdmin = (
   user: AppSesssionUser,
   studyYearId: string
 ) => {
+  // TODO or is system admin
   if (user.studyYearAdmin?.includes(studyYearId)) return true;
 
   return false;
 };
 
 export const isCourseAdmin = (user: AppSesssionUser, courseId: string) => {
+  // TODO or is system admin
   if (user.courseAdmin?.includes(courseId)) return true;
 
   return false;

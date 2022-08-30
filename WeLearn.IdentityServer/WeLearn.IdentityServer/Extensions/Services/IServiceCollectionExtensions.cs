@@ -52,6 +52,7 @@ public static class IServiceCollectionExtensions
         services.AddDbPersistedGrantService();
 
         services.AddScoped<WeLearnUserManager>();
+        services.AddScoped<IRoleManager, WeLearnUserManager>(sp => sp.GetRequiredService<WeLearnUserManager>());
 
         services.AddIpWhitelistFilter<IpWhitelistSettings>(configuration);
         services.AddAuthorizationHandlers();

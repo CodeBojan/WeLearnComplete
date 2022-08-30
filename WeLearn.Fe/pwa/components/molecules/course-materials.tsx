@@ -64,6 +64,8 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
     setStudyMaterials(Array.from(studyMaterialMap.values()));
   }, [pagesDtos]);
 
+  if (!studyMaterials) return <></>;
+
   return (
     <InfiniteScroll
       pageStart={1}
@@ -76,7 +78,11 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
       <div className="flex flex-col gap-y-4 mt-4">
         {pagesDtos &&
           studyMaterials?.flatMap((sm, studyMaterialIndex) => (
-            <RenderStudyMaterial studyMaterial={sm} session={session} />
+            <RenderStudyMaterial
+              key={sm.id}
+              studyMaterial={sm}
+              session={session}
+            />
           ))}
       </div>
     </InfiniteScroll>
@@ -91,7 +97,7 @@ function RenderStudyMaterial({
   session: AppSession;
 }) {
   return (
-    <div key={sm.id}>
+    <div>
       <div className="flex flex-col gap-y-2 rounded-lg shadow-md p-8">
         <div className="flex flex-row gap-x-4">
           {/* TODO logo or external image uri*/}

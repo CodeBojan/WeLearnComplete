@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.FollowedStudyYear;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.FollowedStudyYear;
+using WeLearn.Auth.Controllers;
 using WeLearn.Auth.Extensions.ClaimsPrincipal;
 using WeLearn.Auth.Policy;
 using WeLearn.Shared.Dtos.Paging;

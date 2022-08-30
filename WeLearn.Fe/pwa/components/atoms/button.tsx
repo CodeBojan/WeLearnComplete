@@ -8,11 +8,11 @@ const StyledButton = w.button(
   {
     variants: {
       variant: {
-        normal: "text-white bg-primary hover:bg-primary-dark border",
+        normal: "text-white bg-primary hover:bg-primary-dark border disabled:bg-blue-200 disabled:cursor-default",
         outline:
           "text-primary-dark bg-white hover:bg-white hover:border-primary-dark border",
         danger:
-          "text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800",
+          "text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 disabled:bg-red-200 disabled:cursor-default",
       },
       padding: {
         normal: "px-2",

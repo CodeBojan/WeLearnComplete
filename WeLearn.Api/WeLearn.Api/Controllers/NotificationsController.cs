@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WeLearn.Api.Dtos.Notification;
+using WeLearn.Auth.Controllers;
 using WeLearn.Importers.Dtos.Notification;
 using WeLearn.Importers.Exceptions;
 using WeLearn.Importers.Services.Notification;

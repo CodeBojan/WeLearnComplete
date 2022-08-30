@@ -21,6 +21,7 @@ public static class AccountExtensions
             Email = a.User.Email,
             Username = a.Username,
             FacultyStudentId = a.StudentId,
+            AccountRoles = a.Roles?.Select(r => r.MapToGetDto()).ToArray()
         };
     }
 

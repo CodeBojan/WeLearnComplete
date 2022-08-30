@@ -5,6 +5,8 @@ namespace WeLearn.Api.Dtos.CourseMaterialUploadRequest;
 public class GetCourseMaterialUploadRequestDto
 {
     public Guid Id { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; }
     public string Body { get; set; }
     public bool IsApproved { get; set; }
     public string Remark { get; set; }

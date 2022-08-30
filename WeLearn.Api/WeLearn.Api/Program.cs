@@ -78,7 +78,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
             });
 
         options.OperationFilter<SwaggerJsonIgnoreFilter>();
-        
+
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         options.IncludeXmlComments(xmlPath);
@@ -102,17 +102,12 @@ static void ConfigureServices(WebApplicationBuilder builder)
     });
 
     services.AddAuthorizationHandlers();
-    
+
     services.AddApiServices(configuration);
 
     services.AddCors(options =>
     {
-        options.AddDefaultPolicy(policy =>
-        {
-            policy.WithOrigins(configuration.GetSection("Cors:AllowedOrigins").Get<string[]>())
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+        options.AddWeLearnCors(configuration);
     });
 }
 

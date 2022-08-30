@@ -9,7 +9,7 @@ using WeLearn.Shared.Services.Account;
 
 namespace WeLearn.IdentityServer.Services.Identity;
 
-public class WeLearnUserManager : UserManager<ApplicationUser>
+public class WeLearnUserManager : UserManager<ApplicationUser>, IRoleManager
 {
     private readonly IAccountStore _accountStore;
 
@@ -105,9 +105,39 @@ public class WeLearnUserManager : UserManager<ApplicationUser>
         {
             var roleType = GetRoleType(claim.Type);
 
-            await _accountStore.RemoveAccountRoleClaimAsync(user, claim, roleType);
+            return await _accountStore.RemoveAccountRoleClaimAsync(user, claim, roleType);
         }
 
+        return result;
+    }
+
+    public async Task<IdentityResult> AddStudyYearAdminRoleAsync(Guid userId, Guid studyYearId)
+    {
+        var user = await FindByIdAsync(userId.ToString());
+        if (user is null)
+            return IdentityResult.Failed(new IdentityError { Code = "UserNotFound", Description = "User not found" });
+
+        var claims = await GetClaimsAsync(user);
+        if (claims.Any(c => c.Type == ClaimTypes.StudyYearAdmin && c.Value == studyYearId.ToString()))
+            return IdentityResult.Failed(
+new IdentityError { Code = "AccountAlreadyStudyYearAdmin", Description = "The account is already a study year admin" });
+
+        var result = await AddClaimAsync(user, new Claim(ClaimTypes.StudyYearAdmin, studyYearId.ToString()));
+        return result;
+    }
+
+    public async Task<IdentityResult> RemoveStudyYearAdminRoleAsync(Guid userId, Guid studyYearId)
+    {
+        var user = await FindByIdAsync(userId.ToString());
+        if (user is null)
+            return IdentityResult.Failed(new IdentityError { Code = "UserNotFound", Description = "User not found" });
+
+        var claims = await GetClaimsAsync(user);
+        if (!claims.Any(c => c.Type == ClaimTypes.StudyYearAdmin && c.Value == studyYearId.ToString()))
+            return IdentityResult.Failed(
+new IdentityError { Code = "AccountNotStudyYearAdmin", Description = "The account is not a study year admin" });
+
+        var result = await RemoveClaimAsync(user, new Claim(ClaimTypes.StudyYearAdmin, studyYearId.ToString()));
         return result;
     }
 }

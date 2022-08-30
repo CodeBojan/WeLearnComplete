@@ -106,6 +106,11 @@ public class CourseService : ICourseService
         return dto;
     }
 
+    public async Task<bool> CourseExistsAsync(Guid courseId)
+    {
+        return await _dbContext.Courses.AnyAsync(x => x.Id == courseId);
+    }
+
     public async Task<GetCourseDto> UpdateCourseAsync(
         Guid courseId,
         string code,

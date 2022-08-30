@@ -1,4 +1,6 @@
-﻿namespace WeLearn.Shared.Dtos.Account;
+﻿using WeLearn.Shared.Dtos.AccountRole;
+
+namespace WeLearn.Shared.Dtos.Account;
 
 public class GetAccountDto
 {
@@ -8,4 +10,5 @@ public class GetAccountDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? FacultyStudentId { get; set; }
+    public GetAccountRoleDto[]? AccountRoles { get; set; }
 }

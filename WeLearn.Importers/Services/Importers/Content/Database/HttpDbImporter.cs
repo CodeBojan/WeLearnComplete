@@ -26,7 +26,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
         FilePersistenceService = filePersistenceService;
         Logger = logger;
     }
-
+     // TODO notification service
     protected HttpClient HttpClient { get; init; }
     protected ApplicationDbContext DbContext { get; init; }
     protected IFilePersistenceService FilePersistenceService { get; init; }
@@ -51,6 +51,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
             {
                 dbSet.Add(content);
                 Logger.LogInformation("Added Content {@ContentId} with ExternalId {@ExternalId}", content.Id, content.ExternalId);
+                // TODO add notification
             }
             else
             {
@@ -58,6 +59,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
                 try
                 {
                     existingContent.Update(content);
+                    // TODO update notification
                 }
                 catch (ArgumentException ex)
                 {

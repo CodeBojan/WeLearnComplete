@@ -125,8 +125,7 @@ export type Entity = {
   id?: string | undefined;
 };
 
-export type PageDtos<TEntity extends Entity> =
-  | { data?: TEntity[] | undefined };
+export type PageDtos<TEntity extends Entity> = { data?: TEntity[] | undefined };
 
 export const processSWRInfiniteData = <
   TEntity extends Entity,
@@ -184,6 +183,9 @@ export const apiStudyYearAccounts = (id: string) =>
   `/api/StudyYears/${id}/Accounts`;
 export const apiStudyYearNotices = (id: string) =>
   `/api/Notices/StudyYear/${id}`;
+export const apiCourseAccounts = (id: string) => `/api/Courses/${id}/Accounts`;
+export const apiUnapprovedStudyMaterialsCourse = (id: string) =>
+  `/api/CourseMaterialUploadRequests/Course/${id}/Unapproved`;
 
 export const getSearchParamPath = (
   url: string,

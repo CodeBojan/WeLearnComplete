@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeLearn.Auth.Controllers;
 using WeLearn.Auth.Policy;
 using WeLearn.Data.Models;
 using WeLearn.Shared.Dtos.Account;
