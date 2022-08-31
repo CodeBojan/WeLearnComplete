@@ -64,10 +64,21 @@ export default function CourseMaterialUploadRequestModal({
       header="Upload Course Material"
       body={
         <div className="m-8 flex flex-col gap-y-4">
+           <Input
+            label="Title"
+            text={materialUploadState.title}
+            placeholder="2022 Solved Mock Exam"
+            onChange={(e) => {
+              materialUploadDispatch({
+                type: CourseMaterialUploadRequestActionKind.SET_TITLE,
+                title: e.target.value,
+              });
+            }}
+          ></Input>
           <Input
             label="Description"
             text={materialUploadState.body}
-            placeholder="2022 Solved Mock Exam"
+            placeholder="The following contains ..."
             onChange={(e) => {
               materialUploadDispatch({
                 type: CourseMaterialUploadRequestActionKind.SET_BODY,

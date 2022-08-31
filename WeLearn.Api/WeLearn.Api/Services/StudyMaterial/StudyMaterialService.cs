@@ -31,7 +31,31 @@ public class StudyMaterialService : IStudyMaterialService
         var dtos = await _dbContext.StudyMaterials
             .AsNoTracking()
             .Include(sm => sm.Documents)
+            .Include(sm => sm.Creator)
+                .ThenInclude(a => a.User)
+            .Include(sm => sm.Comments)
             .Where(sm => sm.CourseId == courseId)
+            .OrderByDescending(sm => sm.UpdatedDate)
+            .Select(sm => new WeLearn.Data.Models.Content.StudyMaterial
+            {
+                Id = sm.Id,
+                CreatedDate = sm.CreatedDate,
+                UpdatedDate = sm.UpdatedDate,
+                ExternalId = sm.ExternalId,
+                ExternalUrl = sm.ExternalUrl,
+                Body = sm.Body,
+                Title = sm.Title,
+                Author = sm.Author,
+                IsImported = sm.IsImported,
+                CourseId = sm.CourseId,
+                CreatorId = sm.CreatorId,
+                ExternalSystemId = sm.ExternalSystemId,
+                ExternalCreatedDate = sm.ExternalCreatedDate,
+                DocumentCount = sm.Documents.Count,
+                Documents = sm.Documents,
+                Creator = sm.Creator,
+                CommentCount = sm.Comments.Count
+            })
             .GetPagedResponseDtoAsync(pageOptions, MapStudyMaterialToDto());
 
         return dtos;

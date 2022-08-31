@@ -1,10 +1,11 @@
 import {
-  GetCourseMaterialUploadRequestDto,
-  GetCourseMaterialUploadRequestDtoPagedResponseDto,
+  GetAccountDto,
+  GetStudyMaterialDto,
+  GetStudyMaterialDtoPagedResponseDto,
 } from "../types/api";
 import {
   apiGetFetcher,
-  apiUnapprovedStudyMaterialsCourse,
+  apiStudyMaterialsCourse,
   getApiSWRInfiniteKey,
   processSWRInfiniteData,
 } from "./api";
@@ -14,19 +15,21 @@ import { useSWREffectHook } from "./useSWREffectHook";
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 
-export default function useUnapprovedCourseMaterialUploadRequests({
+// TODO replace loaders
+// TODO abstract further - provide two generic arguments and url
+export default function useCourseStudyMaterials({
   courseId,
 }: {
   courseId: string;
 }) {
   const { data: session } = useAppSession();
-  const [pageSize, setPageSize] = useState(5); // TODO
-  const [requests, setRequests] = useState<
-    GetCourseMaterialUploadRequestDto[] | null | undefined
+  const [pageSize, setPageSize] = useState(2); // TODO
+  const [studyMaterials, setStudyMaterials] = useState<
+    GetStudyMaterialDto[] | null | undefined
   >();
 
   const getKey = getApiSWRInfiniteKey({
-    url: apiUnapprovedStudyMaterialsCourse(courseId),
+    url: apiStudyMaterialsCourse(courseId),
     pageSize: pageSize,
     session: session,
   });
@@ -38,7 +41,7 @@ export default function useUnapprovedCourseMaterialUploadRequests({
     mutate,
     size,
     setSize,
-  } = useSWRInfinite<GetCourseMaterialUploadRequestDtoPagedResponseDto>(
+  } = useSWRInfinite<GetStudyMaterialDtoPagedResponseDto>(
     getKey,
     apiGetFetcher,
     {
@@ -54,7 +57,7 @@ export default function useUnapprovedCourseMaterialUploadRequests({
     pageDtos
   );
 
-  useSWREffectHook<GetCourseMaterialUploadRequestDto>(pageDtos, setRequests);
+  useSWREffectHook<GetAccountDto>(pageDtos, setStudyMaterials);
 
-  return { requests, size, setSize, isLoadingMore, isReachingEnd, mutate };
+  return { studyMaterials, size, setSize, isLoadingMore, isReachingEnd, mutate };
 }

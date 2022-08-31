@@ -4,7 +4,7 @@ import {
   PostFollowedCourseDto,
 } from "../../types/api";
 import { apiFollowedCourses, apiMethodFetcher } from "../../util/api";
-import { isCourseAdmin, useAppSession } from "../../util/auth";
+import { checkIsCourseAdmin, useAppSession } from "../../util/auth";
 
 import CourseFollowInfo from "../molecules/course-follow-info";
 import FavoritableContainer from "./favoritable-container";
@@ -33,7 +33,7 @@ export default function CoursesContainer({
             className="flex flex-row gap-x-8 cursor-pointer items-center"
             onClick={() => router.push(`/course/${course.id}`)}
           >
-            {isCourseAdmin(session.user, course.id!, course.studyYearId) && (
+            {checkIsCourseAdmin(session.user, course.id!, course.studyYearId) && (
               <GrUserAdmin className="text-2xl" />
             )}
             <div>

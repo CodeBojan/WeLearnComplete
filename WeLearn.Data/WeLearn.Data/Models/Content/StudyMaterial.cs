@@ -8,6 +8,10 @@ namespace WeLearn.Data.Models.Content;
 
 public class StudyMaterial : DocumentContainer
 {
+    public StudyMaterial()
+    {
+    }
+
     public StudyMaterial(
         string? externalId,
         string? externalUrl,

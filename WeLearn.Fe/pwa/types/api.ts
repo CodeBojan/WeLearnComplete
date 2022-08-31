@@ -554,7 +554,10 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
     type?: string | undefined;
     creatorId?: string;
     courseId?: string;
+    documentCount?: number;
     documents?: GetDocumentDto[] | undefined;
+    creator?: GetAccountDto;
+    title?: string | undefined;
 
     constructor(data?: IGetCourseMaterialUploadRequestDto) {
         if (data) {
@@ -576,11 +579,14 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
             this.type = _data["type"];
             this.creatorId = _data["creatorId"];
             this.courseId = _data["courseId"];
+            this.documentCount = _data["documentCount"];
             if (Array.isArray(_data["documents"])) {
                 this.documents = [] as any;
                 for (let item of _data["documents"])
                     this.documents!.push(GetDocumentDto.fromJS(item));
             }
+            this.creator = _data["creator"] ? GetAccountDto.fromJS(_data["creator"]) : <any>undefined;
+            this.title = _data["title"];
         }
     }
 
@@ -602,11 +608,14 @@ export class GetCourseMaterialUploadRequestDto implements IGetCourseMaterialUplo
         data["type"] = this.type;
         data["creatorId"] = this.creatorId;
         data["courseId"] = this.courseId;
+        data["documentCount"] = this.documentCount;
         if (Array.isArray(this.documents)) {
             data["documents"] = [];
             for (let item of this.documents)
                 data["documents"].push(item.toJSON());
         }
+        data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
+        data["title"] = this.title;
         return data;
     }
 }
@@ -621,7 +630,10 @@ export interface IGetCourseMaterialUploadRequestDto {
     type?: string | undefined;
     creatorId?: string;
     courseId?: string;
+    documentCount?: number;
     documents?: GetDocumentDto[] | undefined;
+    creator?: GetAccountDto;
+    title?: string | undefined;
 }
 
 export class GetCourseMaterialUploadRequestDtoPagedResponseDto implements IGetCourseMaterialUploadRequestDtoPagedResponseDto {
@@ -1233,7 +1245,9 @@ export class GetStudyMaterialDto implements IGetStudyMaterialDto {
     externalSystemId?: string | undefined;
     externalCreatedDate?: Date | undefined;
     documentCount?: number;
+    commentCount?: number | undefined;
     documents?: GetDocumentDto[] | undefined;
+    creator?: GetAccountDto;
 
     constructor(data?: IGetStudyMaterialDto) {
         if (data) {
@@ -1260,11 +1274,13 @@ export class GetStudyMaterialDto implements IGetStudyMaterialDto {
             this.externalSystemId = _data["externalSystemId"];
             this.externalCreatedDate = _data["externalCreatedDate"] ? new Date(_data["externalCreatedDate"].toString()) : <any>undefined;
             this.documentCount = _data["documentCount"];
+            this.commentCount = _data["commentCount"];
             if (Array.isArray(_data["documents"])) {
                 this.documents = [] as any;
                 for (let item of _data["documents"])
                     this.documents!.push(GetDocumentDto.fromJS(item));
             }
+            this.creator = _data["creator"] ? GetAccountDto.fromJS(_data["creator"]) : <any>undefined;
         }
     }
 
@@ -1291,11 +1307,13 @@ export class GetStudyMaterialDto implements IGetStudyMaterialDto {
         data["externalSystemId"] = this.externalSystemId;
         data["externalCreatedDate"] = this.externalCreatedDate ? this.externalCreatedDate.toISOString() : <any>undefined;
         data["documentCount"] = this.documentCount;
+        data["commentCount"] = this.commentCount;
         if (Array.isArray(this.documents)) {
             data["documents"] = [];
             for (let item of this.documents)
                 data["documents"].push(item.toJSON());
         }
+        data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -1315,7 +1333,9 @@ export interface IGetStudyMaterialDto {
     externalSystemId?: string | undefined;
     externalCreatedDate?: Date | undefined;
     documentCount?: number;
+    commentCount?: number | undefined;
     documents?: GetDocumentDto[] | undefined;
+    creator?: GetAccountDto;
 }
 
 export class GetStudyMaterialDtoPagedResponseDto implements IGetStudyMaterialDtoPagedResponseDto {
@@ -1808,6 +1828,7 @@ export interface IPostCourseDto {
 
 /** See  model. */
 export class PostCourseMaterialUploadRequestDto implements IPostCourseMaterialUploadRequestDto {
+    title?: string | undefined;
     body?: string | undefined;
     remark?: string | undefined;
     courseId?: string;
@@ -1824,6 +1845,7 @@ export class PostCourseMaterialUploadRequestDto implements IPostCourseMaterialUp
 
     init(_data?: any) {
         if (_data) {
+            this.title = _data["title"];
             this.body = _data["body"];
             this.remark = _data["remark"];
             this.courseId = _data["courseId"];
@@ -1844,6 +1866,7 @@ export class PostCourseMaterialUploadRequestDto implements IPostCourseMaterialUp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
         data["body"] = this.body;
         data["remark"] = this.remark;
         data["courseId"] = this.courseId;
@@ -1858,6 +1881,7 @@ export class PostCourseMaterialUploadRequestDto implements IPostCourseMaterialUp
 
 /** See  model. */
 export interface IPostCourseMaterialUploadRequestDto {
+    title?: string | undefined;
     body?: string | undefined;
     remark?: string | undefined;
     courseId?: string;
@@ -2229,6 +2253,7 @@ export interface IWeatherForecast {
 }
 
 export class PostDto implements IPostDto {
+    title?: string | undefined;
     body?: string | undefined;
     remark?: string | undefined;
     courseId?: string;
@@ -2245,6 +2270,7 @@ export class PostDto implements IPostDto {
 
     init(_data?: any) {
         if (_data) {
+            this.title = _data["title"];
             this.body = _data["body"];
             this.remark = _data["remark"];
             this.courseId = _data["courseId"];
@@ -2265,6 +2291,7 @@ export class PostDto implements IPostDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
         data["body"] = this.body;
         data["remark"] = this.remark;
         data["courseId"] = this.courseId;
@@ -2278,6 +2305,7 @@ export class PostDto implements IPostDto {
 }
 
 export interface IPostDto {
+    title?: string | undefined;
     body?: string | undefined;
     remark?: string | undefined;
     courseId?: string;

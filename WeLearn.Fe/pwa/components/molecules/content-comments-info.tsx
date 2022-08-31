@@ -16,7 +16,7 @@ export default function ContentCommentsInfo({
   commentCount,
 }: {
   contentId: string;
-  commentCount: number;
+  commentCount: number | null | undefined;
 }) {
   const { state: commentsModalContext, dispatch: commentsModalDispatch } =
     useContext(CommentsModalContext);
@@ -38,7 +38,7 @@ function RenderCommentsButton({
   commentsModalDispatch,
 }: {
   contentId: string;
-  commentCount: number;
+  commentCount: number | null | undefined;
   commentsModalContext: CommentsModalState;
   commentsModalDispatch: Dispatch<CommentsModalAction>;
 }) {
@@ -46,7 +46,6 @@ function RenderCommentsButton({
     <div
       className="flex flex-row gap-x-4 items-center hover:bg-gray-200 rounded-lg p-2 cursor-pointer"
       onClick={() => {
-        console.log("contentId", contentId); // TODO remove console.log
         if (commentsModalContext.contentId != contentId) {
           commentsModalDispatch({
             type: CommentsModalActionKind.CLEAR,
@@ -61,8 +60,7 @@ function RenderCommentsButton({
         });
       }}
     >
-      {/* TODO add comment count to dto */}
-      <span className="">{commentCount}</span>
+      {commentCount && <span className="">{commentCount}</span>}
       <MdComment className="text-2xl" />
     </div>
   );

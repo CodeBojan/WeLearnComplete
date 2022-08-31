@@ -9,6 +9,10 @@ namespace WeLearn.Data.Models.Content;
 
 public class Content : BaseEntity
 {
+    internal Content()
+    {
+    }
+
     public Content(
         string? externalId,
         string? externalUrl,
@@ -46,6 +50,8 @@ public class Content : BaseEntity
     public Guid? CreatorId { get; set; }
     public Guid? ExternalSystemId { get; set; }
     public DateTime? ExternalCreatedDate { get; set; }
+
+    public int? CommentCount { get; set; }
 
     public virtual Account? Creator { get; set; }
     public virtual Course? Course { get; set; }

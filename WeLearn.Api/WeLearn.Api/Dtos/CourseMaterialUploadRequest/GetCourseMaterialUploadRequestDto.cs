@@ -1,4 +1,5 @@
 ﻿using WeLearn.Api.Dtos.Document;
+using WeLearn.Shared.Dtos.Account;
 
 namespace WeLearn.Api.Dtos.CourseMaterialUploadRequest;
 
@@ -13,5 +14,8 @@ public class GetCourseMaterialUploadRequestDto
     public string? Type { get; set; }
     public Guid CreatorId { get; set; }
     public Guid CourseId { get; set; }
+    public int DocumentCount { get; set; }
     public GetDocumentDto[] Documents { get; set; }
+    public GetAccountDto? Creator { get; set; }
+    public string Title { get; set; }
 }

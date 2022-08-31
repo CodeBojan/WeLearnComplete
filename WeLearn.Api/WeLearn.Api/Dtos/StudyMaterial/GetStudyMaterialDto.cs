@@ -1,4 +1,5 @@
 ﻿using WeLearn.Api.Dtos.Document;
+using WeLearn.Shared.Dtos.Account;
 
 namespace WeLearn.Api.Dtos.StudyMaterial;
 
@@ -18,6 +19,7 @@ public class GetStudyMaterialDto
     public Guid? ExternalSystemId { get; set; }
     public DateTime? ExternalCreatedDate { get; set; }
     public int DocumentCount { get; set; }
+    public int? CommentCount { get; set; }
     public GetDocumentDto[] Documents { get; set; }
-    // TODO add getaccountdto for the creator
+    public GetAccountDto? Creator { get; set; }
 }

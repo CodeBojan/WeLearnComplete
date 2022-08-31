@@ -60,7 +60,7 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
             .FirstOrDefaultAsync(c => c.Id == courseId);
         if (course is null)
             throw new CourseNotFoundException();
-
+            
         var dtos = await GetCourseMaterialsNoTracking()
             .Where(cmur => cmur.CourseId == courseId && !cmur.IsApproved)
             .GetPagedResponseDtoAsync(pageOptions, MapCourseMaterialUploadRequestToDto());
@@ -84,7 +84,7 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
         if (course is null)
             throw new CourseNotFoundException();
 
-        var cmur = new WeLearn.Data.Models.CourseMaterialUploadRequest(postDto.Body, false, postDto.Remark, null, creatorId, courseId);
+        var cmur = new WeLearn.Data.Models.CourseMaterialUploadRequest(postDto.Title, postDto.Body, false, postDto.Remark, null, creatorId, courseId);
 
         var documents = new List<WeLearn.Data.Models.Content.Document>();
         for (int i = 0; i < postDto.Documents.Length; i++)
@@ -129,8 +129,7 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
             throw new CourseMaterialUploadRequestAlreadyApprovedException();
 
         uploadRequest.IsApproved = true;
-        // TODO add title to upload request
-        var studyMaterial = new WeLearn.Data.Models.Content.StudyMaterial(null, null, "", uploadRequest.Body, null, false, uploadRequest.CourseId, uploadRequest.CreatorId, null, null);
+        var studyMaterial = new WeLearn.Data.Models.Content.StudyMaterial(null, null, uploadRequest.Title, uploadRequest.Body, null, false, uploadRequest.CourseId, uploadRequest.CreatorId, null, null);
         foreach (var document in uploadRequest.Documents)
         {
             document.DocumentContainerId = studyMaterial.Id;
@@ -143,11 +142,14 @@ public class CourseMaterialUploadRequestService : ICourseMaterialUploadRequestSe
 
     // TODO for updating
 
-    private IIncludableQueryable<WeLearn.Data.Models.CourseMaterialUploadRequest, ICollection<WeLearn.Data.Models.Content.Document>> GetCourseMaterialsNoTracking()
+    private IQueryable<WeLearn.Data.Models.CourseMaterialUploadRequest> GetCourseMaterialsNoTracking()
     {
         return _dbContext.CourseMaterialUploadRequests
                     .AsNoTracking()
-                    .Include(cmur => cmur.Documents);
+                    .Include(cmur => cmur.Documents)
+                    .Include(cmur => cmur.Creator)
+                        .ThenInclude(a => a.User)
+                    .OrderByDescending(cmur => cmur.UpdatedDate);
     }
 
     private static Expression<Func<WeLearn.Data.Models.CourseMaterialUploadRequest, GetCourseMaterialUploadRequestDto>> MapCourseMaterialUploadRequestToDto()

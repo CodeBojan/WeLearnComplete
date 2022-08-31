@@ -248,6 +248,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             c.HasKey(c => c.Id);
 
+            c.Ignore(c => c.CommentCount);
+
             c.HasDiscriminator(c => c.Type)
             .HasValue<Post>(ContentType.Post.Value())
             .HasValue<Notice>(ContentType.Notice.Value())

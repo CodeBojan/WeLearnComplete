@@ -1,6 +1,7 @@
 ﻿using WeLearn.Api.Dtos.Document;
 using WeLearn.Api.Dtos.StudyMaterial;
 using WeLearn.Data.Models.Content;
+using WeLearn.Shared.Extensions.Models;
 
 namespace WeLearn.Api.Extensions.Models;
 
@@ -24,7 +25,9 @@ public static class StudyMaterialExtensions
             ExternalSystemId = sm.ExternalSystemId,
             ExternalCreatedDate = sm.ExternalCreatedDate,
             DocumentCount = sm.Documents.Count,
-            Documents = sm.Documents?.Select(d => d.MapToGetDto()).ToArray() ?? Array.Empty<GetDocumentDto>()
-    };
-}
+            Documents = sm.Documents?.Select(d => d.MapToGetDto()).ToArray() ?? Array.Empty<GetDocumentDto>(),
+            Creator = sm.Creator?.MapToGetDto(),
+            CommentCount = sm.CommentCount
+        };
+    }
 }

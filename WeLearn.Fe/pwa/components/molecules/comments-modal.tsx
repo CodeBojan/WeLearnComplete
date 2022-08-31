@@ -6,7 +6,9 @@ import { GetCommentDto, PostCommentDto } from "../../types/api";
 import { apiContentComments, apiMethodFetcher } from "../../util/api";
 import { useContext, useRef } from "react";
 
+import { AiOutlineSmile } from "react-icons/ai";
 import Button from "../atoms/button";
+import { CommentsInvalidationContext } from "../../store/comment-invalidation-context";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Input from "../atoms/input";
 import Modal from "./modal";
@@ -20,6 +22,7 @@ export default function CommentsModal({}: {}) {
   const { state: commentsModalContext, dispatch: commentsModalDispatch } =
     useContext(CommentsModalContext);
 
+  // TODO add comments invalidation
   const {
     comments,
     size,
@@ -45,15 +48,15 @@ export default function CommentsModal({}: {}) {
     ).then((res) => {
       const dto = res as GetCommentDto;
       mutate();
-      toast(`Comment created.`, { type: "success" });
+      toast(`Comment created`, { type: "success" });
       commentsModalDispatch({
         type: CommentsModalActionKind.SET_COMMENT_TEXT,
         payload: "",
       });
     });
 
-  const hasMore = !isLoadingMore && !isReachingEnd && !isValidating;
-  const modalScrollParentId = "modal-scroll-parent-div";
+  const hasMore = !isLoadingMore && !isReachingEnd;
+  const modalScrollParentId = "comments-modal-scroll-parent";
   return (
     <Modal
       open={commentsModalContext.isOpen}
@@ -103,6 +106,13 @@ export default function CommentsModal({}: {}) {
                 hasMore={hasMore}
                 loader={hasMore && <div key={0}>Loading...</div>}
                 scrollableTarget={modalScrollParentId}
+                endMessage={
+                  !hasMore && (
+                    <div className="flex gap-x-2 my-2 justify-center items-center text-gray-400">
+                      That's all for now <AiOutlineSmile className="text-2xl" />
+                    </div>
+                  )
+                }
               >
                 <div className="">
                   {comments?.map((comment, index) => (

@@ -16,7 +16,7 @@ export const getClientId = () => process.env.IS_CLIENT_ID;
 export const getClientSecret = () => process.env.IS_CLIENT_SECRET;
 export const getScopes = () => process.env.IS_SCOPES;
 
-export const isStudyYearAdmin = (
+export const checkIsStudyYearAdmin = (
   user: AppSesssionUser,
   studyYearId: string
 ) => {
@@ -26,28 +26,26 @@ export const isStudyYearAdmin = (
   return false;
 };
 
-export const isOnlyStudyYearAdmin = (
+export const checkIsOnlyStudyYearAdmin = (
   user: AppSesssionUser,
   studyYearId: string
 ) => {
-  console.log('user.studyYearAdmin', user.studyYearAdmin)
-  console.log('studyYearId', studyYearId)
   return user.studyYearAdmin?.includes(studyYearId);
 };
 
-export const isCourseAdmin = (
+export const checkIsCourseAdmin = (
   user: AppSesssionUser,
   courseId: string,
   studyYearId?: string | null | undefined
 ) => {
   if (checkIsSystemAdmin(user)) return true;
-  if (studyYearId && isOnlyStudyYearAdmin(user, studyYearId)) return true;
+  if (studyYearId && checkIsOnlyStudyYearAdmin(user, studyYearId)) return true;
   if (user.courseAdmin?.includes(courseId)) return true;
 
   return false;
 };
 
-export const isOnlyCourseAdmin = (user: AppSesssionUser, courseId: string) => {
+export const checkIsOnlyCourseAdmin = (user: AppSesssionUser, courseId: string) => {
   return user.courseAdmin?.includes(courseId);
 };
 

@@ -18,8 +18,8 @@ export function DocumentContainer({
 }) {
   return (
     <div>
-      <div>Contains {dc.documentCount} documents</div>
-      <div>
+      <div>Contains {dc.documentCount} document(s)</div>
+      <div className="flex flex-row gap-4 flex-wrap mt-4">
         {dc.documents?.map((document, documentIndex) => {
           const fileExtension = document.fileExtension?.replace(
             ".",

@@ -30,6 +30,7 @@ public class CommentService : ICommentService
             .Include(c => c.Author)
                 .ThenInclude(c => c.User)
             .Include(c => c.Content)
+            .Where(c => c.ContentId == contentId)
             .OrderByDescending(c => c.UpdatedDate)
             .GetPagedResponseDtoAsync(pageOptions, MapCourseToGetDto());
 

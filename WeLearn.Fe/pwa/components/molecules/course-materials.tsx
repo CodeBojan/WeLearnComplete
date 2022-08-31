@@ -14,77 +14,44 @@ import { useEffect, useState } from "react";
 import { AppSession } from "../../types/auth";
 import ContentCommentsInfo from "./content-comments-info";
 import { DocumentContainer } from "./document-container";
-import InfiniteScroll from "react-infinite-scroller";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppSession } from "../../util/auth";
+import useCourseStudyMaterials from "../../util/useCourseStudyMaterials";
 import useSWRInfinite from "swr/infinite";
 
 export default function CourseMaterials({ courseId }: { courseId: string }) {
-  const [pageSize, setPageSize] = useState(2); // TODO
   const { data: session } = useAppSession();
-  const [studyMaterials, setStudyMaterials] = useState<
-    GetStudyMaterialDto[] | null
-  >(null);
-
-  const getKey = getApiSWRInfiniteKey({
-    url: apiStudyMaterialsCourse(courseId),
-    session: session,
-    pageSize: pageSize,
-  });
-
   const {
-    data: pagesDtos,
-    error,
-    isValidating,
-    mutate,
+    studyMaterials,
     size,
     setSize,
-  } = useSWRInfinite<GetStudyMaterialDtoPagedResponseDto>(
-    getKey,
-    apiGetFetcher,
-    { revalidateAll: true }
-  );
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+  } = useCourseStudyMaterials({ courseId });
 
-  const { isLoadingMore, isReachingEnd } = processSWRInfiniteData(
-    size,
-    pageSize,
-    isValidating,
-    error,
-    pagesDtos
-  );
-
-  useEffect(() => {
-    if (!pagesDtos) return;
-    const studyMaterialMap = new Map<string, GetStudyMaterialDto>();
-    pagesDtos.forEach((pageDto) => {
-      pageDto.data?.forEach((studyMaterial) => {
-        studyMaterial.id &&
-          studyMaterialMap.set(studyMaterial.id, studyMaterial);
-      });
-    });
-
-    setStudyMaterials(Array.from(studyMaterialMap.values()));
-  }, [pagesDtos]);
+  const hasMore = !isLoadingMore && !isReachingEnd;
 
   if (!studyMaterials) return <></>;
 
+  // TODO fix infinite scroll
   return (
     <InfiniteScroll
-      pageStart={1}
-      loadMore={() => {
+      dataLength={studyMaterials?.length ?? 0}
+      next={() => {
         setSize(size + 1);
       }}
-      hasMore={!isLoadingMore && !isReachingEnd}
-      loader={<div key={0}>Loading ...</div>}
+      hasMore={hasMore}
+      loader={hasMore && <div key={0}>Loading ...</div>}
     >
       <div className="flex flex-col gap-y-4 mt-4">
-        {pagesDtos &&
-          studyMaterials?.flatMap((sm, studyMaterialIndex) => (
-            <RenderStudyMaterial
-              key={sm.id}
-              studyMaterial={sm}
-              session={session}
-            />
-          ))}
+        {studyMaterials?.flatMap((sm, studyMaterialIndex) => (
+          <RenderStudyMaterial
+            key={sm.id}
+            studyMaterial={sm}
+            session={session}
+          />
+        ))}
       </div>
     </InfiniteScroll>
   );
@@ -113,7 +80,10 @@ function RenderStudyMaterial({
         {/* TODO content comments component */}
         <div className="flex flex-row justify-between mt-4 items-center">
           {/* TODO add comment count to dto */}
-          <ContentCommentsInfo commentCount={7} contentId={sm.id!} />
+          <ContentCommentsInfo
+            commentCount={sm.commentCount}
+            contentId={sm.id!}
+          />
           {sm.externalUrl && (
             <div>
               <MdSource className="text-2xl" />

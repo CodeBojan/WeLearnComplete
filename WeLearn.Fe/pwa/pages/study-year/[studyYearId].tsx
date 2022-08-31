@@ -41,7 +41,7 @@ import {
   isApiStudyYearAccountRoles,
 } from "../../util/isApi";
 import {
-  isStudyYearAdmin,
+  checkIsStudyYearAdmin,
   checkIsSystemAdmin,
   useAppSession,
 } from "../../util/auth";
@@ -70,7 +70,7 @@ import { toast } from "react-toastify";
 const StudyYear: AppPageWithLayout = () => {
   const { studyYearId } = router.query as { studyYearId: string };
   const { data: session } = useAppSession();
-  const isUserStudyYearAdmin = isStudyYearAdmin(session.user, studyYearId);
+  const isUserStudyYearAdmin = checkIsStudyYearAdmin(session.user, studyYearId);
   const isSystemAdmin = checkIsSystemAdmin(session.user);
   // TODO add isSystemAdmin - only he can make other users study year admins
   const [studyYear, setStudyYear] = useState<GetStudyYearDto | null>(null);
@@ -305,11 +305,10 @@ const StudyYear: AppPageWithLayout = () => {
                         })
                         .catch((err) => {
                           if (!err) return;
-                          console.log("caught", err);
                           if (err instanceof Promise<WeLearnProblemDetails>) {
                             err.then((details) => {
                               toast(
-                                `Failed to make remove admin role: ${details.detail}`,
+                                `Failed to remove admin role: ${details.detail}`,
                                 {
                                   type: "error",
                                 }

@@ -27,7 +27,7 @@ import {
   apiRoute,
   getApiRouteCacheKey,
 } from "../../util/api";
-import { isCourseAdmin, useAppSession } from "../../util/auth";
+import { checkIsCourseAdmin, useAppSession } from "../../util/auth";
 import { useEffect, useReducer, useState } from "react";
 import useSWR, { mutate } from "swr";
 
@@ -53,7 +53,11 @@ const Course: AppPageWithLayout = () => {
   const { courseId: courseId } = router.query as { courseId: string };
   const { data: session } = useAppSession();
   const [course, setCourse] = useState<GetCourseDto | null>(null);
-  const isAdmin = isCourseAdmin(session.user, courseId, course?.studyYearId);
+  const isCourseAdmin = checkIsCourseAdmin(
+    session.user,
+    courseId,
+    course?.studyYearId
+  );
   const [materialUploadState, materialUploadDispatch] = useReducer(
     courseMaterialUploadRequestReducer,
     initialCourseMaterialUploadRequestState
@@ -128,6 +132,7 @@ const Course: AppPageWithLayout = () => {
     const formData = new FormData();
     // TODO extract to api function
     const dto = {
+      title: materialUploadState.title,
       body: materialUploadState.body,
       remark: materialUploadState.remark,
       courseId: courseId,
@@ -221,7 +226,7 @@ const Course: AppPageWithLayout = () => {
         >
           <AiFillFileAdd className="text-2xl" /> Upload Material
         </Button>
-        {isAdmin && (
+        {isCourseAdmin && (
           <>
             <GrUserAdmin className="text-2xl" />
             <Button
@@ -290,7 +295,7 @@ const Course: AppPageWithLayout = () => {
         clearModalState={clearModalState}
         clearFiles={clearFiles}
       />
-      {isAdmin && (
+      {isCourseAdmin && (
         <>
           <CourseAccountSelectorModal
             accountSelectorState={accountSelectorState}

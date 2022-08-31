@@ -14,7 +14,7 @@ import {
   getPagedApiRouteCacheKey,
   getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
-import { isStudyYearAdmin, useAppSession } from "../../util/auth";
+import { checkIsStudyYearAdmin, useAppSession } from "../../util/auth";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -79,7 +79,7 @@ const StudyYears: AppPageWithLayout = () => {
               className="flex flex-row gap-x-8 cursor-pointer items-center"
               onClick={() => router.push(`/study-year/${studyYear.id}`)}
             >
-              {isStudyYearAdmin(session.user, studyYear.id!) && (
+              {checkIsStudyYearAdmin(session.user, studyYear.id!) && (
                 <GrUserAdmin className="text-2xl" />
               )}
               <div>[{studyYear.shortName}]</div>

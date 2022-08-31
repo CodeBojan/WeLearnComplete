@@ -8,7 +8,7 @@ const StyledButton = w.button(
   {
     variants: {
       variant: {
-        normal: "text-white bg-primary hover:bg-primary-dark border disabled:bg-blue-200 disabled:cursor-default",
+        normal: "text-white bg-primary hover:bg-primary-dark border disabled:bg-blue-200 disabled:cursor-default active:bg-primary",
         outline:
           "text-primary-dark bg-white hover:bg-white hover:border-primary-dark border",
         danger:

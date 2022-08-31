@@ -1,4 +1,5 @@
 export enum CourseMaterialUploadRequestActionKind {
+  SET_TITLE = "SET_TITLE",
   SET_BODY = "SET_BODY",
   SET_REMARK = "SET_REMARK",
   ADD_FILE = "ADD_FILE",
@@ -8,6 +9,7 @@ export enum CourseMaterialUploadRequestActionKind {
 }
 
 export type CourseMaterialUploadRequestAction =
+  | { type: CourseMaterialUploadRequestActionKind.SET_TITLE; title: string }
   | { type: CourseMaterialUploadRequestActionKind.SET_BODY; body: string }
   | { type: CourseMaterialUploadRequestActionKind.SET_REMARK; remark: string }
   | { type: CourseMaterialUploadRequestActionKind.ADD_FILE; file: File }
@@ -16,6 +18,7 @@ export type CourseMaterialUploadRequestAction =
   | { type: CourseMaterialUploadRequestActionKind.CLEAR };
 
 export type CourseMaterialUploadRequestState = {
+  title: string | null;
   body: string | null;
   remark: string | null;
   files: File[];
@@ -23,6 +26,7 @@ export type CourseMaterialUploadRequestState = {
 
 export const initialCourseMaterialUploadRequestState: CourseMaterialUploadRequestState =
   {
+    title: null,
     body: null,
     remark: null,
     files: [],
@@ -33,6 +37,8 @@ export function courseMaterialUploadRequestReducer(
   action: CourseMaterialUploadRequestAction
 ): CourseMaterialUploadRequestState {
   switch (action.type) {
+    case CourseMaterialUploadRequestActionKind.SET_TITLE:
+      return { ..._state, title: action.title };
     case CourseMaterialUploadRequestActionKind.SET_BODY:
       return { ..._state, body: action.body };
     case CourseMaterialUploadRequestActionKind.SET_REMARK:

@@ -46,7 +46,7 @@ export const apiPagedGetFetcher = (
 export const apiMethodFetcher = (
   url: string,
   token: string,
-  method: "POST" | "PUT" | "DELETE",
+  method: "GET" | "POST" | "PUT" | "DELETE",
   body?: any | undefined,
   asJson: boolean = true,
   ...props: any
@@ -127,7 +127,11 @@ export type Entity = {
   id?: string | undefined;
 };
 
-export type PageDtos<TEntity extends Entity> = { data?: TEntity[] | undefined; page? : number | undefined };
+export type PageDtos<TEntity extends Entity> = {
+  data?: TEntity[] | undefined;
+  page?: number | undefined;
+  totalPages?: number | undefined;
+};
 
 export const processSWRInfiniteData = <
   TEntity extends Entity,
@@ -147,8 +151,9 @@ export const processSWRInfiniteData = <
   const isEmpty = pagesDtos?.[0]?.data?.length === 0;
   const isReachingEnd =
     isEmpty ||
-    (pagesDtos && 
-      (pagesDtos[pagesDtos.length - 1]?.page ?? 0) < size);
+    (pagesDtos &&
+      (pagesDtos[pagesDtos.length - 1]?.page ?? 0) ===
+        (pagesDtos[pagesDtos.length - 1]?.totalPages ?? 0));
   const isRefreshing = isValidating && pagesDtos && pagesDtos.length == size;
 
   return {
@@ -189,6 +194,8 @@ export const apiCourseAccounts = (id: string) => `/api/Courses/${id}/Accounts`;
 export const apiUnapprovedStudyMaterialsCourse = (id: string) =>
   `/api/CourseMaterialUploadRequests/Course/${id}/Unapproved`;
 export const apiContentComments = (id: string) => `/api/Comments/content/${id}`;
+export const apiCourseMaterialUploadRequestApprovers = (id: string) =>
+  `/api/CourseMaterialUploadRequests/${id}/approve`;
 
 export const getSearchParamPath = (
   url: string | null,
