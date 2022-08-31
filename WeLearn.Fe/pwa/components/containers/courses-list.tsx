@@ -33,7 +33,7 @@ export default function CoursesContainer({
             className="flex flex-row gap-x-8 cursor-pointer items-center"
             onClick={() => router.push(`/course/${course.id}`)}
           >
-            {isCourseAdmin(session.user, course.id!) && (
+            {isCourseAdmin(session.user, course.id!, course.studyYearId) && (
               <GrUserAdmin className="text-2xl" />
             )}
             <div>

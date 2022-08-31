@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Auth.Authorization.Requirements;
+using WeLearn.Auth.Extensions.ClaimsPrincipal;
 using WeLearn.Data.Models;
 
 namespace WeLearn.Auth.Authorization.Handlers;
@@ -14,7 +15,7 @@ public class SystemAdminStudyYearAuthorizationHandler : AuthorizationHandler<Res
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ResourceAdminRequirement requirement, StudyYear resource)
     {
-        if (context.User.IsInRole(Roles.Roles.Admin))
+        if (context.User.GetRoles().IsInRole(Roles.Roles.Admin))
         {
             context.Succeed(requirement);
         }

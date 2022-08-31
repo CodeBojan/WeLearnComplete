@@ -52,8 +52,8 @@ import { toast } from "react-toastify";
 const Course: AppPageWithLayout = () => {
   const { courseId: courseId } = router.query as { courseId: string };
   const { data: session } = useAppSession();
-  const isAdmin = isCourseAdmin(session.user, courseId);
   const [course, setCourse] = useState<GetCourseDto | null>(null);
+  const isAdmin = isCourseAdmin(session.user, courseId, course?.studyYearId);
   const [materialUploadState, materialUploadDispatch] = useReducer(
     courseMaterialUploadRequestReducer,
     initialCourseMaterialUploadRequestState

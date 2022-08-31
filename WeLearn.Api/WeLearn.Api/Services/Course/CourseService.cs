@@ -64,7 +64,8 @@ public class CourseService : ICourseService
                 UpdatedDate = c.UpdatedDate,
                 CreatedDate = c.CreatedDate,
                 IsFollowing = c.FollowingUsers.Any(fu => fu.AccountId == accountId),
-                FollowingCount = c.FollowingUsers.Count
+                FollowingCount = c.FollowingUsers.Count,
+                StudyYearId =c.StudyYearId
             });
     }
 

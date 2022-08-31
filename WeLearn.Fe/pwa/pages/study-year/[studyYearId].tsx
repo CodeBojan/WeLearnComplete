@@ -40,7 +40,11 @@ import {
   isApiMethodFetcher,
   isApiStudyYearAccountRoles,
 } from "../../util/isApi";
-import { isStudyYearAdmin, useAppSession } from "../../util/auth";
+import {
+  isStudyYearAdmin,
+  checkIsSystemAdmin,
+  useAppSession,
+} from "../../util/auth";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import router, { useRouter } from "next/router";
 import useSWR, { mutate } from "swr";
@@ -63,13 +67,11 @@ import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
 
-// TODO favorite info
-// TODO general notices
-
 const StudyYear: AppPageWithLayout = () => {
   const { studyYearId } = router.query as { studyYearId: string };
   const { data: session } = useAppSession();
-  const isAdmin = isStudyYearAdmin(session.user, studyYearId);
+  const isUserStudyYearAdmin = isStudyYearAdmin(session.user, studyYearId);
+  const isSystemAdmin = checkIsSystemAdmin(session.user);
   // TODO add isSystemAdmin - only he can make other users study year admins
   const [studyYear, setStudyYear] = useState<GetStudyYearDto | null>(null);
 
@@ -173,7 +175,7 @@ const StudyYear: AppPageWithLayout = () => {
             onMutate={() => mutate(cacheKey)}
           />
         </Button>
-        {isAdmin && (
+        {isUserStudyYearAdmin && (
           <>
             <GrUserAdmin className="text-xl" />
             <Button
@@ -236,7 +238,7 @@ const StudyYear: AppPageWithLayout = () => {
         createCourse={createCourse}
       />
       {/* TODO extract to component */}
-      {isAdmin && (
+      {isUserStudyYearAdmin && (
         <StudyYearAccountSelectorModal
           accountSelectorDispatch={accountSelectorDispatch}
           accountSelectorState={accountSelectorState}
@@ -249,7 +251,7 @@ const StudyYear: AppPageWithLayout = () => {
             return (
               <div className="flex flex-row items-center gap-x-2">
                 {accountIsAdmin && <GrUserAdmin className="text-xl" />}
-                {!accountIsAdmin ? (
+                {!isSystemAdmin ? null : !accountIsAdmin ? (
                   <Button
                     disabled={accountIsAdmin}
                     onClick={() => {

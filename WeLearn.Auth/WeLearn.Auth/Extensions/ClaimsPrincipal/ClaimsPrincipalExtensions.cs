@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Linq;
 using System.Security.Claims;
 
@@ -24,5 +25,10 @@ public static class ClaimsPrincipalExtensions
     public static string[]? GetRoles(this System.Security.Claims.ClaimsPrincipal claimsPrincipal)
     {
         return claimsPrincipal.FindAll(c => c.Type == Auth.Authorization.Claims.ClaimTypes.Role).Select(c => c.Value).ToArray();
+    }
+
+    public static bool IsInRole(this string[] roles, string role)
+    {
+        return roles.Contains(role);
     }
 }
