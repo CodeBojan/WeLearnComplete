@@ -1,4 +1,10 @@
 import {
+  CommentsInvalidationActionKind,
+  CommentsInvalidationContext,
+  commentsInvalidationReducer,
+  initialCommentsInvalidationState,
+} from "../store/comments-invalidation-context";
+import {
   CommentsModalContext,
   commentsModalReducer,
   initialCommentsModalState,
@@ -85,6 +91,9 @@ export default function Layout({ children, ...props }: LayoutProps) {
     initialCommentsModalState
   );
 
+  const [commentsInvalidationState, commentsInvalidationDispatcher] =
+    useReducer(commentsInvalidationReducer, initialCommentsInvalidationState);
+
   useEffect(() => {
     if (!me) return;
     meDispatch({ type: MeActionKind.SET_ME, payload: me });
@@ -135,25 +144,35 @@ export default function Layout({ children, ...props }: LayoutProps) {
                       dispatch: commentsModalDispatcher,
                     }}
                   >
-                    <Navbar
-                      onDrawerToggle={() => {
-                        setIsSidebarOpen(!isSideBarOpen);
+                    <CommentsInvalidationContext.Provider
+                      value={{
+                        commentsInvalidationState: commentsInvalidationState,
+                        commentsInvalidate: () =>
+                          commentsInvalidationDispatcher({
+                            type: CommentsInvalidationActionKind.INVALIDATE,
+                          }),
                       }}
-                    />
-                    <Sidebar
-                      isOpen={isSideBarOpen}
-                      onTryClose={() => setIsSidebarOpen(false)}
-                    />
-                    <div className="min-h-screen w-full flex flex-row items-start justify-center">
-                      <div className="min-h-screen grow flex-col items-center justify-center">
-                        {children}
+                    >
+                      <Navbar
+                        onDrawerToggle={() => {
+                          setIsSidebarOpen(!isSideBarOpen);
+                        }}
+                      />
+                      <Sidebar
+                        isOpen={isSideBarOpen}
+                        onTryClose={() => setIsSidebarOpen(false)}
+                      />
+                      <div className="min-h-screen w-full flex flex-row items-start justify-center">
+                        <div className="min-h-screen grow flex-col items-center justify-center">
+                          {children}
+                        </div>
+                        <div className="min-h-screen flex flex-row justify-start">
+                          <RightSideBar />
+                        </div>
                       </div>
-                      <div className="min-h-screen flex flex-row justify-start">
-                        <RightSideBar />
-                      </div>
-                    </div>
-                    <BottomNav />
-                    <CommentsModal />
+                      <BottomNav />
+                      <CommentsModal />
+                    </CommentsInvalidationContext.Provider>
                   </CommentsModalContext.Provider>
                 </NotificationsInvalidationContext.Provider>
               </NotificationsContext.Provider>

@@ -429,6 +429,7 @@ export class GetContentDto implements IGetContentDto {
     creator?: GetAccountDto;
     externalSystem?: GetExternalSystemDto;
     course?: GetCourseDto;
+    studyYear?: GetStudyYearDto;
 
     constructor(data?: IGetContentDto) {
         if (data) {
@@ -465,6 +466,7 @@ export class GetContentDto implements IGetContentDto {
             this.creator = _data["creator"] ? GetAccountDto.fromJS(_data["creator"]) : <any>undefined;
             this.externalSystem = _data["externalSystem"] ? GetExternalSystemDto.fromJS(_data["externalSystem"]) : <any>undefined;
             this.course = _data["course"] ? GetCourseDto.fromJS(_data["course"]) : <any>undefined;
+            this.studyYear = _data["studyYear"] ? GetStudyYearDto.fromJS(_data["studyYear"]) : <any>undefined;
         }
     }
 
@@ -501,6 +503,7 @@ export class GetContentDto implements IGetContentDto {
         data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
         data["externalSystem"] = this.externalSystem ? this.externalSystem.toJSON() : <any>undefined;
         data["course"] = this.course ? this.course.toJSON() : <any>undefined;
+        data["studyYear"] = this.studyYear ? this.studyYear.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -526,6 +529,7 @@ export interface IGetContentDto {
     creator?: GetAccountDto;
     externalSystem?: GetExternalSystemDto;
     course?: GetCourseDto;
+    studyYear?: GetStudyYearDto;
 }
 
 export class GetContentDtoPagedResponseDto implements IGetContentDtoPagedResponseDto {
@@ -1046,92 +1050,6 @@ export interface IGetExternalSystemDto {
     friendlyName?: string | undefined;
     url?: string | undefined;
     logoUrl?: string | undefined;
-}
-
-export class GetFeedDto implements IGetFeedDto {
-
-    constructor(data?: IGetFeedDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): GetFeedDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetFeedDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data;
-    }
-}
-
-export interface IGetFeedDto {
-}
-
-export class GetFeedDtoPagedResponseDto implements IGetFeedDtoPagedResponseDto {
-    limit?: number;
-    page?: number;
-    totalPages?: number | undefined;
-    data?: GetFeedDto[] | undefined;
-
-    constructor(data?: IGetFeedDtoPagedResponseDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.limit = _data["limit"];
-            this.page = _data["page"];
-            this.totalPages = _data["totalPages"];
-            if (Array.isArray(_data["data"])) {
-                this.data = [] as any;
-                for (let item of _data["data"])
-                    this.data!.push(GetFeedDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): GetFeedDtoPagedResponseDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetFeedDtoPagedResponseDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit;
-        data["page"] = this.page;
-        data["totalPages"] = this.totalPages;
-        if (Array.isArray(this.data)) {
-            data["data"] = [];
-            for (let item of this.data)
-                data["data"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IGetFeedDtoPagedResponseDto {
-    limit?: number;
-    page?: number;
-    totalPages?: number | undefined;
-    data?: GetFeedDto[] | undefined;
 }
 
 export class GetFollowedCourseDto implements IGetFollowedCourseDto {

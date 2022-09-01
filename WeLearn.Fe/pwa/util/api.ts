@@ -197,6 +197,7 @@ export const apiContentComments = (id: string) => `/api/Comments/content/${id}`;
 export const apiCourseMaterialUploadRequestApprovers = (id: string) =>
   `/api/CourseMaterialUploadRequests/${id}/approve`;
 export const apiCourseContent = (id: string) => `/api/Content/Course/${id}`;
+export const apiFeed = `/api/Feed`;
 
 export const getSearchParamPath = (
   url: string | null,

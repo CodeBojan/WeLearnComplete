@@ -1,6 +1,7 @@
 ﻿using WeLearn.Api.Dtos.Content;
 using WeLearn.Api.Dtos.Document;
 using WeLearn.Data.Models.Content;
+using WeLearn.Data.Models.Content.Notices;
 using WeLearn.Shared.Extensions.Models;
 
 namespace WeLearn.Api.Extensions.Models;
@@ -29,7 +30,10 @@ public static class ContentExtensions
             CommentCount = c.CommentCount,
             Creator = c.Creator?.MapToGetDto(),
             Course = c.Course?.MapToGetDto(),
-            ExternalSystem = c.ExternalSystem?.MapToGetDto()
+            ExternalSystem = c.ExternalSystem?.MapToGetDto(),
+            StudyYear = (c as StudyYearNotice)?.StudyYear?.MapToGetDto(),
+            Documents = (c as DocumentContainer)?.Documents?.Select(d => d.MapToGetDto()).ToArray() ?? Array.Empty<GetDocumentDto>(),
+            DocumentCount = (c as DocumentContainer)?.DocumentCount
         };
     }
 

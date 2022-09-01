@@ -8,7 +8,7 @@ import { useContext, useRef } from "react";
 
 import { AiOutlineSmile } from "react-icons/ai";
 import Button from "../atoms/button";
-import { CommentsInvalidationContext } from "../../store/comment-invalidation-context";
+import { CommentsInvalidationContext } from "../../store/comments-invalidation-context";
 import EndMessage from "../atoms/end-message";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Input from "../atoms/input";
@@ -22,8 +22,8 @@ export default function CommentsModal({}: {}) {
   const { data: session } = useAppSession();
   const { state: commentsModalContext, dispatch: commentsModalDispatch } =
     useContext(CommentsModalContext);
+  const { commentsInvalidate } = useContext(CommentsInvalidationContext);
 
-  // TODO add comments invalidation
   const {
     comments,
     size,
@@ -49,6 +49,7 @@ export default function CommentsModal({}: {}) {
     ).then((res) => {
       const dto = res as GetCommentDto;
       mutate();
+      commentsInvalidate();
       toast(`Comment created`, { type: "success" });
       commentsModalDispatch({
         type: CommentsModalActionKind.SET_COMMENT_TEXT,

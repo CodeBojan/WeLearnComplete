@@ -2,6 +2,7 @@
 using WeLearn.Api.Dtos.Document;
 using WeLearn.Api.Dtos.ExternalSystem;
 using WeLearn.Shared.Dtos.Account;
+using WeLearn.Shared.Dtos.StudyYear;
 
 namespace WeLearn.Api.Dtos.Content;
 
@@ -30,4 +31,6 @@ public class GetContentDto
     public GetAccountDto? Creator { get; set; }
     public GetExternalSystemDto? ExternalSystem { get; set; }
     public GetCourseDto? Course { get; set; }
+
+    public GetStudyYearDto? StudyYear { get; set; }
 }

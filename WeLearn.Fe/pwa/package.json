@@ -8,6 +8,7 @@
   "dependencies": {
     "@stitches/react": "^1.2.8",
     "@types/react-infinite-scroller": "^1.2.3",
+    "html-react-parser": "^3.0.4",
     "js-file-download": "^0.4.12",
     "next": "^12.2.5",
     "next-auth": "^4.3.1",

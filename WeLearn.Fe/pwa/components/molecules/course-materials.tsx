@@ -9,9 +9,10 @@ import {
   getApiSWRInfiniteKey,
   processSWRInfiniteData,
 } from "../../util/api";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { AppSession } from "../../types/auth";
+import { CommentsInvalidationContext } from "../../store/comments-invalidation-context";
 import ContentCommentsInfo from "./content-comments-info";
 import { DocumentContainer } from "./document-container";
 import EndMessage from "../atoms/end-message";
@@ -22,6 +23,7 @@ import useSWRInfinite from "swr/infinite";
 
 export default function CourseMaterials({ courseId }: { courseId: string }) {
   const { data: session } = useAppSession();
+  const { commentsInvalidationState } = useContext(CommentsInvalidationContext);
   const {
     studyMaterials,
     size,
@@ -32,6 +34,11 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
   } = useCourseStudyMaterials({ courseId });
 
   const hasMore = !isLoadingMore && !isReachingEnd; // TODO refactor into returned bool
+
+  // TODO complete comments invalidation
+  useEffect(() => {
+    mutate();
+  }, [commentsInvalidationState.lastInvalidated]);
 
   if (!studyMaterials) return <></>;
 
