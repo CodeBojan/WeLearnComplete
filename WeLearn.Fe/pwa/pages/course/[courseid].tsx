@@ -3,7 +3,7 @@ import {
   accountSelectorReducer,
   initialAccountSelectorState,
 } from "../../store/account-selector-store";
-import { AiFillFile, AiFillFileAdd } from "react-icons/ai";
+import { AiFillFile, AiFillFileAdd, AiFillNotification } from "react-icons/ai";
 import {
   CourseMaterialUploadRequestActionKind,
   courseMaterialUploadRequestReducer,
@@ -14,6 +14,7 @@ import {
   PostCourseMaterialUploadRequestDto,
   PostDocumentDto,
 } from "../../types/api";
+import { GiRuleBook, GiTeacher } from "react-icons/gi";
 import { MdGrading, MdPeople } from "react-icons/md";
 import {
   UnapprovedCourseMaterialUploadRequestActionKind,
@@ -32,6 +33,7 @@ import { useEffect, useReducer, useState } from "react";
 import useSWR, { mutate } from "swr";
 
 import { AppPageWithLayout } from "../_app";
+import { BiDetail } from "react-icons/bi";
 import { BsFillFileEarmarkArrowUpFill } from "react-icons/bs";
 import Button from "../../components/atoms/button";
 import CourseAccountSelectorModal from "../../components/molecules/course-account-selector-modal";
@@ -259,20 +261,44 @@ const Course: AppPageWithLayout = () => {
       </div>
       <div className="mt-8 flex flex-col w-full gap-y-8">
         {/* TODO accordion */}
+        {/* TODO render function for the headers - or maybe also accept an icon as a param */}
         {renderAccordionSection({
-          title: "Staff",
+          title: (
+            <div className="flex flex-row items-center gap-x-4">
+              <GiTeacher />
+              <span>Staff</span>
+            </div>
+          ),
           content: course?.staff,
         })}
         {renderAccordionSection({
-          title: "Course Description",
+          title: (
+            <div className="flex flex-row items-center gap-x-4">
+              <BiDetail />
+              <span>Course Description</span>
+            </div>
+          ),
           content: course?.description,
         })}
         {renderAccordionSection({
-          title: "Rules",
+          title: (
+            <div className="flex flex-row items-center gap-x-4">
+              <GiRuleBook />
+              <span>Rules</span>
+            </div>
+          ),
           content: course?.rules,
         })}
         {/* TODO filter load only posts and notices */}
-        {renderAccordionSection({ title: "Posts and Notices", content: "..." })}
+        {renderAccordionSection({
+          title: (
+            <div className="flex flex-row items-center gap-x-4">
+              <AiFillNotification />
+              <span>Posts and Notices</span>
+            </div>
+          ),
+          content: "...",
+        })}
         {renderAccordionSection({
           title: (
             <div className="flex flex-row gap-x-4 items-center">

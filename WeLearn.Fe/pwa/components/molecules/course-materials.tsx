@@ -72,14 +72,20 @@ function RenderStudyMaterial({
           <div className="text-xl font-semibold">{sm.title}</div>
         </div>
         <div className="text-md">{sm.body}</div>
+        <div className="flex flex-row gap-x-2">
+          <span>
+            {sm.creator?.username}
+            {sm.creator?.facultyStudentId && (
+              <span className="text-sm"> ({sm.creator.facultyStudentId})</span>
+            )}
+          </span>
+        </div>
         <div className="flex flex-col gap-y-1 text-sm text-gray-400">
           <div>updated at {sm.createdDate?.toString()}</div>
           <div>created at {sm.updatedDate?.toString()}</div>
         </div>
         <RenderStudyMaterialDocuments studyMaterial={sm} session={session} />
-        {/* TODO content comments component */}
         <div className="flex flex-row justify-between mt-4 items-center">
-          {/* TODO add comment count to dto */}
           <ContentCommentsInfo
             commentCount={sm.commentCount}
             contentId={sm.id!}
