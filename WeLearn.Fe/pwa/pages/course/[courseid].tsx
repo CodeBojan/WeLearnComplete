@@ -42,6 +42,7 @@ import CourseMaterialUploadRequestModal from "../../components/molecules/course-
 import CourseMaterials from "../../components/molecules/course-materials";
 import { GrUserAdmin } from "react-icons/gr";
 import { ImPlus } from "react-icons/im";
+import PostsAndNotices from "../../components/molecules/posts-and-notices";
 import { ReactNode } from "react";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import UnapprovedCourseMaterialUploadRequestsModal from "../../components/molecules/unapproved-course-material-upload-requests-modal";
@@ -289,7 +290,6 @@ const Course: AppPageWithLayout = () => {
           ),
           content: course?.rules,
         })}
-        {/* TODO filter load only posts and notices */}
         {renderAccordionSection({
           title: (
             <div className="flex flex-row items-center gap-x-4">
@@ -297,7 +297,8 @@ const Course: AppPageWithLayout = () => {
               <span>Posts and Notices</span>
             </div>
           ),
-          content: "...",
+          content: <PostsAndNotices courseId={courseId} />,
+          fullWidth: true,
         })}
         {renderAccordionSection({
           title: (

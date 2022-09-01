@@ -1,11 +1,11 @@
-﻿using WeLearn.Api.Dtos.Comment;
+﻿using WeLearn.Api.Dtos.Course;
 using WeLearn.Api.Dtos.Document;
+using WeLearn.Api.Dtos.ExternalSystem;
 using WeLearn.Shared.Dtos.Account;
 
-namespace WeLearn.Api.Dtos.Notice;
+namespace WeLearn.Api.Dtos.Content;
 
-// TODO use GetContentDto where this is currently used
-public class GetStudyYearNoticeDto
+public class GetContentDto
 {
     public Guid Id { get; set; }
     public DateTime CreatedDate { get; set; }
@@ -22,14 +22,12 @@ public class GetStudyYearNoticeDto
     public Guid? ExternalSystemId { get; set; }
     public DateTime? ExternalCreatedDate { get; set; }
 
-    public GetAccountDto? Creator { get; set; }
-
-    public int DocumentCount { get; set; }
-    public GetDocumentDto[] Documents { get; set; }
-
     public int? CommentCount { get; set; }
 
-    public DateTime? RelevantUntil { get; set; }
+    public int? DocumentCount { get; set; }
+    public GetDocumentDto[]? Documents { get; set; }
 
-    public Guid StudyYearId { get; set; }
+    public GetAccountDto? Creator { get; set; }
+    public GetExternalSystemDto? ExternalSystem { get; set; }
+    public GetCourseDto? Course { get; set; }
 }

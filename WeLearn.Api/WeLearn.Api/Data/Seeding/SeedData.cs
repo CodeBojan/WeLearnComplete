@@ -18,22 +18,22 @@ public class SeedData
             logger.LogDebug("Migrating database");
             dbContext.Database.Migrate();
 
-            var systemNames = new List<string>() { Constants.NoticeBoardSystemName, Importers.Services.Importers.FacultySite.Constants.FacultySystemName };
+            var systemNames = new List<Tuple<string, string>>() { new Tuple<string, string>(Constants.NoticeBoardSystemName, "EFEE.ETF"), new Tuple<string, string>(Importers.Services.Importers.FacultySite.Constants.FacultySystemName, "ETF.UNIBL") };
             foreach (var systemName in systemNames)
-                InitializeExternalSystem(logger, dbContext, systemName);
+                InitializeExternalSystem(logger, dbContext, systemName.Item1, systemName.Item2);
 
             dbContext.SaveChanges();
         }
     }
 
-    private static void InitializeExternalSystem(ILogger<SeedData> logger, ApplicationDbContext dbContext, string noticeBoardSystemName)
+    private static void InitializeExternalSystem(ILogger<SeedData> logger, ApplicationDbContext dbContext, string name, string? friendlyName)
     {
-        var noticeBoardSystem = dbContext.ExternalSystems.FirstOrDefault(es => es.Name == noticeBoardSystemName);
+        var noticeBoardSystem = dbContext.ExternalSystems.FirstOrDefault(es => es.Name == name);
         if (noticeBoardSystem is null)
         {
-            noticeBoardSystem = new ExternalSystem(noticeBoardSystemName);
+            noticeBoardSystem = new ExternalSystem(name, friendlyName);
             dbContext.ExternalSystems.Add(noticeBoardSystem);
-            logger.LogInformation($"Added {noticeBoardSystemName} to ExternalSystems");
+            logger.LogInformation($"Added {name} to ExternalSystems");
         }
     }
 }

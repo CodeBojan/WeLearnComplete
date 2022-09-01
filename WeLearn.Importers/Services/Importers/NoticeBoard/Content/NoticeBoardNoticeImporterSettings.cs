@@ -4,6 +4,7 @@ namespace WeLearn.Importers.Services.Importers.NoticeBoard.Content;
 
 public class NoticeBoardNoticeImporterSettings
 {
+    public string FriendlyExternalUrl { get; set; }
     public string BaseUrl { get; set; }
     public string[] BoardIds { get; set; }
     public double MinTitleMatchPercentage { get; set; }

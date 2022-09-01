@@ -35,7 +35,6 @@ public class StudyYearsController : UserAuthorizedController
     {
         try
         {
-            // TODO use separate method for including courses and content related to a study year
             var dto = await _studyYearService.GetStudyYearWithFollowingInfoAsync(studyYearId, UserId);
 
             return Ok(dto);

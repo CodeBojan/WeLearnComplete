@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using WeLearn.Api.Dtos.StudyMaterial;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Extensions.Models;
+using WeLearn.Data.Models.Content;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Exceptions.Models;
@@ -36,26 +37,9 @@ public class StudyMaterialService : IStudyMaterialService
             .Include(sm => sm.Comments)
             .Where(sm => sm.CourseId == courseId)
             .OrderByDescending(sm => sm.UpdatedDate)
-            .Select(sm => new WeLearn.Data.Models.Content.StudyMaterial
-            {
-                Id = sm.Id,
-                CreatedDate = sm.CreatedDate,
-                UpdatedDate = sm.UpdatedDate,
-                ExternalId = sm.ExternalId,
-                ExternalUrl = sm.ExternalUrl,
-                Body = sm.Body,
-                Title = sm.Title,
-                Author = sm.Author,
-                IsImported = sm.IsImported,
-                CourseId = sm.CourseId,
-                CreatorId = sm.CreatorId,
-                ExternalSystemId = sm.ExternalSystemId,
-                ExternalCreatedDate = sm.ExternalCreatedDate,
-                DocumentCount = sm.Documents.Count,
-                Documents = sm.Documents,
-                Creator = sm.Creator,
-                CommentCount = sm.Comments.Count
-            })
+            .Select(sm => sm.WithDocumentCount())
+            .Select(sm => sm.WithCommentCount())
+            .Cast<WeLearn.Data.Models.Content.StudyMaterial>()
             .GetPagedResponseDtoAsync(pageOptions, MapStudyMaterialToDto());
 
         return dtos;

@@ -31,6 +31,7 @@ public static class StudyYearNoticeExtensions
             Documents = syn.Documents?.Select(d => d.MapToGetDto()).ToArray() ?? Array.Empty<GetDocumentDto>(),
             RelevantUntil = syn.RelevantUntil,
             StudyYearId = syn.StudyYearId,
+            CommentCount = syn.CommentCount
         };
     }
 }

@@ -150,20 +150,23 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 continue;
             }
 
+            string externalFriendlyUrl = GetNoticeFriendlyExternalUrl(dto.NoticeBoard.Id.ToString(), dto.Id.ToString());
+
             var title = dto.Title;
             var cleanedTitle = _titleCleaner.Cleanup(title);
 
             var (percentage, courseName, courseId) = GetHighestMatchPercentage(cleanedTitle, courseNameIdDict);
 
+            // TODO check percentage matching
             Notice notice;
             bool isCourseNotice = percentage >= settings.MinTitleMatchPercentage;
             if (isCourseNotice)
             {
-                notice = new CourseNotice(dto.Id.ToString(), GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime());
+                notice = new CourseNotice(dto.Id.ToString(), externalFriendlyUrl, dto.Body, dto.Title, dto.Author, true, courseId, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime());
             }
             else
             {
-                notice = new StudyYearNotice(dto.Id.ToString(), GetAbsoluteUrl(GetBoardNoticesRoute(dto.NoticeBoard.Id.ToString())), dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
+                notice = new StudyYearNotice(dto.Id.ToString(), externalFriendlyUrl, dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
             }
 
             foreach (var attachment in dto.Attachments)
@@ -198,6 +201,11 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         Logger.LogInformation("Mapped DTOs {@DtoIds}", dtoIds);
 
         return notices;
+    }
+
+    public string GetNoticeFriendlyExternalUrl(string studyYearExternalId, string noticeExternalId)
+    {
+        return $"{settings.FriendlyExternalUrl}/oglasi/godina/{studyYearExternalId}/oglas/{noticeExternalId}";
     }
 
     private async Task<string> PersistFileAsync(Stream webStream, CancellationToken cancellationToken)

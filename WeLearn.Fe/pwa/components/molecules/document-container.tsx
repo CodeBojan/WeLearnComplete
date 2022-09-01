@@ -16,9 +16,14 @@ export function DocumentContainer({
   documentContainer: DocumentContainerType;
   session: AppSession;
 }) {
+  if (dc.documentCount === 0 || !dc.documents) return <></>;
+
   return (
     <div>
-      <div>Contains {dc.documentCount} document(s)</div>
+      <div>
+        Contains {dc.documentCount}{" "}
+        {dc.documentCount == 1 ? "document" : "documents"}{" "}
+      </div>
       <div className="flex flex-row gap-4 flex-wrap mt-4">
         {dc.documents?.map((document, documentIndex) => {
           const fileExtension = document.fileExtension?.replace(

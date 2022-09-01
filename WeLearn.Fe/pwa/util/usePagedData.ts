@@ -48,5 +48,6 @@ export function usePagedData<
     setSize,
     isLoadingMore,
     isReachingEnd,
+    mutate,
   };
 }

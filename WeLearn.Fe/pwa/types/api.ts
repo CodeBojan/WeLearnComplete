@@ -408,6 +408,182 @@ export interface IGetCommentDtoPagedResponseDto {
     data?: GetCommentDto[] | undefined;
 }
 
+export class GetContentDto implements IGetContentDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    externalId?: string | undefined;
+    externalUrl?: string | undefined;
+    body?: string | undefined;
+    title?: string | undefined;
+    author?: string | undefined;
+    isImported?: boolean;
+    courseId?: string | undefined;
+    type?: string | undefined;
+    creatorId?: string | undefined;
+    externalSystemId?: string | undefined;
+    externalCreatedDate?: Date | undefined;
+    commentCount?: number | undefined;
+    documentCount?: number | undefined;
+    documents?: GetDocumentDto[] | undefined;
+    creator?: GetAccountDto;
+    externalSystem?: GetExternalSystemDto;
+    course?: GetCourseDto;
+
+    constructor(data?: IGetContentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+            this.externalId = _data["externalId"];
+            this.externalUrl = _data["externalUrl"];
+            this.body = _data["body"];
+            this.title = _data["title"];
+            this.author = _data["author"];
+            this.isImported = _data["isImported"];
+            this.courseId = _data["courseId"];
+            this.type = _data["type"];
+            this.creatorId = _data["creatorId"];
+            this.externalSystemId = _data["externalSystemId"];
+            this.externalCreatedDate = _data["externalCreatedDate"] ? new Date(_data["externalCreatedDate"].toString()) : <any>undefined;
+            this.commentCount = _data["commentCount"];
+            this.documentCount = _data["documentCount"];
+            if (Array.isArray(_data["documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["documents"])
+                    this.documents!.push(GetDocumentDto.fromJS(item));
+            }
+            this.creator = _data["creator"] ? GetAccountDto.fromJS(_data["creator"]) : <any>undefined;
+            this.externalSystem = _data["externalSystem"] ? GetExternalSystemDto.fromJS(_data["externalSystem"]) : <any>undefined;
+            this.course = _data["course"] ? GetCourseDto.fromJS(_data["course"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetContentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetContentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        data["externalId"] = this.externalId;
+        data["externalUrl"] = this.externalUrl;
+        data["body"] = this.body;
+        data["title"] = this.title;
+        data["author"] = this.author;
+        data["isImported"] = this.isImported;
+        data["courseId"] = this.courseId;
+        data["type"] = this.type;
+        data["creatorId"] = this.creatorId;
+        data["externalSystemId"] = this.externalSystemId;
+        data["externalCreatedDate"] = this.externalCreatedDate ? this.externalCreatedDate.toISOString() : <any>undefined;
+        data["commentCount"] = this.commentCount;
+        data["documentCount"] = this.documentCount;
+        if (Array.isArray(this.documents)) {
+            data["documents"] = [];
+            for (let item of this.documents)
+                data["documents"].push(item.toJSON());
+        }
+        data["creator"] = this.creator ? this.creator.toJSON() : <any>undefined;
+        data["externalSystem"] = this.externalSystem ? this.externalSystem.toJSON() : <any>undefined;
+        data["course"] = this.course ? this.course.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IGetContentDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    externalId?: string | undefined;
+    externalUrl?: string | undefined;
+    body?: string | undefined;
+    title?: string | undefined;
+    author?: string | undefined;
+    isImported?: boolean;
+    courseId?: string | undefined;
+    type?: string | undefined;
+    creatorId?: string | undefined;
+    externalSystemId?: string | undefined;
+    externalCreatedDate?: Date | undefined;
+    commentCount?: number | undefined;
+    documentCount?: number | undefined;
+    documents?: GetDocumentDto[] | undefined;
+    creator?: GetAccountDto;
+    externalSystem?: GetExternalSystemDto;
+    course?: GetCourseDto;
+}
+
+export class GetContentDtoPagedResponseDto implements IGetContentDtoPagedResponseDto {
+    limit?: number;
+    page?: number;
+    totalPages?: number | undefined;
+    data?: GetContentDto[] | undefined;
+
+    constructor(data?: IGetContentDtoPagedResponseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.limit = _data["limit"];
+            this.page = _data["page"];
+            this.totalPages = _data["totalPages"];
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(GetContentDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetContentDtoPagedResponseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetContentDtoPagedResponseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["limit"] = this.limit;
+        data["page"] = this.page;
+        data["totalPages"] = this.totalPages;
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IGetContentDtoPagedResponseDto {
+    limit?: number;
+    page?: number;
+    totalPages?: number | undefined;
+    data?: GetContentDto[] | undefined;
+}
+
 export class GetCourseDto implements IGetCourseDto {
     id?: string;
     code?: string | undefined;
@@ -810,6 +986,66 @@ export interface IGetDocumentDto {
     documentContainerId?: string | undefined;
     courseMaterialUploadRequestId?: string | undefined;
     fileExtension?: string | undefined;
+}
+
+export class GetExternalSystemDto implements IGetExternalSystemDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    name?: string | undefined;
+    friendlyName?: string | undefined;
+    url?: string | undefined;
+    logoUrl?: string | undefined;
+
+    constructor(data?: IGetExternalSystemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+            this.name = _data["name"];
+            this.friendlyName = _data["friendlyName"];
+            this.url = _data["url"];
+            this.logoUrl = _data["logoUrl"];
+        }
+    }
+
+    static fromJS(data: any): GetExternalSystemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetExternalSystemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        data["name"] = this.name;
+        data["friendlyName"] = this.friendlyName;
+        data["url"] = this.url;
+        data["logoUrl"] = this.logoUrl;
+        return data;
+    }
+}
+
+export interface IGetExternalSystemDto {
+    id?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
+    name?: string | undefined;
+    friendlyName?: string | undefined;
+    url?: string | undefined;
+    logoUrl?: string | undefined;
 }
 
 export class GetFeedDto implements IGetFeedDto {
@@ -1532,6 +1768,7 @@ export class GetStudyYearNoticeDto implements IGetStudyYearNoticeDto {
     creator?: GetAccountDto;
     documentCount?: number;
     documents?: GetDocumentDto[] | undefined;
+    commentCount?: number | undefined;
     relevantUntil?: Date | undefined;
     studyYearId?: string;
 
@@ -1567,6 +1804,7 @@ export class GetStudyYearNoticeDto implements IGetStudyYearNoticeDto {
                 for (let item of _data["documents"])
                     this.documents!.push(GetDocumentDto.fromJS(item));
             }
+            this.commentCount = _data["commentCount"];
             this.relevantUntil = _data["relevantUntil"] ? new Date(_data["relevantUntil"].toString()) : <any>undefined;
             this.studyYearId = _data["studyYearId"];
         }
@@ -1602,6 +1840,7 @@ export class GetStudyYearNoticeDto implements IGetStudyYearNoticeDto {
             for (let item of this.documents)
                 data["documents"].push(item.toJSON());
         }
+        data["commentCount"] = this.commentCount;
         data["relevantUntil"] = this.relevantUntil ? this.relevantUntil.toISOString() : <any>undefined;
         data["studyYearId"] = this.studyYearId;
         return data;
@@ -1626,6 +1865,7 @@ export interface IGetStudyYearNoticeDto {
     creator?: GetAccountDto;
     documentCount?: number;
     documents?: GetDocumentDto[] | undefined;
+    commentCount?: number | undefined;
     relevantUntil?: Date | undefined;
     studyYearId?: string;
 }

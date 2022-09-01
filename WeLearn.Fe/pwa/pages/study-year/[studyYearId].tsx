@@ -27,6 +27,7 @@ import {
   MdCalendarViewMonth,
   MdOutlinePlaylistAdd,
   MdPeople,
+  MdSubject,
 } from "react-icons/md";
 import {
   apiCourses,
@@ -66,6 +67,7 @@ import TitledPageContainer from "../../components/containers/titled-page-contain
 import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
+import { AiFillNotification } from "react-icons/ai";
 
 const StudyYear: AppPageWithLayout = () => {
   const { studyYearId } = router.query as { studyYearId: string };
@@ -209,7 +211,9 @@ const StudyYear: AppPageWithLayout = () => {
       </div>
       <div className="my-8">{studyYear?.description}</div>
       <div className="w-full mb-4 flex flex-col gap-y-4">
-        <div className="text-2xl font-bold">Courses</div>
+        <div className="text-2xl font-bold flex flex-row items-center gap-x-4 ">
+          <MdSubject /> Courses
+        </div>
         <div className="">
           <div className="mb-8">
             <OnlyMineButton
@@ -227,7 +231,10 @@ const StudyYear: AppPageWithLayout = () => {
         </div>
       </div>
       <div className="w-full mb-4 flex flex-col gap-y-4">
-        <div className="text-2xl font-bold">Notices</div>
+        <div className="text-2xl font-bold flex flex-row items-center gap-x-4">
+          <AiFillNotification />
+          Notices
+        </div>
         <div className="w-full flex flex-col gap-y-4">
           <StudyYearNotices studyYearId={studyYearId} />
         </div>

@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { AppSession } from "../../types/auth";
 import ContentCommentsInfo from "./content-comments-info";
 import { DocumentContainer } from "./document-container";
+import EndMessage from "../atoms/end-message";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppSession } from "../../util/auth";
 import useCourseStudyMaterials from "../../util/useCourseStudyMaterials";
@@ -30,7 +31,7 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
     mutate,
   } = useCourseStudyMaterials({ courseId });
 
-  const hasMore = !isLoadingMore && !isReachingEnd;
+  const hasMore = !isLoadingMore && !isReachingEnd; // TODO refactor into returned bool
 
   if (!studyMaterials) return <></>;
 
@@ -43,6 +44,7 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
       }}
       hasMore={hasMore}
       loader={hasMore && <div key={0}>Loading ...</div>}
+      endMessage={!hasMore && <EndMessage />}
     >
       <div className="flex flex-col gap-y-4 mt-4">
         {studyMaterials?.flatMap((sm, studyMaterialIndex) => (
@@ -57,6 +59,7 @@ export default function CourseMaterials({ courseId }: { courseId: string }) {
   );
 }
 
+// TODO use RenderContent component
 function RenderStudyMaterial({
   studyMaterial: sm,
   session,

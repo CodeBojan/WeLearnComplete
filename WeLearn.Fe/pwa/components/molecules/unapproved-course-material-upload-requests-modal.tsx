@@ -21,6 +21,7 @@ import { AiOutlineSmile } from "react-icons/ai";
 import Button from "../atoms/button";
 import { Dispatch } from "react";
 import { DocumentContainer } from "./document-container";
+import EndMessage from "../atoms/end-message";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Modal from "./modal";
 import { ReactNode } from "react";
@@ -90,11 +91,7 @@ export default function UnapprovedCourseMaterialUploadRequestsModal({
                 loader={hasMore && <div key={0}>Loading...</div>}
                 scrollableTarget={modalScrollParentId}
                 endMessage={
-                  !hasMore && (
-                    <div className="flex gap-x-2 my-2 justify-center items-center text-gray-400">
-                      That's all for now <AiOutlineSmile className="text-2xl" />
-                    </div>
-                  )
+                  !hasMore && <EndMessage />
                 }
               >
                 <div className="flex flex-col p-4 gap-y-4">
