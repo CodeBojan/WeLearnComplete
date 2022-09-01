@@ -43,6 +43,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     // Swagger
     services.AddEndpointsApiExplorer();
 
+    // TODO extract to extension method
     services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1",

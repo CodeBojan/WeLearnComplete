@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WeLearn.Api.Dtos.Content;
 using WeLearn.Api.Dtos.Feed;
 using WeLearn.Api.Services.Feed;
 using WeLearn.Auth.Controllers;
@@ -19,7 +20,7 @@ public class FeedController : UserAuthorizedController
     }
 
     [HttpGet]
-    public async Task<ActionResult<PagedResponseDto<GetFeedDto>>> GetUserFeedAsync([FromQuery] PageOptionsDto pageOptions)
+    public async Task<ActionResult<PagedResponseDto<GetContentDto>>> GetUserFeedAsync([FromQuery] PageOptionsDto pageOptions)
     {
         var dto = await _feedService.GetUserFeedAsync(UserId, pageOptions);
 

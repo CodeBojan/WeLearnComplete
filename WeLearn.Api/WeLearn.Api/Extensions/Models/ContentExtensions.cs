@@ -9,6 +9,7 @@ public static class ContentExtensions
 {
     public static GetContentDto MapToGetDto(this Content c)
     {
+        // TODO add mapping for other types
         return new GetContentDto
         {
             Id = c.Id,
@@ -42,5 +43,13 @@ public static class ContentExtensions
     {
         dc.DocumentCount = dc.Documents?.Count ?? 0;
         return dc;
+    }
+
+    public static TContent WithPossibleDocumentCount<TContent>(this TContent c) where TContent : Content
+    {
+        if (c is DocumentContainer dc)
+            dc.DocumentCount = dc.Documents?.Count ?? 0;
+
+        return c;
     }
 }

@@ -12,7 +12,9 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddWeLearnDbContext(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(connectionString));
+        {
+            options.UseNpgsql(connectionString);
+        });
 
         return services;
     }
