@@ -76,6 +76,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
 
         if (DbContext.ChangeTracker.HasChanges())
         {
+            // NOTE: this will not create notifications for related entities of TContent - those will be updated silently
             var contentEntries = DbContext.ChangeTracker
                             .Entries<TContent>();
 
@@ -135,7 +136,7 @@ public abstract class HttpDbImporter<TContent, TDto> : TypedContentImporter<TCon
         string bodyHeading;
         if (author is not null)
         {
-            bodyHeading = $"{author} has {operationType} a new {contentFriendlyName}.";
+            bodyHeading = $"{author} has {operationType} a {contentFriendlyName}.";
         }
         else
             bodyHeading = $"A new {contentFriendlyName} has been {operationType}.";

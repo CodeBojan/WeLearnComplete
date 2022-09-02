@@ -11,13 +11,13 @@ namespace WeLearn.Importers.Services.Importers.FacultySite.System;
 
 public class FacultySiteSystemImporter : SystemImporter, IFacultySiteSystemImporter
 {
-    private readonly SystemImporterSettings _settings;
+    private readonly FacultySiteSystemImporterSettings _settings;
     public override string Name => "Faculty Site";
     private List<IFacultySiteImporter> importers;
 
     public FacultySiteSystemImporter(
         IEnumerable<IFacultySiteImporter> importers,
-         IOptionsSnapshot<SystemImporterSettings> options)
+         IOptionsSnapshot<FacultySiteSystemImporterSettings> options)
     {
         this.importers = importers?.ToList() ?? new();
         _settings = options.Value;

@@ -172,6 +172,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 notice = new StudyYearNotice(dto.Id.ToString(), externalFriendlyUrl, dto.Body, dto.Title, dto.Author, true, null, externalSystem.Id, dto.CreatedDate.UtcDateTime, dto.ExpiryDate.ToUniversalTime(), studyYear.Id);
             }
 
+            // Note: only one attachment can be present in a noticeboard notice
             foreach (var attachment in dto.Attachments)
             {
                 var attachmentId = attachment.Id;
@@ -195,7 +196,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 if (!isCourseNotice)
                     courseId = null;
 
-                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(GetAttachmentDownloadRoute(attachmentId.ToString())), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, null, attachment.ByteSize, hash, hashAlgo, null, null, $".{attachment.FileExtension}");
+                var document = new Document(attachmentId.ToString(), GetAbsoluteUrl(attachmentDownloadUrl), null, attachment.Title, dto.Author, true, courseId, null, externalSystem.Id, notice.ExternalCreatedDate, attachment.FileName, downloadedAttachmentUri, null, attachment.ByteSize, hash, hashAlgo, null, null, $".{attachment.FileExtension}");
                 notice.TryAddDocument(document);
             }
             notices.Add(notice);

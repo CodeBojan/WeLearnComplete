@@ -50,8 +50,18 @@ public class DocumentContainer : Content
         if (Documents is null)
             Documents = new HashSet<Document>();
 
-        if (Documents.Contains(document, new DocumentComparer()))
+        var equalityComparer = new DocumentComparer();
+        var existingDocument = Documents.FirstOrDefault(d => equalityComparer.Equals(d, document));
+        if (existingDocument is not null)
+        {
+            if (existingDocument.ExternalUrl != document.ExternalUrl)
+            {
+                existingDocument.ExternalUrl = document.ExternalUrl;
+                return true;
+            }
+
             return false;
+        }
 
         Documents.Add(document);
         DocumentCount++;
@@ -63,8 +73,7 @@ public class DocumentContainer : Content
         if (content is not DocumentContainer documentContainer)
             throw new ArgumentException("The given content is not a DocumentContainer");
 
-        // TODO update documents
-        // consider scenario when the imported content has fewer documents than existing one
+        // Note: Consider scenario when the imported content has fewer documents than existing one
         // according to the spec, we shouldn't allow for the losing of documents
         if (documentContainer.Documents is not null)
             foreach (var document in documentContainer.Documents)

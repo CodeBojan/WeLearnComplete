@@ -4,6 +4,7 @@ import {
   PostNotificationReadStatusDto,
 } from "../../types/api";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { MdCircle, MdOpenInNew } from "react-icons/md";
 import {
   NotificationsContext,
   NotificationsInvalidationContext,
@@ -22,7 +23,6 @@ import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AppPageWithLayout } from "../_app";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
-import { MdOpenInNew } from "react-icons/md";
 import NotificationBell from "../../components/atoms/notification-bell";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
@@ -175,14 +175,25 @@ const Notifications: AppPageWithLayout = () => {
                   className="flex flex-row justify-between items-center p-4 rounded-lg border-l-4 border-r-2 shadow-md border-slate-200"
                 >
                   <div className="flex flex-col w-full gap-y-2">
-                    <div className="text-2xl font-bold">
-                      {notification.title}
+                    <div className="flex items-center gap-x-2">
+                      {!notification.isRead && (
+                        <MdCircle className="text-xl text-red-500" />
+                      )}
+                      <span className="text-2xl font-bold ">
+                        {notification.title}
+                      </span>
                     </div>
-                    <div className="font-semibold">{notification.body}</div>
+                    <div className="font-semibold">
+                      {notification.body}
+                      {!notification.body?.endsWith(".") ? "..." : ""}{" "}
+                    </div>
                     <Link href={notification.uri ?? ""}>
                       <a className="flex flex-row gap-x-2 items-center">
                         <MdOpenInNew className="text-2xl text-primary" />
-                        <div>{new URL(notification.uri ?? "").hostname}</div>
+                        <div>
+                          {notification.uri &&
+                            new URL(notification.uri ?? "").hostname}
+                        </div>
                       </a>
                     </Link>
                     <div>Created at {notification.createdDate?.toString()}</div>

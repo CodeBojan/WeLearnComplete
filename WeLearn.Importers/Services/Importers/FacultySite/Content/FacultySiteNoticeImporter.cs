@@ -58,6 +58,7 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
 
     private void ConfigureHttpClient()
     {
+        HttpClient.BaseAddress = new Uri(settings.HomePageUrl);
     }
 
     public override string Name => nameof(FacultySiteNoticeImporter);
@@ -177,6 +178,11 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
         return resultDtos;
     }
 
+    private string GetAbsolutePath(string route)
+    {
+        return $"{settings.HomePageUrl}{route}";
+    }
+
     protected override async Task<IEnumerable<Notice>> MapDtoAsync(CancellationToken cancellationToken)
     {
         var notices = new List<Notice>();
@@ -195,7 +201,7 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
 
         foreach (var dto in currentDtos)
         {
-            var generalNotice = new GeneralNotice(dto.Id.ToString(), dto.Url, dto.Body, dto.Title, null, true, null, externalSystem.Id, dto.PublishedDate.ToUniversalTime(), null);
+            var generalNotice = new GeneralNotice(dto.Id.ToString(), GetAbsolutePath(dto.Url), dto.Body, dto.Title, null, true, null, externalSystem.Id, dto.PublishedDate.ToUniversalTime(), null);
 
             foreach (var attachment in dto.Attachments)
             {
