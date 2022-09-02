@@ -9,6 +9,7 @@ using WeLearn.Data.Persistence;
 using WeLearn.Importers.Services.File;
 using WeLearn.Importers.Services.Importers.Content.Database.Notice;
 using WeLearn.Importers.Services.Importers.NoticeBoard.Dtos;
+using WeLearn.Importers.Services.Notification;
 using WeLearn.Shared.Services.CourseTitleCleaner;
 using WeLearn.Shared.Services.StringMatcher;
 
@@ -32,11 +33,13 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
         ILogger<NoticeBoardNoticeImporter> logger,
         IStringMatcherService stringMatcher,
         ICourseTitleCleanerService courseTitleCleanerService,
-        IFilePersistenceService filePersistenceService) : base(
+        IFilePersistenceService filePersistenceService,
+        INotificationService notificationService) : base(
             httpClient,
             dbContext,
             filePersistenceService,
-            logger)
+            logger,
+            notificationService)
     {
         settings = settingsMonitor.CurrentValue;
         _settingsMonitor = settingsMonitor;

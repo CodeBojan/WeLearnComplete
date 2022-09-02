@@ -8,6 +8,7 @@ using WeLearn.Data.Models;
 using WeLearn.Data.Models.Content;
 using WeLearn.Data.Persistence;
 using WeLearn.Importers.Services.File;
+using WeLearn.Importers.Services.Notification;
 
 namespace WeLearn.Importers.Services.Importers.Content.Database;
 
@@ -19,11 +20,13 @@ public abstract class AuthorizedHttpDbContentImporter<TContent, TDto> : HttpDbIm
         HttpClient httpClient,
         ApplicationDbContext dbContext,
         IFilePersistenceService filePersistenceService,
-        ILogger logger) : base(
+        ILogger logger,
+        INotificationService notificationService) : base(
             httpClient,
             dbContext,
             filePersistenceService,
-            logger)
+            logger,
+            notificationService)
     {
     }
 

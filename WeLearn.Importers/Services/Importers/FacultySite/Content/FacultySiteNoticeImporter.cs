@@ -20,6 +20,7 @@ using WeLearn.Importers.Services.Importers.Content;
 using WeLearn.Importers.Services.Importers.Content.Database;
 using WeLearn.Importers.Services.Importers.Content.Database.Notice;
 using WeLearn.Importers.Services.Importers.FacultySite.Dtos;
+using WeLearn.Importers.Services.Notification;
 using WeLearn.Importers.Util.Uri;
 
 namespace WeLearn.Importers.Services.Importers.FacultySite.Content;
@@ -38,11 +39,13 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
         HttpClient httpClient,
         ApplicationDbContext dbContext,
         IFilePersistenceService filePersistenceService,
-        ILogger<FacultySiteNoticeImporter> logger) : base(
+        ILogger<FacultySiteNoticeImporter> logger,
+        INotificationService notificationService) : base(
             httpClient,
             dbContext,
             filePersistenceService,
-            logger)
+            logger,
+            notificationService)
     {
         _settingsMonitor = settingsMonitor;
         settings = _settingsMonitor.CurrentValue;
@@ -227,6 +230,14 @@ public class FacultySiteNoticeImporter : HttpDbNoticeImporter<GetFacultySiteNoti
         Logger.LogInformation("Mapped DTOs {@DtoIds}", dtoIds);
 
         return notices;
+    }
+
+    protected override async Task<IEnumerable<Guid>> GetFollowingUsersIdsAsync(Notice content, CancellationToken cancellationToken)
+    {
+        return await DbContext.Accounts
+            .AsNoTracking()
+            .Select(a => a.Id)
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
     private async Task<ExternalSystem?> InitializeExternalSystemAsync(CancellationToken cancellationToken)
