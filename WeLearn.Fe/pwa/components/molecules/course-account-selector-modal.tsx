@@ -5,8 +5,10 @@ import {
 import { Dispatch, ReactNode } from "react";
 
 import AccountSelectorModal from "./account-selector-modal";
+import { GetAccountDto } from "../../types/api";
 import InfiniteScroll from "react-infinite-scroller";
 import { RenderPersonalInfo } from "./right-side-bar";
+import { mutate } from "swr";
 import useCourseAccounts from "../../util/useCourseAccounts";
 import useStudyYearAccounts from "../../util/useStudyYearAccounts";
 
@@ -19,10 +21,19 @@ export default function CourseAccountSelectorModal({
   courseId: string;
   accountSelectorState: AccountSelectorState;
   accountSelectorDispatch: Dispatch<AccountSelectorAction>;
-  actionButtons?: ReactNode | undefined;
+  actionButtons?: (
+    account: GetAccountDto,
+    mutate: () => void
+  ) => ReactNode | undefined;
 }) {
-  const { studyYearAccounts, size, setSize, isLoadingMore, isReachingEnd } =
-    useCourseAccounts({ courseId });
+  const {
+    studyYearAccounts,
+    size,
+    setSize,
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+  } = useCourseAccounts({ courseId });
   // TODO skeletonize
   if (!studyYearAccounts) return <></>;
 
@@ -50,7 +61,9 @@ export default function CourseAccountSelectorModal({
               >
                 <div className="w-full flex flex-row items-center justify-between py-4 border-b-2">
                   <RenderPersonalInfo account={account} />
-                  {actionButtons && <div>{actionButtons} </div>}
+                  {actionButtons && (
+                    <div>{actionButtons(account, () => mutate())} </div>
+                  )}
                 </div>
               </div>
             ))}

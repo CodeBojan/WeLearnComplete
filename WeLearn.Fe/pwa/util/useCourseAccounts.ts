@@ -46,5 +46,12 @@ export default function useCourseAccounts({ courseId }: { courseId: string }) {
 
   useSWREffectHook<GetAccountDto>(pageDtos, setStudyYearAccounts);
 
-  return { studyYearAccounts, size, setSize, isLoadingMore, isReachingEnd };
+  return {
+    studyYearAccounts,
+    size,
+    setSize,
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+  };
 }

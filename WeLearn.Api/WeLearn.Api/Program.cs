@@ -15,8 +15,6 @@ using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
 using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Extensions;
 using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Integrations;
 
-const string authority = "https://localhost:7230"; // TODO read from config
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddLogging();
@@ -95,7 +93,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
-    .AddIdentityServerAuthentication(authority);
+    .AddIdentityServerAuthentication(configuration.GetSection("Auth:IdentityServer:Authority").Get<string>());
 
     services.AddAuthorization(options =>
     {

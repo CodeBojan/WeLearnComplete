@@ -1,11 +1,18 @@
 {
   "profiles": {
-    "SelfHost": {
+    "Local": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
       },
       "applicationUrl": "https://localhost:7230;http://localhost:7229"
+    },
+    "Development": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:7330"
     },
     "SelfHostSeed": {
       "commandName": "Project",

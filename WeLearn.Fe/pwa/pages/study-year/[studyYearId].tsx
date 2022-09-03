@@ -38,19 +38,20 @@ import {
   getPagedSearchApiRouteCacheKey,
 } from "../../util/api";
 import {
-  isApiMethodFetcher,
-  isApiStudyYearAccountRoles,
-} from "../../util/isApi";
-import {
   checkIsStudyYearAdmin,
   checkIsSystemAdmin,
   useAppSession,
 } from "../../util/auth";
+import {
+  isApiMethodFetcher,
+  isApiStudyYearAccountRoles,
+} from "../../util/isApi";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import router, { useRouter } from "next/router";
 import useSWR, { mutate } from "swr";
 
 import AccountSelectorModal from "../../components/molecules/account-selector-modal";
+import { AiFillNotification } from "react-icons/ai";
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
 import CoursesList from "../../components/containers/courses-list";
@@ -67,7 +68,6 @@ import TitledPageContainer from "../../components/containers/titled-page-contain
 import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
 import { toast } from "react-toastify";
-import { AiFillNotification } from "react-icons/ai";
 
 const StudyYear: AppPageWithLayout = () => {
   const { studyYearId } = router.query as { studyYearId: string };
@@ -312,7 +312,7 @@ const StudyYear: AppPageWithLayout = () => {
                         })
                         .catch((err) => {
                           if (!err) return;
-                          if (err instanceof Promise<WeLearnProblemDetails>) {
+                          if (err instanceof Promise) {
                             err.then((details) => {
                               toast(
                                 `Failed to remove admin role: ${details.detail}`,
