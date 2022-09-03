@@ -101,6 +101,7 @@ export default function RenderContent({
               </a>
             </Link>
           )}
+          {/* TODO display external created date somewhere */}
         </div>
       </div>
     </div>

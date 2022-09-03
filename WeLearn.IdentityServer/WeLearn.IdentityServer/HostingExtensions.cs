@@ -29,8 +29,6 @@ namespace WeLearn.IdentityServer;
 
 internal static class HostingExtensions
 {
-    private const string authority = "https://localhost:7230"; // TODO read from config
-
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
@@ -131,10 +129,11 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
+            .AddInMemoryClients(configuration.GetSection("Auth:IdentityServer:Clients"))
             .AddAspNetIdentity<ApplicationUser>();
 
         var authentication = services.AddAuthentication()
-        .AddIdentityServerAuthentication(authority);
+        .AddIdentityServerAuthentication(configuration.GetSection("Auth:IdentityServer:Authority").Get<string>());
 
         var googleAuthSettings = configuration.GetSection("Auth").GetSection(GoogleAuthSettings.SectionName)
                     .Get<GoogleAuthSettings>();
