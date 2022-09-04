@@ -12,6 +12,8 @@ import { mutate } from "swr";
 import useCourseAccounts from "../../util/useCourseAccounts";
 import useStudyYearAccounts from "../../util/useStudyYearAccounts";
 
+// TODO add course admin info
+
 export default function CourseAccountSelectorModal({
   courseId,
   accountSelectorState,

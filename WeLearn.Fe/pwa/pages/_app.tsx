@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Next.js PWA Example</title>
+        <title>WeLearn</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link
