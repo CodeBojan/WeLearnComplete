@@ -17,11 +17,9 @@ export default function Navbar({ onDrawerToggle }: NavbarProps) {
   return (
     <>
       <nav className="flex fixed w-full items-center justify-between px-6 h-16 bg-primary-dark border-b border-gray-200 z-10 text-white">
-        <div>
-          <IconButton onClick={() => onDrawerToggle && onDrawerToggle()}>
-            <AiOutlineMenu className="text-white text-2xl" />
-          </IconButton>
-        </div>
+        <IconButton onClick={() => onDrawerToggle && onDrawerToggle()}>
+          <AiOutlineMenu className="text-white text-2xl" />
+        </IconButton>
         <div>
           <div className="flex flex-row gap-x-4 items-center">
             <input
@@ -42,7 +40,7 @@ export default function Navbar({ onDrawerToggle }: NavbarProps) {
                 </a>
               </Link>
             </div>
-            <span className="font-semibold text-lg text-white">WeLearn</span>
+            <span className="hidden md:block font-semibold text-lg text-white">WeLearn</span>
           </div>
         </div>
       </nav>

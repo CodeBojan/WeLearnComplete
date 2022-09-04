@@ -148,7 +148,7 @@ export default function UnapprovedCourseMaterialUploadRequestsModal({
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col justify-center">
+                      <div className="flex flex-col justify-center pl-4 md:p-0">
                         <Button onClick={() => ur.id && approve(ur.id)}>
                           Approve
                         </Button>

@@ -60,7 +60,7 @@ export default function RenderContent({
   };
 
   return (
-    <div className="flex flex-col gap-y-2 rounded-lg shadow-md p-8">
+    <div className="flex flex-col gap-y-2 rounded-lg shadow-md p-4 md:p-8">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-x-4">
           {c.externalSystem?.logoUrl && (

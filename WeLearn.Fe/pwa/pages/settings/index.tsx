@@ -45,7 +45,7 @@ const Settings: AppPageWithLayout = () => {
   if (!session || !account) return <></>;
 
   return (
-    <div className="grow flex flex-col w-full items-start justify-start mt-20 px-8">
+    <div className="grow flex flex-col w-full items-start justify-start mt-20 px-8 pb-20">
       <div>
         <h1 className="text-3xl font-bold text-left">Settings</h1>
       </div>

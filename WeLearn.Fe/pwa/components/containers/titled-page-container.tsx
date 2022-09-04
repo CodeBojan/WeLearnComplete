@@ -14,8 +14,8 @@ export default function TitledPageContainer({
 }) {
   return (
     <StyledPageContainer>
-      <div className="w-full flex flex-row gap-x-8 items-center text-4xl font-bold pb-2 border-b-2">
-        <div>{icon}</div>
+      <div className="w-full flex flex-row gap-x-8 items-center text-2xl md:text-4xl font-bold pb-2 border-b-2">
+        <div className="flex items-center text-4xl">{icon}</div>
         <div className="w-full flex items-center">
           {title ? (
             <div>{title}</div>
