@@ -1,7 +1,7 @@
 {
-  "name": "Next.JS Progressive Web App",
-  "short_name": "Next PWA",
-  "theme_color": "#ffffff",
+  "name": "WeLearn",
+  "short_name": "WL",
+  "theme_color": "#1e3a8a",
   "background_color": "#004740",
   "display": "fullscreen",
   "orientation": "portrait",

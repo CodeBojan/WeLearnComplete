@@ -121,7 +121,7 @@ export default function CommentsModal({}: {}) {
                         <div className="font-semibold">
                           {comment.author?.username}
                         </div>
-                        <div className="text-sm">
+                         <div className="text-sm">
                           ({comment.author?.facultyStudentId})
                         </div>
                       </div>

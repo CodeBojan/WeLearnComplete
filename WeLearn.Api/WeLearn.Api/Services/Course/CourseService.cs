@@ -88,6 +88,20 @@ public class CourseService : ICourseService
         return dto;
     }
 
+    public async Task<GetCourseDto> GetCourseBasicInfoAsync(Guid courseId)
+    {
+        var dto = await _dbContext.Courses
+            .AsNoTracking()
+            .Where(c => c.Id == courseId)
+            .Select(MapCourseToGetDto())
+            .FirstOrDefaultAsync();
+
+        if (dto is null)
+            throw new CourseNotFoundException();
+
+        return dto;
+    }
+
     public async Task<PagedResponseDto<GetAccountDto>> GetFollowingAccountsAsync(Guid courseId, PageOptionsDto pageOptions)
     {
         var course = await _dbContext.Courses

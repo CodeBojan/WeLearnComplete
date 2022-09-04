@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WeLearn.Api.Dtos.Course;
 using WeLearn.Api.Dtos.CourseMaterialUploadRequest;
 using WeLearn.Api.Exceptions.Models;
 using WeLearn.Api.Services.Course;
@@ -59,10 +60,20 @@ public class CourseMaterialUploadRequestsController : UserAuthorizedController
         [FromServices] IAuthorizationService authorizationService,
         [FromServices] ICourseService courseService)
     {
+        GetCourseDto course;
+        try
+        {
+            course = await courseService.GetCourseBasicInfoAsync(courseId);
+        }
+        catch (CourseNotFoundException)
+        {
+            return NotFound();
+        }
+
         if (!await courseService.CourseExistsAsync(courseId))
             return NotFound();
 
-        var authResult = await authorizationService.AuthorizeAsync(User, new Course { Id = courseId }, Policies.IsResourceAdmin);
+        var authResult = await authorizationService.AuthorizeAsync(User, new Course { Id = courseId, StudyYearId = course.StudyYearId }, Policies.IsResourceAdmin);
         if (!authResult.Succeeded)
             return Forbid();
 
