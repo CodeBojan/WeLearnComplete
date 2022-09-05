@@ -387,13 +387,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
                           e.State == EntityState.Added
                           || e.State == EntityState.Modified));
 
+        var now = DateTime.UtcNow;
+
         foreach (var entityEntry in entries)
         {
-            ((DatedEntity)entityEntry.Entity).UpdatedDate = DateTime.UtcNow;
+            ((DatedEntity)entityEntry.Entity).UpdatedDate = now;
 
             if (entityEntry.State == EntityState.Added)
             {
-                ((DatedEntity)entityEntry.Entity).CreatedDate = DateTime.UtcNow;
+                ((DatedEntity)entityEntry.Entity).CreatedDate = now;
             }
         }
     }
