@@ -1,46 +1,25 @@
-import { GetCourseDto, GetCourseDtoPagedResponseDto } from "../../types/api";
-import {
-  apiCourses,
-  apiGetFetcher,
-  getPagedSearchApiRouteCacheKey,
-} from "../../util/api";
 import { queryTypes, useQueryState } from "next-usequerystate";
 import { useEffect, useState } from "react";
-import useSWR, { mutate } from "swr";
 
 import { AiFillHeart } from "react-icons/ai";
 import { AppPageWithLayout } from "../_app";
-import Button from "../../components/atoms/button";
 import CoursesList from "../../components/containers/courses-list";
 import { MdSubject } from "react-icons/md";
 import OnlyMineButton from "../../components/atoms/only-mine-button";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
 import { useAppSession } from "../../util/auth";
+import useCourses from "../../util/useCourses";
 
 const Courses: AppPageWithLayout = () => {
   const { data: session, status } = useAppSession();
-  const [courses, setCourses] = useState<GetCourseDto[]>([]); // TODO skeletonize courses by making nullable
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
   const [onlyMine, setOnlyMine] = useState(false);
   const [mineQueryParam, setMineQueryParam] = useQueryState(
     "mine",
     queryTypes.boolean
   );
-
-  // TODO useSWRInfinite
-
-  const cacheKey = getPagedSearchApiRouteCacheKey(apiCourses, session, {
-    page: page.toString(),
-    limit: itemsPerPage.toString(),
-    isFollowing: onlyMine.toString(),
-  });
-
-  const { data: pagedCourses, error } = useSWR<GetCourseDtoPagedResponseDto>(
-    cacheKey,
-    apiGetFetcher
-  );
+  const { courses, size, setSize, isLoadingMore, isReachingEnd, mutate } =
+    useCourses({ followingOnly: onlyMine });
 
   useEffect(() => {
     if (mineQueryParam === null) {
@@ -50,11 +29,6 @@ const Courses: AppPageWithLayout = () => {
 
     if (mineQueryParam != onlyMine) setOnlyMine(mineQueryParam);
   }, [mineQueryParam]);
-
-  useEffect(() => {
-    if (!pagedCourses || !pagedCourses.data) return;
-    setCourses(pagedCourses.data);
-  }, [pagedCourses]);
 
   return (
     <TitledPageContainer
@@ -67,7 +41,11 @@ const Courses: AppPageWithLayout = () => {
           onClick={() => setMineQueryParam(!mineQueryParam)}
         />
       </div>
-      <CoursesList courses={courses} onMutate={() => mutate(cacheKey)} />
+      {courses ? (
+        <CoursesList courses={courses} onMutate={() => mutate()} />
+      ) : (
+        <div>Loading...</div>
+      )}
     </TitledPageContainer>
   );
 };
