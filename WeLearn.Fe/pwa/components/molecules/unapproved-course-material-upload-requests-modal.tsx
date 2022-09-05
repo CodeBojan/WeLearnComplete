@@ -19,6 +19,7 @@ import {
 
 import { AiOutlineSmile } from "react-icons/ai";
 import Button from "../atoms/button";
+import CustomInfiniteScroll from "./custom-infinite-scroll";
 import { Dispatch } from "react";
 import { DocumentContainer } from "./document-container";
 import EndMessage from "../atoms/end-message";
@@ -31,7 +32,6 @@ import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 import useUnapprovedCourseMaterialUploadRequests from "../../util/useUnapprovedCourseMaterialUploadRequests";
 
-// TODO add loaders for infinitescroll - maybe a custom infinite scroll component
 // TODO accept mutate as prop for study materials in main page
 export default function UnapprovedCourseMaterialUploadRequestsModal({
   courseId,
@@ -65,7 +65,6 @@ export default function UnapprovedCourseMaterialUploadRequestsModal({
         toast("Request approved", { type: "success" });
       })
       .catch((err) => {
-        // TODO handle
         toast(`Failed to approve upload request: ${err}`);
       });
   };
@@ -82,17 +81,13 @@ export default function UnapprovedCourseMaterialUploadRequestsModal({
               id={modalScrollParentId}
               style={{ height: "520px" }}
             >
-              <InfiniteScroll
+              <CustomInfiniteScroll
                 dataLength={requests.length ?? 0}
                 next={() => {
                   setSize(size + 1);
                 }}
                 hasMore={hasMore}
-                loader={hasMore && <div key={0}>Loading...</div>}
                 scrollableTarget={modalScrollParentId}
-                endMessage={
-                  !hasMore && <EndMessage />
-                }
               >
                 <div className="flex flex-col p-4 gap-y-4">
                   {requests?.map((ur, index) => (
@@ -156,7 +151,7 @@ export default function UnapprovedCourseMaterialUploadRequestsModal({
                     </div>
                   ))}
                 </div>
-              </InfiniteScroll>
+              </CustomInfiniteScroll>
             </div>
           </div>
         }

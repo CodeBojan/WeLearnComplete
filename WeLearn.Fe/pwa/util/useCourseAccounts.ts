@@ -14,7 +14,7 @@ import { useState } from "react";
 
 export default function useCourseAccounts({ courseId }: { courseId: string }) {
   const { data: session } = useAppSession();
-  const [pageSize, setPageSize] = useState(5); // TODO
+  const [pageSize, setPageSize] = useState(10); // TODO
   const [studyYearAccounts, setStudyYearAccounts] = useState<
     GetAccountDto[] | null | undefined
   >();

@@ -11,53 +11,39 @@ import {
 } from "./api";
 
 import { useAppSession } from "./auth";
+import { usePagedData } from "./usePagedData";
 import { useSWREffectHook } from "./useSWREffectHook";
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 
-// TODO replace loaders
-// TODO abstract further - provide two generic arguments and url
 export default function useCourseStudyMaterials({
   courseId,
 }: {
   courseId: string;
 }) {
   const { data: session } = useAppSession();
-  const [pageSize, setPageSize] = useState(2); // TODO
-  const [studyMaterials, setStudyMaterials] = useState<
-    GetStudyMaterialDto[] | null | undefined
-  >();
-
-  const getKey = getApiSWRInfiniteKey({
-    url: apiStudyMaterialsCourse(courseId),
-    pageSize: pageSize,
-    session: session,
-  });
+  const [pageSize, setPageSize] = useState(5); // TODO
 
   const {
-    data: pageDtos,
-    error,
-    isValidating,
+    entities: studyMaterials,
     mutate,
     size,
     setSize,
-  } = useSWRInfinite<GetStudyMaterialDtoPagedResponseDto>(
-    getKey,
-    apiGetFetcher,
-    {
-      revalidateAll: true,
-    }
-  );
+    hasMore,
+    isLoadingMore,
+    isReachingEnd,
+  } = usePagedData<GetStudyMaterialDto>({
+    pageSize: pageSize,
+    url: apiStudyMaterialsCourse(courseId),
+  });
 
-  const { isLoadingMore, isReachingEnd } = processSWRInfiniteData(
+  return {
+    studyMaterials,
     size,
-    pageSize,
-    isValidating,
-    error,
-    pageDtos
-  );
-
-  useSWREffectHook<GetAccountDto>(pageDtos, setStudyMaterials);
-
-  return { studyMaterials, size, setSize, isLoadingMore, isReachingEnd, mutate };
+    setSize,
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+    hasMore
+  };
 }

@@ -19,6 +19,7 @@ a {
   box-sizing: border-box;
 }
 
-.external-image{
+.external-image {
   max-width: 680px;
+  margin-top: 1rem;
 }

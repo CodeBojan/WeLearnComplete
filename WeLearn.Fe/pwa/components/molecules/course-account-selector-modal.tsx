@@ -5,6 +5,7 @@ import {
 import { Dispatch, ReactNode } from "react";
 
 import AccountSelectorModal from "./account-selector-modal";
+import CustomInfiniteScroll from "./custom-infinite-scroll";
 import { GetAccountDto } from "../../types/api";
 import InfiniteScroll from "react-infinite-scroller";
 import { RenderPersonalInfo } from "./right-side-bar";
@@ -47,13 +48,13 @@ export default function CourseAccountSelectorModal({
       accounts={studyYearAccounts}
       actionButtons={actionButtons}
       body={
-        <InfiniteScroll
-          pageStart={1}
-          loadMore={() => {
+        // TODO wrap in a div
+        <CustomInfiniteScroll
+          dataLength={studyYearAccounts.length}
+          next={() => {
             setSize(size + 1);
           }}
           hasMore={!isReachingEnd && !isLoadingMore}
-          loader={<div key={0}>Loading...</div>}
         >
           <div className="flex flex-col items-start m-4">
             {studyYearAccounts?.map((account, index) => (
@@ -70,7 +71,7 @@ export default function CourseAccountSelectorModal({
               </div>
             ))}
           </div>
-        </InfiniteScroll>
+        </CustomInfiniteScroll>
       }
     />
   );

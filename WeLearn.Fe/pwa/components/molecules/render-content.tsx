@@ -84,6 +84,18 @@ export default function RenderContent({
       <div className="text-lg font-semibold">{c.title}</div>
       <div className="">
         {c.body?.startsWith("<") ? parse(c.body, options) : c.body}
+        <div className="flex flex-row gap-x-2">
+          <span>
+            {c.creator?.username}
+            {c.creator?.facultyStudentId && (
+              <span className="text-sm"> ({c.creator.facultyStudentId})</span>
+            )}
+          </span>
+        </div>
+        <div className="flex flex-col gap-y-1 text-sm text-gray-400">
+          <div>updated at {c.createdDate?.toString()}</div>
+          <div>created at {c.updatedDate?.toString()}</div>
+        </div>
       </div>
       <DocumentContainer
         documentContainer={{

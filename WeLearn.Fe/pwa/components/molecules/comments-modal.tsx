@@ -9,6 +9,7 @@ import { useContext, useRef } from "react";
 import { AiOutlineSmile } from "react-icons/ai";
 import Button from "../atoms/button";
 import { CommentsInvalidationContext } from "../../store/comments-invalidation-context";
+import CustomInfiniteScroll from "./custom-infinite-scroll";
 import EndMessage from "../atoms/end-message";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Input from "../atoms/input";
@@ -100,15 +101,13 @@ export default function CommentsModal({}: {}) {
               className="overflow-auto"
               style={{ height: "520px" }}
             >
-              <InfiniteScroll
+              <CustomInfiniteScroll
                 dataLength={comments?.length ?? 0}
                 next={() => {
                   return setSize(size + 1);
                 }}
                 hasMore={hasMore}
-                loader={hasMore && <div key={0}>Loading...</div>}
                 scrollableTarget={modalScrollParentId}
-                endMessage={!hasMore && <EndMessage />}
               >
                 <div className="">
                   {comments?.map((comment, index) => (
@@ -121,7 +120,7 @@ export default function CommentsModal({}: {}) {
                         <div className="font-semibold">
                           {comment.author?.username}
                         </div>
-                         <div className="text-sm">
+                        <div className="text-sm">
                           ({comment.author?.facultyStudentId})
                         </div>
                       </div>
@@ -139,7 +138,7 @@ export default function CommentsModal({}: {}) {
                     </div>
                   ))}
                 </div>
-              </InfiniteScroll>
+              </CustomInfiniteScroll>
             </div>
           </div>
         </div>

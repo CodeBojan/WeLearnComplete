@@ -17,7 +17,7 @@ export default function useStudyYearAccounts({
   studyYearId: string;
 }) {
   const { data: session } = useAppSession();
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10); // TODO
   const [studyYearAccounts, setStudyYearAccounts] = useState<
     GetAccountDto[] | null | undefined
   >();

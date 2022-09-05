@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function useFeed() {
   const [pageSize, setPageSize] = useState(10); // TODO
-  const { entities, size, setSize, isLoadingMore, isReachingEnd, mutate } =
+  const { entities, size, setSize, isLoadingMore, isReachingEnd, mutate, hasMore } =
     usePagedData<GetContentDto>({
       pageSize,
       url: apiFeed,
@@ -18,6 +18,6 @@ export default function useFeed() {
     isLoadingMore,
     isReachingEnd,
     mutate,
-    hasMore: !isLoadingMore && !isReachingEnd,
+    hasMore
   };
 }

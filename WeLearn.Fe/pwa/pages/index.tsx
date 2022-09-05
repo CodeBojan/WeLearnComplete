@@ -1,10 +1,12 @@
+import { ReactElement, useState } from "react";
+
 import { AppPageWithLayout } from "./_app";
 import CustomInfiniteScroll from "../components/molecules/custom-infinite-scroll";
 import { FaEyeDropper } from "react-icons/fa";
+import { GetContentDto } from "../types/api";
 import Layout from "../layouts/layout";
 import Link from "next/link";
 import { MdDashboard } from "react-icons/md";
-import { ReactElement } from "react";
 import RenderContent from "../components/molecules/render-content";
 import SignOutButton from "../components/auth/sign-out-button";
 import TitledPageContainer from "../components/containers/titled-page-container";
@@ -19,7 +21,7 @@ const Home: AppPageWithLayout = () => {
 
   return (
     <TitledPageContainer icon={<MdDashboard />} title={"Dashboard"}>
-      <div className="my-8">
+      <div className="my-8 w-full">
         <CustomInfiniteScroll
           dataLength={feed?.length}
           next={() => setSize(size + 1)}

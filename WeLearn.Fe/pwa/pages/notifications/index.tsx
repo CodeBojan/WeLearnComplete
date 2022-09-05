@@ -21,6 +21,7 @@ import {
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { AppPageWithLayout } from "../_app";
+import CustomInfiniteScroll from "../../components/molecules/custom-infinite-scroll";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import NotificationBell from "../../components/atoms/notification-bell";
@@ -41,7 +42,7 @@ const Notifications: AppPageWithLayout = () => {
   // TODO skeletonize
 
   // TODO check that the invalidateNotificationtext is called - currently the unread count doesnt update until refresh
-// TODO remove first HTML tag/get its content ------------------ IMPORTANT
+  // TODO remove first HTML tag/get its content ------------------ IMPORTANT
 
   const [pageSize, setPageSize] = useState(5); // TODO update
 
@@ -155,15 +156,10 @@ const Notifications: AppPageWithLayout = () => {
       }
       title={"Notifications"}
     >
-      <InfiniteScroll
+      <CustomInfiniteScroll
         dataLength={notifications?.length ?? 0}
         next={() => setSize(size + 1)}
         hasMore={hasMore}
-        loader={
-          <div className="loader" key={0}>
-            Loading ...
-          </div>
-        }
       >
         <div className="flex flex-col gap-y-4 w-full my-8">
           {/* TODO show skeleton if notifications is null */}
@@ -246,7 +242,7 @@ const Notifications: AppPageWithLayout = () => {
               );
             })}
         </div>
-      </InfiniteScroll>
+      </CustomInfiniteScroll>
     </TitledPageContainer>
   );
 };

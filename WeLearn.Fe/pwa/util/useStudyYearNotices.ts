@@ -21,7 +21,7 @@ export default function useStudyYearNotices({
   studyYearId: string;
 }) {
   const [pageSize, setPageSize] = useState(5);
-  const { entities, size, setSize, isLoadingMore, isReachingEnd } =
+  const { entities, size, setSize, isLoadingMore, isReachingEnd, hasMore } =
     usePagedData<GetStudyYearNoticeDto>({
       pageSize,
       url: apiStudyYearNotices(studyYearId),
@@ -33,5 +33,6 @@ export default function useStudyYearNotices({
     setSize,
     isLoadingMore,
     isReachingEnd,
+    hasMore,
   };
 }

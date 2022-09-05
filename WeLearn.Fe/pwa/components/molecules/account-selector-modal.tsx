@@ -29,7 +29,6 @@ export default function AccountSelectorModal({
 }) {
   return (
     <>
-      <div className=""></div>
       <Modal
         open={accountSelectorState.isOpen}
         body={body}
