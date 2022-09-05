@@ -1,6 +1,7 @@
+import * as timeago from "timeago.js";
+
 import {
   GetNotificationDto,
-  GetNotificationDtoPagedResponseDto,
   PostNotificationReadStatusDto,
 } from "../../types/api";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
@@ -9,30 +10,26 @@ import {
   NotificationsContext,
   NotificationsInvalidationContext,
 } from "../../store/notifications-store";
-import {
-  apiGetFetcher,
-  apiMethodFetcher,
-  apiNotificationReadStatus,
-  apiNotificationsMe,
-  getApiSWRInfiniteKey,
-  getPagedSearchApiRouteCacheKey,
-  processSWRInfiniteData,
-} from "../../util/api";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { apiMethodFetcher, apiNotificationReadStatus } from "../../util/api";
 
 import { AppPageWithLayout } from "../_app";
 import CustomInfiniteScroll from "../../components/molecules/custom-infinite-scroll";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import NotificationBell from "../../components/atoms/notification-bell";
+import TimeAgo from "timeago-react";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
+import sr from "timeago.js/lib/lang/sr";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
-import { useIsScrollable } from "../../util/useIsScrollable";
-import useSWRInfinite from "swr/infinite";
+import { useContext } from "react";
+import useNotifications from "../../util/useNotifications";
+
+// TODO extract to component
+// timeago.register("sr", sr);
 
 const Notifications: AppPageWithLayout = () => {
+  const locale = "sr";
   const { data: session } = useAppSession();
   const notificationsContext = useContext(NotificationsContext);
   const invalidateNotificationsContext = useContext(
@@ -44,51 +41,15 @@ const Notifications: AppPageWithLayout = () => {
   // TODO check that the invalidateNotificationtext is called - currently the unread count doesnt update until refresh
   // TODO remove first HTML tag/get its content ------------------ IMPORTANT
 
-  const [pageSize, setPageSize] = useState(5); // TODO update
-
-  const getKey = getApiSWRInfiniteKey({
-    url: apiNotificationsMe,
-    session: session,
-    pageSize: pageSize,
-  });
-
   const {
-    data: pagesDtos,
-    error,
-    isValidating,
-    mutate,
+    notifications,
     size,
     setSize,
-  } = useSWRInfinite<GetNotificationDtoPagedResponseDto>(
-    getKey,
-    apiGetFetcher,
-    { revalidateAll: true }
-  );
-
-  const { isLoadingMore, isReachingEnd } = processSWRInfiniteData(
-    size,
-    pageSize,
-    isValidating,
-    error,
-    pagesDtos
-  );
-
-  const [notifications, setNotifications] = useState<
-    GetNotificationDto[] | null
-  >(null);
-
-  useEffect(() => {
-    if (!pagesDtos) return;
-
-    const notifMap = new Map<string, GetNotificationDto>();
-    pagesDtos.forEach((pageDto) => {
-      pageDto.data?.forEach((notif) => {
-        notif.id && notifMap.set(notif.id, notif);
-      });
-    });
-
-    setNotifications(Array.from(notifMap.values()));
-  }, [pagesDtos]);
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+    hasMore,
+  } = useNotifications({});
 
   const postNotificationReadStatus = ({
     notifications,
@@ -129,7 +90,7 @@ const Notifications: AppPageWithLayout = () => {
           (n) => n.id !== notification.id
         );
         const newNotifications = [...filteredNotifications, newNotification];
-        mutate(newNotifications);
+        mutate([{ data: newNotifications }]);
         invalidateNotificationsContext.notificationsInvalidate();
       } else
         toast(
@@ -142,8 +103,6 @@ const Notifications: AppPageWithLayout = () => {
         );
     });
   };
-
-  const hasMore = !isLoadingMore && !isReachingEnd;
 
   return (
     <TitledPageContainer
@@ -162,9 +121,7 @@ const Notifications: AppPageWithLayout = () => {
         hasMore={hasMore}
       >
         <div className="flex flex-col gap-y-4 w-full my-8">
-          {/* TODO show skeleton if notifications is null */}
-          {pagesDtos &&
-            notifications &&
+          {notifications &&
             notifications.flatMap((notification, notifIndex) => {
               return (
                 <div
@@ -193,8 +150,20 @@ const Notifications: AppPageWithLayout = () => {
                         </div>
                       </a>
                     </Link>
-                    <div>Created at {notification.createdDate?.toString()}</div>
-                    <div>Updated at {notification.updatedDate?.toString()}</div>
+                    <div>
+                      updated{" "}
+                      <TimeAgo
+                        datetime={notification.updatedDate!}
+                        locale={locale}
+                      />
+                    </div>
+                    <div>
+                      created{" "}
+                      <TimeAgo
+                        datetime={notification.createdDate!}
+                        locale={locale}
+                      />
+                    </div>
                   </div>
                   <div className="flex flex-col justify-center text-2xl gap-y-4">
                     {/* TODO replace with external system image uri - do this based on type */}

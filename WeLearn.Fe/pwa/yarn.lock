@@ -3466,6 +3466,18 @@ throttle-debounce@^2.1.0:
   resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-2.3.0.tgz#fd31865e66502071e411817e241465b3e9c372e2"
   integrity sha512-H7oLPV0P7+jgvrk+6mwwwBDmxTaxnu9HMXmloNLXwnNO0ZxZ31Orah2n8lU1eMPvsaowP2CX+USCgyovXfdOFQ==
 
+timeago-react@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/timeago-react/-/timeago-react-3.0.5.tgz#9fff2aa87cb2b0186a52052cbdc4c89322eb1140"
+  integrity sha512-1k/aDt+ADpcABCmg3BIBuZSa7aSxolmuYFkdcpL7mlNkFcDAK/KwuxLf68gowhM7Oq3vWTE7LPeq3kLkSt45Jg==
+  dependencies:
+    timeago.js "^4.0.0"
+
+timeago.js@^4.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/timeago.js/-/timeago.js-4.0.2.tgz#724e8c8833e3490676c7bb0a75f5daf20e558028"
+  integrity sha512-a7wPxPdVlQL7lqvitHGGRsofhdwtkoSXPGATFuSOA2i1ZNQEPLrGnj68vOp2sOJTCFAQVXPeNMX/GctBaO9L2w==
+
 tinycolor2@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
