@@ -61,7 +61,7 @@ const Courses: AppPageWithLayout = () => {
       icon={!onlyMine ? <MdSubject /> : <AiFillHeart />}
       title={!onlyMine ? "Courses" : "My Courses"}
     >
-      <div className="my-8">
+      <div className="my-4">
         <OnlyMineButton
           onlyMine={onlyMine}
           onClick={() => setMineQueryParam(!mineQueryParam)}

@@ -14,11 +14,20 @@ import { useState } from "react";
 export function usePagedData<
   TEntity extends Entity,
   TPagedEntity extends PageDtos<TEntity> = PageDtos<TEntity>
->({ url, pageSize }: { url: string; pageSize: number }) {
+>({
+  url,
+  pageSize,
+  queryParams,
+}: {
+  url: string;
+  pageSize: number;
+  queryParams?: Record<string, string>;
+}) {
   const { data: session } = useAppSession();
   const [entities, setEntities] = useState<TEntity[] | null>();
 
   const getKey = getApiSWRInfiniteKey({
+    ...queryParams,
     url: url,
     pageSize: pageSize,
     session: session,

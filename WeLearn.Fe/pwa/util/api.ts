@@ -98,16 +98,19 @@ export const getApiSWRInfiniteKey = ({
   url,
   session,
   pageSize,
+  queryParams
 }: {
   url: string | null;
   session: AppSession;
   pageSize: number;
+  queryParams?: Record<string, string>;
 }) => {
   return (
     pageIndex: number,
     previousPageData: { totalPages: number } | null
   ) => {
     const pagedCacheKey = getPagedSearchApiRouteCacheKey(url, session, {
+      ...queryParams,
       page: (pageIndex + 1).toString(),
       limit: pageSize.toString(),
     });

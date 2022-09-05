@@ -31,49 +31,66 @@ import TitledPageContainer from "../../components/containers/titled-page-contain
 import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
 import { toast } from "react-toastify";
+import useStudyYears from "../../util/useStudyYears";
 
 const StudyYears: AppPageWithLayout = () => {
   const { data: session, status } = useAppSession();
-  const [studyYears, setStudyYears] = useState<GetStudyYearDto[]>([]);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
   const [onlyMine, setOnlyMine] = useState(false);
   const [mineQueryParam, setMineQueryParam] = useQueryState(
     "mine",
     queryTypes.boolean
   );
-
-  // TODO useSWRInfinite
-
-  const cacheKey = getPagedSearchApiRouteCacheKey(apiStudyYears, session, {
-    page: page.toString(),
-    limit: itemsPerPage.toString(),
-    isFollowing: onlyMine.toString(),
-  });
-
-  const { data: pagedStudyYears, error } =
-    useSWR<GetStudyYearDtoPagedResponseDto>(cacheKey, apiGetFetcher);
+  const { studyYears, size, setSize, isLoadingMore, isReachingEnd, mutate } =
+    useStudyYears({ followingOnly: onlyMine });
 
   useEffect(() => {
     if (mineQueryParam === null) return;
     if (mineQueryParam != onlyMine) setOnlyMine(mineQueryParam);
   }, [mineQueryParam]);
 
-  useEffect(() => {
-    if (!pagedStudyYears || !pagedStudyYears.data) return;
-    setStudyYears(pagedStudyYears.data);
-  }, [pagedStudyYears]);
+  const onFollow = (
+    studyYearId: string | undefined,
+    studyYearShortName: string | undefined
+  ) => {
+    apiMethodFetcher(apiFollowedStudyYears, session.accessToken, "POST", {
+      studyYearId: studyYearId,
+      accountId: session.user.id,
+    } as PostFollowedStudyYearDto).then((res) => {
+      const resDto = res as GetFollowedStudyYearDto;
+      mutate();
+      toast(`${studyYearShortName} Followed!`, {
+        type: "success",
+      });
+    });
+  };
+
+  const onUnfollow = (
+    studyYearId: string | undefined,
+    studyYearShortName: string | undefined
+  ) => {
+    apiMethodFetcher(apiFollowedStudyYears, session.accessToken, "DELETE", {
+      studyYearId: studyYearId,
+      accountId: session.user.id,
+    } as DeleteFollowedStudyYearDto).then((res) => {
+      const resDto = res as GetFollowedStudyYearDto;
+      mutate();
+      toast(`${studyYearShortName} Unfollowed!`, {
+        type: "success",
+      });
+    });
+  };
 
   return (
     <TitledPageContainer icon={<MdCalendarToday />} title={"Study Years"}>
-      <FavoritesContainer className="my-8">
-        <div className="my-8">
+      <FavoritesContainer className="my-4">
+        <div className="">
           <OnlyMineButton
             onlyMine={onlyMine}
             onClick={() => setMineQueryParam(!mineQueryParam)}
           />
         </div>
-        {studyYears.map((studyYear) => (
+        {/* TODO skeleton */}
+        {studyYears?.map((studyYear) => (
           <FavoritableContainer key={studyYear.id}>
             <div
               className="flex flex-row gap-x-8 cursor-pointer items-center"
@@ -88,40 +105,8 @@ const StudyYears: AppPageWithLayout = () => {
             <FavoriteInfo
               isFollowing={studyYear.isFollowing}
               followerCount={studyYear.followingCount}
-              onUnfollow={() => {
-                apiMethodFetcher(
-                  apiFollowedStudyYears,
-                  session.accessToken,
-                  "DELETE",
-                  {
-                    studyYearId: studyYear.id,
-                    accountId: session.user.id,
-                  } as DeleteFollowedStudyYearDto
-                ).then((res) => {
-                  const resDto = res as GetFollowedStudyYearDto;
-                  mutate(cacheKey);
-                  toast(`${studyYear.shortName} Unfollowed!`, {
-                    type: "success",
-                  });
-                });
-              }}
-              onFollow={() => {
-                apiMethodFetcher(
-                  apiFollowedStudyYears,
-                  session.accessToken,
-                  "POST",
-                  {
-                    studyYearId: studyYear.id,
-                    accountId: session.user.id,
-                  } as PostFollowedStudyYearDto
-                ).then((res) => {
-                  const resDto = res as GetFollowedStudyYearDto;
-                  mutate(cacheKey);
-                  toast(`${studyYear.shortName} Followed!`, {
-                    type: "success",
-                  });
-                });
-              }}
+              onUnfollow={() => onUnfollow(studyYear.id, studyYear.shortName)}
+              onFollow={() => onFollow(studyYear.id, studyYear.shortName)}
             />
           </FavoritableContainer>
         ))}

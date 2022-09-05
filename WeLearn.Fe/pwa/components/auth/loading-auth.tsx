@@ -30,8 +30,9 @@ export default function LoadingAuth({ error }: { error?: any }) {
   }, [error]);
   return (
     <>
-      <div className="h-screen flex flex-col items-center justify-center mx-8">
-        <div className="flex flex-col items-center gap-y-16 md:gap-y-24">
+      <div className="h-screen flex flex-col items-center justify-center px-8">
+        <div className="flex flex-col items-center gap-y-8 md:gap-y-24">
+          <img className="h-24" src="/logo.svg" />
           <p className="text-8xl font-bold">WeLearn</p>
           <HashLoader
             color={"#3b82f6"}
