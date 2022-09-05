@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { AppPageWithLayout } from "../_app";
 import CoursesList from "../../components/containers/courses-list";
+import CustomInfiniteScroll from "../../components/molecules/custom-infinite-scroll";
 import { MdSubject } from "react-icons/md";
 import OnlyMineButton from "../../components/atoms/only-mine-button";
 import TitledPageContainer from "../../components/containers/titled-page-container";
@@ -18,8 +19,15 @@ const Courses: AppPageWithLayout = () => {
     "mine",
     queryTypes.boolean
   );
-  const { courses, size, setSize, isLoadingMore, isReachingEnd, mutate } =
-    useCourses({ followingOnly: onlyMine });
+  const {
+    courses,
+    size,
+    setSize,
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+    hasMore,
+  } = useCourses({ followingOnly: onlyMine });
 
   useEffect(() => {
     if (mineQueryParam === null) {
@@ -35,17 +43,25 @@ const Courses: AppPageWithLayout = () => {
       icon={!onlyMine ? <MdSubject /> : <AiFillHeart />}
       title={!onlyMine ? "Courses" : "My Courses"}
     >
-      <div className="my-4">
-        <OnlyMineButton
-          onlyMine={onlyMine}
-          onClick={() => setMineQueryParam(!mineQueryParam)}
-        />
-      </div>
-      {courses ? (
-        <CoursesList courses={courses} onMutate={() => mutate()} />
-      ) : (
-        <div>Loading...</div>
-      )}
+     <div className="w-full">
+        <div className="my-4">
+          <OnlyMineButton
+            onlyMine={onlyMine}
+            onClick={() => setMineQueryParam(!mineQueryParam)}
+          />
+        </div>
+        {courses ? (
+          <CustomInfiniteScroll
+            dataLength={courses.length}
+            next={() => setSize(size + 1)}
+            hasMore={hasMore}
+          >
+            <CoursesList courses={courses} onMutate={() => mutate()} />
+          </CustomInfiniteScroll>
+        ) : (
+          <div>Loading...</div>
+        )}
+     </div>
     </TitledPageContainer>
   );
 };

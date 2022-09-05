@@ -18,7 +18,7 @@ export default function FavoriteInfo({
   return (
     <FavoriteInfoContainer>
       <span>{followerCount}</span>
-      <div className="p-1 hover:bg-slate-400 hover:rounded-full">
+      <div className="p-1 hover:bg-slate-400 hover:rounded-full active:bg-slate-500">
         {isFollowing ? (
           <AiFillHeart className="cursor-pointer" onClick={onUnfollow} />
         ) : (

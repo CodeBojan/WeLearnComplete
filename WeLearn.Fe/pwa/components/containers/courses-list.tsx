@@ -30,7 +30,7 @@ export default function CoursesContainer({
       {courses.map((course) => (
         <FavoritableContainer key={course.id}>
           <div
-            className="flex flex-row gap-x-8 cursor-pointer items-center"
+            className="w-full flex flex-row gap-x-8 cursor-pointer items-center"
             onClick={() => router.push(`/course/${course.id}`)}
           >
             {checkIsCourseAdmin(session.user, course.id!, course.studyYearId) && (

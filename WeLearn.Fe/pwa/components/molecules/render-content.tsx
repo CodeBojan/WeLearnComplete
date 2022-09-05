@@ -20,6 +20,7 @@ import { DocumentContainer } from "./document-container";
 import { GetContentDto } from "../../types/api";
 import Link from "next/link";
 import { ReactNode } from "react";
+import styles from "../../styles/RenderContent.module.scss";
 
 export default function RenderContent({
   content: c,
@@ -38,6 +39,7 @@ export default function RenderContent({
           const imgSrc = props.src;
           if (c.externalSystem?.url && imgSrc?.startsWith("/"))
             props.src = `${c.externalSystem.url}${imgSrc}`;
+          props.class = "external-image";
         }
 
         if (domNode.tagName === "a" && props.href) {

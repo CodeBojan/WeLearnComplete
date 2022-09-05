@@ -10,14 +10,21 @@ export default function useCourses({
   followingOnly: boolean;
 }) {
   const [pageSize, setPageSize] = useState(20); // TODO page size
-  const { entities, size, setSize, isLoadingMore, isReachingEnd, mutate } =
-    usePagedData<GetCourseDto>({
-      pageSize,
-      url: apiCourses,
-      queryParams: {
-        isFollowing: followingOnly.toString(),
-      },
-    });
+  const {
+    entities,
+    size,
+    setSize,
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+    hasMore,
+  } = usePagedData<GetCourseDto>({
+    pageSize,
+    url: apiCourses,
+    queryParams: {
+      isFollowing: followingOnly.toString(),
+    },
+  });
 
   return {
     courses: entities,
@@ -26,5 +33,6 @@ export default function useCourses({
     isLoadingMore,
     isReachingEnd,
     mutate,
+    hasMore,
   };
 }

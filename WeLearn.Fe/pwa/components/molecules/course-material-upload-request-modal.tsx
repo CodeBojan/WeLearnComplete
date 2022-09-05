@@ -61,7 +61,7 @@ export default function CourseMaterialUploadRequestModal({
   return (
     <Modal
       open={uploadModalOpen}
-      header="Upload Course Material"
+      header="Upload Course Material Request"
       body={
         <div className="m-8 flex flex-col gap-y-4">
            <Input

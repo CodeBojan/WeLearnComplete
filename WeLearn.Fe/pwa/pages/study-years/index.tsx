@@ -21,6 +21,7 @@ import useSWR, { mutate } from "swr";
 
 import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
+import CustomInfiniteScroll from "../../components/molecules/custom-infinite-scroll";
 import FavoritableContainer from "../../components/containers/favoritable-container";
 import FavoriteInfo from "../../components/molecules/favorite-info";
 import FavoritesContainer from "../../components/containers/favorites-container";
@@ -40,8 +41,15 @@ const StudyYears: AppPageWithLayout = () => {
     "mine",
     queryTypes.boolean
   );
-  const { studyYears, size, setSize, isLoadingMore, isReachingEnd, mutate } =
-    useStudyYears({ followingOnly: onlyMine });
+  const {
+    studyYears,
+    size,
+    setSize,
+    isLoadingMore,
+    isReachingEnd,
+    mutate,
+    hasMore,
+  } = useStudyYears({ followingOnly: onlyMine });
 
   useEffect(() => {
     if (mineQueryParam === null) return;
@@ -89,27 +97,37 @@ const StudyYears: AppPageWithLayout = () => {
             onClick={() => setMineQueryParam(!mineQueryParam)}
           />
         </div>
-        {/* TODO skeleton */}
-        {studyYears?.map((studyYear) => (
-          <FavoritableContainer key={studyYear.id}>
-            <div
-              className="flex flex-row gap-x-8 cursor-pointer items-center"
-              onClick={() => router.push(`/study-year/${studyYear.id}`)}
-            >
-              {checkIsStudyYearAdmin(session.user, studyYear.id!) && (
-                <GrUserAdmin className="text-2xl" />
-              )}
-              <div>[{studyYear.shortName}]</div>
-              <div>{studyYear.fullName}</div>
-            </div>
-            <FavoriteInfo
-              isFollowing={studyYear.isFollowing}
-              followerCount={studyYear.followingCount}
-              onUnfollow={() => onUnfollow(studyYear.id, studyYear.shortName)}
-              onFollow={() => onFollow(studyYear.id, studyYear.shortName)}
-            />
-          </FavoritableContainer>
-        ))}
+        <CustomInfiniteScroll
+          dataLength={studyYears?.length}
+          next={() => setSize(size + 1)}
+          hasMore={hasMore}
+          showLoader={isLoadingMore}
+        >
+          <FavoritesContainer>
+            {studyYears?.map((studyYear) => (
+              <FavoritableContainer key={studyYear.id}>
+                <div
+                  className="flex flex-row gap-x-8 cursor-pointer items-center"
+                  onClick={() => router.push(`/study-year/${studyYear.id}`)}
+                >
+                  {checkIsStudyYearAdmin(session.user, studyYear.id!) && (
+                    <GrUserAdmin className="text-2xl" />
+                  )}
+                  <div>[{studyYear.shortName}]</div>
+                  <div>{studyYear.fullName}</div>
+                </div>
+                <FavoriteInfo
+                  isFollowing={studyYear.isFollowing}
+                  followerCount={studyYear.followingCount}
+                  onUnfollow={() =>
+                    onUnfollow(studyYear.id, studyYear.shortName)
+                  }
+                  onFollow={() => onFollow(studyYear.id, studyYear.shortName)}
+                />
+              </FavoritableContainer>
+            ))}
+          </FavoritesContainer>
+        </CustomInfiniteScroll>
       </FavoritesContainer>
     </TitledPageContainer>
   );

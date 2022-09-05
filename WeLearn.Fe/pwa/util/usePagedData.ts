@@ -27,10 +27,10 @@ export function usePagedData<
   const [entities, setEntities] = useState<TEntity[] | null>();
 
   const getKey = getApiSWRInfiniteKey({
-    ...queryParams,
     url: url,
     pageSize: pageSize,
     session: session,
+    queryParams,
   });
 
   const {
@@ -58,5 +58,6 @@ export function usePagedData<
     isLoadingMore,
     isReachingEnd,
     mutate,
+    hasMore: !isLoadingMore && !isReachingEnd,
   };
 }
