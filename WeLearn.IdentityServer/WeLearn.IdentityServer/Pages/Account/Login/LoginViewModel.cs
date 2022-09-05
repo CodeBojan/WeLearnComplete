@@ -10,6 +10,7 @@ namespace WeLearn.IdentityServer.Pages.Login;
 
 public class LoginViewModel
 {
+    public string ReturnUrl { get; set; }
     public bool AllowRememberLogin { get; set; } = true;
     public bool EnableLocalLogin { get; set; } = true;
 
@@ -18,7 +19,7 @@ public class LoginViewModel
 
     public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders?.Count() == 1;
     public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
-        
+
     public class ExternalProvider
     {
         public string DisplayName { get; set; }

@@ -24,10 +24,10 @@ public class Index : PageModel
     private readonly IIdentityProviderStore _identityProviderStore;
 
     public LoginViewModel View { get; set; }
-        
+
     [BindProperty]
     public LoginInputModel Input { get; set; }
-        
+
     public Index(
         IIdentityServerInteractionService interaction,
         IClientStore clientStore,
@@ -45,11 +45,11 @@ public class Index : PageModel
         _identityProviderStore = identityProviderStore;
         _events = events;
     }
-        
+
     public async Task<IActionResult> OnGet(string returnUrl)
     {
         await BuildModelAsync(returnUrl);
-            
+
         if (View.IsExternalLoginOnly)
         {
             // we only have one option for logging in and it's an external provider
@@ -58,7 +58,7 @@ public class Index : PageModel
 
         return Page();
     }
-        
+
     public async Task<IActionResult> OnPost()
     {
         // check if we are in the context of an authorization request
@@ -128,7 +128,7 @@ public class Index : PageModel
                 }
             }
 
-            await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId:context?.Client.ClientId));
+            await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId: context?.Client.ClientId));
             ModelState.AddModelError(string.Empty, LoginOptions.InvalidCredentialsErrorMessage);
         }
 
@@ -136,14 +136,14 @@ public class Index : PageModel
         await BuildModelAsync(Input.ReturnUrl);
         return Page();
     }
-        
+
     private async Task BuildModelAsync(string returnUrl)
     {
         Input = new LoginInputModel
         {
             ReturnUrl = returnUrl
         };
-            
+
         var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
         if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
         {
@@ -152,6 +152,7 @@ public class Index : PageModel
             // this is meant to short circuit the UI and only trigger the one external IdP
             View = new LoginViewModel
             {
+                ReturnUrl = returnUrl,
                 EnableLocalLogin = local,
             };
 
@@ -204,7 +205,8 @@ public class Index : PageModel
         {
             AllowRememberLogin = LoginOptions.AllowRememberLogin,
             EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
-            ExternalProviders = providers.ToArray()
+            ExternalProviders = providers.ToArray(),
+            ReturnUrl = returnUrl
         };
     }
 }

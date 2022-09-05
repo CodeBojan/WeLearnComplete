@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
+using WeLearn.IdentityServer.Configuration.Auth.Logout;
 
 namespace WeLearn.IdentityServer.Pages.Logout;
 
@@ -11,12 +13,14 @@ namespace WeLearn.IdentityServer.Pages.Logout;
 public class LoggedOut : PageModel
 {
     private readonly IIdentityServerInteractionService _interactionService;
-        
+    private readonly IOptionsSnapshot<LogoutSettings> _optionsSnapshot;
+
     public LoggedOutViewModel View { get; set; }
 
-    public LoggedOut(IIdentityServerInteractionService interactionService)
+    public LoggedOut(IIdentityServerInteractionService interactionService, IOptionsSnapshot<LogoutSettings> optionsSnapshot)
     {
         _interactionService = interactionService;
+        _optionsSnapshot = optionsSnapshot;
     }
 
     public async Task OnGet(string logoutId)
@@ -26,7 +30,7 @@ public class LoggedOut : PageModel
 
         View = new LoggedOutViewModel
         {
-            AutomaticRedirectAfterSignOut = LogoutOptions.AutomaticRedirectAfterSignOut,
+            AutomaticRedirectAfterSignOut = _optionsSnapshot.Value.AutomaticRedirectAfterSignOut,
             PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
             ClientName = String.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
             SignOutIframeUrl = logout?.SignOutIFrameUrl

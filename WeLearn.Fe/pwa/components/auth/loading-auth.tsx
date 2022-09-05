@@ -28,6 +28,7 @@ export default function LoadingAuth({ error }: { error?: any }) {
 
     toast("Auth failed: " + JSON.stringify(error), { type: "error" });
   }, [error]);
+
   return (
     <>
       <div className="h-screen flex flex-col items-center justify-center px-8">

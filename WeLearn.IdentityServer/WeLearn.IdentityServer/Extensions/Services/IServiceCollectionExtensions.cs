@@ -1,6 +1,7 @@
 ﻿using Duende.IdentityServer.Stores;
 using WeLearn.Auth.Authorization.Mvc.Filters;
 using WeLearn.Auth.Extensions;
+using WeLearn.IdentityServer.Configuration.Auth.Logout;
 using WeLearn.IdentityServer.Configuration.Providers;
 using WeLearn.IdentityServer.Configuration.Services.Register;
 using WeLearn.IdentityServer.Services.Identity;
@@ -46,6 +47,8 @@ public static class IServiceCollectionExtensions
 
     public static IServiceCollection AddWeLearnIdentityServerServices(this IServiceCollection services, ConfigurationManager configuration)
     {
+        services.Configure<LogoutSettings>(configuration.GetSection($"Auth:{nameof(LogoutSettings)}"));
+
         services.AddConfigurationServices(configuration);
         services.AddUserApprovalValidationServices(configuration);
         services.AddUserApprovalServices();
