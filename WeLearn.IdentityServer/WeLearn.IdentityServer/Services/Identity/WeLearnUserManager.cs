@@ -48,7 +48,7 @@ public class WeLearnUserManager : UserManager<ApplicationUser>, IRoleManager
         {
             var accountResult = await _accountStore.CreateAccountAsync(user);
 
-            if (accountResult.Succeeded)
+            if (accountResult.Succeeded && user.Approved)
             {
                 var addToUserResult = await AddToRoleAsync(user, Roles.User);
                 result = addToUserResult;
