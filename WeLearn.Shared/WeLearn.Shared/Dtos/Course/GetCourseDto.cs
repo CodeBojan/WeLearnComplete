@@ -1,4 +1,4 @@
-﻿namespace WeLearn.Api.Dtos.Course;
+﻿namespace WeLearn.Shared.Dtos.Course;
 
 public class GetCourseDto
 {

@@ -30,7 +30,6 @@ public class StudyYearAccountRolesController : UserAuthorizedController
         [FromBody] PostStudyYearAdminRoleDto postDto,
         [FromServices] IAuthorizationService authorizationService, [FromServices] IStudyYearsService studyYearsService)
     {
-        // TODO custom IAuthorizationService that checks if the user is a study year admin
         if (!await studyYearsService.StudyYearExistsAsync(postDto.StudyYearId))
             return NotFound(new WeLearnProblemDetails()
             {

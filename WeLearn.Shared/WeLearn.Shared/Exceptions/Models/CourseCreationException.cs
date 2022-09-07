@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace WeLearn.Api.Exceptions.Models;
+namespace WeLearn.Shared.Exceptions.Models;
 
 [Serializable]
 public class CourseCreationException : Exception

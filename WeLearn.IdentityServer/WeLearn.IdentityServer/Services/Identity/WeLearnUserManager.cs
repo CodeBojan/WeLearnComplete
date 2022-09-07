@@ -140,4 +140,34 @@ new IdentityError { Code = "AccountNotStudyYearAdmin", Description = "The accoun
         var result = await RemoveClaimAsync(user, new Claim(ClaimTypes.StudyYearAdmin, studyYearId.ToString()));
         return result;
     }
+
+    public async Task<IdentityResult> AddCourseAdminRoleAsync(Guid userId, Guid courseId)
+    {
+        var user = await FindByIdAsync(userId.ToString());
+        if (user is null)
+            return IdentityResult.Failed(new IdentityError { Code = "UserNotFound", Description = "User not found" });
+
+        var claims = await GetClaimsAsync(user);
+        if (claims.Any(c => c.Type == ClaimTypes.CourseAdmin && c.Value == courseId.ToString()))
+            return IdentityResult.Failed(
+                new IdentityError { Code = "AccountAlreadyCourseAdmin", Description = "The account is already a course admin" });
+
+        var result = await AddClaimAsync(user, new Claim(ClaimTypes.CourseAdmin, courseId.ToString()));
+        return result;
+    }
+
+    public async Task<IdentityResult> RemoveCourseAdminRoleAsync(Guid userId, Guid courseId)
+    {
+        var user = await FindByIdAsync(userId.ToString());
+        if (user is null)
+            return IdentityResult.Failed(new IdentityError { Code = "UserNotFound", Description = "User not found" });
+
+        var claims = await GetClaimsAsync(user);
+        if (!claims.Any(c => c.Type == ClaimTypes.CourseAdmin && c.Value == courseId.ToString()))
+            return IdentityResult.Failed(
+                new IdentityError { Code = "AccountNotCourseAdmin", Description = "The account is not a course admin" });
+
+        var result = await RemoveClaimAsync(user, new Claim(ClaimTypes.CourseAdmin, courseId.ToString()));
+        return result;
+    }
 }

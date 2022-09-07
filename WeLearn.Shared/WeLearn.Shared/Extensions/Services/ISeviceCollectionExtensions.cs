@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Shared.Services.Account.Extensions;
+using WeLearn.Shared.Services.Course.Extensions;
 using WeLearn.Shared.Services.CourseTitleCleaner;
 using WeLearn.Shared.Services.CourseTitleCleaner.Extensions;
 using WeLearn.Shared.Services.Credentials.Extensions;
@@ -26,6 +27,7 @@ public static class ISeviceCollectionExtensions
         services.AddCourseTitleCleanerServices(configuration);
 
         services.AddStudyYearServices(configuration);
+        services.AddCourseServices(configuration);
         services.AddAccountServices();
 
         return services;

@@ -1,7 +1,7 @@
-﻿using WeLearn.Api.Dtos.Course;
-using WeLearn.Api.Dtos.Document;
+﻿using WeLearn.Api.Dtos.Document;
 using WeLearn.Api.Dtos.ExternalSystem;
 using WeLearn.Shared.Dtos.Account;
+using WeLearn.Shared.Dtos.Course;
 using WeLearn.Shared.Dtos.StudyYear;
 
 namespace WeLearn.Api.Dtos.Content;

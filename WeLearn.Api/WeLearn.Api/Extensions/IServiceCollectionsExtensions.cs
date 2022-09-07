@@ -4,7 +4,6 @@ using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Integrations;
 using WeLearn.Api.Authorization.Handlers;
 using WeLearn.Api.Services.Comment.Extensions;
 using WeLearn.Api.Services.Content.Extensions;
-using WeLearn.Api.Services.Course.Extensions;
 using WeLearn.Api.Services.CourseMaterialUploadRequest.Extensions;
 using WeLearn.Api.Services.Document.Extensions;
 using WeLearn.Api.Services.Feed.Extensions;
@@ -16,6 +15,7 @@ using WeLearn.Data.Extensions;
 using WeLearn.Importers.Extensions;
 using WeLearn.Importers.Services.Notification.Extensions;
 using WeLearn.Shared.Extensions.Services;
+using WeLearn.Shared.Services.Course.Extensions;
 
 namespace WeLearn.Api.Extensions;
 
@@ -43,7 +43,6 @@ public static class IServiceCollectionsExtensions
     {
         services.AddFollowedCourseServices(configuration);
         services.AddFollowedStudyYearServices(configuration);
-        services.AddCourseServices(configuration);
         services.AddCourseMaterialUploadRequestServices(configuration);
         services.AddFeedServices(configuration);
         services.AddDocumentsServices(configuration);

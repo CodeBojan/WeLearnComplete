@@ -1,13 +1,14 @@
-﻿using WeLearn.Api.Dtos.Course;
-using WeLearn.Shared.Dtos.Account;
+﻿using WeLearn.Shared.Dtos.Account;
+using WeLearn.Shared.Dtos.Course;
 using WeLearn.Shared.Dtos.Paging;
 
-namespace WeLearn.Api.Services.Course
+namespace WeLearn.Shared.Services.Course
 {
     public interface ICourseService
     {
         Task<bool> CourseExistsAsync(Guid courseId);
         Task<GetCourseDto> CreateCourseAsync(string code, string shortName, string fullName, string staff, string description, string rules, Guid studyYearId);
+        Task<GetCourseDto?> GetBasicCourseInfo(Guid courseId);
         Task<GetCourseDto> GetCourseAsync(Guid courseId, Guid userId);
         Task<GetCourseDto> GetCourseBasicInfoAsync(Guid courseId);
         Task<PagedResponseDto<GetCourseDto>> GetCoursesAsync(PageOptionsDto pageOptions);

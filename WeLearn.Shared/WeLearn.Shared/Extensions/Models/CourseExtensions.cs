@@ -1,7 +1,7 @@
-﻿using WeLearn.Api.Dtos.Course;
-using WeLearn.Data.Models;
+﻿using WeLearn.Data.Models;
+using WeLearn.Shared.Dtos.Course;
 
-namespace WeLearn.Api.Extensions.Models;
+namespace WeLearn.Shared.Extensions.Models;
 
 public static class CourseExtensions
 {

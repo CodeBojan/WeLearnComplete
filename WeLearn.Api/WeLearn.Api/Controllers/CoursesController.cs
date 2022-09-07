@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeLearn.Api.Dtos.Course;
-using WeLearn.Api.Exceptions.Models;
-using WeLearn.Api.Services.Course;
 using WeLearn.Auth.Controllers;
 using WeLearn.Auth.Policy;
 using WeLearn.Data.Models;
 using WeLearn.Shared.Dtos.Account;
+using WeLearn.Shared.Dtos.Course;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Exceptions.Models;
+using WeLearn.Shared.Services.Course;
 using WeLearn.Shared.Services.StudyYear;
 
 namespace WeLearn.Api.Controllers;

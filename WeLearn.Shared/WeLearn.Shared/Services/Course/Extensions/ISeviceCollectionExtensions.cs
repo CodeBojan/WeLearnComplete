@@ -1,4 +1,7 @@
-﻿namespace WeLearn.Api.Services.Course.Extensions;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace WeLearn.Shared.Services.Course.Extensions;
 
 public static class ISeviceCollectionExtensions
 {

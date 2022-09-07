@@ -114,8 +114,6 @@ public class StudyYearsService : IStudyYearsService
         if (studyYear is null)
             throw new StudyYearNotFoundException();
 
-        // TODO include role info
-
         var dto = await _dbContext.FollowedStudyYears
             .AsNoTracking()
             .Include(fsy => fsy.Account)

@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WeLearn.Api.Dtos.Course;
-using WeLearn.Api.Exceptions.Models;
-using WeLearn.Api.Extensions.Models;
+using WeLearn.Data.Models.Roles;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Dtos.Account;
+using WeLearn.Shared.Dtos.Course;
 using WeLearn.Shared.Dtos.Paging;
 using WeLearn.Shared.Exceptions.Models;
 using WeLearn.Shared.Extensions.Models;
 using WeLearn.Shared.Extensions.Paging;
 
-namespace WeLearn.Api.Services.Course;
+namespace WeLearn.Shared.Services.Course;
 
 public class CourseService : ICourseService
 {
@@ -65,8 +64,18 @@ public class CourseService : ICourseService
                 CreatedDate = c.CreatedDate,
                 IsFollowing = c.FollowingUsers.Any(fu => fu.AccountId == accountId),
                 FollowingCount = c.FollowingUsers.Count,
-                StudyYearId =c.StudyYearId
+                StudyYearId = c.StudyYearId
             });
+    }
+
+    public async Task<GetCourseDto?> GetBasicCourseInfo(Guid courseId)
+    {
+        var dto = await _dbContext.Courses
+            .AsNoTracking()
+            .Where(c => c.Id == courseId)
+            .Select(MapCourseToGetDto())
+            .FirstOrDefaultAsync();
+        return dto;
     }
 
     public async Task<GetCourseDto> GetCourseAsync(Guid courseId, Guid userId)
@@ -104,6 +113,7 @@ public class CourseService : ICourseService
 
     public async Task<PagedResponseDto<GetAccountDto>> GetFollowingAccountsAsync(Guid courseId, PageOptionsDto pageOptions)
     {
+        // TODO include roles
         var course = await _dbContext.Courses
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == courseId);
@@ -112,6 +122,9 @@ public class CourseService : ICourseService
 
         var dto = await _dbContext.FollowedCourses
             .AsNoTracking()
+            .Include(fc => fc.Account)
+                .ThenInclude(a => a.Roles)
+                    .ThenInclude(r => (r as CourseAdminRole).Course)
             .Include(fc => fc.Account)
                 .ThenInclude(a => a.User)
             .Where(fc => fc.CourseId == courseId)
