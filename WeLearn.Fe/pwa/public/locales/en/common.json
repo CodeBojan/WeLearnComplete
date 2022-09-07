@@ -1,0 +1,5 @@
+{
+    "updated": "updated",
+    "created": "created",
+    "dateTime": "{{ date, short }}"
+}

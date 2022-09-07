@@ -1,0 +1,5 @@
+{
+    "updated": "ажурирано",
+    "created": "креирано",
+    "dateTime": "{{ date, long }}"
+}

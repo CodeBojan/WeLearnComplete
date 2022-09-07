@@ -1,5 +1,3 @@
-import * as timeago from "timeago.js";
-
 import {
   GetNotificationDto,
   PostNotificationReadStatusDto,
@@ -13,23 +11,24 @@ import {
 import { apiMethodFetcher, apiNotificationReadStatus } from "../../util/api";
 
 import { AppPageWithLayout } from "../_app";
+import CreatedUpdatedDates from "../../components/molecules/created-updated-dates";
 import CustomInfiniteScroll from "../../components/molecules/custom-infinite-scroll";
 import Link from "next/link";
 import NotificationBell from "../../components/atoms/notification-bell";
 import TimeAgo from "timeago-react";
+import Tippy from "@tippyjs/react";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
-import sr from "timeago.js/lib/lang/sr";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 import { useContext } from "react";
 import useNotifications from "../../util/useNotifications";
-
-// TODO extract to component
-// timeago.register("sr", sr);
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 const Notifications: AppPageWithLayout = () => {
-  const locale = "sr";
+  const { locale } = useRouter();
   const { data: session } = useAppSession();
   const notificationsContext = useContext(NotificationsContext);
   const invalidateNotificationsContext = useContext(
@@ -37,9 +36,6 @@ const Notifications: AppPageWithLayout = () => {
   );
 
   // TODO skeletonize
-
-  // TODO check that the invalidateNotificationtext is called - currently the unread count doesnt update until refresh
-  // TODO remove first HTML tag/get its content ------------------ IMPORTANT
 
   const {
     notifications,
@@ -104,6 +100,8 @@ const Notifications: AppPageWithLayout = () => {
     });
   };
 
+  const htmlTagRegex = /(<([^>]+)>)/gi;
+
   return (
     <TitledPageContainer
       icon={
@@ -126,86 +124,83 @@ const Notifications: AppPageWithLayout = () => {
               return (
                 <div
                   key={notification.id}
-                  className="flex flex-row justify-between items-center p-4 rounded-lg border-l-4 border-r-2 shadow-md border-slate-200"
+                  className="flex flex-col items-end md:items-center md:flex-row md:justify-between gap-x-4  p-4 rounded-lg border-l-4 border-r-2 shadow-md border-slate-200"
                 >
                   <div className="flex flex-col w-full gap-y-2">
                     <div className="flex items-center gap-x-2">
                       {!notification.isRead && (
                         <MdCircle className="text-xl text-red-500" />
                       )}
+                      {notification.imageUri && (
+                        <img
+                          className="rounded-full h-12 w-12"
+                          src={notification.imageUri}
+                        />
+                      )}
                       <span className="text-2xl font-bold ">
                         {notification.title}
                       </span>
                     </div>
                     <div className="font-semibold">
-                      {notification.body}
-                      {!notification.body?.endsWith(".") ? "..." : ""}{" "}
+                      {notification.body?.replace(htmlTagRegex, "")}
+                      {!notification.body?.endsWith(".") ? "..." : ""}
                     </div>
-                    <Link href={notification.uri ?? ""}>
-                      <a className="flex flex-row gap-x-2 items-center">
-                        <MdOpenInNew className="text-2xl text-primary" />
-                        <div>
-                          {notification.uri &&
-                            new URL(notification.uri ?? "").hostname}
-                        </div>
-                      </a>
-                    </Link>
-                    <div>
-                      updated{" "}
-                      <TimeAgo
-                        datetime={notification.updatedDate!}
-                        locale={locale}
-                      />
-                    </div>
-                    <div>
-                      created{" "}
-                      <TimeAgo
-                        datetime={notification.createdDate!}
-                        locale={locale}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-center text-2xl gap-y-4">
-                    {/* TODO replace with external system image uri - do this based on type */}
-                    {notification.imageUri && (
-                      <img
-                        className="rounded-full h-64"
-                        src={notification.imageUri}
-                      />
-                    )}
-                    {notification.isRead ? (
-                      <div
-                        className="flex flex-row justify-center items-center cursor-pointer"
-                        onClick={() => {
-                          postNotificationReadStatus({
-                            notifications,
-                            notification,
-                            readStatus: false,
-                          });
-                        }}
-                      >
-                        <div className="p-2 rounded-full hover:bg-slate-200 uppercase">
-                          MARK UNREAD
-                          <IoMdEye className="text-2xl" />
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        className="flex flex-row justify-center items-center cursor-pointer"
-                        onClick={() => {
-                          postNotificationReadStatus({
-                            notifications: notifications,
-                            notification: notification,
-                            readStatus: true,
-                          });
-                        }}
-                      >
-                        <div className="p-2 rounded-full hover:bg-slate-200 uppercase">
-                          MARK READ
-                          <IoMdEyeOff className="text-2xl" />
-                        </div>
+                    {notification.uri && (
+                      <div className="flex">
+                        <Link href={notification.uri}>
+                          <a className="flex flex-row gap-x-2 items-center p-1 hover:bg-slate-200 rounded-lg">
+                            <MdOpenInNew className="text-2xl text-primary" />
+                            <div className="font-semibold">
+                              {new URL(notification.uri).hostname}
+                            </div>
+                          </a>
+                        </Link>
                       </div>
                     )}
+                    <div className="flex flex-row justify-between items-center">
+                      {/* Dates */}
+                      <CreatedUpdatedDates
+                        entity={notification}
+                        locale={locale}
+                      />
+                      {/* Interaction */}
+                      <div className="">
+                        {notification.isRead ? (
+                          <div
+                            className="flex flex-row justify-center items-center cursor-pointer"
+                            onClick={() => {
+                              postNotificationReadStatus({
+                                notifications,
+                                notification,
+                                readStatus: false,
+                              });
+                            }}
+                          >
+                            <div className="p-2 rounded-full hover:bg-slate-200 uppercase">
+                              MARK UNREAD
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            className="flex flex-row justify-center items-center cursor-pointer"
+                            onClick={() => {
+                              postNotificationReadStatus({
+                                notifications: notifications,
+                                notification: notification,
+                                readStatus: true,
+                              });
+                            }}
+                          >
+                            <div
+                              className="p-2 rounded-full hover:bg-slate-200 uppercase text-base
+                        text-center whitespace-nowrap"
+                            >
+                              MARK READ
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
@@ -215,6 +210,14 @@ const Notifications: AppPageWithLayout = () => {
     </TitledPageContainer>
   );
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 Notifications.getLayout = defaultGetLayout;
 

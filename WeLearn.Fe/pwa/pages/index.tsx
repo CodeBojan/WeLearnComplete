@@ -10,6 +10,7 @@ import { MdDashboard } from "react-icons/md";
 import RenderContent from "../components/molecules/render-content";
 import SignOutButton from "../components/auth/sign-out-button";
 import TitledPageContainer from "../components/containers/titled-page-container";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import styles from "../styles/Home.module.scss";
 import { useAppSession } from "../util/auth";
 import useFeed from "../util/useFeed";
@@ -45,5 +46,13 @@ const Home: AppPageWithLayout = () => {
 Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Home;

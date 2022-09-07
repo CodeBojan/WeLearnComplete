@@ -10,6 +10,46 @@
 
 
 
+export class DeleteCourseAdminRoleDto implements IDeleteCourseAdminRoleDto {
+    courseId?: string;
+    accountId?: string;
+
+    constructor(data?: IDeleteCourseAdminRoleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.courseId = _data["courseId"];
+            this.accountId = _data["accountId"];
+        }
+    }
+
+    static fromJS(data: any): DeleteCourseAdminRoleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeleteCourseAdminRoleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["courseId"] = this.courseId;
+        data["accountId"] = this.accountId;
+        return data;
+    }
+}
+
+export interface IDeleteCourseAdminRoleDto {
+    courseId?: string;
+    accountId?: string;
+}
+
 export class DeleteStudyYearAdminRoleDto implements IDeleteStudyYearAdminRoleDto {
     studyYearId?: string;
     accountId?: string;
@@ -47,6 +87,46 @@ export class DeleteStudyYearAdminRoleDto implements IDeleteStudyYearAdminRoleDto
 
 export interface IDeleteStudyYearAdminRoleDto {
     studyYearId?: string;
+    accountId?: string;
+}
+
+export class PostCourseAdminRoleDto implements IPostCourseAdminRoleDto {
+    courseId?: string;
+    accountId?: string;
+
+    constructor(data?: IPostCourseAdminRoleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.courseId = _data["courseId"];
+            this.accountId = _data["accountId"];
+        }
+    }
+
+    static fromJS(data: any): PostCourseAdminRoleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostCourseAdminRoleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["courseId"] = this.courseId;
+        data["accountId"] = this.accountId;
+        return data;
+    }
+}
+
+export interface IPostCourseAdminRoleDto {
+    courseId?: string;
     accountId?: string;
 }
 

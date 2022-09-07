@@ -11,6 +11,7 @@ import { NextPage } from "next";
 import { Router } from "next/router";
 import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
+import { appWithTranslation } from "next-i18next";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -24,7 +25,7 @@ type AppPropsWithLayout = AppProps & {
   Component: AppPageWithLayout;
 };
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -45,11 +46,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <title>WeLearn</title>
 
         <link rel="manifest" href="/manifest.json" />
-        <link
-          href="/logo.svg"
-          rel="icon"
-          type="image/png"
-        />
+        <link href="/logo.svg" rel="icon" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />
       </Head>
@@ -68,4 +65,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       />
     </SessionProvider>
   );
-}
+};
+
+export default appWithTranslation(App);

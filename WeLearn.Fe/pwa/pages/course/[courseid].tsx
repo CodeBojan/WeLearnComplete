@@ -10,6 +10,12 @@ import {
   initialCourseMaterialUploadRequestState,
 } from "../../store/course-material-upload-request-store";
 import {
+  DeleteCourseAdminRoleDto,
+  PostCourseAdminRoleDto,
+  WeLearnProblemDetails,
+} from "../../types/isApi";
+import {
+  GetAccountDto,
   GetCourseDto,
   PostCourseMaterialUploadRequestDto,
   PostDocumentDto,
@@ -28,7 +34,12 @@ import {
   apiRoute,
   getApiRouteCacheKey,
 } from "../../util/api";
-import { checkIsCourseAdmin, useAppSession } from "../../util/auth";
+import {
+  checkIsCourseAdmin,
+  checkIsSystemAdmin,
+  useAppSession,
+} from "../../util/auth";
+import { isApiCourseAccountRoles, isApiMethodFetcher } from "../../util/isApi";
 import { useEffect, useReducer, useState } from "react";
 import useSWR, { mutate } from "swr";
 
@@ -55,6 +66,9 @@ import { toast } from "react-toastify";
 const Course: AppPageWithLayout = () => {
   const { courseId: courseId } = router.query as { courseId: string };
   const { data: session } = useAppSession();
+  const isSystemAdmin = checkIsSystemAdmin(session.user);
+  const isUserCourseAdmin = checkIsCourseAdmin(session.user, courseId);
+
   const [course, setCourse] = useState<GetCourseDto | null>(null);
   const isCourseAdmin = checkIsCourseAdmin(
     session.user,
@@ -328,6 +342,88 @@ const Course: AppPageWithLayout = () => {
             accountSelectorState={accountSelectorState}
             accountSelectorDispatch={accountSelectorDispatch}
             courseId={courseId}
+            actionButtons={(account: GetAccountDto, mutate: () => void) => {
+              const accountIsCourseAdmin = account.accountRoles?.some(
+                (ar) =>
+                  ar.entityId === courseId
+              );
+              const isCurrentAccount = account.id === session.user.id;
+              return (
+                <div className="flex flex-row items-center gap-x-2">
+                  {accountIsCourseAdmin && <GrUserAdmin className="text-xl" />}
+                  {!accountIsCourseAdmin ? (
+                    <Button
+                      disabled={accountIsCourseAdmin}
+                      onClick={() => {
+                        isApiMethodFetcher(
+                          isApiCourseAccountRoles,
+                          session.accessToken,
+                          "POST",
+                          {
+                            courseId: courseId,
+                            accountId: account.id,
+                          } as PostCourseAdminRoleDto,
+                          false
+                        )
+                          .then((res) => {
+                            mutate();
+                            toast("Admin role added", { type: "success" });
+                          })
+                          .catch((err) => {
+                            const pd = err as Promise<WeLearnProblemDetails>;
+                            pd.then((details) => {
+                              toast(
+                                `Failed to make user admin: ${details.detail}`,
+                                {
+                                  type: "error",
+                                }
+                              );
+                            });
+                          });
+                      }}
+                    >
+                      Make Admin
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="danger"
+                      disabled={isCurrentAccount}
+                      onClick={() => {
+                        isApiMethodFetcher(
+                          isApiCourseAccountRoles,
+                          session.accessToken,
+                          "DELETE",
+                          {
+                            courseId: courseId,
+                            accountId: account.id,
+                          } as DeleteCourseAdminRoleDto,
+                          false
+                        )
+                          .then((res) => {
+                            mutate();
+                            toast("Admin role removed", { type: "success" });
+                          })
+                          .catch((err) => {
+                            if (!err) return;
+                            if (err instanceof Promise) {
+                              err.then((details) => {
+                                toast(
+                                  `Failed to remove admin role: ${details.detail}`,
+                                  {
+                                    type: "error",
+                                  }
+                                );
+                              });
+                            }
+                          });
+                      }}
+                    >
+                      Remove Admin
+                    </Button>
+                  )}
+                </div>
+              );
+            }}
           />
           <UnapprovedCourseMaterialUploadRequestsModal
             unapprovedRequestsState={unapprovedRequestsState}

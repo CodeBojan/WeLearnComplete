@@ -32,3 +32,4 @@ export const isApiMethodFetcher = (
 };
 
 export const isApiStudyYearAccountRoles = "/api/StudyYearAccountRoles";
+export const isApiCourseAccountRoles = "/api/CourseAccountRoles";

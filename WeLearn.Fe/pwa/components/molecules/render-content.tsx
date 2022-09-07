@@ -1,3 +1,4 @@
+import CreatedUpdatedDates, { RenderDate } from "./created-updated-dates";
 import {
   MdCalendarToday,
   MdEditNote,
@@ -21,6 +22,7 @@ import { GetContentDto } from "../../types/api";
 import Link from "next/link";
 import { ReactNode } from "react";
 import styles from "../../styles/RenderContent.module.scss";
+import { useRouter } from "next/router";
 
 export default function RenderContent({
   content: c,
@@ -60,17 +62,26 @@ export default function RenderContent({
       return domNode;
     },
   };
+  const { locale } = useRouter();
 
   return (
     <div className="flex flex-col gap-y-2 rounded-lg shadow-md p-4 md:p-8">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-x-4">
-          {c.externalSystem?.logoUrl && (
-            <img className="w-8 rounded-lg" src={c.externalSystem?.logoUrl} />
-          )}
+          <img
+            className="w-8 rounded-lg"
+            src={c.externalSystem?.logoUrl ?? "/logo.svg"}
+          />
           <div className="flex flex-col">
-            <span className="font-bold">{c.externalSystem?.friendlyName}</span>
-            <span className="">{c.author}</span>
+            {c.externalSystem && (
+              <span className="font-bold">
+                {c.externalSystem?.friendlyName}
+              </span>
+            )}
+            {c.author && <span className="">{c.author}</span>}
+            {c.externalCreatedDate && (
+              <RenderDate date={c.externalCreatedDate} locale={locale} />
+            )}
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-4">
@@ -81,21 +92,20 @@ export default function RenderContent({
           </div>
         </div>
       </div>
-      <div className="text-lg font-semibold">{c.title}</div>
+      <div className="text-lg font-bold">{c.title}</div>
       <div className="">
         {c.body?.startsWith("<") ? parse(c.body, options) : c.body}
         <div className="flex flex-row gap-x-2">
           <span>
-            {c.creator?.username}
+            <span className="font-semibold">{c.creator?.username}</span>
             {c.creator?.facultyStudentId && (
               <span className="text-sm"> ({c.creator.facultyStudentId})</span>
             )}
           </span>
         </div>
-        <div className="flex flex-col gap-y-1 text-sm text-gray-400">
-          <div>updated at {c.createdDate?.toString()}</div>
-          <div>created at {c.updatedDate?.toString()}</div>
-        </div>
+      </div>
+      <div className="flex flex-col gap-y-1 text-sm text-gray-400">
+        <CreatedUpdatedDates entity={c} locale={locale} />
       </div>
       <DocumentContainer
         documentContainer={{
@@ -115,7 +125,6 @@ export default function RenderContent({
               </a>
             </Link>
           )}
-          {/* TODO display external created date somewhere */}
         </div>
       </div>
     </div>
@@ -140,7 +149,6 @@ function RenderCourseInfo(c: GetContentDto): ReactNode {
 }
 
 function RenderStudyYearInfo(c: GetContentDto) {
-  // throw new Error("Function not implemented.");
   return (
     c.studyYear && (
       <>

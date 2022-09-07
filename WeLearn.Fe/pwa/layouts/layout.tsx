@@ -1,3 +1,7 @@
+import "tippy.js/dist/tippy.css";
+
+import * as timeago from "timeago.js";
+
 import {
   CommentsInvalidationActionKind,
   CommentsInvalidationContext,
@@ -41,8 +45,11 @@ import LoadingAuth from "../components/auth/loading-auth";
 import Navbar from "../components/molecules/navbar";
 import RightSideBar from "../components/molecules/right-side-bar";
 import Sidebar from "../components/molecules/sidebar";
+import sr from "timeago.js/lib/lang/sr";
 import { useAppSession } from "../util/auth";
 import { useState } from "react";
+
+timeago.register("sr", sr);
 
 const getAccountMeCacheKey = (session: AppSession) => {
   return getApiRouteCacheKey(apiAccountsMe, session);
