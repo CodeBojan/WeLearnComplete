@@ -33,6 +33,8 @@ public class NoticeService : INoticeService
                 .ThenInclude(d => d.Creator)
             .Include(syn => syn.Comments)
             .Where(syn => syn.StudyYearId == studyYearId)
+            .OrderByDescending(syn => syn.UpdatedDate)
+                .ThenByDescending(syn => syn.ExternalCreatedDate)
             .Select(syn => syn.WithDocumentCount())
             .Select(syn => syn.WithCommentCount())
             .GetPagedResponseDtoAsync(pageOptions, MapStudyYearNoticeToGetDto());

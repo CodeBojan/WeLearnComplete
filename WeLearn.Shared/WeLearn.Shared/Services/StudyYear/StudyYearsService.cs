@@ -122,6 +122,8 @@ public class StudyYearsService : IStudyYearsService
             .Include(fsy => fsy.Account)
                 .ThenInclude(a => a.User)
             .Where(fsy => fsy.StudyYearId == studyYearId)
+            .OrderBy(fsy => fsy.StudyYear.ShortName)
+                .ThenBy(fsy => fsy.StudyYear.FullName) // TODO check ordering
             .Select(fsy => fsy.Account)
             .GetPagedResponseDtoAsync(pageOptions, AccountExtensions.MapAccountToGetDto());
 
@@ -132,7 +134,8 @@ public class StudyYearsService : IStudyYearsService
     {
         var dto = await _dbContext.StudyYears
             .AsNoTracking()
-            .OrderByDescending(sy => sy.UpdatedDate)
+            .OrderBy(sy => sy.ShortName)
+                .ThenBy(sy => sy.FullName)
             .GetPagedResponseDtoAsync(pageOptions, MapStudyYearToGetDto());
 
         return dto;

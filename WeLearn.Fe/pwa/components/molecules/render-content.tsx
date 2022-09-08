@@ -92,7 +92,7 @@ export default function RenderContent({
           </div>
         </div>
       </div>
-      <div className="text-lg font-bold">{c.title}</div>
+      <span className="text-lg font-bold">{c.title}</span>
       <div className="">
         {c.body?.startsWith("<") ? parse(c.body, options) : c.body}
         <div className="flex flex-row gap-x-2">

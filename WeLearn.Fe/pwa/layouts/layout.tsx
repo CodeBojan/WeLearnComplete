@@ -170,7 +170,7 @@ export default function Layout({ children, ...props }: LayoutProps) {
                         onTryClose={() => setIsSidebarOpen(false)}
                       />
                       <div className="min-h-screen w-full flex flex-row items-start justify-center">
-                        <div className="min-h-screen grow flex-col items-center justify-center">
+                        <div className="min-h-screen w-full grow flex-col items-center justify-center">
                           {children}
                         </div>
                         <div className="min-h-screen flex flex-row justify-start">

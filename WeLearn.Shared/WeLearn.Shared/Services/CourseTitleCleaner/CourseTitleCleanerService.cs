@@ -36,7 +36,7 @@ public class CourseTitleCleanerService : ICourseTitleCleanerService
         else if (settings.ShouldConvertToCyrillic)
             transformed = regexed.ToSerbianCyrilic();
 
-        var result = transformed;
+        var result = transformed.Trim();
 
         return result;
     }

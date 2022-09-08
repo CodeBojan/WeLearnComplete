@@ -45,6 +45,7 @@ public class FeedService : IFeedService
                         || (c is WeLearn.Data.Models.Content.Notices.GeneralNotice)
                         || (c is WeLearn.Data.Models.Content.Post))
             .OrderByDescending(c => c.UpdatedDate)
+                .ThenByDescending(c => c.ExternalCreatedDate)
             .Select(c => c.WithCommentCount())
             .Select(c => c.WithPossibleDocumentCount())
             .GetPagedResponseDtoAsync(pageOptions, MapContentToGetDto());

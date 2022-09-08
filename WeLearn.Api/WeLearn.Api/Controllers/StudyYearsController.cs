@@ -45,7 +45,6 @@ public class StudyYearsController : UserAuthorizedController
         }
     }
 
-    // TODO test auth policies
     [HttpGet("{studyYearId}/accounts")]
     public async Task<ActionResult<PagedResponseDto<GetAccountDto>>> GetFollowingAccountsAsync([FromRoute] Guid studyYearId, [FromQuery] PageOptionsDto pageOptions, [FromServices] IAuthorizationService authorizationService)
     {

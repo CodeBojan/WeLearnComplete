@@ -22,11 +22,11 @@ export default function SignedOutPage() {
   return (
     <>
       <div className="h-screen flex flex-col gap-y-4 justify-center items-center">
-        <img className="max-w-xl" src="/logo.svg" />
+        <img className="px-32 max-w-xl" src="/logo.svg" />
         <p className="text-8xl font-bold">WeLearn</p>
         <h1 className="text-2xl font-bold">Successfully signed out.</h1>
         <h2 className="text-xl font-semibold">
-          You will be redirected to the home page in {redirectSeconds}s.
+          You will be redirected to the home page in {redirectSeconds}s
         </h2>
       </div>
     </>

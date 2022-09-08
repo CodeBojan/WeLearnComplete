@@ -2,6 +2,7 @@ import { FaGraduationCap, FaUniversity } from "react-icons/fa";
 import {
   MdAcUnit,
   MdAlternateEmail,
+  MdCalendarToday,
   MdDashboard,
   MdVerifiedUser,
 } from "react-icons/md";
@@ -108,6 +109,11 @@ export default function RightSideBar() {
             href={"/courses" + "?mine=true"}
             text="My Courses"
             icon={<AiFillHeart />}
+          />
+          <RenderSideBarLink
+            href="/study-years"
+            text="Study Years"
+            icon={<MdCalendarToday />}
           />
         </div>
       </div>

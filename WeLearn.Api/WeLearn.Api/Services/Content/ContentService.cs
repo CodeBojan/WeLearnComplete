@@ -45,6 +45,7 @@ public class ContentService : IContentService
             && !(c is StudyYearNotice))
             .Where(c => c.CourseId == courseId)
             .OrderByDescending(c => c.UpdatedDate)
+                .ThenByDescending(c => c.ExternalCreatedDate)
             .Select(c => c.WithCommentCount())
             .GetPagedResponseDtoAsync(pageOptions, MapContentToDto());
 
