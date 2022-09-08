@@ -79,7 +79,8 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
             {
                 Logger.LogInformation("Fetching Notice Board {@NoticeBoardId}", boardId);
 
-                var dtos = await HttpClient.GetFromJsonAsync<IEnumerable<GetNoticeBoardNoticeDto>>(GetBoardNoticesRoute(boardId), cancellationToken);
+                string route = GetBoardNoticesRoute(boardId);
+                var dtos = await HttpClient.GetFromJsonAsync<IEnumerable<GetNoticeBoardNoticeDto>>(route, cancellationToken);
 
                 if (dtos is null)
                 {
@@ -91,7 +92,7 @@ public class NoticeBoardNoticeImporter : HttpDbNoticeImporter<GetNoticeBoardNoti
                 resultDtos.AddRange(dtos);
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             throw;
         }

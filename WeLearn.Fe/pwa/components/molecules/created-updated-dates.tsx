@@ -14,10 +14,12 @@ export default function CreatedUpdatedDates({
 
   return (
     <div>
-      <div className="flex flex-row gap-x-1">
-        {t("updated")}
-        <RenderDate date={entity.updatedDate} locale={locale} />
-      </div>
+      {entity.updatedDate != entity.createdDate && (
+        <div className="flex flex-row gap-x-1">
+          {t("updated")}
+          <RenderDate date={entity.updatedDate} locale={locale} />
+        </div>
+      )}
       <div className="flex flex-row gap-x-1">
         {t("created")}
         <RenderDate date={entity.createdDate} locale={locale} />
