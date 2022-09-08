@@ -24,12 +24,12 @@ public class DocumentsService : IDocumentsService
         throw new NotImplementedException();
     }
 
-    public async Task<(Stream, string)> GetDocumentStreamAsync(Guid documentId)
+    public async Task<(Stream, string, string)> GetDocumentStreamAsync(Guid documentId)
     {
         var document = await _dbContext.Documents.AsNoTracking().FirstOrDefaultAsync(d => d.Id == documentId);
         if (document is null)
             throw new DocumentNotFoundException();
 
-        return (await _filePersistenceService.GetDocumentStreamAsync(document.Uri), document.FileName);
+        return (await _filePersistenceService.GetDocumentStreamAsync(document.Uri), document.FileName, document.FileExtension);
     }
 }

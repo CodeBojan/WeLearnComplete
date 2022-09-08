@@ -7,6 +7,7 @@ import { AppPageWithLayout } from "../_app";
 import Button from "../../components/atoms/button";
 import Input from "../../components/atoms/input";
 import { defaultGetLayout } from "../../layouts/layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
 import { useAppSession } from "../../util/auth";
 
@@ -90,5 +91,13 @@ const Settings: AppPageWithLayout = () => {
 };
 
 Settings.getLayout = defaultGetLayout;
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Settings;

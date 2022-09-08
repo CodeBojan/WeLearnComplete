@@ -25,8 +25,14 @@ public class DocumentsController : UserAuthorizedController
         {
             Stream documentStream;
             string fileName;
-            (documentStream, fileName) = await _documentsService.GetDocumentStreamAsync(documentId);
-            return File(documentStream, MediaTypeNames.Application.Octet, fileName);
+            string extension;
+            (documentStream, fileName, extension) = await _documentsService.GetDocumentStreamAsync(documentId);
+
+            var mimeType = MimeTypes.GetMimeType(extension);
+            if (!Path.HasExtension(fileName))
+                fileName += extension;
+
+            return File(documentStream, mimeType, fileName);
         }
         catch (DocumentNotFoundException)
         {

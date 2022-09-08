@@ -31,6 +31,7 @@ import OnlyMineButton from "../../components/atoms/only-mine-button";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
 import useStudyYears from "../../util/useStudyYears";
 
@@ -134,5 +135,13 @@ const StudyYears: AppPageWithLayout = () => {
 };
 
 StudyYears.getLayout = defaultGetLayout;
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default StudyYears;

@@ -59,6 +59,7 @@ import TitledPageContainer from "../../components/containers/titled-page-contain
 import UnapprovedCourseMaterialUploadRequestsModal from "../../components/molecules/unapproved-course-material-upload-requests-modal";
 import { defaultGetLayout } from "../../layouts/layout";
 import router from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
 
 // TODO button to go back to study year
@@ -344,8 +345,7 @@ const Course: AppPageWithLayout = () => {
             courseId={courseId}
             actionButtons={(account: GetAccountDto, mutate: () => void) => {
               const accountIsCourseAdmin = account.accountRoles?.some(
-                (ar) =>
-                  ar.entityId === courseId
+                (ar) => ar.entityId === courseId
               );
               const isCurrentAccount = account.id === session.user.id;
               return (
@@ -437,5 +437,13 @@ const Course: AppPageWithLayout = () => {
 };
 
 Course.getLayout = defaultGetLayout;
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Course;

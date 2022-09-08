@@ -30,10 +30,18 @@ export function RenderDocument({
                   undefined,
                   false
                 )
-                  .then((res) => res.blob as Promise<Blob>)
+                  .then((res) => {
+                    return res.blob() as Promise<Blob>;
+                  })
                   .then((blob) => {
+                    const splitFile = document.fileName?.split(".");
+                    const downloadFileName =
+                      document.fileExtension?.replace(".", "") ===
+                      splitFile?.pop()
+                        ? document.fileName
+                        : `${document.fileName}.${document.fileExtension}`;
                     try {
-                      fileDownload(blob, document.fileName!);
+                      fileDownload(blob, downloadFileName!);
                       toast(`Downloaded ${document.fileName} successfully`, {
                         type: "success",
                       });

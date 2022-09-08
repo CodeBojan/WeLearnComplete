@@ -67,6 +67,7 @@ import StudyYearNotices from "../../components/molecules/study-year-notices";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
 
 const StudyYear: AppPageWithLayout = () => {
@@ -338,5 +339,13 @@ const StudyYear: AppPageWithLayout = () => {
 };
 
 StudyYear.getLayout = defaultGetLayout;
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default StudyYear;

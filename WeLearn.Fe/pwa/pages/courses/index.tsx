@@ -9,6 +9,7 @@ import { MdSubject } from "react-icons/md";
 import OnlyMineButton from "../../components/atoms/only-mine-button";
 import TitledPageContainer from "../../components/containers/titled-page-container";
 import { defaultGetLayout } from "../../layouts/layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useAppSession } from "../../util/auth";
 import useCourses from "../../util/useCourses";
 
@@ -67,5 +68,13 @@ const Courses: AppPageWithLayout = () => {
 };
 
 Courses.getLayout = defaultGetLayout;
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Courses;
