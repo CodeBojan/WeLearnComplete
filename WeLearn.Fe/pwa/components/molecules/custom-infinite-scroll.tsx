@@ -23,7 +23,7 @@ export default function CustomInfiniteScroll({
       hasMore={hasMore}
       loader={
         (dataLength === null || dataLength === undefined || hasMore) && (
-          <div key={0} className="flex flex-col w-full gap-y-8">
+          <div key={0} className="flex flex-col w-full my-4 gap-y-8">
             {[...Array(5)].map((_, index) => (
               <div
                 key={index}
