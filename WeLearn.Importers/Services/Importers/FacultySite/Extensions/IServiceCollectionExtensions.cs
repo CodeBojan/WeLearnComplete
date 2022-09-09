@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WeLearn.Importers.Services.Importers.Content;
 using WeLearn.Importers.Services.Importers.FacultySite.Content;
 using WeLearn.Importers.Services.Importers.FacultySite.System;
 using WeLearn.Importers.Services.System;
@@ -24,6 +20,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<FacultySiteNoticeImporter>();
         services.AddScoped<IFacultySiteImporter, FacultySiteNoticeImporter>(sp => sp.GetRequiredService<FacultySiteNoticeImporter>());
         services.AddScoped<IFacultySiteNoticeImporter, FacultySiteNoticeImporter>(sp => sp.GetRequiredService<FacultySiteNoticeImporter>());
+        services.AddScoped<INoticeImporter, FacultySiteNoticeImporter>(sp => sp.GetRequiredService<FacultySiteNoticeImporter>());
 
         return services;
     }

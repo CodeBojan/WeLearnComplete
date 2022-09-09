@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WeLearn.Importers.Services.Importers.Content;
 using WeLearn.Importers.Services.Importers.NoticeBoard.Content;
 using WeLearn.Importers.Services.Importers.NoticeBoard.System;
 using WeLearn.Importers.Services.System;
@@ -20,6 +21,7 @@ public static class IServiceCollectionExtensions
         services.AddScoped<NoticeBoardNoticeImporter>();
         services.AddScoped<INoticeBoardImporter, NoticeBoardNoticeImporter>(sp => sp.GetRequiredService<NoticeBoardNoticeImporter>());
         services.AddScoped<INoticeBoardNoticeImporter, NoticeBoardNoticeImporter>(sp => sp.GetRequiredService<NoticeBoardNoticeImporter>());
+        services.AddScoped<INoticeImporter, NoticeBoardNoticeImporter>(sp => sp.GetRequiredService<NoticeBoardNoticeImporter>());
 
         return services;
     }

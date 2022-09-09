@@ -10,6 +10,6 @@ using WeLearn.Importers.Services.Importers.NoticeBoard.Dtos;
 
 namespace WeLearn.Importers.Services.Importers.NoticeBoard.Content;
 
-public interface INoticeBoardNoticeImporter : ITypedContentImporter<Notice, GetNoticeBoardNoticeDto>, INoticeBoardImporter
+public interface INoticeBoardNoticeImporter : IDtoNoticeImporter<GetNoticeBoardNoticeDto>, INoticeBoardImporter
 {
 }

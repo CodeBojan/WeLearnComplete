@@ -13,7 +13,7 @@ using WeLearn.Importers.Services.Notification;
 
 namespace WeLearn.Importers.Services.Importers.Content.Database.Notice;
 
-public abstract class HttpDbNoticeImporter<TDto> : HttpDbImporter<Data.Models.Content.Notice, TDto>
+public abstract class HttpDbNoticeImporter<TDto> : HttpDbImporter<Data.Models.Content.Notice, TDto>, IDtoNoticeImporter<TDto>
     where TDto : class
 {
     protected HttpDbNoticeImporter(

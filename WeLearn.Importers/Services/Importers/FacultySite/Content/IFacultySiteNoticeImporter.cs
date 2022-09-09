@@ -5,6 +5,6 @@ using WeLearn.Importers.Services.Importers.FacultySite.Dtos;
 
 namespace WeLearn.Importers.Services.Importers.FacultySite.Content;
 
-public interface IFacultySiteNoticeImporter : ITypedContentImporter<Notice, GetFacultySiteNoticeDto>, IFacultySiteImporter
+public interface IFacultySiteNoticeImporter : IDtoNoticeImporter<GetFacultySiteNoticeDto>, IFacultySiteImporter
 {
 }
