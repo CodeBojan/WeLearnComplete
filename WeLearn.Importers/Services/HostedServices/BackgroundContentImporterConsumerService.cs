@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WeLearn.Importers.Services.System;
 
-namespace WeLearn.Importers.Services;
+namespace WeLearn.Importers.Services.HostedServices;
 
 public class BackgroundContentImporterConsumerService : BackgroundService, IBackgroundContentImporterConsumerService
 {

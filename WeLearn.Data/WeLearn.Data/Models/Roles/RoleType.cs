@@ -11,8 +11,3 @@ public enum RoleType
     CourseAdmin = 1,
     StudyYearAdmin = 2,
 }
-
-public static class RoleTypeExtensions
-{
-    // TODO
-}

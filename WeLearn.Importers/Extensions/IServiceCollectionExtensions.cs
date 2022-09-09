@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeLearn.Importers.Services;
+using WeLearn.Importers.Services.HostedServices;
 using WeLearn.Importers.Services.Importers.FacultySite.Extensions;
 using WeLearn.Importers.Services.Importers.NoticeBoard.Extensions;
 using WeLearn.Importers.Services.Importers.NoticeBoard.System;

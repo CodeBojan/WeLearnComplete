@@ -1,5 +1,6 @@
 ﻿namespace WeLearn.Data.Models.Notifications;
 
+// TODO move
 public static class NotificationOperationTypeExtensions
 {
     public static string Value(this NotificationOperationType notificationOperationType)

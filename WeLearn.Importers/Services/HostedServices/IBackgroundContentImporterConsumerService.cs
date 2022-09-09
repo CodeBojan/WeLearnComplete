@@ -1,4 +1,4 @@
-﻿namespace WeLearn.Importers.Services
+﻿namespace WeLearn.Importers.Services.HostedServices
 {
     public interface IBackgroundContentImporterConsumerService
     {

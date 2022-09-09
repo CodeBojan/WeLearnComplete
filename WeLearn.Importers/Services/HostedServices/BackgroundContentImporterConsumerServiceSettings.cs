@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace WeLearn.Importers.Services;
+﻿namespace WeLearn.Importers.Services.HostedServices;
 
 public class BackgroundContentImporterConsumerServiceSettings
 {
