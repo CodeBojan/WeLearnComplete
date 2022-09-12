@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.IdentityServer.Configuration.Providers.JsonBackedInMemoryConfigurationProvider">
+    <Position X="3" Y="5.5" Width="6" />
+    <TypeIdentifier>
+      <HashCode>QAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\Providers\JsonBackedInMemoryProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Configuration.Providers.JsonBackedInMemoryConfigurationSource" BaseTypeListCollapsed="true">
+    <Position X="3" Y="2.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAAAABAAAABAAAAAAAAEAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\Providers\JsonBackedInMemorySource.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="provider" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Configuration.ConfigurationPair">
+    <Position X="2.75" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Configuration\ConfigurationPair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Configuration.ConfigurationPostModel">
+    <Position X="2.75" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Configuration\ConfigurationPostModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Configuration.ConfigurationViewModel">
+    <Position X="2.75" Y="11" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Configuration\ConfigurationViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Configuration" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Configuration.IndexModel">
+    <Position X="5.75" Y="8" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAQAAAACAABgAABAAQAIAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Configuration\Index.cshtml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_configurationSource" />
+      <Property Name="View" />
+      <Property Name="Post" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="WeLearn.IdentityServer.Configuration.Providers.IInMemoryConfigurationSource">
+    <Position X="3" Y="0.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQBAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\Providers\IJsonBackedInMemoryConfigurationSource.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

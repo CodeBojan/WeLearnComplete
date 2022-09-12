@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.StudyYears.IndexModel">
+    <Position X="0.5" Y="0.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAQAAGAAIAAABAAQAIAAAAAA=</HashCode>
+      <FileName>Pages\Admin\StudyYears\Index.cshtml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_studyYearService" />
+      <Property Name="ViewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.StudyYears.IndexViewModel">
+    <Position X="4.75" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\StudyYears\IndexViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.StudyYears.StudyYearModel">
+    <Position X="4.5" Y="3.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAEAAAAAABAAQAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\StudyYears\StudyYear.cshtml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_studyYearService" />
+      <Property Name="ViewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.StudyYears.StudyYearViewModel">
+    <Position X="4.75" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\StudyYears\StudyYearViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="StudyYear" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Shared.Dtos.StudyYear.GetStudyYearDto">
+    <Position X="9" Y="2" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="WeLearn.Shared.Services.StudyYear.IStudyYearsService" Collapsed="true">
+    <Position X="1.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

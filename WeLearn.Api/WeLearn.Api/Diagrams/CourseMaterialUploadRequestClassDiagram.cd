@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.CourseMaterialUploadRequestsController">
+    <Position X="0.5" Y="1" Width="15.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIACAAAAAAAAAAAAAgAAAAAAAIAAAAAgAABAAA=</HashCode>
+      <FileName>Controllers\CourseMaterialUploadRequestsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_uploadRequestService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Api.Services.CourseMaterialUploadRequest.CourseMaterialUploadRequestService">
+    <Position X="0.5" Y="6.75" Width="12.5" />
+    <TypeIdentifier>
+      <HashCode>AAABIAAAAAAACABAAAAAQAABAABAAAIAAAAAgAAAAAA=</HashCode>
+      <FileName>Services\CourseMaterialUploadRequest\CourseMaterialUploadRequestService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Api.Services.CourseMaterialUploadRequest.ICourseMaterialUploadRequestService">
+    <Position X="0.5" Y="4" Width="12.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAACAAAAAAAAAAAAABAAAIAAAAAgAAAAAA=</HashCode>
+      <FileName>Services\CourseMaterialUploadRequest\ICourseMaterialUploadRequestService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

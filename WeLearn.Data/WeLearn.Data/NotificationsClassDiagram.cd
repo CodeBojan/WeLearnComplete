@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WeLearn.Data.Models.BaseEntity">
+    <Position X="11.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.DatedEntity">
+    <Position X="11.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Models\DatedEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Notifications.CommentNotification">
+    <Position X="9.25" Y="8.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Notifications\CommentNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Notifications.ContentNotification">
+    <Position X="12.75" Y="8.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\Notifications\ContentNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Notification">
+    <Position X="11.25" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAABEAAAAAAEAAgACQBABAAAAAA=</HashCode>
+      <FileName>Models\Notification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

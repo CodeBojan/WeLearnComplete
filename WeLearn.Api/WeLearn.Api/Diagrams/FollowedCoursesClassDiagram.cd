@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.FollowedCoursesController">
+    <Position X="0.75" Y="3.75" Width="7.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAQAQAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\FollowedCoursesControllers.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_followedCoursesService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Api.Services.FollowedCourse.FollowedCourseService">
+    <Position X="0.75" Y="8.5" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAAAAAAAAAAAAAAIAAAAAAAAQBAAAAAAQAAQA=</HashCode>
+      <FileName>Services\FollowedCourse\FollowedCourseService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Api.Services.FollowedCourse.IFollowedCourseService">
+    <Position X="0.75" Y="6.25" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAQAAQA=</HashCode>
+      <FileName>Services\FollowedCourse\IFollowedCourseService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

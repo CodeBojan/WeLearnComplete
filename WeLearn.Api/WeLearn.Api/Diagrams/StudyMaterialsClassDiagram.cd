@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.StudyMaterialsController">
+    <Position X="1.25" Y="1" Width="9" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\StudyMaterialsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_studyMaterialService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Api.Services.StudyMaterial.StudyMaterialService">
+    <Position X="1.25" Y="5.25" Width="8" />
+    <TypeIdentifier>
+      <HashCode>AAABAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\StudyMaterial\StudyMaterialService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Api.Services.StudyMaterial.IStudyMaterialService">
+    <Position X="1.25" Y="3.25" Width="8" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\StudyMaterial\IStudyMaterialService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.AddUserRoleClaimModel">
+    <Position X="1.25" Y="14" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAQAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Users\AddUserRoleClaimModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.ApproveModel">
+    <Position X="5.25" Y="2.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAgEAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Users\Approve.cshtml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userApprovalService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.DeleteUserRoleViewModel">
+    <Position X="9.5" Y="12" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Pages\Admin\Users\DeleteUserRoleViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.IndexModel">
+    <Position X="0.75" Y="6.75" Width="2.75" />
+    <Members>
+      <Method Name="IndexModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAABBAAAAAAAAAAgAAAAAAgAIAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Users\Index.cshtml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userManager" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserListDto" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.UserModel">
+    <Position X="3.75" Y="15.25" Width="6.5" />
+    <TypeIdentifier>
+      <HashCode>EAABBAAAAAAAAAYAAAAAAAgIEABAACAAAAQAASAAAAE=</HashCode>
+      <FileName>Pages\Admin\Users\User.cshtml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userManager" />
+      <Property Name="ViewModel" />
+      <Property Name="DeleteUserRoleViewModel" />
+      <Property Name="AddUserRoleClaimModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.UserListItemDto">
+    <Position X="5.5" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAACACAAAAAAAQAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Users\UserListDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.UserViewModel">
+    <Position X="5.25" Y="12" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAACACAAAAAAAQAAAAEAAgAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Users\UserViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="RoleClaims" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Pages.Admin.Users.RoleClaim">
+    <Position X="1.25" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>Pages\Admin\Users\UserViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.IdentityServer.Services.Users.UserApprovalService">
+    <Position X="11.75" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAABBAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Users\UserApprovalService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.UserManager&lt;TUser&gt;" Collapsed="true">
+    <Position X="7.75" Y="6.75" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="WeLearn.IdentityServer.Services.Users.IUserApprovalService">
+    <Position X="10.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Users\IUserApprovalService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

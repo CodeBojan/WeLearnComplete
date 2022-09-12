@@ -33,10 +33,6 @@
 	  <ProjectReference Include="..\..\WeLearn.Shared\WeLearn.Shared\WeLearn.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Dtos\Credentials\" />
-	</ItemGroup>
-
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>

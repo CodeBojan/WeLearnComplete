@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WeLearn.Data.Models.Roles.AccountRole">
+    <Position X="1.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAEgAAAAAAAAAAAAAAAQAAAAAAAEA=</HashCode>
+      <FileName>Models\Roles\AccountRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.CourseAdminRole">
+    <Position X="0.5" Y="9.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Roles\CourseAdminRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.Role">
+    <Position X="5.75" Y="6.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>Models\Roles\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Roles.StudyYearAdminRole">
+    <Position X="3" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Roles\YearAdminRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.BaseEntity">
+    <Position X="3.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.DatedEntity">
+    <Position X="3.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Models\DatedEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

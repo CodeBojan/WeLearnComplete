@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.StudyYearsController">
+    <Position X="3" Y="2" Width="11" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAQAIABAAAACAAAAAA=</HashCode>
+      <FileName>Controllers\StudyYearsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_studyYearService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Shared.Services.StudyYear.StudyYearsService">
+    <Position X="3" Y="7.75" Width="8" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Shared.Services.StudyYear.IStudyYearsService">
+    <Position X="3" Y="4.75" Width="8" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

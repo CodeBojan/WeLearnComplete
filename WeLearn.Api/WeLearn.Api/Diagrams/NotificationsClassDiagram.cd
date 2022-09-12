@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.NotificationsController">
+    <Position X="2.75" Y="2" Width="8" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEIACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\NotificationsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_notificationService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Notification.NotificationService">
+    <Position X="2.75" Y="7" Width="10.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Importers.Services.Notification.INotificationService">
+    <Position X="2.75" Y="4.5" Width="10.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

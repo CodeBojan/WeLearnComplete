@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Importers.Services.HostedServices.BackgroundContentImporterConsumerService" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="2.75" Width="6.75" />
+    <Members>
+      <Method Name="BackgroundContentImporterConsumerService" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAKAAAIACAABAAAAAAAAABAEA=</HashCode>
+      <FileName>Services\HostedServices\BackgroundContentImporterConsumerService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="settings" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.HostedServices.BackgroundContentImporterConsumerServiceSettings">
+    <Position X="21.5" Y="5.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIBAAAAAAABAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Services\HostedServices\BackgroundContentImporterConsumerServiceSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.System.SystemImporter" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="9.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAQAAAAAIAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\System\SystemImporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.System.SystemImporterSettings">
+    <Position X="20.75" Y="16.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\System\SystemImporterSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.NoticeBoard.Content.NoticeBoardNoticeImporter">
+    <Position X="1" Y="30.25" Width="7" />
+    <Members>
+      <Method Name="NoticeBoardNoticeImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAABAABAECAJQgCAEAAggRAAgCAABAAAhAAOAIACAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\Content\NoticeBoardNoticeImporter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="settings" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.NoticeBoard.Content.NoticeBoardNoticeImporterSettings">
+    <Position X="1.75" Y="37.25" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>AAIgQAAAAAAAAAAAAAABAAAAAAAAAAAgAAAAAAEAAAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\Content\NoticeBoardNoticeImporterSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.NoticeBoard.System.NoticeBoardSystemImporter">
+    <Position X="23.25" Y="12.25" Width="4" />
+    <Members>
+      <Method Name="NoticeBoardSystemImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAARAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\System\NoticeBoardSystemImporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.NoticeBoard.System.NoticeBoardSystemImporterSettings">
+    <Position X="19" Y="18" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\System\NoticeBoardSystemImporterSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.Content.Database.Notice.HttpDbNoticeImporter&lt;TDto&gt;">
+    <Position X="5" Y="28" Width="7" />
+    <Members>
+      <Method Name="HttpDbNoticeImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\Content\Database\Notice\HttpDbNoticeImporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.Content.Database.AuthorizedHttpDbContentImporter&lt;TContent, TDto&gt;">
+    <Position X="16.5" Y="28" Width="4" />
+    <Members>
+      <Method Name="AuthorizedHttpDbContentImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAACgAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\Content\Database\AuthorizedHttpDbContentImporter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.Content.Database.HttpDbImporter&lt;TContent, TDto&gt;">
+    <Position X="6.5" Y="23.75" Width="8.5" />
+    <Members>
+      <Method Name="HttpDbImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAGgAAEGACAAAAACAABAIAAAAAAg=</HashCode>
+      <FileName>Services\Importers\Content\Database\HttpDbImporter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.Content.TypedContentImporter&lt;TContent, TDto&gt;">
+    <Position X="8" Y="20" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAACAAABAARAAAAAAACABBAAIAAAACA=</HashCode>
+      <FileName>Services\Importers\Content\TypedContentImporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.FacultySite.System.FacultySiteSystemImporter">
+    <Position X="18" Y="12.25" Width="4" />
+    <Members>
+      <Method Name="FacultySiteSystemImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAARAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\System\FacultySiteSystemImporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.FacultySite.System.FacultySiteSystemImporterSettings">
+    <Position X="22.25" Y="18" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\System\FacultySiteSystemImporterSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.FacultySite.Content.FacultySiteNoticeImporter">
+    <Position X="8.75" Y="30.25" Width="7" />
+    <Members>
+      <Method Name="FacultySiteNoticeImporter" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAACAEAAgkRAAACACBAAAhAQIAEAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\Content\FacultySiteNoticeImporter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="settings" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeLearn.Importers.Services.Importers.FacultySite.Content.FacultySiteNoticeImporterSettings">
+    <Position X="11" Y="36" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\Content\FacultySiteNoticeImporterSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="WeLearn.Importers.Services.HostedServices.IBackgroundContentImporterConsumerService">
+    <Position X="21.5" Y="1.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\HostedServices\IBackgroundContentImporterConsumerService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.System.ISystemImporter">
+    <Position X="2" Y="11.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAQAAAAAIAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\System\ISystemImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.NoticeBoard.Content.INoticeBoardNoticeImporter">
+    <Position X="3.5" Y="7.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\Content\INoticeBoardNoticeImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.NoticeBoard.System.INoticeBoardSystemImporter">
+    <Position X="1" Y="14.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\System\INoticeBoardSystemImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.NoticeBoard.INoticeBoardImporter">
+    <Position X="6.5" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\NoticeBoard\INoticeBoardImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.Content.IContentImporter">
+    <Position X="3.5" Y="1.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAABAAQAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\Content\IContentImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.Content.ITypedContentImporter&lt;TContent, TDto&gt;">
+    <Position X="2.75" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\Content\ITypedContentImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.FacultySite.System.IFacultySiteSystemImporter">
+    <Position X="4.75" Y="14.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\System\IFacultySiteSystemImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.FacultySite.Content.IFacultySiteNoticeImporter">
+    <Position X="5" Y="9.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\Content\IFacultySiteNoticeImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.FacultySite.IFacultySiteImporter">
+    <Position X="9" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\FacultySite\IFacultySiteImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Notification.INotificationService">
+    <Position X="13" Y="14" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAIEAACAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Notification\INotificationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.File.IFilePersistenceService">
+    <Position X="13" Y="16.25" Width="5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.Content.IDtoNoticeImporter&lt;TDto&gt;">
+    <Position X="2" Y="5.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\Content\IDtoNoticeImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WeLearn.Importers.Services.Importers.Content.INoticeImporter" Collapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Importers\Content\INoticeImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

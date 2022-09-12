@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.FeedController">
+    <Position X="1.75" Y="2.5" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\FeedController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_feedService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Api.Services.Feed.FeedService">
+    <Position X="1.75" Y="6.25" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\Feed\FeedService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Api.Services.Feed.IFeedService">
+    <Position X="1.75" Y="4.5" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\Feed\IFeedService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

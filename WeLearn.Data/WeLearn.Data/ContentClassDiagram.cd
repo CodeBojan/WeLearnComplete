@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WeLearn.Data.Models.Content.Content">
+    <Position X="15" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAgAAAAgEACgIABAAAQAAAABAIAESAAgAAAoAA=</HashCode>
+      <FileName>Models\Content\Content.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.BaseEntity">
+    <Position X="16" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.DatedEntity">
+    <Position X="15.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>Models\DatedEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Document">
+    <Position X="21" Y="10.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAIAgAAAAAAAEAAAAAAAAAgACAECAABACAA=</HashCode>
+      <FileName>Models\Content\Document.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notice">
+    <Position X="10.75" Y="13.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Post">
+    <Position X="15.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Post.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.StudyMaterial">
+    <Position X="18" Y="13.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\StudyMaterial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notices.CourseNotice">
+    <Position X="8.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notices\CourseNotice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notices.GeneralNotice">
+    <Position X="13.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notices\GeneralNotice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.Notices.StudyYearNotice">
+    <Position X="10.75" Y="15.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Content\Notices\StudyYearNotice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Models.Content.DocumentContainer">
+    <Position X="13" Y="10.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAABAAAAAAACAAAAgAAAAAA=</HashCode>
+      <FileName>Models\Content\DocumentContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

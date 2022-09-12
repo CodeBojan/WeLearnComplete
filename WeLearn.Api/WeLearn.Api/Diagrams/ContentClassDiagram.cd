@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Api.Controllers.ContentController">
+    <Position X="1" Y="1" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ContentController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_contentService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WeLearn.Api.Services.Content.ContentService">
+    <Position X="1" Y="4.75" Width="7.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAgAAAAAIAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Services\Content\ContentService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WeLearn.Api.Services.Content.IContentService">
+    <Position X="1" Y="3" Width="7.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Services\Content\IContentService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

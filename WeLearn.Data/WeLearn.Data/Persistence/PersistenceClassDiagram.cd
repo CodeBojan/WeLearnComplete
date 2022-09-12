@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="WeLearn.Data.Persistence.File.FileSystem.FileSystemPersistenceService" BaseTypeListCollapsed="true">
+    <Position X="8" Y="7" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAEAAQAAAAAAAAAAAE=</HashCode>
+      <FileName>Persistence\File\FileSystem\FileSystemPersistenceService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_settings" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.393" Collapsed="true" />
+  </Class>
+  <Class Name="WeLearn.Data.Persistence.File.FileSystem.FileSystemPersistenceServiceSettings">
+    <Position X="8" Y="9.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Persistence\File\FileSystem\FileSystemPersistenceServiceSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeLearn.Data.Persistence.ApplicationDbContext">
+    <Position X="0.5" Y="3.75" Width="7.25" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAIAghAUAQhAAAQABAEIAEAACCAAAAABBCoIA=</HashCode>
+      <FileName>Persistence\ApplicationDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="WeLearn.Importers.Services.File.IFilePersistenceService">
+    <Position X="8" Y="5" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAE=</HashCode>
+      <FileName>Persistence\File\IFilePersistenceService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
