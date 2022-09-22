@@ -108,7 +108,7 @@ export default function RenderContent({
         <CreatedUpdatedDates
           entity={c}
           locale={locale}
-          createdAsImported={true}
+          createdAsImported={c.type != "StudyMaterial"}
         />
       </div>
       <DocumentContainer
