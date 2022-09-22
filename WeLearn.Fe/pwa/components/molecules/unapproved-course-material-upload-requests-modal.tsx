@@ -98,6 +98,7 @@ export default function UnapprovedCourseMaterialUploadRequestsModal({
                       <div className="flex flex-col gap-y-4">
                         <div className="text-lg font-bold">{ur.title}</div>
                         <div className="text-lg">{ur.body}</div>
+                        <div className="text-md">{ur.remark}</div>
 
                         <div className="flex flex-row">
                           <Accordion

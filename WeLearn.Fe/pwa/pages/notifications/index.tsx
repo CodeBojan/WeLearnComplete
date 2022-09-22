@@ -162,6 +162,7 @@ const Notifications: AppPageWithLayout = () => {
                       <CreatedUpdatedDates
                         entity={notification}
                         locale={locale}
+                        createdAsImported={false}
                       />
                       {/* Interaction */}
                       <div className="">

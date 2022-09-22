@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using WeLearn.Api.Dtos.Content;
 using WeLearn.Api.Extensions.Models;
+using WeLearn.Data.Models.Content;
 using WeLearn.Data.Models.Content.Notices;
 using WeLearn.Data.Persistence;
 using WeLearn.Shared.Dtos.Paging;
@@ -39,6 +40,7 @@ public class ContentService : IContentService
                 .ThenInclude(a => a.User)
             .Include(c => c.ExternalSystem)
             .Include(c => c.Comments)
+            .Include(c => (c as DocumentContainer).Documents)
             .Where(c =>
             !(c is WeLearn.Data.Models.Content.Document)
             && !(c is WeLearn.Data.Models.Content.StudyMaterial)

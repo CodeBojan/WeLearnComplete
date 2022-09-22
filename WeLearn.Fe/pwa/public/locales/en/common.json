@@ -1,5 +1,6 @@
 {
     "updated": "updated",
     "created": "created",
+    "imported": "imported",
     "dateTime": "{{ date, short }}"
 }

@@ -69,8 +69,10 @@ import { cache } from "swr/dist/utils/config";
 import { defaultGetLayout } from "../../layouts/layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
+import { useTranslation } from "next-i18next";
 
 const StudyYear: AppPageWithLayout = () => {
+  const { t } = useTranslation("common");
   const { studyYearId } = router.query as { studyYearId: string };
   const { data: session } = useAppSession();
   const isUserStudyYearAdmin = checkIsStudyYearAdmin(session.user, studyYearId);
@@ -87,7 +89,7 @@ const StudyYear: AppPageWithLayout = () => {
 
   // TODO refactor into its own hook/reducer
   const [courses, setCourses] = useState<GetCourseDto[]>([]);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [page, setPage] = useState(1);
   const [onlyMine, setOnlyMine] = useState(false);
   const [mineQueryParam, setMineQueryParam] = useQueryState(
@@ -164,9 +166,11 @@ const StudyYear: AppPageWithLayout = () => {
     >
       <div className="flex flex-col my-4">
         <div className="italic font-medium text-gray-400">
-          updated at {studyYear?.updatedDate?.toString()}
+          {t("updated")} {studyYear?.updatedDate?.toString()}
         </div>
-        <div>created at {studyYear?.createdDate?.toString()}</div>
+        <div>
+          {t("created")} {studyYear?.createdDate?.toString()}
+        </div>
       </div>
       <div className="flex flex-row gap-x-4 items-center">
         <Button variant={studyYear?.isFollowing ? "normal" : "outline"}>

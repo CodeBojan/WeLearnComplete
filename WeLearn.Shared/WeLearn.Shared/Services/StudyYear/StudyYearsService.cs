@@ -145,7 +145,7 @@ public class StudyYearsService : IStudyYearsService
     {
         IQueryable<WeLearn.Data.Models.StudyYear> queryable =
             GetStudyYearsNoTrackingWithFollowingInfo()
-            .OrderByDescending(sy => sy.UpdatedDate);
+            .OrderBy(sy => sy.ShortName);
 
         if (isFollowing)
             queryable = queryable.Where(sy => sy.FollowedStudyYears.Any(fsy => fsy.AccountId == accountId));

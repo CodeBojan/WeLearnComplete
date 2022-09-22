@@ -12,7 +12,7 @@ namespace WeLearn.Shared.Extensions.Paging;
 
 public static class PagedResponseExtensions
 {
-    public const int MaxInclusiveGlobalPageSize = 10;
+    public const int MaxInclusiveGlobalPageSize = 50;
 
     public static void SetTotalPages(long totalItems, PagedResponseDto<object> pagedResponseDto)
     {

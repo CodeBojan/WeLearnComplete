@@ -25,7 +25,18 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:7289",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_gcServer": "1",
+        "DOTNET_GCHeapCount": "c"
+      }
+    },
+    "Production": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:7289",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
     "IIS Express": {

@@ -105,7 +105,11 @@ export default function RenderContent({
         </div>
       </div>
       <div className="flex flex-col gap-y-1 text-sm text-gray-400">
-        <CreatedUpdatedDates entity={c} locale={locale} />
+        <CreatedUpdatedDates
+          entity={c}
+          locale={locale}
+          createdAsImported={true}
+        />
       </div>
       <DocumentContainer
         documentContainer={{
@@ -116,14 +120,16 @@ export default function RenderContent({
       />
       <div className="flex flex-row justify-between mt-4 items-center">
         <ContentCommentsInfo contentId={c.id!} commentCount={c.commentCount} />
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-4 items-center">
           <MdShare className="text-2xl" />
           {c.externalUrl && (
-            <Link href={c.externalUrl}>
-              <a>
-                <BiLinkExternal className="text-2xl" />
-              </a>
-            </Link>
+            <div className="hover:bg-gray-200 p-1 rounded-lg">
+              <Link href={c.externalUrl}>
+                <a>
+                  <BiLinkExternal className="text-2xl" />
+                </a>
+              </Link>
+            </div>
           )}
         </div>
       </div>
@@ -134,7 +140,7 @@ export default function RenderContent({
 function RenderCourseInfo(c: GetContentDto): ReactNode {
   return (
     c.course && (
-      <>
+      <div className="hover:bg-gray-200 p-1 rounded-lg">
         <Link href={`/course/${c.course.id}`}>
           <a>
             <div className="flex gap-x-2 items-center">
@@ -143,7 +149,7 @@ function RenderCourseInfo(c: GetContentDto): ReactNode {
             </div>
           </a>
         </Link>
-      </>
+      </div>
     )
   );
 }
@@ -151,7 +157,7 @@ function RenderCourseInfo(c: GetContentDto): ReactNode {
 function RenderStudyYearInfo(c: GetContentDto) {
   return (
     c.studyYear && (
-      <>
+      <div className="hover:bg-gray-200 p-1 rounded-lg">
         <Link href={`study-year/${c.studyYear.id}`}>
           <a>
             <div className="flex gap-x-2 items-center">
@@ -159,7 +165,7 @@ function RenderStudyYearInfo(c: GetContentDto) {
             </div>
           </a>
         </Link>
-      </>
+      </div>
     )
   );
 }

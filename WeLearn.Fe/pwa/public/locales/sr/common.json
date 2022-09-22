@@ -1,5 +1,6 @@
 {
     "updated": "ажурирано",
     "created": "креирано",
+    "imported": "импортовано",
     "dateTime": "{{ date, long }}"
 }

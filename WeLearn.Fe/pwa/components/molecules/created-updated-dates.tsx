@@ -5,10 +5,12 @@ import { useTranslation } from "next-i18next";
 export default function CreatedUpdatedDates({
   entity,
   locale,
+  createdAsImported,
 }: {
   entity: { createdDate?: Date | undefined; updatedDate?: Date | undefined };
   className?: string;
   locale?: string;
+  createdAsImported?: boolean;
 }) {
   const { t } = useTranslation("common");
 
@@ -21,7 +23,7 @@ export default function CreatedUpdatedDates({
         </div>
       )}
       <div className="flex flex-row gap-x-1">
-        {t("created")}
+        {createdAsImported ? t("imported") : t("created")}
         <RenderDate date={entity.createdDate} locale={locale} />
       </div>
     </div>

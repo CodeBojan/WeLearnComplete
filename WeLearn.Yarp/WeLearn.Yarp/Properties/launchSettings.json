@@ -11,10 +11,19 @@
     "WeLearn.Yarp": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      //"launchBrowser": true,
       "applicationUrl": "https://localhost:8443",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Production": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:8443",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "DOTNET_gcServer": "1",
+        "DOTNET_GCHeapCount": "c"
       }
     },
     "IIS Express": {

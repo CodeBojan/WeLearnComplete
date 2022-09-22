@@ -10,7 +10,16 @@
     "Development": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_gcServer": "1",
+        "DOTNET_GCHeapCount": "c"
+      },
+      "applicationUrl": "http://localhost:7330"
+    },
+    "Production": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "applicationUrl": "http://localhost:7330"
     },
