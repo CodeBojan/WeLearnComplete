@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Reflection;
@@ -7,13 +6,8 @@ using WeLearn.Api.Data.Seeding;
 using WeLearn.Api.Extensions;
 using WeLearn.Auth.Extensions;
 using WeLearn.Auth.SwaggerGen.OperationFilters;
-using WeLearn.Data.Extensions;
-using WeLearn.Data.Persistence;
-using WeLearn.Importers.Extensions;
 using WeLearn.Shared.Extensions.Logging;
 using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
-using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Extensions;
-using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Integrations;
 
 var builder = WebApplication.CreateBuilder(args);
 

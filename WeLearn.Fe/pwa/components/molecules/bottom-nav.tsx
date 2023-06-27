@@ -40,7 +40,7 @@ export default function BottomNav() {
 
   return (
     <>
-      <div className="md:hidden bottom-0 flex flex-col fixed w-full items-center justify-evenly h-18 text-white  z-10 bg-primary-dark text-md">
+      <div className="md:hidden bottom-0 flex flex-col fixed w-full items-center justify-evenly h-18 text-white z-10 bg-primary-dark text-md">
         <div className="flex w-full items-center justify-evenly">
           {bottomNavButton("Dashboard", <MdDashboard />, "/")}
           {bottomNavButton(

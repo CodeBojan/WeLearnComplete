@@ -63,4 +63,6 @@ public class Document : Content
 
     public virtual DocumentContainer? DocumentContainer { get; set; }
     public virtual CourseMaterialUploadRequest? CourseMaterialUploadRequest { get; set; }
+
+    // TODO update method
 }
