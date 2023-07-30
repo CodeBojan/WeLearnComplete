@@ -2,6 +2,7 @@
 using Serilog;
 using WeLearn.IdentityServer.Data.Seeding;
 using WeLearn.Shared.Extensions.Logging;
+using WeLearn.Shared.Extensions.WebHostEnvironmentExtensions;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -21,7 +22,10 @@ try
 
     var configuration = app.Configuration;
 
-    Log.Information($"Configuration:{Environment.NewLine}{(configuration as IConfigurationRoot).GetDebugView()}");
+    if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
+    {
+        Log.Information("Application configured by {Configuration}", (configuration as IConfigurationRoot).GetDebugView());
+    }
 
     // this seeding is only for the template to bootstrap the DB and users.
     // in production you will likely want a different approach.

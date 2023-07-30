@@ -183,8 +183,7 @@ internal static class HostingExtensions
             app.UseSwaggerUI();
         }
 
-        // TODO check why commented out
-        //app.UseAuthentication();
+        app.UseAuthentication();
 
         app.UseStaticFiles();
         app.UseRouting();

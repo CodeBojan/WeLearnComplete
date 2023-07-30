@@ -114,7 +114,7 @@ static void Configure(WebApplication app)
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     {
-        Log.Logger.Information($"Configuration:{Environment.NewLine}{(configuration as IConfigurationRoot).GetDebugView()}");
+        Log.Information("Application configured by {Configuration}", (configuration as IConfigurationRoot).GetDebugView());
 
         app.UseHttpLogging();
         app.UseSwagger();
